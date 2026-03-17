@@ -1,22 +1,43 @@
-# Flutter Project Template
-
-<p align="center">
-  <a href="#english">
-    <img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="English">
-  </a>
-  <a href="#中文">
-    <img src="https://img.shields.io/badge/语言-中文-red?style=for-the-badge" alt="中文">
-  </a>
-</p>
+<div align="center">
+  <h1>Flutter Project Template</h1>
+  
+  <p><strong>A production-ready Flutter template with Clean Architecture</strong></p>
+  
+  <p>
+    <a href="https://flutter.dev">
+      <img src="https://img.shields.io/badge/Flutter-3.38.10+-02569B?style=for-the-badge&logo=flutter" alt="Flutter">
+    </a>
+    <a href="https://dart.dev">
+      <img src="https://img.shields.io/badge/Dart-3.6.0+-0175C2?style=for-the-badge&logo=dart" alt="Dart">
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
+    </a>
+  </p>
+  
+  <p>
+    <a href="#features">Features</a> •
+    <a href="#getting-started">Getting Started</a> •
+    <a href="#documentation">Documentation</a> •
+    <a href="README-CN.md">中文文档</a>
+  </p>
+</div>
 
 ---
 
-<a name="english"></a>
-## English
+## 📋 Table of Contents
 
-A Flutter project template based on Clean Architecture, following best practices and modern development workflows.
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Architecture](#architecture)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
-### Features
+## ✨ Features
 
 - 🏗️ **Clean Architecture** - Clear layered architecture (Domain, Data, Presentation)
 - 🔄 **Riverpod State Management** - Code generation with riverpod_generator
@@ -28,7 +49,7 @@ A Flutter project template based on Clean Architecture, following best practices
 - 🔒 **Type Safety** - freezed + json_serializable strongly typed models
 - 🎨 **Code Standards** - Comprehensive lint rules
 
-### Tech Stack
+## 🛠 Tech Stack
 
 | Category | Technology |
 |----------|------------|
@@ -42,14 +63,23 @@ A Flutter project template based on Clean Architecture, following best practices
 | i18n | flutter_localizations, intl |
 | Utils | uuid, connectivity_plus, flutter_secure_storage |
 
-### Requirements
+## 📦 Requirements
 
-- Flutter SDK: >=3.38.10
-- Dart SDK: >=3.6.0
+- Flutter SDK: `>=3.38.10`
+- Dart SDK: `>=3.6.0`
 
-### Quick Start
+## 🚀 Getting Started
 
-#### 1. Clone the project
+### Prerequisites
+
+Make sure you have the following installed:
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.38.10 or higher)
+- [Dart SDK](https://dart.dev/get-dart) (3.6.0 or higher)
+- A code editor ([VS Code](https://code.visualstudio.com/) or [Android Studio](https://developer.android.com/studio))
+
+### Installation
+
+#### 1. Clone the repository
 
 ```bash
 git clone https://github.com/xyhuangjia/flutte_project_template.git
@@ -68,13 +98,22 @@ flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-#### 4. Run the project
+#### 4. Configure environment
+
+Create a `.env` file in the root directory:
+
+```env
+API_BASE_URL=https://api.example.com
+APP_NAME=Flutter Project Template
+```
+
+#### 5. Run the project
 
 ```bash
 flutter run
 ```
 
-### Directory Structure
+## 📁 Project Structure
 
 ```
 lib/
@@ -99,7 +138,7 @@ lib/
     └── widgets/                # Shared widgets
 ```
 
-### Architecture
+## 🏗 Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -135,6 +174,8 @@ UI (Screen) → Provider → UseCase → Repository → DataSource
                     ↓
 UI Rebuild
 ```
+
+## 📖 Documentation
 
 ### Code Standards
 
@@ -202,220 +243,31 @@ API_BASE_URL=https://api.example.com
 APP_NAME=Flutter Project Template
 ```
 
-### License
+## 🤝 Contributing
 
-MIT License
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Issues and Pull Requests are welcome!
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📮 Contact
+
+Your Name - [@your_twitter](https://twitter.com/your_twitter)
+
+Project Link: [https://github.com/xyhuangjia/flutte_project_template](https://github.com/xyhuangjia/flutte_project_template)
 
 ---
 
-<a name="中文"></a>
-## 中文
-
-<p align="center">
-  <a href="#english">
-    <img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="English">
-  </a>
-  <a href="#中文">
-    <img src="https://img.shields.io/badge/语言-中文-red?style=for-the-badge" alt="中文">
-  </a>
-</p>
-
-一个基于 Clean Architecture 的 Flutter 项目模板，遵循最佳实践和现代化开发流程。
-
-### 功能特性
-
-- 🏗️ **Clean Architecture** - 清晰的分层架构（Domain、Data、Presentation）
-- 🔄 **Riverpod 状态管理** - 使用 riverpod_generator 进行代码生成
-- 📝 **Talker 日志系统** - 完整的日志解决方案
-- 🌐 **Dio HTTP 客户端** - 配置完善的网络请求层
-- 💾 **Drift 数据库** - 类型安全的本地数据库
-- 🚀 **GoRouter 路由** - 声明式路由管理
-- 🌍 **国际化支持** - 多语言支持（中英文）
-- 🔒 **类型安全** - freezed + json_serializable 强类型模型
-- 🎨 **代码规范** - 完善的 lint 规则
-
-### 技术栈
-
-| 类别 | 技术 |
-|------|------|
-| 状态管理 | flutter_riverpod, riverpod_annotation |
-| 网络请求 | dio, talker_dio_logger |
-| 本地数据库 | drift, sqlite3_flutter_libs |
-| 路由 | go_router |
-| 依赖注入 | get_it, injectable |
-| 序列化 | json_serializable, freezed |
-| 日志 | talker, talker_flutter, talker_riverpod_logger |
-| 国际化 | flutter_localizations, intl |
-| 工具 | uuid, connectivity_plus, flutter_secure_storage |
-
-### 环境要求
-
-- Flutter SDK: >=3.38.10
-- Dart SDK: >=3.6.0
-
-### 快速开始
-
-#### 1. 克隆项目
-
-```bash
-git clone https://github.com/xyhuangjia/flutte_project_template.git
-cd flutte_project_template
-```
-
-#### 2. 安装依赖
-
-```bash
-flutter pub get
-```
-
-#### 3. 生成代码
-
-```bash
-dart run build_runner build --delete-conflicting-outputs
-```
-
-#### 4. 运行项目
-
-```bash
-flutter run
-```
-
-### 目录结构
-
-```
-lib/
-├── app.dart                    # MaterialApp 配置
-├── main.dart                   # 应用入口
-├── core/                       # 核心层
-│   ├── constants/              # 常量定义
-│   ├── errors/                 # 错误处理
-│   ├── logging/                # 日志配置
-│   ├── network/                # 网络层
-│   ├── providers/              # 全局 Provider
-│   ├── router/                 # 路由
-│   ├── storage/                # 存储
-│   └── utils/                  # 工具类
-├── features/                   # 功能模块
-│   └── home/                   # Home 模块示例
-│       ├── data/               # 数据层
-│       ├── domain/             # 领域层
-│       └── presentation/       # 表现层
-└── shared/                     # 共享模块
-    ├── models/                 # 共享模型
-    └── widgets/                # 共享组件
-```
-
-### 架构说明
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Presentation Layer                    │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │
-│  │   Screens   │  │  Providers  │  │   Widgets   │     │
-│  └─────────────┘  └─────────────┘  └─────────────┘     │
-└─────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                     Domain Layer                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │
-│  │  Entities   │  │ Repositories│  │   UseCases  │     │
-│  └─────────────┘  └─────────────┘  └─────────────┘     │
-└─────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                      Data Layer                          │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │
-│  │ DataSources │  │   Models    │  │ Repository  │     │
-│  └─────────────┘  └─────────────┘  └─────────────┘     │
-└─────────────────────────────────────────────────────────┘
-```
-
-### 数据流向
-
-```
-UI (Screen) → Provider → UseCase → Repository → DataSource
-                    ↓
-              State Update
-                    ↓
-UI Rebuild
-```
-
-### 代码规范
-
-#### Provider 定义
-
-```dart
-@riverpod
-class HomeNotifier extends _$HomeNotifier {
-  @override
-  Future<HomeEntity> build() async {
-    // 初始化逻辑
-  }
-}
-```
-
-#### 模型定义
-
-```dart
-@freezed
-class User with _$User {
-  const factory User({
-    required String id,
-    required String name,
-    String? avatarUrl,
-  }) = _User;
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-}
-```
-
-### 测试
-
-```bash
-# 运行所有测试
-flutter test
-
-# 运行特定测试
-flutter test test/widget_test.dart
-```
-
-### 代码生成
-
-```bash
-# 一次性生成
-dart run build_runner build --delete-conflicting-outputs
-
-# 监听模式
-dart run build_runner watch --delete-conflicting-outputs
-```
-
-### 国际化
-
-应用支持多语言。添加新翻译步骤：
-
-1. 在 `lib/l10n/app_en.arb` 和 `lib/l10n/app_zh.arb` 中添加键值
-2. 运行 `flutter gen-l10n`
-3. 在代码中使用：`AppLocalizations.of(context)!.yourKey`
-
-### 环境配置
-
-项目使用 `.env` 文件管理环境变量：
-
-```env
-API_BASE_URL=https://api.example.com
-APP_NAME=Flutter Project Template
-```
-
-### License
-
-MIT License
-
-### 贡献
-
-欢迎提交 Issue 和 Pull Request！
+<div align="center">
+  <p>Made with ❤️ by the Flutter Community</p>
+  <p>
+    <a href="#top">Back to Top</a>
+  </p>
+</div>
