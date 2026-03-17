@@ -1,0 +1,83 @@
+name: flutter_project_template
+description: A Flutter project template following Clean Architecture principles.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Networking
+  dio: ^5.8.0
+  pretty_dio_logger: ^1.4.0
+
+  # Local Database
+  drift: ^2.26.0
+  sqlite3_flutter_libs: ^0.5.28
+  path: ^1.9.0
+  path_provider: ^2.1.5
+
+  # JSON Serialization
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.4
+
+  # Routing
+  go_router: ^15.1.0
+
+  # Dependency Injection
+  get_it: ^8.0.3
+  injectable: ^2.5.0
+
+  # Utility
+  intl: ^0.20.2
+  uuid: ^4.5.1
+  collection: ^1.19.1
+
+  # Logging
+  talker: ^4.7.0
+  talker_flutter: ^4.7.0
+  talker_dio_logger: ^4.7.0
+  talker_riverpod_logger: ^4.7.0
+
+  # Connectivity
+  connectivity_plus: ^6.1.2
+
+  # Secure Storage
+  flutter_secure_storage: ^9.2.4
+
+  # Environment
+  flutter_dotenv: ^5.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linting
+  flutter_lints: ^5.0.0
+
+  # Code Generation
+  build_runner: ^2.4.15
+  riverpod_generator: ^2.6.4
+  json_serializable: ^6.9.3
+  freezed: ^2.5.8
+  drift_dev: ^2.26.0
+  injectable_generator: ^2.7.0
+
+  # Utility
+  flutter_launcher_icons: ^0.14.3
+  change_app_package_name: ^1.2.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
+    - assets/icon/
+    - assets/images/
