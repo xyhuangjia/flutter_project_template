@@ -1,6 +1,13 @@
 # Flutter Project Template
 
-[English](#english) | [中文](#中文)
+<p align="center">
+  <a href="#english">
+    <img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="English">
+  </a>
+  <a href="#中文">
+    <img src="https://img.shields.io/badge/语言-中文-red?style=for-the-badge" alt="中文">
+  </a>
+</p>
 
 ---
 
@@ -207,6 +214,15 @@ Issues and Pull Requests are welcome!
 
 <a name="中文"></a>
 ## 中文
+
+<p align="center">
+  <a href="#english">
+    <img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="English">
+  </a>
+  <a href="#中文">
+    <img src="https://img.shields.io/badge/语言-中文-red?style=for-the-badge" alt="中文">
+  </a>
+</p>
 
 一个基于 Clean Architecture 的 Flutter 项目模板，遵循最佳实践和现代化开发流程。
 
