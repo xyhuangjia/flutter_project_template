@@ -107,3 +107,43 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 4: Add language switch buttons to README
+
+**Date**: 2026-03-17
+**Task**: Add language switch buttons to README
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| Change | Description |
+|--------|-------------|
+| Buttons | Added shield.io badge style buttons for language switching |
+| Style | Blue badge for English, Red badge for Chinese |
+| Placement | Buttons added at top and before Chinese section |
+
+**Updated Files**:
+- `README.md`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `a03fb5e` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete

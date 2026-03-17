@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 3
+- **Total Sessions**: 4
 - **Last Active**: 2026-03-17
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~109 | Active |
+| `journal-1.md` | ~149 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits |
 |---|------|-------|---------|
+| 4 | 2026-03-17 | Add language switch buttons to README | `a03fb5e` |
 | 3 | 2026-03-17 | Update README with bilingual support | `96135c6` |
 | 2 | 2026-03-17 | Add multi-language (i18n) support | `38bd1ee` |
 | 1 | 2026-03-17 | Initialize Flutter project skeleton with Clean Architecture | - |
