@@ -20,6 +20,7 @@ This directory contains guidelines for frontend development. Fill in each file w
 | [State Management](./state-management.md) | Riverpod patterns, provider types, async state | ✅ Filled |
 | [Quality Guidelines](./quality-guidelines.md) | Lint rules, testing, code review standards | ✅ Filled |
 | [Type Safety](./type-safety.md) | json_serializable, Drift, retrofit patterns | ✅ Filled |
+| [i18n Guidelines](./i18n-guidelines.md) | Internationalization, ARB files, locale management | ✅ Filled |
 
 ---
 

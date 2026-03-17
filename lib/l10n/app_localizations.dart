@@ -1,0 +1,427 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_zh.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('zh')
+  ];
+
+  /// Application title
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter Project Template'**
+  String get appTitle;
+
+  /// Loading text
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// Error text
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// Success text
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// Cancel text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Confirm text
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// Save text
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Delete text
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Retry text
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Close text
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// OK text
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// Home navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// Settings navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// Profile navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// Back navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// Next navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// About page label
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// Login text
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// Logout text
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Register text
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// Email label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// Password label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// Forgot password text
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// Generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get genericError;
+
+  /// Network error message
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your connection.'**
+  String get networkError;
+
+  /// Server error message
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get serverError;
+
+  /// Unauthorized error message
+  ///
+  /// In en, this message translates to:
+  /// **'Unauthorized. Please login again.'**
+  String get unauthorizedError;
+
+  /// Session expired message
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired. Please login again.'**
+  String get sessionExpired;
+
+  /// Validation error message
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your input.'**
+  String get validationError;
+
+  /// Empty list message
+  ///
+  /// In en, this message translates to:
+  /// **'No items found.'**
+  String get emptyList;
+
+  /// Operation success message
+  ///
+  /// In en, this message translates to:
+  /// **'Operation completed successfully.'**
+  String get operationSuccess;
+
+  /// Save success message
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully.'**
+  String get saveSuccess;
+
+  /// Delete success message
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted successfully.'**
+  String get deleteSuccess;
+
+  /// Template features header text
+  ///
+  /// In en, this message translates to:
+  /// **'This template includes:'**
+  String get templateIncludes;
+
+  /// Clean Architecture feature item
+  ///
+  /// In en, this message translates to:
+  /// **'Clean Architecture structure'**
+  String get featureCleanArchitecture;
+
+  /// Riverpod feature item
+  ///
+  /// In en, this message translates to:
+  /// **'Riverpod state management'**
+  String get featureRiverpod;
+
+  /// go_router feature item
+  ///
+  /// In en, this message translates to:
+  /// **'go_router navigation'**
+  String get featureGoRouter;
+
+  /// Dio feature item
+  ///
+  /// In en, this message translates to:
+  /// **'Dio HTTP client'**
+  String get featureDio;
+
+  /// Drift feature item
+  ///
+  /// In en, this message translates to:
+  /// **'Drift database'**
+  String get featureDrift;
+
+  /// json_serializable feature item
+  ///
+  /// In en, this message translates to:
+  /// **'json_serializable'**
+  String get featureJsonSerializable;
+
+  /// Lint rules feature item
+  ///
+  /// In en, this message translates to:
+  /// **'Comprehensive lint rules'**
+  String get featureLintRules;
+
+  /// i18n feature item
+  ///
+  /// In en, this message translates to:
+  /// **'Internationalization support'**
+  String get featureI18n;
+
+  /// Quick actions section title
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// Guest user name
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guest;
+
+  /// Language setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// English language option
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// Chinese language option
+  ///
+  /// In en, this message translates to:
+  /// **'中文'**
+  String get languageChinese;
+
+  /// System language option
+  ///
+  /// In en, this message translates to:
+  /// **'Follow System'**
+  String get languageSystem;
+
+  /// Language selection dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'zh':
+      return AppLocalizationsZh();
+  }
+
+  throw FlutterError(
+      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
+}

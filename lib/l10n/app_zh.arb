@@ -1,0 +1,248 @@
+{
+  "@@locale": "zh",
+  
+  "appTitle": "Flutter 项目模板",
+  "@appTitle": {
+    "description": "Application title"
+  },
+
+  "loading": "加载中...",
+  "@loading": {
+    "description": "Loading text"
+  },
+
+  "error": "错误",
+  "@error": {
+    "description": "Error text"
+  },
+
+  "success": "成功",
+  "@success": {
+    "description": "Success text"
+  },
+
+  "cancel": "取消",
+  "@cancel": {
+    "description": "Cancel text"
+  },
+
+  "confirm": "确认",
+  "@confirm": {
+    "description": "Confirm text"
+  },
+
+  "save": "保存",
+  "@save": {
+    "description": "Save text"
+  },
+
+  "delete": "删除",
+  "@delete": {
+    "description": "Delete text"
+  },
+
+  "retry": "重试",
+  "@retry": {
+    "description": "Retry text"
+  },
+
+  "close": "关闭",
+  "@close": {
+    "description": "Close text"
+  },
+
+  "ok": "确定",
+  "@ok": {
+    "description": "OK text"
+  },
+
+  "home": "首页",
+  "@home": {
+    "description": "Home navigation label"
+  },
+
+  "settings": "设置",
+  "@settings": {
+    "description": "Settings navigation label"
+  },
+
+  "profile": "个人资料",
+  "@profile": {
+    "description": "Profile navigation label"
+  },
+
+  "back": "返回",
+  "@back": {
+    "description": "Back navigation label"
+  },
+
+  "next": "下一步",
+  "@next": {
+    "description": "Next navigation label"
+  },
+
+  "about": "关于",
+  "@about": {
+    "description": "About page label"
+  },
+
+  "login": "登录",
+  "@login": {
+    "description": "Login text"
+  },
+
+  "logout": "退出登录",
+  "@logout": {
+    "description": "Logout text"
+  },
+
+  "register": "注册",
+  "@register": {
+    "description": "Register text"
+  },
+
+  "email": "邮箱",
+  "@email": {
+    "description": "Email label"
+  },
+
+  "password": "密码",
+  "@password": {
+    "description": "Password label"
+  },
+
+  "forgotPassword": "忘记密码？",
+  "@forgotPassword": {
+    "description": "Forgot password text"
+  },
+
+  "genericError": "出了点问题，请重试。",
+  "@genericError": {
+    "description": "Generic error message"
+  },
+
+  "networkError": "网络错误，请检查您的网络连接。",
+  "@networkError": {
+    "description": "Network error message"
+  },
+
+  "serverError": "服务器错误，请稍后重试。",
+  "@serverError": {
+    "description": "Server error message"
+  },
+
+  "unauthorizedError": "未授权，请重新登录。",
+  "@unauthorizedError": {
+    "description": "Unauthorized error message"
+  },
+
+  "sessionExpired": "会话已过期，请重新登录。",
+  "@sessionExpired": {
+    "description": "Session expired message"
+  },
+
+  "validationError": "请检查您的输入。",
+  "@validationError": {
+    "description": "Validation error message"
+  },
+
+  "emptyList": "没有找到项目。",
+  "@emptyList": {
+    "description": "Empty list message"
+  },
+
+  "operationSuccess": "操作成功完成。",
+  "@operationSuccess": {
+    "description": "Operation success message"
+  },
+
+  "saveSuccess": "保存成功。",
+  "@saveSuccess": {
+    "description": "Save success message"
+  },
+
+  "deleteSuccess": "删除成功。",
+  "@deleteSuccess": {
+    "description": "Delete success message"
+  },
+
+  "templateIncludes": "此模板包含：",
+  "@templateIncludes": {
+    "description": "Template features header text"
+  },
+
+  "featureCleanArchitecture": "Clean Architecture 架构",
+  "@featureCleanArchitecture": {
+    "description": "Clean Architecture feature item"
+  },
+
+  "featureRiverpod": "Riverpod 状态管理",
+  "@featureRiverpod": {
+    "description": "Riverpod feature item"
+  },
+
+  "featureGoRouter": "go_router 导航",
+  "@featureGoRouter": {
+    "description": "go_router feature item"
+  },
+
+  "featureDio": "Dio HTTP 客户端",
+  "@featureDio": {
+    "description": "Dio feature item"
+  },
+
+  "featureDrift": "Drift 数据库",
+  "@featureDrift": {
+    "description": "Drift feature item"
+  },
+
+  "featureJsonSerializable": "json_serializable",
+  "@featureJsonSerializable": {
+    "description": "json_serializable feature item"
+  },
+
+  "featureLintRules": "完善的 Lint 规则",
+  "@featureLintRules": {
+    "description": "Lint rules feature item"
+  },
+
+  "featureI18n": "国际化支持",
+  "@featureI18n": {
+    "description": "i18n feature item"
+  },
+
+  "quickActions": "快捷操作",
+  "@quickActions": {
+    "description": "Quick actions section title"
+  },
+
+  "guest": "访客",
+  "@guest": {
+    "description": "Guest user name"
+  },
+
+  "language": "语言",
+  "@language": {
+    "description": "Language setting label"
+  },
+
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option"
+  },
+
+  "languageChinese": "中文",
+  "@languageChinese": {
+    "description": "Chinese language option"
+  },
+
+  "languageSystem": "跟随系统",
+  "@languageSystem": {
+    "description": "System language option"
+  },
+
+  "selectLanguage": "选择语言",
+  "@selectLanguage": {
+    "description": "Language selection dialog title"
+  }
+}

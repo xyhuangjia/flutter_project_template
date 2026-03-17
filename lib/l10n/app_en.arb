@@ -1,0 +1,248 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "Flutter Project Template",
+  "@appTitle": {
+    "description": "Application title"
+  },
+
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading text"
+  },
+
+  "error": "Error",
+  "@error": {
+    "description": "Error text"
+  },
+
+  "success": "Success",
+  "@success": {
+    "description": "Success text"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel text"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm text"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Save text"
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete text"
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry text"
+  },
+
+  "close": "Close",
+  "@close": {
+    "description": "Close text"
+  },
+
+  "ok": "OK",
+  "@ok": {
+    "description": "OK text"
+  },
+
+  "home": "Home",
+  "@home": {
+    "description": "Home navigation label"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings navigation label"
+  },
+
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile navigation label"
+  },
+
+  "back": "Back",
+  "@back": {
+    "description": "Back navigation label"
+  },
+
+  "next": "Next",
+  "@next": {
+    "description": "Next navigation label"
+  },
+
+  "about": "About",
+  "@about": {
+    "description": "About page label"
+  },
+
+  "login": "Login",
+  "@login": {
+    "description": "Login text"
+  },
+
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout text"
+  },
+
+  "register": "Register",
+  "@register": {
+    "description": "Register text"
+  },
+
+  "email": "Email",
+  "@email": {
+    "description": "Email label"
+  },
+
+  "password": "Password",
+  "@password": {
+    "description": "Password label"
+  },
+
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password text"
+  },
+
+  "genericError": "Something went wrong. Please try again.",
+  "@genericError": {
+    "description": "Generic error message"
+  },
+
+  "networkError": "Network error. Please check your connection.",
+  "@networkError": {
+    "description": "Network error message"
+  },
+
+  "serverError": "Server error. Please try again later.",
+  "@serverError": {
+    "description": "Server error message"
+  },
+
+  "unauthorizedError": "Unauthorized. Please login again.",
+  "@unauthorizedError": {
+    "description": "Unauthorized error message"
+  },
+
+  "sessionExpired": "Session expired. Please login again.",
+  "@sessionExpired": {
+    "description": "Session expired message"
+  },
+
+  "validationError": "Please check your input.",
+  "@validationError": {
+    "description": "Validation error message"
+  },
+
+  "emptyList": "No items found.",
+  "@emptyList": {
+    "description": "Empty list message"
+  },
+
+  "operationSuccess": "Operation completed successfully.",
+  "@operationSuccess": {
+    "description": "Operation success message"
+  },
+
+  "saveSuccess": "Saved successfully.",
+  "@saveSuccess": {
+    "description": "Save success message"
+  },
+
+  "deleteSuccess": "Deleted successfully.",
+  "@deleteSuccess": {
+    "description": "Delete success message"
+  },
+
+  "templateIncludes": "This template includes:",
+  "@templateIncludes": {
+    "description": "Template features header text"
+  },
+
+  "featureCleanArchitecture": "Clean Architecture structure",
+  "@featureCleanArchitecture": {
+    "description": "Clean Architecture feature item"
+  },
+
+  "featureRiverpod": "Riverpod state management",
+  "@featureRiverpod": {
+    "description": "Riverpod feature item"
+  },
+
+  "featureGoRouter": "go_router navigation",
+  "@featureGoRouter": {
+    "description": "go_router feature item"
+  },
+
+  "featureDio": "Dio HTTP client",
+  "@featureDio": {
+    "description": "Dio feature item"
+  },
+
+  "featureDrift": "Drift database",
+  "@featureDrift": {
+    "description": "Drift feature item"
+  },
+
+  "featureJsonSerializable": "json_serializable",
+  "@featureJsonSerializable": {
+    "description": "json_serializable feature item"
+  },
+
+  "featureLintRules": "Comprehensive lint rules",
+  "@featureLintRules": {
+    "description": "Lint rules feature item"
+  },
+
+  "featureI18n": "Internationalization support",
+  "@featureI18n": {
+    "description": "i18n feature item"
+  },
+
+  "quickActions": "Quick Actions",
+  "@quickActions": {
+    "description": "Quick actions section title"
+  },
+
+  "guest": "Guest",
+  "@guest": {
+    "description": "Guest user name"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option"
+  },
+
+  "languageChinese": "中文",
+  "@languageChinese": {
+    "description": "Chinese language option"
+  },
+
+  "languageSystem": "Follow System",
+  "@languageSystem": {
+    "description": "System language option"
+  },
+
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Language selection dialog title"
+  }
+}

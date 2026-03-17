@@ -5,9 +5,10 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project_template/core/constants/app_strings.dart';
+import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/features/home/domain/entities/home_entity.dart';
 import 'package:flutter_project_template/features/home/presentation/providers/home_provider.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Home screen widget.
@@ -24,12 +25,17 @@ class HomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppStrings.home),
+        title: Text(localizations.home),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: () => _showLanguageDialog(context, ref, localizations),
+          ),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () {
@@ -45,10 +51,18 @@ class HomeScreen extends ConsumerWidget {
           theme: theme,
           colorScheme: colorScheme,
           textTheme: textTheme,
+          localizations: localizations,
           onRefresh: () => ref.read(homeNotifierProvider.notifier).refresh(),
         ),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
+        loading: () => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text(localizations.loading),
+            ],
+          ),
         ),
         error: (error, stack) => Center(
           child: Padding(
@@ -63,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  AppStrings.error,
+                  localizations.error,
                   style: textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 8),
@@ -76,13 +90,113 @@ class HomeScreen extends ConsumerWidget {
                 ElevatedButton(
                   onPressed: () =>
                       ref.read(homeNotifierProvider.notifier).refresh(),
-                  child: const Text(AppStrings.retry),
+                  child: Text(localizations.retry),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  void _showLanguageDialog(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations localizations,
+  ) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => _LanguageDialog(
+        localizations: localizations,
+      ),
+    );
+  }
+}
+
+/// Language selection dialog.
+class _LanguageDialog extends ConsumerWidget {
+  const _LanguageDialog({
+    required this.localizations,
+  });
+
+  final AppLocalizations localizations;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final localeAsync = ref.watch(localeNotifierProvider);
+    final currentLocale = localeAsync.valueOrNull;
+
+    return AlertDialog(
+      title: Text(localizations.selectLanguage),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _LanguageOption(
+            label: localizations.languageSystem,
+            isSelected: currentLocale == null,
+            onTap: () {
+              ref.read(localeNotifierProvider.notifier).resetToSystem();
+              Navigator.of(context).pop();
+            },
+          ),
+          _LanguageOption(
+            label: localizations.languageEnglish,
+            isSelected: currentLocale?.languageCode == 'en',
+            onTap: () {
+              ref
+                  .read(localeNotifierProvider.notifier)
+                  .setLocale(const Locale('en'));
+              Navigator.of(context).pop();
+            },
+          ),
+          _LanguageOption(
+            label: localizations.languageChinese,
+            isSelected: currentLocale?.languageCode == 'zh',
+            onTap: () {
+              ref
+                  .read(localeNotifierProvider.notifier)
+                  .setLocale(const Locale('zh'));
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(localizations.close),
+        ),
+      ],
+    );
+  }
+}
+
+/// Language option widget.
+class _LanguageOption extends StatelessWidget {
+  const _LanguageOption({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return ListTile(
+      title: Text(label),
+      trailing: isSelected
+          ? Icon(
+              Icons.check,
+              color: theme.colorScheme.primary,
+            )
+          : null,
+      onTap: onTap,
     );
   }
 }
@@ -95,6 +209,7 @@ class _HomeContent extends StatelessWidget {
     required this.theme,
     required this.colorScheme,
     required this.textTheme,
+    required this.localizations,
     required this.onRefresh,
   });
 
@@ -103,6 +218,7 @@ class _HomeContent extends StatelessWidget {
   final ThemeData theme;
   final ColorScheme colorScheme;
   final TextTheme textTheme;
+  final AppLocalizations localizations;
   final VoidCallback onRefresh;
 
   @override
@@ -119,6 +235,7 @@ class _HomeContent extends StatelessWidget {
                 userName: home.userName,
                 colorScheme: colorScheme,
                 textTheme: textTheme,
+                localizations: localizations,
               ),
               const SizedBox(height: 24),
               _WelcomeCard(
@@ -127,12 +244,14 @@ class _HomeContent extends StatelessWidget {
                 theme: theme,
                 colorScheme: colorScheme,
                 textTheme: textTheme,
+                localizations: localizations,
               ),
               const SizedBox(height: 24),
               _QuickActionsSection(
                 theme: theme,
                 colorScheme: colorScheme,
                 textTheme: textTheme,
+                localizations: localizations,
               ),
             ],
           ),
@@ -147,12 +266,14 @@ class _HeaderSection extends StatelessWidget {
     required this.userName,
     required this.colorScheme,
     required this.textTheme,
+    required this.localizations,
   });
 
   final String greeting;
   final String? userName;
   final ColorScheme colorScheme;
   final TextTheme textTheme;
+  final AppLocalizations localizations;
 
   @override
   Widget build(BuildContext context) => Row(
@@ -178,7 +299,7 @@ class _HeaderSection extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  userName ?? 'Guest',
+                  userName ?? localizations.guest,
                   style: textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -198,6 +319,7 @@ class _WelcomeCard extends StatelessWidget {
     required this.theme,
     required this.colorScheme,
     required this.textTheme,
+    required this.localizations,
   });
 
   final String title;
@@ -205,6 +327,7 @@ class _WelcomeCard extends StatelessWidget {
   final ThemeData theme;
   final ColorScheme colorScheme;
   final TextTheme textTheme;
+  final AppLocalizations localizations;
 
   @override
   Widget build(BuildContext context) => Card(
@@ -239,12 +362,12 @@ class _WelcomeCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'This template includes:',
-                style: TextStyle(fontWeight: FontWeight.w500),
+              Text(
+                localizations.templateIncludes,
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
-              _FeatureList(theme: theme),
+              _FeatureList(theme: theme, localizations: localizations),
             ],
           ),
         ),
@@ -253,20 +376,25 @@ class _WelcomeCard extends StatelessWidget {
 
 /// Feature list showing included features.
 class _FeatureList extends StatelessWidget {
-  const _FeatureList({required this.theme});
+  const _FeatureList({
+    required this.theme,
+    required this.localizations,
+  });
 
   final ThemeData theme;
+  final AppLocalizations localizations;
 
   @override
   Widget build(BuildContext context) {
-    const features = [
-      'Clean Architecture structure',
-      'Riverpod state management',
-      'go_router navigation',
-      'Dio HTTP client',
-      'Drift database',
-      'json_serializable',
-      'Comprehensive lint rules',
+    final features = [
+      localizations.featureCleanArchitecture,
+      localizations.featureRiverpod,
+      localizations.featureGoRouter,
+      localizations.featureDio,
+      localizations.featureDrift,
+      localizations.featureJsonSerializable,
+      localizations.featureLintRules,
+      localizations.featureI18n,
     ];
 
     return Column(
@@ -303,18 +431,20 @@ class _QuickActionsSection extends StatelessWidget {
     required this.theme,
     required this.colorScheme,
     required this.textTheme,
+    required this.localizations,
   });
 
   final ThemeData theme;
   final ColorScheme colorScheme;
   final TextTheme textTheme;
+  final AppLocalizations localizations;
 
   @override
   Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Quick Actions',
+            localizations.quickActions,
             style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -325,7 +455,7 @@ class _QuickActionsSection extends StatelessWidget {
               Expanded(
                 child: _ActionCard(
                   icon: Icons.person_outline,
-                  label: 'Profile',
+                  label: localizations.profile,
                   theme: theme,
                   onTap: () {
                     // Navigate to profile
@@ -336,7 +466,7 @@ class _QuickActionsSection extends StatelessWidget {
               Expanded(
                 child: _ActionCard(
                   icon: Icons.settings_outlined,
-                  label: 'Settings',
+                  label: localizations.settings,
                   theme: theme,
                   onTap: () {
                     // Navigate to settings
@@ -347,7 +477,7 @@ class _QuickActionsSection extends StatelessWidget {
               Expanded(
                 child: _ActionCard(
                   icon: Icons.info_outline,
-                  label: 'About',
+                  label: localizations.about,
                   theme: theme,
                   onTap: () {
                     // Navigate to about

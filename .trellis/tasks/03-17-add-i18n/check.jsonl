@@ -1,0 +1,4 @@
+{"file": ".opencode/commands/trellis/finish-work.md", "reason": "Finish work checklist"}
+{"file": ".opencode/commands/trellis/check-frontend.md", "reason": "Frontend check spec"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Riverpod 状态管理规范"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Widget 组件开发规范"}

@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # State Management
   flutter_riverpod: ^2.6.1
@@ -55,6 +57,9 @@ dependencies:
   # Environment
   flutter_dotenv: ^5.2.1
 
+  # Preferences
+  shared_preferences: ^2.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,9 +78,11 @@ dev_dependencies:
   # Utility
   flutter_launcher_icons: ^0.14.3
   change_app_package_name: ^1.2.0
+  intl_utils: ^2.8.0
 
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
     - .env
