@@ -1,0 +1,7 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "环境配置需要使用 Riverpod Provider"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "环境配置模块需要遵循 Clean Architecture"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "开发者菜单 UI 组件需要遵循组件规范"}
+{"file": ".trellis/spec/frontend/hook-guidelines.md", "reason": "环境配置 Provider 需要遵循 Hook 模式"}
+{"file": ".trellis/spec/frontend/i18n-guidelines.md", "reason": "环境切换需要添加国际化字符串"}
