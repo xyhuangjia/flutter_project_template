@@ -210,3 +210,49 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 6: 环境配置切换模块
+
+**Date**: 2026-03-19
+**Task**: 环境配置切换模块
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| Feature | Description |
+|---------|-------------|
+| 环境配置 | 添加开发/测试/生产三种环境配置 |
+| 状态管理 | 使用 Riverpod 提供环境配置 Provider |
+| 持久化 | SharedPreferences 保存用户选择的环境 |
+| UI 组件 | 开发者菜单中添加环境选择器 |
+| 国际化 | 支持中英文环境标签 |
+
+**Updated Files**:
+- `lib/core/config/environment.dart` - 环境类型和配置模型
+- `lib/core/config/environment_provider.dart` - Riverpod Provider
+- `lib/features/settings/presentation/widgets/environment_selector.dart` - 环境选择 UI
+- `lib/features/settings/presentation/screens/settings_screen.dart` - 集成到设置页面
+- `lib/l10n/app_*.arb` - 国际化资源
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `0de7e20` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
