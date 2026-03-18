@@ -1,0 +1,158 @@
+/// Settings screen for application settings.
+library;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_project_template/core/providers/locale_provider.dart';
+import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_project_template/features/settings/domain/entities/settings_entity.dart';
+import 'package:flutter_project_template/features/settings/presentation/providers/settings_provider.dart';
+import 'package:flutter_project_template/features/settings/presentation/widgets/language_selector.dart';
+import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
+import 'package:flutter_project_template/features/settings/presentation/widgets/theme_selector.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Settings screen widget.
+class SettingsScreen extends ConsumerWidget {
+  /// Creates the settings screen.
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final settingsAsync = ref.watch(settingsNotifierProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final localeAsync = ref.watch(localeNotifierProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(localizations.settings),
+      ),
+      body: settingsAsync.when(
+        data: (settings) => _buildContent(
+          context,
+          ref,
+          localizations,
+          theme,
+          settings,
+          authState.valueOrNull?.isAuthenticated ?? false,
+          localeAsync.valueOrNull?.languageCode,
+        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(
+          child: Text('${localizations.error}: $error'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations localizations,
+    ThemeData theme,
+    SettingsEntity settings,
+    bool isAuthenticated,
+    String? currentLanguageCode,
+  ) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Preferences section
+          SettingsSectionHeader(title: localizations.languageSystem),
+          ThemeSelector(
+            currentTheme: settings.themeMode,
+            onThemeChanged: (mode) {
+              ref.read(settingsNotifierProvider.notifier).updateThemeMode(mode);
+            },
+          ),
+          const SettingsDivider(),
+          LanguageSelector(
+            currentLanguage: currentLanguageCode,
+            onLanguageChanged: (code) {
+              ref.read(settingsNotifierProvider.notifier).updateLanguage(code);
+            },
+            languages: const [
+              LanguageOption(code: 'en', name: 'English'),
+              LanguageOption(code: 'zh', name: '中文'),
+            ],
+          ),
+          const SettingsDivider(),
+          SettingsTile(
+            title: localizations.notifications,
+            leading: const Icon(Icons.notifications_outlined),
+            trailing: Switch(
+              value: settings.notificationsEnabled,
+              onChanged: (value) {
+                ref
+                    .read(settingsNotifierProvider.notifier)
+                    .updateNotifications(value);
+              },
+            ),
+            showChevron: false,
+          ),
+          const SizedBox(height: 24),
+
+          // Security section (only if authenticated)
+          if (isAuthenticated) ...[
+            SettingsSectionHeader(title: localizations.security),
+            SettingsTile(
+              title: localizations.changePassword,
+              leading: const Icon(Icons.lock_outline),
+              onTap: () {
+                // TODO: Navigate to change password screen
+              },
+            ),
+            const SettingsDivider(),
+            SettingsTile(
+              title: localizations.logout,
+              leading: Icon(
+                Icons.logout,
+                color: theme.colorScheme.error,
+              ),
+              titleColor: theme.colorScheme.error,
+              onTap: () async {
+                final success =
+                    await ref.read(authNotifierProvider.notifier).logout();
+                if (success && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(localizations.success)),
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 24),
+          ],
+
+          // About section
+          SettingsSectionHeader(title: localizations.about),
+          SettingsTile(
+            title: localizations.version,
+            subtitle: '1.0.0',
+            leading: const Icon(Icons.info_outline),
+            showChevron: false,
+          ),
+          const SettingsDivider(),
+          SettingsTile(
+            title: localizations.privacyPolicy,
+            leading: const Icon(Icons.privacy_tip_outlined),
+            onTap: () {
+              // TODO: Navigate to privacy policy
+            },
+          ),
+          const SettingsDivider(),
+          SettingsTile(
+            title: localizations.termsOfService,
+            leading: const Icon(Icons.description_outlined),
+            onTap: () {
+              // TODO: Navigate to terms of service
+            },
+          ),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+}

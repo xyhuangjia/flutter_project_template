@@ -244,5 +244,175 @@
   "selectLanguage": "选择语言",
   "@selectLanguage": {
     "description": "Language selection dialog title"
+  },
+
+  "theme": "主题",
+  "@theme": {
+    "description": "Theme setting label"
+  },
+
+  "themeSystem": "跟随系统",
+  "@themeSystem": {
+    "description": "System theme option"
+  },
+
+  "themeLight": "浅色",
+  "@themeLight": {
+    "description": "Light theme option"
+  },
+
+  "themeDark": "深色",
+  "@themeDark": {
+    "description": "Dark theme option"
+  },
+
+  "account": "账户",
+  "@account": {
+    "description": "Account section title"
+  },
+
+  "preferences": "偏好设置",
+  "@preferences": {
+    "description": "Preferences section title"
+  },
+
+  "notifications": "通知",
+  "@notifications": {
+    "description": "Notifications setting label"
+  },
+
+  "sound": "声音",
+  "@sound": {
+    "description": "Sound setting label"
+  },
+
+  "vibration": "振动",
+  "@vibration": {
+    "description": "Vibration setting label"
+  },
+
+  "security": "安全",
+  "@security": {
+    "description": "Security section title"
+  },
+
+  "changePassword": "修改密码",
+  "@changePassword": {
+    "description": "Change password label"
+  },
+
+  "aboutApp": "关于应用",
+  "@aboutApp": {
+    "description": "About app section title"
+  },
+
+  "version": "版本",
+  "@version": {
+    "description": "Version label"
+  },
+
+  "privacyPolicy": "隐私政策",
+  "@privacyPolicy": {
+    "description": "Privacy policy label"
+  },
+
+  "termsOfService": "服务条款",
+  "@termsOfService": {
+    "description": "Terms of service label"
+  },
+
+  "welcomeBack": "欢迎回来",
+  "@welcomeBack": {
+    "description": "Welcome back message"
+  },
+
+  "signInToContinue": "登录以继续",
+  "@signInToContinue": {
+    "description": "Sign in prompt"
+  },
+
+  "createAccount": "创建账户",
+  "@createAccount": {
+    "description": "Create account header"
+  },
+
+  "signUpToGetStarted": "注册以开始使用",
+  "@signUpToGetStarted": {
+    "description": "Sign up prompt"
+  },
+
+  "username": "用户名",
+  "@username": {
+    "description": "Username label"
+  },
+
+  "confirmPassword": "确认密码",
+  "@confirmPassword": {
+    "description": "Confirm password label"
+  },
+
+  "continueWithWeChat": "微信登录",
+  "@continueWithWeChat": {
+    "description": "WeChat login button"
+  },
+
+  "continueWithApple": "Apple 登录",
+  "@continueWithApple": {
+    "description": "Apple login button"
+  },
+
+  "continueWithGoogle": "Google 登录",
+  "@continueWithGoogle": {
+    "description": "Google login button"
+  },
+
+  "noAccount": "还没有账户？",
+  "@noAccount": {
+    "description": "No account prompt"
+  },
+
+  "haveAccount": "已有账户？",
+  "@haveAccount": {
+    "description": "Have account prompt"
+  },
+
+  "enterEmail": "请输入邮箱",
+  "@enterEmail": {
+    "description": "Enter email validation message"
+  },
+
+  "enterValidEmail": "请输入有效的邮箱地址",
+  "@enterValidEmail": {
+    "description": "Valid email validation message"
+  },
+
+  "enterPassword": "请输入密码",
+  "@enterPassword": {
+    "description": "Enter password validation message"
+  },
+
+  "passwordMinLength": "密码至少需要6个字符",
+  "@passwordMinLength": {
+    "description": "Password min length validation message"
+  },
+
+  "enterUsername": "请输入用户名",
+  "@enterUsername": {
+    "description": "Enter username validation message"
+  },
+
+  "usernameMinLength": "用户名至少需要3个字符",
+  "@usernameMinLength": {
+    "description": "Username min length validation message"
+  },
+
+  "confirmYourPassword": "请确认密码",
+  "@confirmYourPassword": {
+    "description": "Confirm password validation message"
+  },
+
+  "passwordsDoNotMatch": "两次密码不一致",
+  "@passwordsDoNotMatch": {
+    "description": "Passwords match validation message"
   }
 }

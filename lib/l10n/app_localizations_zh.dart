@@ -154,4 +154,106 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get selectLanguage => '选择语言';
+
+  @override
+  String get theme => '主题';
+
+  @override
+  String get themeSystem => '跟随系统';
+
+  @override
+  String get themeLight => '浅色';
+
+  @override
+  String get themeDark => '深色';
+
+  @override
+  String get account => '账户';
+
+  @override
+  String get preferences => '偏好设置';
+
+  @override
+  String get notifications => '通知';
+
+  @override
+  String get sound => '声音';
+
+  @override
+  String get vibration => '振动';
+
+  @override
+  String get security => '安全';
+
+  @override
+  String get changePassword => '修改密码';
+
+  @override
+  String get aboutApp => '关于应用';
+
+  @override
+  String get version => '版本';
+
+  @override
+  String get privacyPolicy => '隐私政策';
+
+  @override
+  String get termsOfService => '服务条款';
+
+  @override
+  String get welcomeBack => '欢迎回来';
+
+  @override
+  String get signInToContinue => '登录以继续';
+
+  @override
+  String get createAccount => '创建账户';
+
+  @override
+  String get signUpToGetStarted => '注册以开始使用';
+
+  @override
+  String get username => '用户名';
+
+  @override
+  String get confirmPassword => '确认密码';
+
+  @override
+  String get continueWithWeChat => '微信登录';
+
+  @override
+  String get continueWithApple => 'Apple 登录';
+
+  @override
+  String get continueWithGoogle => 'Google 登录';
+
+  @override
+  String get noAccount => '还没有账户？';
+
+  @override
+  String get haveAccount => '已有账户？';
+
+  @override
+  String get enterEmail => '请输入邮箱';
+
+  @override
+  String get enterValidEmail => '请输入有效的邮箱地址';
+
+  @override
+  String get enterPassword => '请输入密码';
+
+  @override
+  String get passwordMinLength => '密码至少需要6个字符';
+
+  @override
+  String get enterUsername => '请输入用户名';
+
+  @override
+  String get usernameMinLength => '用户名至少需要3个字符';
+
+  @override
+  String get confirmYourPassword => '请确认密码';
+
+  @override
+  String get passwordsDoNotMatch => '两次密码不一致';
 }

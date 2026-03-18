@@ -1,13 +1,13 @@
 /// Application router configuration.
-///
-/// This file configures go_router with all application routes,
-/// guards, and navigation logic.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
+import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
+import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
+import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
 import 'package:go_router/go_router.dart';
 
 /// Application router configuration.
@@ -28,12 +28,22 @@ final GoRouter appRouter = GoRouter(
       name: RouteNames.home,
       builder: (context, state) => const HomeScreen(),
     ),
+    GoRoute(
+      path: Routes.login,
+      name: RouteNames.login,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: Routes.register,
+      name: RouteNames.register,
+      builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: Routes.settings,
+      name: RouteNames.settings,
+      builder: (context, state) => const SettingsScreen(),
+    ),
     // Add more routes here as the app grows
-    // GoRoute(
-    //   path: Routes.settings,
-    //   name: RouteNames.settings,
-    //   builder: (context, state) => const SettingsScreen(),
-    // ),
     // GoRoute(
     //   path: Routes.profile,
     //   name: RouteNames.profile,

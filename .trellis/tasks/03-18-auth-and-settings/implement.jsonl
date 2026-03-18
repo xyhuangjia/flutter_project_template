@@ -1,0 +1,11 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "目录结构规范"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "状态管理规范"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "组件开发规范"}
+{"file": ".trellis/spec/frontend/hook-guidelines.md", "reason": "Provider 最佳实践"}
+{"file": ".trellis/spec/frontend/i18n-guidelines.md", "reason": "国际化规范"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "类型安全规范"}
+{"file": "lib/features/home/domain/entities/home_entity.dart", "reason": "Entity 模式参考"}
+{"file": "lib/features/home/presentation/providers/home_provider.dart", "reason": "Provider 模式参考"}
+{"file": "lib/features/home/presentation/screens/home_screen.dart", "reason": "Screen 模式参考"}
