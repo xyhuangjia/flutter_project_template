@@ -147,3 +147,66 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 5: 添加登录模块和设置模块
+
+**Date**: 2026-03-19
+**Task**: 添加登录模块和设置模块
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| 模块 | 功能描述 |
+|------|----------|
+| Auth | 登录（邮箱/用户名+密码）、第三方登录（微信/Apple/Google）、注册、会话持久化、登出 |
+| Settings | 主题切换、语言切换、通知开关、账号安全、关于应用 |
+| Locale | 设置与 locale_provider 同步、跟随系统语言、持久化语言偏好 |
+
+## 技术实现
+- 遵循 Clean Architecture (Domain/Data/Presentation)
+- 使用 Riverpod 状态管理
+- Repository 模式 + Mock 数据
+- SharedPreferences 持久化
+
+## 新增文件
+- Auth: 19 个文件
+- Settings: 14 个文件
+- 修改: 6 个文件 (router, i18n)
+- 总计: 4808 行新增代码
+
+## PRD 完成情况
+- [x] 邮箱 + 密码登录
+- [x] 用户名 + 密码登录
+- [x] 第三方登录（微信、Apple、Google）
+- [x] 用户注册
+- [x] 登录状态持久化
+- [x] 退出登录
+- [x] 个人资料设置
+- [x] 账号安全（修改密码入口）
+- [x] 偏好设置（主题、语言、通知）
+- [x] 关于应用（版本、隐私政策、用户协议）
+- [x] 国际化跟随系统语言
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `4753f77` | (see git log) |
+| `ea2090b` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
