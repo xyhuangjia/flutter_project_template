@@ -595,6 +595,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get passwordsDoNotMatch;
+
+  /// Developer options section title
+  ///
+  /// In en, this message translates to:
+  /// **'Developer Options'**
+  String get developerOptions;
+
+  /// Environment selection dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Environment'**
+  String get selectEnvironment;
+
+  /// Development environment option
+  ///
+  /// In en, this message translates to:
+  /// **'Development'**
+  String get environmentDevelopment;
+
+  /// Staging environment option
+  ///
+  /// In en, this message translates to:
+  /// **'Staging'**
+  String get environmentStaging;
+
+  /// Production environment option
+  ///
+  /// In en, this message translates to:
+  /// **'Production'**
+  String get environmentProduction;
+
+  /// Current environment label
+  ///
+  /// In en, this message translates to:
+  /// **'Current Environment'**
+  String get currentEnvironment;
+
+  /// Restart required title
+  ///
+  /// In en, this message translates to:
+  /// **'Restart Required'**
+  String get restartRequired;
+
+  /// Restart required message
+  ///
+  /// In en, this message translates to:
+  /// **'The app needs to restart for the environment change to take effect. Do you want to restart now?'**
+  String get restartRequiredMessage;
+
+  /// Restart now button text
+  ///
+  /// In en, this message translates to:
+  /// **'Restart Now'**
+  String get restartNow;
+
+  /// Restart later button text
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get restartLater;
 }
 
 class _AppLocalizationsDelegate

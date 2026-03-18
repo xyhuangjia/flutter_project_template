@@ -256,4 +256,34 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => '两次密码不一致';
+
+  @override
+  String get developerOptions => '开发者选项';
+
+  @override
+  String get selectEnvironment => '选择环境';
+
+  @override
+  String get environmentDevelopment => '开发环境';
+
+  @override
+  String get environmentStaging => '测试环境';
+
+  @override
+  String get environmentProduction => '生产环境';
+
+  @override
+  String get currentEnvironment => '当前环境';
+
+  @override
+  String get restartRequired => '需要重启';
+
+  @override
+  String get restartRequiredMessage => '应用需要重启才能使环境更改生效。是否立即重启？';
+
+  @override
+  String get restartNow => '立即重启';
+
+  @override
+  String get restartLater => '稍后';
 }

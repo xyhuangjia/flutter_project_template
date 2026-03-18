@@ -2,10 +2,13 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/core/config/environment.dart';
+import 'package:flutter_project_template/core/config/environment_provider.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/settings_entity.dart';
 import 'package:flutter_project_template/features/settings/presentation/providers/settings_provider.dart';
+import 'package:flutter_project_template/features/settings/presentation/widgets/environment_selector.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/language_selector.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/theme_selector.dart';
@@ -56,6 +59,8 @@ class SettingsScreen extends ConsumerWidget {
     bool isAuthenticated,
     String? currentLanguageCode,
   ) {
+    final showDeveloperOptions = ref.watch(showDeveloperOptionsProvider);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,6 +156,69 @@ class SettingsScreen extends ConsumerWidget {
             },
           ),
           const SizedBox(height: 24),
+
+          // Developer options section (only in debug mode)
+          if (showDeveloperOptions) ...[
+            SettingsSectionHeader(title: localizations.developerOptions),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: EnvironmentSelector(
+                currentEnvironment: null,
+                onEnvironmentChanged: (type) => _showEnvironmentChangeDialog(
+                  context,
+                  ref,
+                  localizations,
+                  type,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        ],
+      ),
+    );
+  }
+
+  /// Shows a confirmation dialog when changing environment.
+  void _showEnvironmentChangeDialog(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations localizations,
+    EnvironmentType newEnvironment,
+  ) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(localizations.restartRequired),
+        content: Text(localizations.restartRequiredMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(localizations.restartLater),
+          ),
+          FilledButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+
+              // Save the new environment
+              await ref
+                  .read(environmentProvider.notifier)
+                  .switchEnvironment(newEnvironment);
+
+              // Show a snackbar
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(localizations.saveSuccess),
+                  ),
+                );
+              }
+
+              // In a real app, you would restart the app here
+              // For example, using: SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            },
+            child: Text(localizations.restartNow),
+          ),
         ],
       ),
     );

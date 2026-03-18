@@ -3,6 +3,7 @@
 /// This file re-exports all core modules for convenient importing.
 library;
 
+export 'config/config.dart';
 export 'constants/constants.dart';
 export 'errors/errors.dart';
 export 'network/network.dart';

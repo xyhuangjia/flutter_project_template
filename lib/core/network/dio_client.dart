@@ -41,6 +41,13 @@ class DioClient {
 
   final Dio _dio;
 
+  /// Updates the base URL for the Dio client.
+  ///
+  /// This is useful when switching environments dynamically.
+  void updateBaseUrl(String baseUrl) {
+    _dio.options.baseUrl = baseUrl;
+  }
+
   /// Returns the configured Dio instance.
   Dio get dio => _dio;
 

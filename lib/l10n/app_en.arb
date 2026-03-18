@@ -414,5 +414,55 @@
   "passwordsDoNotMatch": "Passwords do not match",
   "@passwordsDoNotMatch": {
     "description": "Passwords match validation message"
+  },
+
+  "developerOptions": "Developer Options",
+  "@developerOptions": {
+    "description": "Developer options section title"
+  },
+
+  "selectEnvironment": "Select Environment",
+  "@selectEnvironment": {
+    "description": "Environment selection dialog title"
+  },
+
+  "environmentDevelopment": "Development",
+  "@environmentDevelopment": {
+    "description": "Development environment option"
+  },
+
+  "environmentStaging": "Staging",
+  "@environmentStaging": {
+    "description": "Staging environment option"
+  },
+
+  "environmentProduction": "Production",
+  "@environmentProduction": {
+    "description": "Production environment option"
+  },
+
+  "currentEnvironment": "Current Environment",
+  "@currentEnvironment": {
+    "description": "Current environment label"
+  },
+
+  "restartRequired": "Restart Required",
+  "@restartRequired": {
+    "description": "Restart required title"
+  },
+
+  "restartRequiredMessage": "The app needs to restart for the environment change to take effect. Do you want to restart now?",
+  "@restartRequiredMessage": {
+    "description": "Restart required message"
+  },
+
+  "restartNow": "Restart Now",
+  "@restartNow": {
+    "description": "Restart now button text"
+  },
+
+  "restartLater": "Later",
+  "@restartLater": {
+    "description": "Restart later button text"
   }
 }

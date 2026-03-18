@@ -414,5 +414,55 @@
   "passwordsDoNotMatch": "两次密码不一致",
   "@passwordsDoNotMatch": {
     "description": "Passwords match validation message"
+  },
+
+  "developerOptions": "开发者选项",
+  "@developerOptions": {
+    "description": "Developer options section title"
+  },
+
+  "selectEnvironment": "选择环境",
+  "@selectEnvironment": {
+    "description": "Environment selection dialog title"
+  },
+
+  "environmentDevelopment": "开发环境",
+  "@environmentDevelopment": {
+    "description": "Development environment option"
+  },
+
+  "environmentStaging": "测试环境",
+  "@environmentStaging": {
+    "description": "Staging environment option"
+  },
+
+  "environmentProduction": "生产环境",
+  "@environmentProduction": {
+    "description": "Production environment option"
+  },
+
+  "currentEnvironment": "当前环境",
+  "@currentEnvironment": {
+    "description": "Current environment label"
+  },
+
+  "restartRequired": "需要重启",
+  "@restartRequired": {
+    "description": "Restart required title"
+  },
+
+  "restartRequiredMessage": "应用需要重启才能使环境更改生效。是否立即重启？",
+  "@restartRequiredMessage": {
+    "description": "Restart required message"
+  },
+
+  "restartNow": "立即重启",
+  "@restartNow": {
+    "description": "Restart now button text"
+  },
+
+  "restartLater": "稍后",
+  "@restartLater": {
+    "description": "Restart later button text"
   }
 }

@@ -256,4 +256,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get developerOptions => 'Developer Options';
+
+  @override
+  String get selectEnvironment => 'Select Environment';
+
+  @override
+  String get environmentDevelopment => 'Development';
+
+  @override
+  String get environmentStaging => 'Staging';
+
+  @override
+  String get environmentProduction => 'Production';
+
+  @override
+  String get currentEnvironment => 'Current Environment';
+
+  @override
+  String get restartRequired => 'Restart Required';
+
+  @override
+  String get restartRequiredMessage =>
+      'The app needs to restart for the environment change to take effect. Do you want to restart now?';
+
+  @override
+  String get restartNow => 'Restart Now';
+
+  @override
+  String get restartLater => 'Later';
 }
