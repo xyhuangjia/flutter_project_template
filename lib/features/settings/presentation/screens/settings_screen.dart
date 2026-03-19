@@ -13,6 +13,7 @@ import 'package:flutter_project_template/features/settings/presentation/widgets/
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Settings screen widget.
@@ -66,7 +67,7 @@ class SettingsScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Preferences section
-          SettingsSectionHeader(title: localizations.languageSystem),
+          SettingsSectionHeader(title: localizations.preferences),
           ThemeSelector(
             currentTheme: settings.themeMode,
             onThemeChanged: (mode) {
@@ -93,7 +94,7 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 ref
                     .read(settingsNotifierProvider.notifier)
-                    .updateNotifications(value);
+                    .updateNotifications(enabled: value);
               },
             ),
             showChevron: false,
@@ -188,29 +189,28 @@ class SettingsScreen extends ConsumerWidget {
   ) {
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(localizations.restartRequired),
         content: Text(localizations.restartRequiredMessage),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(dialogContext).pop(),
             child: Text(localizations.restartLater),
           ),
           FilledButton(
             onPressed: () async {
-              Navigator.of(context).pop();
+              Navigator.of(dialogContext).pop();
 
               // Save the new environment
               await ref
                   .read(environmentProvider.notifier)
                   .switchEnvironment(newEnvironment);
 
-              // Show a snackbar
+              // Show a success dialog
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(localizations.saveSuccess),
-                  ),
+                DialogUtil.showSuccessDialog(
+                  context,
+                  localizations.saveSuccess,
                 );
               }
 
