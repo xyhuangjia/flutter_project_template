@@ -37,6 +37,12 @@ abstract final class Routes {
 
   /// WebView route.
   static const String webView = '/webview';
+
+  /// Chat list route.
+  static const String chat = '/chat';
+
+  /// Chat detail route (requires :id parameter).
+  static const String chatDetail = '/chat/:id';
 }
 
 /// Route names for named navigation.
@@ -69,4 +75,10 @@ abstract final class RouteNames {
 
   /// WebView route name.
   static const String webView = 'webview';
+
+  /// Chat list route name.
+  static const String chat = 'chat';
+
+  /// Chat detail route name.
+  static const String chatDetail = 'chatDetail';
 }

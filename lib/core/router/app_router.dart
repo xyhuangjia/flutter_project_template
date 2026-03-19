@@ -9,6 +9,8 @@ import 'package:flutter_project_template/features/auth/presentation/screens/regi
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
+import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
+import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
 import 'package:flutter_project_template/shared/screens/web_view_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,13 +19,13 @@ import 'package:go_router/go_router.dart';
 /// Provides the go_router configuration with all routes,
 /// redirect logic, and error handling.
 final GoRouter appRouter = GoRouter(
-  initialLocation: Routes.home,
+  initialLocation: Routes.chat,
   debugLogDiagnostics: true,
   redirect: RouterGuard.redirect,
   routes: [
     GoRoute(
       path: Routes.root,
-      redirect: (context, state) => Routes.home,
+      redirect: (context, state) => Routes.chat,
     ),
     GoRoute(
       path: Routes.home,
@@ -59,12 +61,20 @@ final GoRouter appRouter = GoRouter(
         return WebViewScreen(title: title, url: url);
       },
     ),
-    // Add more routes here as the app grows
-    // GoRoute(
-    //   path: Routes.profile,
-    //   name: RouteNames.profile,
-    //   builder: (context, state) => const ProfileScreen(),
-    // ),
+    // Chat routes
+    GoRoute(
+      path: Routes.chat,
+      name: RouteNames.chat,
+      builder: (context, state) => const ConversationListScreen(),
+    ),
+    GoRoute(
+      path: Routes.chatDetail,
+      name: RouteNames.chatDetail,
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '';
+        return ChatDetailScreen(conversationId: id);
+      },
+    ),
   ],
   errorBuilder: (context, state) => Scaffold(
     appBar: AppBar(
@@ -86,8 +96,8 @@ final GoRouter appRouter = GoRouter(
           ),
           const SizedBox(height: 24),
           ElevatedButton(
-            onPressed: () => context.go(Routes.home),
-            child: const Text('Go Home'),
+            onPressed: () => context.go(Routes.chat),
+            child: const Text('Go to Chat'),
           ),
         ],
       ),
