@@ -21,16 +21,15 @@ class JsBridgeMessage {
   });
 
   /// Creates a message from JSON.
-  factory JsBridgeMessage.fromJson(Map<String, dynamic> json) {
-    return JsBridgeMessage(
-      type: json['type'] as String? ?? '',
-      data: json['data'] as Map<String, dynamic>? ?? {},
-      messageId: json['messageId'] as String?,
-      timestamp: json['timestamp'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(json['timestamp'] as int)
-          : null,
-    );
-  }
+  factory JsBridgeMessage.fromJson(Map<String, dynamic> json) =>
+      JsBridgeMessage(
+        type: json['type'] as String? ?? '',
+        data: json['data'] as Map<String, dynamic>? ?? {},
+        messageId: json['messageId'] as String?,
+        timestamp: json['timestamp'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['timestamp'] as int)
+            : null,
+      );
 
   /// The type of the message.
   ///
@@ -49,15 +48,12 @@ class JsBridgeMessage {
   final DateTime? timestamp;
 
   /// Converts the message to JSON.
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'data': data,
-      if (messageId != null) 'messageId': messageId,
-      if (timestamp != null)
-        'timestamp': timestamp!.millisecondsSinceEpoch,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'type': type,
+        'data': data,
+        if (messageId != null) 'messageId': messageId,
+        if (timestamp != null) 'timestamp': timestamp!.millisecondsSinceEpoch,
+      };
 
   /// Creates a copy of this message with optionally overridden fields.
   JsBridgeMessage copyWith({
@@ -65,14 +61,13 @@ class JsBridgeMessage {
     Map<String, dynamic>? data,
     String? messageId,
     DateTime? timestamp,
-  }) {
-    return JsBridgeMessage(
-      type: type ?? this.type,
-      data: data ?? this.data,
-      messageId: messageId ?? this.messageId,
-      timestamp: timestamp ?? this.timestamp,
-    );
-  }
+  }) =>
+      JsBridgeMessage(
+        type: type ?? this.type,
+        data: data ?? this.data,
+        messageId: messageId ?? this.messageId,
+        timestamp: timestamp ?? this.timestamp,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -86,20 +81,17 @@ class JsBridgeMessage {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
-      type,
-      Object.hashAll(data.entries),
-      messageId,
-      timestamp,
-    );
-  }
+  int get hashCode => Object.hash(
+        type,
+        Object.hashAll(data.entries),
+        messageId,
+        timestamp,
+      );
 
   @override
-  String toString() {
-    return 'JsBridgeMessage(type: $type, data: $data, messageId: $messageId, '
-        'timestamp: $timestamp)';
-  }
+  String toString() =>
+      'JsBridgeMessage(type: $type, data: $data, messageId: $messageId, '
+      'timestamp: $timestamp)';
 
   static bool _mapEquals<T>(Map<T, dynamic> a, Map<T, dynamic> b) {
     if (a.length != b.length) return false;

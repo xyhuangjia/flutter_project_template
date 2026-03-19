@@ -1,0 +1,33 @@
+{
+  "id": "webview-module",
+  "name": "webview-module",
+  "title": "Webview Dynamic Module",
+  "description": "构建一个完整的 Webview 动态化模块，支持多种使用场景的动态化需求",
+  "status": "completed",
+  "dev_type": "feature",
+  "scope": "webview",
+  "priority": "P2",
+  "creator": "huangj",
+  "assignee": "huangj",
+  "createdAt": "2026-03-19",
+  "completedAt": "2026-03-19",
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "current_phase": 3,
+  "next_action": [],
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [
+    "lib/features/webview/",
+    "test/features/webview/"
+  ],
+  "notes": "已完成所有验收标准",
+  "meta": {
+    "tests_passed": true,
+    "analyze_clean": true
+  }
+}
