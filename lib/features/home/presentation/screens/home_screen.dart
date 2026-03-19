@@ -456,12 +456,10 @@ class _QuickActionsSection extends StatelessWidget {
             children: [
               Expanded(
                 child: _ActionCard(
-                  icon: Icons.person_outline,
-                  label: localizations.profile,
+                  icon: Icons.login,
+                  label: localizations.login,
                   theme: theme,
-                  onTap: () {
-                    // Navigate to profile
-                  },
+                  onTap: () => context.push(Routes.login),
                 ),
               ),
               const SizedBox(width: 12),
@@ -479,9 +477,7 @@ class _QuickActionsSection extends StatelessWidget {
                   icon: Icons.info_outline,
                   label: localizations.about,
                   theme: theme,
-                  onTap: () {
-                    // Navigate to about
-                  },
+                  onTap: () => context.push(Routes.about),
                 ),
               ),
             ],
