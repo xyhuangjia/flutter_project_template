@@ -9,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_project_template/app.dart';
 import 'package:flutter_project_template/core/config/environment_provider.dart';
 import 'package:flutter_project_template/core/logging/talker_config.dart';
+import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
@@ -20,18 +21,24 @@ void main() async {
     talker.handle(details.exception, details.stack);
   };
 
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   final sharedPreferences = await SharedPreferences.getInstance();
 
+  final container = ProviderContainer(
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+    ],
+    observers: [
+      TalkerRiverpodObserver(talker: talker),
+    ],
+  );
+
+  setRouterGuardContainer(container);
+
   runApp(
-    ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-      ],
-      observers: [
-        TalkerRiverpodObserver(talker: talker),
-      ],
+    UncontrolledProviderScope(
+      container: container,
       child: const MyApp(),
     ),
   );

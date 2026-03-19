@@ -6,7 +6,19 @@ library;
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
+import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+/// Global provider container for router guard.
+///
+/// This is set in main.dart before the app starts.
+ProviderContainer? _globalContainer;
+
+/// Sets the global provider container for router guard.
+void setRouterGuardContainer(ProviderContainer container) {
+  _globalContainer = container;
+}
 
 /// Router guard for route protection.
 ///
@@ -16,10 +28,12 @@ abstract final class RouterGuard {
   /// Public routes that don't require authentication.
   static const List<String> publicRoutes = [
     Routes.root,
+    Routes.home,
     Routes.login,
     Routes.register,
     Routes.splash,
     Routes.error,
+    Routes.about,
   ];
 
   /// Redirects based on authentication state.
@@ -45,13 +59,17 @@ abstract final class RouterGuard {
   }
 
   /// Checks if the user is authenticated.
-  ///
-  /// This would typically check a token in secure storage
-  /// or a provider state.
   static bool _checkAuthentication() {
-    // FIXME: Implement actual authentication check
-    // Example: return ref.read(authProvider).isAuthenticated;
-    return true; // Always authenticated for skeleton
+    if (_globalContainer == null) {
+      return false;
+    }
+    try {
+      return _globalContainer!
+          .read(authNotifierProvider.notifier)
+          .isAuthenticated;
+    } on Exception {
+      return false;
+    }
   }
 
   /// Checks if a route requires authentication.
