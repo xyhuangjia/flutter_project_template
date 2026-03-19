@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthLocalDataSource {
   /// Creates an auth local data source.
   AuthLocalDataSource({required SharedPreferences sharedPreferences})
-    : _sharedPreferences = sharedPreferences;
+      : _sharedPreferences = sharedPreferences;
 
   final SharedPreferences _sharedPreferences;
 

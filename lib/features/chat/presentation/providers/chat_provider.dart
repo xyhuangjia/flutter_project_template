@@ -141,8 +141,7 @@ class ChatNotifier extends _$ChatNotifier {
           ),
           ChatMessage(
             id: '2',
-            content:
-                "Hello! I'd be happy to help you with project planning. "
+            content: "Hello! I'd be happy to help you with project planning. "
                 "What kind of project are you working on?",
             sender: MessageSender.ai,
             timestamp: now.subtract(const Duration(minutes: 9)),

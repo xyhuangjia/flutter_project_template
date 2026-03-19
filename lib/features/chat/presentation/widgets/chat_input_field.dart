@@ -73,9 +73,8 @@ class _ChatInputFieldState extends State<ChatInputField> {
             child: Container(
               constraints: const BoxConstraints(maxHeight: 120),
               decoration: BoxDecoration(
-                color: isDark
-                    ? const Color(0xFF334155)
-                    : const Color(0xFFF8FAFC),
+                color:
+                    isDark ? const Color(0xFF334155) : const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: TextField(

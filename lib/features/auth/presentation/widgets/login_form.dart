@@ -108,9 +108,8 @@ class _LoginFormState extends State<LoginForm> {
           // Email or Username field
           TextFormField(
             controller: _emailOrUsernameController,
-            keyboardType: _isEmailMode
-                ? TextInputType.emailAddress
-                : TextInputType.text,
+            keyboardType:
+                _isEmailMode ? TextInputType.emailAddress : TextInputType.text,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               labelText: _isEmailMode ? localizations.email : 'Username',

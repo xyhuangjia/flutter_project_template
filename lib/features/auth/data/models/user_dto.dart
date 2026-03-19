@@ -58,14 +58,14 @@ class UserDto {
 
   /// Converts this DTO to a domain entity.
   User toEntity() => User(
-    id: id,
-    email: email,
-    username: username,
-    displayName: displayName,
-    avatarUrl: avatarUrl,
-    phoneNumber: phoneNumber,
-    bio: bio,
-  );
+        id: id,
+        email: email,
+        username: username,
+        displayName: displayName,
+        avatarUrl: avatarUrl,
+        phoneNumber: phoneNumber,
+        bio: bio,
+      );
 
   @override
   String toString() {

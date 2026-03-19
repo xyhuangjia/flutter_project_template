@@ -66,13 +66,14 @@ class ChatMessage {
     MessageSender? sender,
     DateTime? timestamp,
     MessageStatus? status,
-  }) => ChatMessage(
-    id: id ?? this.id,
-    content: content ?? this.content,
-    sender: sender ?? this.sender,
-    timestamp: timestamp ?? this.timestamp,
-    status: status ?? this.status,
-  );
+  }) =>
+      ChatMessage(
+        id: id ?? this.id,
+        content: content ?? this.content,
+        sender: sender ?? this.sender,
+        timestamp: timestamp ?? this.timestamp,
+        status: status ?? this.status,
+      );
 
   @override
   bool operator ==(Object other) =>
@@ -127,14 +128,15 @@ class ChatConversation {
     DateTime? updatedAt,
     int? unreadCount,
     List<ChatMessage>? messages,
-  }) => ChatConversation(
-    id: id ?? this.id,
-    title: title ?? this.title,
-    lastMessage: lastMessage ?? this.lastMessage,
-    updatedAt: updatedAt ?? this.updatedAt,
-    unreadCount: unreadCount ?? this.unreadCount,
-    messages: messages ?? this.messages,
-  );
+  }) =>
+      ChatConversation(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        lastMessage: lastMessage ?? this.lastMessage,
+        updatedAt: updatedAt ?? this.updatedAt,
+        unreadCount: unreadCount ?? this.unreadCount,
+        messages: messages ?? this.messages,
+      );
 
   @override
   bool operator ==(Object other) =>

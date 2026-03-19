@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsLocalDataSource {
   /// Creates a settings local data source.
   SettingsLocalDataSource({required SharedPreferences sharedPreferences})
-    : _sharedPreferences = sharedPreferences;
+      : _sharedPreferences = sharedPreferences;
 
   final SharedPreferences _sharedPreferences;
 

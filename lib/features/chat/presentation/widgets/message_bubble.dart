@@ -30,9 +30,8 @@ class MessageBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
-        mainAxisAlignment: message.isFromAI
-            ? MainAxisAlignment.start
-            : MainAxisAlignment.end,
+        mainAxisAlignment:
+            message.isFromAI ? MainAxisAlignment.start : MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (message.isFromAI) ...[
@@ -138,9 +137,7 @@ class MessageBubble extends StatelessWidget {
       : (isDark ? ChatColors.userMessageDark : ChatColors.userMessageLight);
 
   Color _getTextColor(bool isDark) => message.isFromAI
-      ? (isDark
-          ? ChatColors.aiMessageTextDark
-          : ChatColors.aiMessageTextLight)
+      ? (isDark ? ChatColors.aiMessageTextDark : ChatColors.aiMessageTextLight)
       : (isDark
           ? ChatColors.userMessageTextDark
           : ChatColors.userMessageTextLight);

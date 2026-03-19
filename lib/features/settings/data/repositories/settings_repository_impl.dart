@@ -13,7 +13,7 @@ import 'package:flutter_project_template/features/settings/domain/repositories/s
 class SettingsRepositoryImpl implements SettingsRepository {
   /// Creates a settings repository.
   SettingsRepositoryImpl({required SettingsLocalDataSource localDataSource})
-    : _localDataSource = localDataSource;
+      : _localDataSource = localDataSource;
 
   final SettingsLocalDataSource _localDataSource;
 

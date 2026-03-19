@@ -14,15 +14,15 @@ class AuthState {
 
   /// Creates an unauthenticated state.
   const AuthState.unauthenticated()
-    : isAuthenticated = false,
-      user = null,
-      token = null;
+      : isAuthenticated = false,
+        user = null,
+        token = null;
 
   /// Creates an authenticated state.
   const AuthState.authenticated({required User user, required String token})
-    : isAuthenticated = true,
-      this.user = user,
-      this.token = token;
+      : isAuthenticated = true,
+        this.user = user,
+        this.token = token;
 
   /// Whether the user is authenticated.
   final bool isAuthenticated;

@@ -82,7 +82,8 @@ abstract final class AppStrings {
   static const String genericError = 'Something went wrong. Please try again.';
 
   /// Network error message.
-  static const String networkError = 'Network error. Please check your connection.';
+  static const String networkError =
+      'Network error. Please check your connection.';
 
   /// Server error message.
   static const String serverError = 'Server error. Please try again later.';

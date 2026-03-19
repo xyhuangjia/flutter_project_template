@@ -10,7 +10,7 @@ import 'package:flutter_project_template/features/auth/domain/repositories/auth_
 class LogoutUseCase {
   /// Creates a logout use case.
   LogoutUseCase({required AuthRepository repository})
-    : _repository = repository;
+      : _repository = repository;
 
   final AuthRepository _repository;
 

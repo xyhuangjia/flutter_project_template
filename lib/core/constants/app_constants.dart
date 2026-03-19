@@ -17,7 +17,8 @@ abstract final class AppConstants {
   static const String appVersion = '1.0.0';
 
   /// API base URL loaded from environment.
-  static String get apiBaseUrl => dotenv.env['API_BASE_URL'] ?? 'https://api.example.com';
+  static String get apiBaseUrl =>
+      dotenv.env['API_BASE_URL'] ?? 'https://api.example.com';
 
   /// Connection timeout in seconds.
   static const int connectionTimeoutSeconds = 30;

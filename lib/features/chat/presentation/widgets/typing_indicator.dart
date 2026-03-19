@@ -40,7 +40,9 @@ class _TypingIndicatorState extends State<TypingIndicator>
     )..repeat();
 
     // ignore: prefer_int_literals
-    _animations = List.generate(3, (index) => TweenSequence<double>([
+    _animations = List.generate(
+      3,
+      (index) => TweenSequence<double>([
         TweenSequenceItem(
           tween: Tween(begin: 0.0, end: 1.0).chain(
             CurveTween(curve: Curves.easeInOut),
