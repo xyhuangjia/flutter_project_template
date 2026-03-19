@@ -56,7 +56,7 @@ final GoRouter appRouter = GoRouter(
       path: Routes.webView,
       name: RouteNames.webView,
       builder: (context, state) {
-        final title = state.uri.queryParameters['title'];
+        final title = state.uri.queryParameters['title'] ?? '';
         final url = state.uri.queryParameters['url'] ?? '';
         return WebViewScreen.url(
           url: url,

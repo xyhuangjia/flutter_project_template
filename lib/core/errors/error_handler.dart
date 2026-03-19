@@ -19,31 +19,31 @@ abstract final class ErrorHandler {
   /// This method maps different exception types to
   /// appropriate failure types.
   static Failure handleException(Exception exception) => switch (exception) {
-        NetworkException e => NetworkFailure(
+        final NetworkException e => NetworkFailure(
             message: e.message,
             code: e.statusCode?.toString(),
           ),
-        ServerException e => ServerFailure(
+        final ServerException e => ServerFailure(
             message: e.message,
             code: e.errorCode,
             statusCode: e.statusCode,
           ),
-        AuthException e => AuthFailure(
+        final AuthException e => AuthFailure(
             message: e.message,
             code: e.code,
           ),
-        ValidationException e => ValidationFailure(
+        final ValidationException e => ValidationFailure(
             message: e.message,
             errors: e.errors,
           ),
-        CacheException e => CacheFailure(
+        final CacheException e => CacheFailure(
             message: e.message,
           ),
-        NotFoundException e => ServerFailure(
+        final NotFoundException e => ServerFailure(
             message: e.message,
             code: '${e.resourceType}_${e.resourceId}',
           ),
-        DioException e => _handleDioException(e),
+        final DioException e => _handleDioException(e),
         _ => UnknownFailure(message: exception.toString()),
       };
 
@@ -53,14 +53,12 @@ abstract final class ErrorHandler {
         DioExceptionType.connectionTimeout ||
         DioExceptionType.sendTimeout ||
         DioExceptionType.receiveTimeout =>
-          NetworkFailure(
+          const NetworkFailure(
             message: 'Connection timeout. Please try again.',
           ),
-        DioExceptionType.connectionError => NetworkFailure(
-            message: AppStrings.networkError,
-          ),
+        DioExceptionType.connectionError => const NetworkFailure(),
         DioExceptionType.badResponse => _handleResponseError(exception),
-        DioExceptionType.cancel => NetworkFailure(
+        DioExceptionType.cancel => const NetworkFailure(
             message: 'Request was cancelled.',
           ),
         _ => ServerFailure(
@@ -73,15 +71,14 @@ abstract final class ErrorHandler {
     final statusCode = exception.response?.statusCode;
 
     return switch (statusCode) {
-      400 => ValidationFailure(message: 'Bad request'),
-      401 => AuthFailure(message: AppStrings.unauthorizedError),
-      403 => AuthFailure(message: 'Access denied'),
+      400 => const ValidationFailure(message: 'Bad request'),
+      401 => const AuthFailure(),
+      403 => const AuthFailure(message: 'Access denied'),
       404 => ServerFailure(
           message: 'Resource not found',
           statusCode: statusCode,
         ),
       500 || 502 || 503 => ServerFailure(
-          message: AppStrings.serverError,
           statusCode: statusCode,
         ),
       _ => ServerFailure(
@@ -92,9 +89,7 @@ abstract final class ErrorHandler {
   }
 
   /// Gets a user-friendly error message from a failure.
-  static String getErrorMessage(Failure failure) {
-    return failure.message;
-  }
+  static String getErrorMessage(Failure failure) => failure.message;
 
   /// Gets a user-friendly error message from an exception.
   static String getExceptionMessage(Exception exception) {

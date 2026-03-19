@@ -18,9 +18,7 @@ const String _localePreferenceKey = 'app_locale';
 @riverpod
 class SharedPrefs extends _$SharedPrefs {
   @override
-  Future<SharedPreferences> build() async {
-    return SharedPreferences.getInstance();
-  }
+  Future<SharedPreferences> build() async => SharedPreferences.getInstance();
 }
 
 /// Locale notifier provider for managing app locale.

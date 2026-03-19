@@ -53,7 +53,7 @@ class _AboutScreenState extends State<AboutScreen> {
   void _navigateToWebView(String title, String url) {
     context.pushNamed(
       RouteNames.webView,
-      pathParameters: {'title': title, 'url': url},
+      queryParameters: {'title': title, 'url': url},
     );
   }
 
