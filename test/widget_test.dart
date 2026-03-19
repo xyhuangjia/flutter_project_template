@@ -21,8 +21,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            homeNotifierProvider.overrideWith(() => MockHomeNotifier()),
-            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
+            homeNotifierProvider.overrideWith(MockHomeNotifier.new),
+            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
+            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -62,8 +62,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            homeNotifierProvider.overrideWith(() => MockHomeNotifier()),
-            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
+            homeNotifierProvider.overrideWith(MockHomeNotifier.new),
+            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -83,13 +83,11 @@ void main() {
 class MockHomeNotifier extends AutoDisposeAsyncNotifier<HomeEntity>
     implements HomeNotifier {
   @override
-  Future<HomeEntity> build() async {
-    return const HomeEntity(
-      title: 'Test App',
-      welcomeMessage: 'Welcome!',
-      userName: 'Test User',
-    );
-  }
+  Future<HomeEntity> build() async => const HomeEntity(
+        title: 'Test App',
+        welcomeMessage: 'Welcome!',
+        userName: 'Test User',
+      );
 
   @override
   Future<void> updateUserName(String name) async {}
@@ -101,7 +99,5 @@ class MockHomeNotifier extends AutoDisposeAsyncNotifier<HomeEntity>
 class MockSharedPrefs extends AutoDisposeAsyncNotifier<SharedPreferences>
     implements SharedPrefs {
   @override
-  Future<SharedPreferences> build() async {
-    return SharedPreferences.getInstance();
-  }
+  Future<SharedPreferences> build() async => SharedPreferences.getInstance();
 }

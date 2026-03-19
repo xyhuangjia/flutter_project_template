@@ -27,8 +27,6 @@ void main() {
       const entity = HomeEntity(
         title: 'Test Title',
         welcomeMessage: 'Welcome!',
-        userName: null,
-        avatarUrl: null,
       );
 
       // Assert
@@ -42,13 +40,11 @@ void main() {
         title: 'Test',
         welcomeMessage: 'Welcome',
         userName: 'User',
-        avatarUrl: null,
       );
       const entity2 = HomeEntity(
         title: 'Test',
         welcomeMessage: 'Welcome',
         userName: 'User',
-        avatarUrl: null,
       );
 
       // Assert
@@ -80,7 +76,6 @@ void main() {
         title: 'Test',
         welcomeMessage: 'Welcome',
         userName: 'User',
-        avatarUrl: null,
       );
 
       // Act

@@ -3,6 +3,7 @@ library;
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_project_template/core/config/environment.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -186,6 +187,4 @@ class Environment extends _$Environment {
 ///
 /// Developer options are only shown in debug mode.
 @riverpod
-bool showDeveloperOptions(ShowDeveloperOptionsRef ref) =>
-    // Only show developer options in debug builds
-    !bool.fromEnvironment('dart.vm.product');
+bool showDeveloperOptions(ShowDeveloperOptionsRef ref) => kDebugMode;

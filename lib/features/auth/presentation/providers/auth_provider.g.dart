@@ -6,33 +6,15 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sharedPreferencesHash() => r'ab2adf09d4c5f157be5f0d18d20ea4581bcf2690';
-
-/// Provider for SharedPreferences.
-///
-/// Copied from [sharedPreferences].
-@ProviderFor(sharedPreferences)
-final sharedPreferencesProvider = Provider<SharedPreferences>.internal(
-  sharedPreferences,
-  name: r'sharedPreferencesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$sharedPreferencesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SharedPreferencesRef = ProviderRef<SharedPreferences>;
 String _$authLocalDataSourceHash() =>
-    r'829bdebe39a9617bc3d1f96f919552ecb79719b6';
+    r'06e10247c7a94ac1d1f52923f278b8ea767ca689';
 
 /// Provider for AuthLocalDataSource.
 ///
 /// Copied from [authLocalDataSource].
 @ProviderFor(authLocalDataSource)
-final authLocalDataSourceProvider = Provider<AuthLocalDataSource>.internal(
+final authLocalDataSourceProvider =
+    AutoDisposeProvider<AuthLocalDataSource>.internal(
   authLocalDataSource,
   name: r'authLocalDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -44,15 +26,16 @@ final authLocalDataSourceProvider = Provider<AuthLocalDataSource>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AuthLocalDataSourceRef = ProviderRef<AuthLocalDataSource>;
+typedef AuthLocalDataSourceRef = AutoDisposeProviderRef<AuthLocalDataSource>;
 String _$authRemoteDataSourceHash() =>
-    r'b16c192ffc0515de9d4ea8f630836d659408a6cc';
+    r'f103dffb9604159d2928a0c1e4dc2fdc346f4dca';
 
 /// Provider for AuthRemoteDataSource.
 ///
 /// Copied from [authRemoteDataSource].
 @ProviderFor(authRemoteDataSource)
-final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>.internal(
+final authRemoteDataSourceProvider =
+    AutoDisposeProvider<AuthRemoteDataSource>.internal(
   authRemoteDataSource,
   name: r'authRemoteDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -64,14 +47,14 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AuthRemoteDataSourceRef = ProviderRef<AuthRemoteDataSource>;
-String _$authRepositoryHash() => r'64e752cc542737229c41ed654149e38e3c819719';
+typedef AuthRemoteDataSourceRef = AutoDisposeProviderRef<AuthRemoteDataSource>;
+String _$authRepositoryHash() => r'6fe5f7f61aaba6c16264114d45f69d9b05ee2e64';
 
 /// Provider for AuthRepository.
 ///
 /// Copied from [authRepository].
 @ProviderFor(authRepository)
-final authRepositoryProvider = Provider<AuthRepository>.internal(
+final authRepositoryProvider = AutoDisposeProvider<AuthRepository>.internal(
   authRepository,
   name: r'authRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -83,8 +66,8 @@ final authRepositoryProvider = Provider<AuthRepository>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
-String _$authNotifierHash() => r'63900f40ba616b80b37b4ad9647c3a3315bf5671';
+typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepository>;
+String _$authNotifierHash() => r'2891ece5438e9a1cfa6122878841061df79594c5';
 
 /// Auth state notifier provider.
 ///

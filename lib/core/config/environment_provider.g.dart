@@ -47,7 +47,7 @@ final environmentLocalDataSourceProvider =
 // ignore: unused_element
 typedef EnvironmentLocalDataSourceRef = ProviderRef<EnvironmentLocalDataSource>;
 String _$showDeveloperOptionsHash() =>
-    r'3dc73807fcae069eed7c4db11cfe3939260ee447';
+    r'b9e6f83986a04ad73bdeca6d224235b467912108';
 
 /// Provider for checking if developer options should be visible.
 ///

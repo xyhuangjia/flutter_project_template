@@ -7,14 +7,14 @@ part of 'settings_provider.dart';
 // **************************************************************************
 
 String _$settingsLocalDataSourceHash() =>
-    r'72e94c583c8a0294742254300e1196d2ce4b8f3b';
+    r'abf924cb6a7a32642c6a8a472d5b81819bb61302';
 
 /// Provider for SettingsLocalDataSource.
 ///
 /// Copied from [settingsLocalDataSource].
 @ProviderFor(settingsLocalDataSource)
 final settingsLocalDataSourceProvider =
-    Provider<SettingsLocalDataSource>.internal(
+    AutoDisposeProvider<SettingsLocalDataSource>.internal(
   settingsLocalDataSource,
   name: r'settingsLocalDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -26,34 +26,17 @@ final settingsLocalDataSourceProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef SettingsLocalDataSourceRef = ProviderRef<SettingsLocalDataSource>;
-String _$sharedPreferencesHash() => r'ab2adf09d4c5f157be5f0d18d20ea4581bcf2690';
-
-/// Provider for SharedPreferences.
-///
-/// Copied from [sharedPreferences].
-@ProviderFor(sharedPreferences)
-final sharedPreferencesProvider = Provider<SharedPreferences>.internal(
-  sharedPreferences,
-  name: r'sharedPreferencesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$sharedPreferencesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SharedPreferencesRef = ProviderRef<SharedPreferences>;
+typedef SettingsLocalDataSourceRef
+    = AutoDisposeProviderRef<SettingsLocalDataSource>;
 String _$settingsRepositoryHash() =>
-    r'be7681d7effc1d1821479d693653a5c28451a814';
+    r'280c7e776908b4283fc2a10c42fe3dd224199de5';
 
 /// Provider for SettingsRepository.
 ///
 /// Copied from [settingsRepository].
 @ProviderFor(settingsRepository)
-final settingsRepositoryProvider = Provider<SettingsRepository>.internal(
+final settingsRepositoryProvider =
+    AutoDisposeProvider<SettingsRepository>.internal(
   settingsRepository,
   name: r'settingsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -65,8 +48,8 @@ final settingsRepositoryProvider = Provider<SettingsRepository>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef SettingsRepositoryRef = ProviderRef<SettingsRepository>;
-String _$settingsNotifierHash() => r'd477816741d2d54db97666f346af17c1ffb5e286';
+typedef SettingsRepositoryRef = AutoDisposeProviderRef<SettingsRepository>;
+String _$settingsNotifierHash() => r'3773df36ef78b31e598ea3535bceb529a6abd70f';
 
 /// Settings state notifier provider.
 ///
@@ -87,7 +70,7 @@ final settingsNotifierProvider =
 
 typedef _$SettingsNotifier = AutoDisposeAsyncNotifier<SettingsEntity>;
 String _$userPreferencesNotifierHash() =>
-    r'bf8706e9b37db8fab4a6c468e18612f3aed7ce03';
+    r'c101ec0ced05b1278709f26a3bc974cd0a68120b';
 
 /// User preferences notifier provider.
 ///

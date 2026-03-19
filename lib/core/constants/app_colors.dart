@@ -66,4 +66,6 @@ abstract final class AppColors {
 
   /// Shadow color.
   static const Color shadow = Color(0x1F000000);
+
+  static const Color defaultRippleColor = Color(0x0338686A);
 }

@@ -6,10 +6,12 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
+import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/home/domain/entities/home_entity.dart';
 import 'package:flutter_project_template/features/home/presentation/providers/home_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Home screen widget.
 ///
@@ -468,9 +470,7 @@ class _QuickActionsSection extends StatelessWidget {
                   icon: Icons.settings_outlined,
                   label: localizations.settings,
                   theme: theme,
-                  onTap: () {
-                    // Navigate to settings
-                  },
+                  onTap: () => context.go(Routes.settings),
                 ),
               ),
               const SizedBox(width: 12),
