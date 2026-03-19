@@ -295,4 +295,49 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get icpNumber => '京ICP备XXXXXXXX号-1';
+
+  @override
+  String get webViewTitle => '网页';
+
+  @override
+  String get webViewLoading => 'Loading...';
+
+  @override
+  String get webViewError => 'Failed to load page';
+
+  @override
+  String get webViewRefresh => 'Refresh';
+
+  @override
+  String get webViewForward => 'Forward';
+
+  @override
+  String get webViewClearCache => '清除缓存';
+
+  @override
+  String get webViewClearCacheSuccess => '缓存已清除';
+
+  @override
+  String get webViewDownloadStarted => '开始下载';
+
+  @override
+  String get webViewDownloadComplete => '下载完成';
+
+  @override
+  String get webViewDownloadFailed => 'Download failed';
+
+  @override
+  String get webViewFileSaved => 'File saved';
+
+  @override
+  String get webViewOpenInBrowser => '在浏览器中打开';
+
+  @override
+  String get webViewShare => '分享';
+
+  @override
+  String get webViewCopyUrl => '复制链接';
+
+  @override
+  String get webViewUrlCopied => '链接已复制';
 }

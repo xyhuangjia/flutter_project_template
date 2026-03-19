@@ -479,5 +479,80 @@
   "icpNumber": "ICP License No. XXXXXXXX-1",
   "@icpNumber": {
     "description": "ICP registration number"
+  },
+
+  "webViewTitle": "WebView",
+  "@webViewTitle": {
+    "description": "Default WebView title"
+  },
+
+  "webViewLoading": "Loading...",
+  "@webViewLoading": {
+    "description": "WebView loading text"
+  },
+
+  "webViewError": "Failed to load page",
+  "@webViewError": {
+    "description": "WebView error message"
+  },
+
+  "webViewRefresh": "Refresh",
+  "@webViewRefresh": {
+    "description": "WebView refresh button"
+  },
+
+  "webViewForward": "Forward",
+  "@webViewForward": {
+    "description": "WebView forward button tooltip"
+  },
+
+  "webViewClearCache": "Clear Cache",
+  "@webViewClearCache": {
+    "description": "Clear WebView cache"
+  },
+
+  "webViewClearCacheSuccess": "Cache cleared successfully",
+  "@webViewClearCacheSuccess": {
+    "description": "Cache cleared success message"
+  },
+
+  "webViewDownloadStarted": "Download started",
+  "@webViewDownloadStarted": {
+    "description": "Download started message"
+  },
+
+  "webViewDownloadComplete": "Download complete",
+  "@webViewDownloadComplete": {
+    "description": "Download complete message"
+  },
+
+  "webViewDownloadFailed": "Download failed",
+  "@webViewDownloadFailed": {
+    "description": "Download failed message"
+  },
+
+  "webViewFileSaved": "File saved",
+  "@webViewFileSaved": {
+    "description": "File saved message"
+  },
+
+  "webViewOpenInBrowser": "Open in Browser",
+  "@webViewOpenInBrowser": {
+    "description": "Open in browser option"
+  },
+
+  "webViewShare": "Share",
+  "@webViewShare": {
+    "description": "Share URL option"
+  },
+
+  "webViewCopyUrl": "Copy URL",
+  "@webViewCopyUrl": {
+    "description": "Copy URL option"
+  },
+
+  "webViewUrlCopied": "URL copied to clipboard",
+  "@webViewUrlCopied": {
+    "description": "URL copied message"
   }
 }

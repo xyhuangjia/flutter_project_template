@@ -11,7 +11,7 @@ import 'package:flutter_project_template/features/settings/presentation/screens/
 import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
-import 'package:flutter_project_template/shared/screens/web_view_screen.dart';
+import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
 import 'package:go_router/go_router.dart';
 
 /// Application router configuration.
@@ -56,9 +56,12 @@ final GoRouter appRouter = GoRouter(
       path: Routes.webView,
       name: RouteNames.webView,
       builder: (context, state) {
-        final title = state.pathParameters['title'] ?? '';
-        final url = state.pathParameters['url'] ?? '';
-        return WebViewScreen(title: title, url: url);
+        final title = state.uri.queryParameters['title'];
+        final url = state.uri.queryParameters['url'] ?? '';
+        return WebViewScreen.url(
+          url: url,
+          title: title,
+        );
       },
     ),
     // Chat routes

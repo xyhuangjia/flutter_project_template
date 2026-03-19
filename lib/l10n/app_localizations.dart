@@ -673,6 +673,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ICP License No. XXXXXXXX-1'**
   String get icpNumber;
+
+  /// Default WebView title
+  ///
+  /// In en, this message translates to:
+  /// **'WebView'**
+  String get webViewTitle;
+
+  /// WebView loading text
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get webViewLoading;
+
+  /// WebView error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load page'**
+  String get webViewError;
+
+  /// WebView refresh button
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get webViewRefresh;
+
+  /// WebView forward button tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Forward'**
+  String get webViewForward;
+
+  /// Clear WebView cache
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get webViewClearCache;
+
+  /// Cache cleared success message
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared successfully'**
+  String get webViewClearCacheSuccess;
+
+  /// Download started message
+  ///
+  /// In en, this message translates to:
+  /// **'Download started'**
+  String get webViewDownloadStarted;
+
+  /// Download complete message
+  ///
+  /// In en, this message translates to:
+  /// **'Download complete'**
+  String get webViewDownloadComplete;
+
+  /// Download failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed'**
+  String get webViewDownloadFailed;
+
+  /// File saved message
+  ///
+  /// In en, this message translates to:
+  /// **'File saved'**
+  String get webViewFileSaved;
+
+  /// Open in browser option
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Browser'**
+  String get webViewOpenInBrowser;
+
+  /// Share URL option
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get webViewShare;
+
+  /// Copy URL option
+  ///
+  /// In en, this message translates to:
+  /// **'Copy URL'**
+  String get webViewCopyUrl;
+
+  /// URL copied message
+  ///
+  /// In en, this message translates to:
+  /// **'URL copied to clipboard'**
+  String get webViewUrlCopied;
 }
 
 class _AppLocalizationsDelegate

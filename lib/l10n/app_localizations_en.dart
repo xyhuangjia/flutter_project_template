@@ -296,4 +296,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get icpNumber => 'ICP License No. XXXXXXXX-1';
+
+  @override
+  String get webViewTitle => 'WebView';
+
+  @override
+  String get webViewLoading => 'Loading...';
+
+  @override
+  String get webViewError => 'Failed to load page';
+
+  @override
+  String get webViewRefresh => 'Refresh';
+
+  @override
+  String get webViewForward => 'Forward';
+
+  @override
+  String get webViewClearCache => 'Clear Cache';
+
+  @override
+  String get webViewClearCacheSuccess => 'Cache cleared successfully';
+
+  @override
+  String get webViewDownloadStarted => 'Download started';
+
+  @override
+  String get webViewDownloadComplete => 'Download complete';
+
+  @override
+  String get webViewDownloadFailed => 'Download failed';
+
+  @override
+  String get webViewFileSaved => 'File saved';
+
+  @override
+  String get webViewOpenInBrowser => 'Open in Browser';
+
+  @override
+  String get webViewShare => 'Share';
+
+  @override
+  String get webViewCopyUrl => 'Copy URL';
+
+  @override
+  String get webViewUrlCopied => 'URL copied to clipboard';
 }
