@@ -655,6 +655,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get restartLater;
+
+  /// Legal section title
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get legal;
+
+  /// Build date label
+  ///
+  /// In en, this message translates to:
+  /// **'Build Date'**
+  String get buildDate;
+
+  /// ICP registration number
+  ///
+  /// In en, this message translates to:
+  /// **'ICP License No. XXXXXXXX-1'**
+  String get icpNumber;
 }
 
 class _AppLocalizationsDelegate

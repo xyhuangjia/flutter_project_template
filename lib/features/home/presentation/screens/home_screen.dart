@@ -470,7 +470,7 @@ class _QuickActionsSection extends StatelessWidget {
                   icon: Icons.settings_outlined,
                   label: localizations.settings,
                   theme: theme,
-                  onTap: () => context.go(Routes.settings),
+                  onTap: () => context.push(Routes.settings),
                 ),
               ),
               const SizedBox(width: 12),

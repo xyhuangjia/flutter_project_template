@@ -59,6 +59,15 @@ dependencies:
   # Preferences
   shared_preferences: ^2.3.3
 
+  # App Info
+  package_info_plus: ^8.1.2
+
+  # WebView
+  webview_flutter: ^4.10.0
+
+  # URL Launcher
+  url_launcher: ^6.3.1
+
   flutter_pickers:
     git:
       url: https://github.com/xyhuangjia/flutter_pickers.git

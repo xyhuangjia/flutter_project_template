@@ -464,5 +464,20 @@
   "restartLater": "稍后",
   "@restartLater": {
     "description": "Restart later button text"
+  },
+
+  "legal": "法律信息",
+  "@legal": {
+    "description": "Legal section title"
+  },
+
+  "buildDate": "构建日期",
+  "@buildDate": {
+    "description": "Build date label"
+  },
+
+  "icpNumber": "京ICP备XXXXXXXX号-1",
+  "@icpNumber": {
+    "description": "ICP registration number"
   }
 }

@@ -31,6 +31,12 @@ abstract final class Routes {
 
   /// Error route.
   static const String error = '/error';
+
+  /// About route.
+  static const String about = '/about';
+
+  /// WebView route.
+  static const String webView = '/webview';
 }
 
 /// Route names for named navigation.
@@ -57,4 +63,10 @@ abstract final class RouteNames {
 
   /// Error route name.
   static const String error = 'error';
+
+  /// About route name.
+  static const String about = 'about';
+
+  /// WebView route name.
+  static const String webView = 'webview';
 }

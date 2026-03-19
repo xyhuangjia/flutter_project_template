@@ -464,5 +464,20 @@
   "restartLater": "Later",
   "@restartLater": {
     "description": "Restart later button text"
+  },
+
+  "legal": "Legal",
+  "@legal": {
+    "description": "Legal section title"
+  },
+
+  "buildDate": "Build Date",
+  "@buildDate": {
+    "description": "Build date label"
+  },
+
+  "icpNumber": "ICP License No. XXXXXXXX-1",
+  "@icpNumber": {
+    "description": "ICP registration number"
   }
 }

@@ -15,6 +15,7 @@ import 'package:flutter_project_template/features/settings/presentation/widgets/
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Settings screen widget.
 class SettingsScreen extends ConsumerWidget {
@@ -135,25 +136,10 @@ class SettingsScreen extends ConsumerWidget {
           // About section
           SettingsSectionHeader(title: localizations.about),
           SettingsTile(
-            title: localizations.version,
-            subtitle: '1.0.0',
+            title: localizations.aboutApp,
             leading: const Icon(Icons.info_outline),
-            showChevron: false,
-          ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.privacyPolicy,
-            leading: const Icon(Icons.privacy_tip_outlined),
             onTap: () {
-              // TODO: Navigate to privacy policy
-            },
-          ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.termsOfService,
-            leading: const Icon(Icons.description_outlined),
-            onTap: () {
-              // TODO: Navigate to terms of service
+              context.push('/about');
             },
           ),
           const SizedBox(height: 24),

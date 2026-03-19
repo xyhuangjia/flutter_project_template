@@ -286,4 +286,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get restartLater => '稍后';
+
+  @override
+  String get legal => '法律信息';
+
+  @override
+  String get buildDate => '构建日期';
+
+  @override
+  String get icpNumber => '京ICP备XXXXXXXX号-1';
 }

@@ -8,6 +8,8 @@ import 'package:flutter_project_template/features/auth/presentation/screens/logi
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
+import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
+import 'package:flutter_project_template/shared/screens/web_view_screen.dart';
 import 'package:go_router/go_router.dart';
 
 /// Application router configuration.
@@ -42,6 +44,20 @@ final GoRouter appRouter = GoRouter(
       path: Routes.settings,
       name: RouteNames.settings,
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: Routes.about,
+      name: RouteNames.about,
+      builder: (context, state) => const AboutScreen(),
+    ),
+    GoRoute(
+      path: Routes.webView,
+      name: RouteNames.webView,
+      builder: (context, state) {
+        final title = state.pathParameters['title'] ?? '';
+        final url = state.pathParameters['url'] ?? '';
+        return WebViewScreen(title: title, url: url);
+      },
     ),
     // Add more routes here as the app grows
     // GoRoute(

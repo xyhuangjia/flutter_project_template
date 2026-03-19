@@ -287,4 +287,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restartLater => 'Later';
+
+  @override
+  String get legal => 'Legal';
+
+  @override
+  String get buildDate => 'Build Date';
+
+  @override
+  String get icpNumber => 'ICP License No. XXXXXXXX-1';
 }
