@@ -78,4 +78,52 @@ abstract class AuthRepository {
     required String currentPassword,
     required String newPassword,
   });
+
+  /// Sends a verification code to phone number.
+  ///
+  /// Returns either void on success or a [Failure] on error.
+  Future<Result<void>> sendVerificationCodeToPhone(String phoneNumber);
+
+  /// Sends a verification code to email.
+  ///
+  /// Returns either void on success or a [Failure] on error.
+  Future<Result<void>> sendVerificationCodeToEmail(String email);
+
+  /// Verifies the code sent to phone number.
+  ///
+  /// Returns true if verification succeeds.
+  Future<Result<bool>> verifyPhoneCode({
+    required String phoneNumber,
+    required String code,
+  });
+
+  /// Verifies the code sent to email.
+  ///
+  /// Returns true if verification succeeds.
+  Future<Result<bool>> verifyEmailCode({
+    required String email,
+    required String code,
+  });
+
+  /// Registers a new user with phone verification.
+  ///
+  /// Returns either a [User] on success or a [Failure] on error.
+  Future<Result<User>> registerWithPhone({
+    required String phoneNumber,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  });
+
+  /// Registers a new user with email verification.
+  ///
+  /// Returns either a [User] on success or a [Failure] on error.
+  Future<Result<User>> registerWithEmail({
+    required String email,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  });
 }

@@ -622,6 +622,97 @@ class AppLocalizationsZh extends AppLocalizations {
   String get typeMessage => '输入消息...';
 
   @override
+  String get phoneNumber => '手机号';
+
+  @override
+  String get enterPhoneNumber => '请输入手机号';
+
+  @override
+  String get enterValidPhoneNumber => '请输入有效的手机号';
+
+  @override
+  String get verificationCode => '验证码';
+
+  @override
+  String get enterVerificationCode => 'Please enter verification code';
+
+  @override
+  String get verificationCodeSent => '验证码已发送';
+
+  @override
+  String verificationCodeSentTo(Object target) {
+    return '验证码已发送至 $target';
+  }
+
+  @override
+  String get sendCode => '获取验证码';
+
+  @override
+  String get resendCode => '重新获取';
+
+  @override
+  String resendIn(Object seconds) {
+    return '$seconds秒后重试';
+  }
+
+  @override
+  String get verificationCodeExpired => '验证码已过期';
+
+  @override
+  String get verificationCodeInvalid => '验证码错误';
+
+  @override
+  String get avatar => '头像';
+
+  @override
+  String get chooseAvatar => '选择头像';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get chooseFromGallery => 'Choose from Gallery';
+
+  @override
+  String get nickname => '昵称';
+
+  @override
+  String get enterNickname => '请输入昵称';
+
+  @override
+  String get nicknameMinLength => '昵称至少需要2个字符';
+
+  @override
+  String get nicknameMaxLength => '昵称最多20个字符';
+
+  @override
+  String get passwordRequirement => '至少8位，包含字母和数字';
+
+  @override
+  String get passwordStrength => '密码必须包含字母和数字';
+
+  @override
+  String regionDetected(Object region) {
+    return '检测到地区：$region';
+  }
+
+  @override
+  String get chinaRegion => '中国';
+
+  @override
+  String get internationalRegion => '国际';
+
+  @override
+  String get verificationSuccessful => '验证成功';
+
+  @override
+  String get pleaseVerifyAccountFirst => '请先验证您的账号';
+
+  @override
+  String get verifyCode => '验证验证码';
+
+  @override
+  String get passwordMinLength8 => '密码至少需要8个字符';
   String get forgotPasswordTitle => '忘记密码';
 
   @override

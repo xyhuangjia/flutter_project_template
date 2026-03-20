@@ -195,6 +195,120 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<Result<void>> sendVerificationCodeToPhone(String phoneNumber) async {
+    try {
+      await _remoteDataSource.sendVerificationCodeToPhone(phoneNumber);
+      return const Success(null);
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
+  Future<Result<void>> sendVerificationCodeToEmail(String email) async {
+    try {
+      await _remoteDataSource.sendVerificationCodeToEmail(email);
+      return const Success(null);
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
+  Future<Result<bool>> verifyPhoneCode({
+    required String phoneNumber,
+    required String code,
+  }) async {
+    try {
+      final result = await _remoteDataSource.verifyPhoneCode(
+        phoneNumber: phoneNumber,
+        code: code,
+      );
+      return Success(result);
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
+  Future<Result<bool>> verifyEmailCode({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      final result = await _remoteDataSource.verifyEmailCode(
+        email: email,
+        code: code,
+      );
+      return Success(result);
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
+  Future<Result<User>> registerWithPhone({
+    required String phoneNumber,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  }) async {
+    try {
+      final userDto = await _remoteDataSource.registerWithPhone(
+        phoneNumber: phoneNumber,
+        username: username,
+        password: password,
+        verificationCode: verificationCode,
+        avatarUrl: avatarUrl,
+      );
+
+      await _saveUserData(userDto);
+
+      return Success(userDto.toEntity());
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
+  Future<Result<User>> registerWithEmail({
+    required String email,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  }) async {
+    try {
+      final userDto = await _remoteDataSource.registerWithEmail(
+        email: email,
+        username: username,
+        password: password,
+        verificationCode: verificationCode,
+        avatarUrl: avatarUrl,
+      );
+
+      await _saveUserData(userDto);
+
+      return Success(userDto.toEntity());
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
   /// Saves user data to local storage.
   Future<void> _saveUserData(UserDto userDto) async {
     if (userDto.token != null) {

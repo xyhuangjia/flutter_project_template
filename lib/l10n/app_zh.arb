@@ -987,6 +987,7 @@
     "description": "Type a message hint"
   },
 
+  "phoneNumber": "手机号",
   "forgotPasswordTitle": "忘记密码",
   "@forgotPasswordTitle": {
     "description": "Forgot password screen title"
@@ -1007,6 +1008,14 @@
     "description": "Phone number label"
   },
 
+  "enterPhoneNumber": "请输入手机号",
+  "@enterPhoneNumber": {
+    "description": "Enter phone number validation message"
+  },
+
+  "enterValidPhoneNumber": "请输入有效的手机号",
+  "@enterValidPhoneNumber": {
+    "description": "Valid phone number validation message"
   "enterPhone": "请输入手机号码",
   "@enterPhone": {
     "description": "Enter phone validation message"
@@ -1032,11 +1041,33 @@
     "description": "Verification code label"
   },
 
+  "verificationCodeSent": "验证码已发送",
   "verificationCodeSent": "验证码已发送到您的账号",
   "@verificationCodeSent": {
     "description": "Verification code sent message"
   },
 
+  "verificationCodeSentTo": "验证码已发送至 {target}",
+  "@verificationCodeSentTo": {
+    "description": "Verification code sent to target message",
+    "placeholders": {
+      "target": {}
+    }
+  },
+
+  "sendCode": "获取验证码",
+  "@sendCode": {
+    "description": "Send verification code button"
+  },
+
+  "resendCode": "重新获取",
+  "@resendCode": {
+    "description": "Resend verification code button"
+  },
+
+  "resendIn": "{seconds}秒后重试",
+  "@resendIn": {
+    "description": "Resend countdown message",
   "codeSentTo": "验证码已发送至：{account}",
   "@codeSentTo": {
     "description": "Code sent to account message",
@@ -1058,6 +1089,92 @@
     }
   },
 
+  "verificationCodeExpired": "验证码已过期",
+  "@verificationCodeExpired": {
+    "description": "Verification code expired message"
+  },
+
+  "verificationCodeInvalid": "验证码错误",
+  "@verificationCodeInvalid": {
+    "description": "Invalid verification code message"
+  },
+
+  "avatar": "头像",
+  "@avatar": {
+    "description": "Avatar label"
+  },
+
+  "chooseAvatar": "选择头像",
+  "@chooseAvatar": {
+    "description": "Choose Avatar button"
+  },
+
+  "nickname": "昵称",
+  "@nickname": {
+    "description": "Nickname label"
+  },
+
+  "enterNickname": "请输入昵称",
+  "@enterNickname": {
+    "description": "Enter nickname validation message"
+  },
+
+  "nicknameMinLength": "昵称至少需要2个字符",
+  "@nicknameMinLength": {
+    "description": "Nickname min length validation message"
+  },
+
+  "nicknameMaxLength": "昵称最多20个字符",
+  "@nicknameMaxLength": {
+    "description": "Nickname max length validation message"
+  },
+
+  "passwordRequirement": "至少8位，包含字母和数字",
+  "@passwordRequirement": {
+    "description": "Password requirement hint"
+  },
+
+  "passwordStrength": "密码必须包含字母和数字",
+  "@passwordStrength": {
+    "description": "Password strength validation message"
+  },
+
+  "regionDetected": "检测到地区：{region}",
+  "@regionDetected": {
+    "description": "Region detected message",
+    "placeholders": {
+      "region": {}
+    }
+  },
+
+  "chinaRegion": "中国",
+  "@chinaRegion": {
+    "description": "China region name"
+  },
+
+  "internationalRegion": "国际",
+  "@internationalRegion": {
+    "description": "International region name"
+  },
+
+  "verificationSuccessful": "验证成功",
+  "@verificationSuccessful": {
+    "description": "Verification successful message"
+  },
+
+  "pleaseVerifyAccountFirst": "请先验证您的账号",
+  "@pleaseVerifyAccountFirst": {
+    "description": "Please verify account first message"
+  },
+
+  "verifyCode": "验证验证码",
+  "@verifyCode": {
+    "description": "Verify code button"
+  },
+
+  "passwordMinLength8": "密码至少需要8个字符",
+  "@passwordMinLength8": {
+    "description": "Password min 8 characters validation message"
   "verify": "验证",
   "@verify": {
     "description": "Verify button"

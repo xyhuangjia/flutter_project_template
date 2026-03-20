@@ -1,5 +1,8 @@
-/// Register screen for user registration.
+/// Register screen for user registration with verification code.
 library;
+
+import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
@@ -8,6 +11,16 @@ import 'package:flutter_project_template/features/auth/presentation/providers/au
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+
+/// Region type for registration.
+enum RegionType {
+  /// China region - uses phone number.
+  china,
+
+  /// International region - uses email.
+  international,
+}
 
 /// Register screen widget.
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -20,38 +33,229 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _usernameController = TextEditingController();
+  final _accountController = TextEditingController();
+  final _verificationCodeController = TextEditingController();
+  final _nicknameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  late RegionType _regionType;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
+  bool _isSendingCode = false;
+  bool _isVerifyingCode = false;
+  bool _isCodeVerified = false;
+  String? _avatarPath;
+  int _countdown = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _regionType = _detectRegion();
+  }
+
+  /// Detects region based on device locale.
+  RegionType _detectRegion() {
+    // Get device locale
+    final locale = WidgetsBinding.instance.platformDispatcher.locale;
+    final languageCode = locale.languageCode.toLowerCase();
+
+    // If Chinese (zh), use China region with phone number
+    if (languageCode == 'zh' || languageCode == 'cn') {
+      return RegionType.china;
+    }
+
+    // Otherwise, use international region with email
+    return RegionType.international;
+  }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _usernameController.dispose();
+    _accountController.dispose();
+    _verificationCodeController.dispose();
+    _nicknameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
+  /// Validates phone number format (Chinese phone).
+  bool _isValidPhone(String phone) {
+    return RegExp(r'^1[3-9]\d{9}$').hasMatch(phone);
+  }
+
+  /// Validates email format.
+  bool _isValidEmail(String email) {
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  }
+
+  /// Sends verification code.
+  Future<void> _sendVerificationCode() async {
+    final account = _accountController.text.trim();
+
+    // Validate account first
+    if (_regionType == RegionType.china) {
+      if (!_isValidPhone(account)) {
+        _showError('Please enter a valid phone number');
+        return;
+      }
+    } else {
+      if (!_isValidEmail(account)) {
+        _showError('Please enter a valid email');
+        return;
+      }
+    }
+
+    setState(() => _isSendingCode = true);
+
+    final success = _regionType == RegionType.china
+        ? await ref
+            .read(authNotifierProvider.notifier)
+            .sendVerificationCodeToPhone(account)
+        : await ref
+            .read(authNotifierProvider.notifier)
+            .sendVerificationCodeToEmail(account);
+
+    setState(() => _isSendingCode = false);
+
+    if (success && mounted) {
+      final localizations = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localizations.verificationCodeSentTo(account),
+          ),
+          backgroundColor: Colors.green,
+        ),
+      );
+      _startCountdown();
+    } else if (mounted) {
+      _showError('Failed to send verification code');
+    }
+  }
+
+  /// Starts countdown timer.
+  void _startCountdown() {
+    setState(() => _countdown = 60);
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_countdown > 0) {
+        setState(() => _countdown--);
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  /// Verifies the code.
+  Future<void> _verifyCode() async {
+    final account = _accountController.text.trim();
+    final code = _verificationCodeController.text.trim();
+
+    if (code.isEmpty) {
+      _showError('Please enter verification code');
+      return;
+    }
+
+    setState(() => _isVerifyingCode = true);
+
+    final success = _regionType == RegionType.china
+        ? await ref.read(authNotifierProvider.notifier).verifyPhoneCode(
+              phoneNumber: account,
+              code: code,
+            )
+        : await ref.read(authNotifierProvider.notifier).verifyEmailCode(
+              email: account,
+              code: code,
+            );
+
+    setState(() {
+      _isVerifyingCode = false;
+      if (success) {
+        _isCodeVerified = true;
+      }
+    });
+
+    if (success && mounted) {
+      final localizations = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(localizations.verificationSuccessful),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else if (mounted) {
+      _showError('Verification failed');
+    }
+  }
+
+  /// Picks avatar from gallery.
+  Future<void> _pickAvatar() async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 85,
+    );
+
+    if (image != null) {
+      setState(() => _avatarPath = image.path);
+    }
+  }
+
+  /// Handles registration.
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
+    if (!_isCodeVerified) {
+      final localizations = AppLocalizations.of(context)!;
+      _showError(localizations.pleaseVerifyAccountFirst);
+      return;
+    }
+
     setState(() => _isLoading = true);
 
-    final success = await ref.read(authNotifierProvider.notifier).register(
-          email: _emailController.text.trim(),
-          username: _usernameController.text.trim(),
-          password: _passwordController.text,
-        );
+    final account = _accountController.text.trim();
+    final nickname = _nicknameController.text.trim();
+    final password = _passwordController.text;
+    final code = _verificationCodeController.text.trim();
+
+    final success = _regionType == RegionType.china
+        ? await ref.read(authNotifierProvider.notifier).registerWithPhone(
+              phoneNumber: account,
+              username: nickname,
+              password: password,
+              verificationCode: code,
+              avatarUrl: _avatarPath,
+            )
+        : await ref.read(authNotifierProvider.notifier).registerWithEmail(
+              email: account,
+              username: nickname,
+              password: password,
+              verificationCode: code,
+              avatarUrl: _avatarPath,
+            );
 
     setState(() => _isLoading = false);
 
     if (success && mounted) {
       context.go(Routes.home);
+    }
+  }
+
+  /// Shows error message.
+  void _showError(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
     }
   }
 
@@ -64,12 +268,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     // Show error if any
     ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
       if (next.hasError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.error.toString()),
-            backgroundColor: theme.colorScheme.error,
-          ),
-        );
+        _showError(next.error.toString());
       }
     });
 
@@ -87,14 +286,40 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _HeaderSection(theme: theme),
-                    const SizedBox(height: 32),
-                    _EmailField(
-                      controller: _emailController,
+                    _HeaderSection(theme: theme, localizations: localizations),
+                    const SizedBox(height: 16),
+                    _RegionIndicator(
+                      regionType: _regionType,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 24),
+                    _AccountField(
+                      controller: _accountController,
+                      regionType: _regionType,
                       localizations: localizations,
                     ),
                     const SizedBox(height: 16),
-                    _UsernameField(controller: _usernameController),
+                    _VerificationCodeSection(
+                      controller: _verificationCodeController,
+                      countdown: _countdown,
+                      isSendingCode: _isSendingCode,
+                      isVerifyingCode: _isVerifyingCode,
+                      isCodeVerified: _isCodeVerified,
+                      onSendCode: _sendVerificationCode,
+                      onVerifyCode: _verifyCode,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 16),
+                    _AvatarSection(
+                      avatarPath: _avatarPath,
+                      onPickAvatar: _pickAvatar,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 16),
+                    _NicknameField(
+                      controller: _nicknameController,
+                      localizations: localizations,
+                    ),
                     const SizedBox(height: 16),
                     _PasswordField(
                       controller: _passwordController,
@@ -111,10 +336,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       obscurePassword: _obscureConfirmPassword,
                       onToggleObscure: () {
                         setState(
-                          () => _obscureConfirmPassword =
-                              !_obscureConfirmPassword,
+                          () =>
+                              _obscureConfirmPassword = !_obscureConfirmPassword,
                         );
                       },
+                      localizations: localizations,
                     ),
                     const SizedBox(height: 24),
                     _RegisterButton(
@@ -140,9 +366,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
 /// Header section with logo and title.
 class _HeaderSection extends StatelessWidget {
-  const _HeaderSection({required this.theme});
+  const _HeaderSection({required this.theme, required this.localizations});
 
   final ThemeData theme;
+  final AppLocalizations localizations;
 
   @override
   Widget build(BuildContext context) {
@@ -155,14 +382,14 @@ class _HeaderSection extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'Create Account',
+          localizations.createAccount,
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          'Sign up to get started',
+          localizations.signUpToGetStarted,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
@@ -172,9 +399,273 @@ class _HeaderSection extends StatelessWidget {
   }
 }
 
-/// Email input field.
-class _EmailField extends StatelessWidget {
-  const _EmailField({required this.controller, required this.localizations});
+/// Region indicator showing detected region.
+class _RegionIndicator extends StatelessWidget {
+  const _RegionIndicator({
+    required this.regionType,
+    required this.localizations,
+  });
+
+  final RegionType regionType;
+  final AppLocalizations localizations;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final regionName = regionType == RegionType.china
+        ? localizations.chinaRegion
+        : localizations.internationalRegion;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.location_on_outlined,
+            size: 18,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            localizations.regionDetected(regionName),
+            style: TextStyle(
+              color: theme.colorScheme.primary,
+              fontSize: 13,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Account input field (phone or email based on region).
+class _AccountField extends StatelessWidget {
+  const _AccountField({
+    required this.controller,
+    required this.regionType,
+    required this.localizations,
+  });
+
+  final TextEditingController controller;
+  final RegionType regionType;
+  final AppLocalizations localizations;
+
+  @override
+  Widget build(BuildContext context) {
+    final isPhone = regionType == RegionType.china;
+
+    return TextFormField(
+      controller: controller,
+      keyboardType: isPhone ? TextInputType.phone : TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        labelText: isPhone ? localizations.phoneNumber : localizations.email,
+        prefixIcon: Icon(
+          isPhone ? Icons.phone_outlined : Icons.email_outlined,
+        ),
+        border: const OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return isPhone
+              ? localizations.enterPhoneNumber
+              : localizations.enterEmail;
+        }
+        if (isPhone) {
+          if (!RegExp(r'^1[3-9]\d{9}$').hasMatch(value)) {
+            return localizations.enterValidPhoneNumber;
+          }
+        } else {
+          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+            return localizations.enterValidEmail;
+          }
+        }
+        return null;
+      },
+    );
+  }
+}
+
+/// Verification code section with input and buttons.
+class _VerificationCodeSection extends StatelessWidget {
+  const _VerificationCodeSection({
+    required this.controller,
+    required this.countdown,
+    required this.isSendingCode,
+    required this.isVerifyingCode,
+    required this.isCodeVerified,
+    required this.onSendCode,
+    required this.onVerifyCode,
+    required this.localizations,
+  });
+
+  final TextEditingController controller;
+  final int countdown;
+  final bool isSendingCode;
+  final bool isVerifyingCode;
+  final bool isCodeVerified;
+  final VoidCallback onSendCode;
+  final VoidCallback onVerifyCode;
+  final AppLocalizations localizations;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                enabled: !isCodeVerified,
+                decoration: InputDecoration(
+                  labelText: localizations.verificationCode,
+                  prefixIcon: const Icon(Icons.verified_outlined),
+                  suffixIcon: isCodeVerified
+                      ? const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                        )
+                      : null,
+                  border: const OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return localizations.enterVerificationCode;
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(width: 12),
+            SizedBox(
+              width: 120,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: countdown > 0 || isSendingCode ? null : onSendCode,
+                child: isSendingCode
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(
+                        countdown > 0
+                            ? localizations.resendIn(countdown)
+                            : localizations.sendCode,
+                        style: const TextStyle(fontSize: 12),
+                      ),
+              ),
+            ),
+          ],
+        ),
+        if (!isCodeVerified) ...[
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 40,
+            child: TextButton.icon(
+              onPressed: isVerifyingCode ? null : onVerifyCode,
+              icon: isVerifyingCode
+                  ? const SizedBox(
+                      height: 16,
+                      width: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.verified_user_outlined),
+              label: Text(localizations.verifyCode),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// Avatar section with picker.
+class _AvatarSection extends StatelessWidget {
+  const _AvatarSection({
+    required this.avatarPath,
+    required this.onPickAvatar,
+    required this.localizations,
+  });
+
+  final String? avatarPath;
+  final VoidCallback onPickAvatar;
+  final AppLocalizations localizations;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return InkWell(
+      onTap: onPickAvatar,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.all(color: theme.colorScheme.outline),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 28,
+              backgroundImage:
+                  avatarPath != null ? FileImage(File(avatarPath!)) : null,
+              backgroundColor: theme.colorScheme.primaryContainer,
+              child: avatarPath == null
+                  ? Icon(
+                      Icons.person,
+                      size: 32,
+                      color: theme.colorScheme.onPrimaryContainer,
+                    )
+                  : null,
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    localizations.avatar,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    localizations.chooseAvatar,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.photo_camera_outlined,
+              color: theme.colorScheme.primary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Nickname input field.
+class _NicknameField extends StatelessWidget {
+  const _NicknameField({
+    required this.controller,
+    required this.localizations,
+  });
 
   final TextEditingController controller;
   final AppLocalizations localizations;
@@ -183,48 +674,21 @@ class _EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        labelText: localizations.email,
-        prefixIcon: const Icon(Icons.email_outlined),
+        labelText: localizations.nickname,
+        prefixIcon: const Icon(Icons.badge_outlined),
         border: const OutlineInputBorder(),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter your email';
+          return localizations.enterNickname;
         }
-        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-          return 'Please enter a valid email';
+        if (value.length < 2) {
+          return localizations.nicknameMinLength;
         }
-        return null;
-      },
-    );
-  }
-}
-
-/// Username input field.
-class _UsernameField extends StatelessWidget {
-  const _UsernameField({required this.controller});
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      textInputAction: TextInputAction.next,
-      decoration: const InputDecoration(
-        labelText: 'Username',
-        prefixIcon: Icon(Icons.person_outline),
-        border: OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a username';
-        }
-        if (value.length < 3) {
-          return 'Username must be at least 3 characters';
+        if (value.length > 20) {
+          return localizations.nicknameMaxLength;
         }
         return null;
       },
@@ -264,13 +728,19 @@ class _PasswordField extends StatelessWidget {
           onPressed: onToggleObscure,
         ),
         border: const OutlineInputBorder(),
+        helperText: localizations.passwordRequirement,
+        helperMaxLines: 1,
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter your password';
+          return localizations.enterPassword;
         }
-        if (value.length < 6) {
-          return 'Password must be at least 6 characters';
+        if (value.length < 8) {
+          return localizations.passwordMinLength8;
+        }
+        if (!RegExp(r'[a-zA-Z]').hasMatch(value) ||
+            !RegExp(r'[0-9]').hasMatch(value)) {
+          return localizations.passwordStrength;
         }
         return null;
       },
@@ -285,12 +755,14 @@ class _ConfirmPasswordField extends StatelessWidget {
     required this.passwordController,
     required this.obscurePassword,
     required this.onToggleObscure,
+    required this.localizations,
   });
 
   final TextEditingController controller;
   final TextEditingController passwordController;
   final bool obscurePassword;
   final VoidCallback onToggleObscure;
+  final AppLocalizations localizations;
 
   @override
   Widget build(BuildContext context) {
@@ -299,7 +771,7 @@ class _ConfirmPasswordField extends StatelessWidget {
       obscureText: obscurePassword,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        labelText: 'Confirm Password',
+        labelText: localizations.confirmPassword,
         prefixIcon: const Icon(Icons.lock_outline),
         suffixIcon: IconButton(
           icon: Icon(
@@ -313,10 +785,10 @@ class _ConfirmPasswordField extends StatelessWidget {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please confirm your password';
+          return localizations.confirmYourPassword;
         }
         if (value != passwordController.text) {
-          return 'Passwords do not match';
+          return localizations.passwordsDoNotMatch;
         }
         return null;
       },
@@ -359,7 +831,10 @@ class _RegisterButton extends StatelessWidget {
 
 /// Login link.
 class _LoginLink extends StatelessWidget {
-  const _LoginLink({required this.localizations, required this.onLoginTap});
+  const _LoginLink({
+    required this.localizations,
+    required this.onLoginTap,
+  });
 
   final AppLocalizations localizations;
   final VoidCallback onLoginTap;
@@ -370,7 +845,7 @@ class _LoginLink extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Already have an account? ',
+          '${localizations.haveAccount} ',
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),

@@ -1328,6 +1328,49 @@ abstract class AppLocalizations {
   /// **'Phone Number'**
   String get phoneNumber;
 
+  /// Enter phone number validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your phone number'**
+  String get enterPhoneNumber;
+
+  /// Valid phone number validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get enterValidPhoneNumber;
+
+  /// Verification code label
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get verificationCode;
+
+  /// Enter verification code validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter verification code'**
+  String get enterVerificationCode;
+
+  /// Verification code sent message
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code sent'**
+  String get verificationCodeSent;
+
+  /// Verification code sent to target message
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent to {target}'**
+  String verificationCodeSentTo(Object target);
+
+  /// Send verification code button
+  ///
+  /// In en, this message translates to:
+  /// **'Send Code'**
+  String get sendCode;
+
+  /// Resend verification code button
   /// Enter phone validation message
   ///
   /// In en, this message translates to:
@@ -1376,6 +1419,125 @@ abstract class AppLocalizations {
   /// **'Resend Code'**
   String get resendCode;
 
+  /// Resend countdown message
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String resendIn(Object seconds);
+
+  /// Verification code expired message
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code has expired'**
+  String get verificationCodeExpired;
+
+  /// Invalid verification code message
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid verification code'**
+  String get verificationCodeInvalid;
+
+  /// Avatar label
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar'**
+  String get avatar;
+
+  /// Choose avatar button
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Avatar'**
+  String get chooseAvatar;
+
+  /// Take photo option
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// Choose from gallery option
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGallery;
+
+  /// Nickname label
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname'**
+  String get nickname;
+
+  /// Enter nickname validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your nickname'**
+  String get enterNickname;
+
+  /// Nickname min length validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname must be at least 2 characters'**
+  String get nicknameMinLength;
+
+  /// Nickname max length validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname must be at most 20 characters'**
+  String get nicknameMaxLength;
+
+  /// Password requirement hint
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters with letters and numbers'**
+  String get passwordRequirement;
+
+  /// Password strength validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain both letters and numbers'**
+  String get passwordStrength;
+
+  /// Region detected message
+  ///
+  /// In en, this message translates to:
+  /// **'Region detected: {region}'**
+  String regionDetected(Object region);
+
+  /// China region name
+  ///
+  /// In en, this message translates to:
+  /// **'China'**
+  String get chinaRegion;
+
+  /// International region name
+  ///
+  /// In en, this message translates to:
+  /// **'International'**
+  String get internationalRegion;
+
+  /// Verification successful message
+  ///
+  /// In en, this message translates to:
+  /// **'Verification successful'**
+  String get verificationSuccessful;
+
+  /// Please verify account first message
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your account first'**
+  String get pleaseVerifyAccountFirst;
+
+  /// Verify code button
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Code'**
+  String get verifyCode;
+
+  /// Password min 8 characters validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters'**
+  String get passwordMinLength8;
   /// Resend code countdown
   ///
   /// In en, this message translates to:

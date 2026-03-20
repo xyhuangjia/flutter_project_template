@@ -636,6 +636,99 @@ class AppLocalizationsEn extends AppLocalizations {
   String get typeMessage => 'Type a message...';
 
   @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get enterPhoneNumber => 'Please enter your phone number';
+
+  @override
+  String get enterValidPhoneNumber => 'Please enter a valid phone number';
+
+  @override
+  String get verificationCode => 'Verification Code';
+
+  @override
+  String get enterVerificationCode => 'Please enter verification code';
+
+  @override
+  String get verificationCodeSent => 'Verification code sent';
+
+  @override
+  String verificationCodeSentTo(Object target) {
+    return 'Code sent to $target';
+  }
+
+  @override
+  String get sendCode => 'Send Code';
+
+  @override
+  String get resendCode => 'Resend Code';
+
+  @override
+  String resendIn(Object seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get verificationCodeExpired => 'Verification code has expired';
+
+  @override
+  String get verificationCodeInvalid => 'Invalid verification code';
+
+  @override
+  String get avatar => 'Avatar';
+
+  @override
+  String get chooseAvatar => 'Choose Avatar';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get chooseFromGallery => 'Choose from Gallery';
+
+  @override
+  String get nickname => 'Nickname';
+
+  @override
+  String get enterNickname => 'Please enter your nickname';
+
+  @override
+  String get nicknameMinLength => 'Nickname must be at least 2 characters';
+
+  @override
+  String get nicknameMaxLength => 'Nickname must be at most 20 characters';
+
+  @override
+  String get passwordRequirement =>
+      'At least 8 characters with letters and numbers';
+
+  @override
+  String get passwordStrength =>
+      'Password must contain both letters and numbers';
+
+  @override
+  String regionDetected(Object region) {
+    return 'Region detected: $region';
+  }
+
+  @override
+  String get chinaRegion => 'China';
+
+  @override
+  String get internationalRegion => 'International';
+
+  @override
+  String get verificationSuccessful => 'Verification successful';
+
+  @override
+  String get pleaseVerifyAccountFirst => 'Please verify your account first';
+
+  @override
+  String get verifyCode => 'Verify Code';
+
+  @override
+  String get passwordMinLength8 => 'Password must be at least 8 characters';
   String get forgotPasswordTitle => 'Forgot Password';
 
   @override

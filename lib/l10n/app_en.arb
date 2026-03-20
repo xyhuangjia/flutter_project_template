@@ -1032,6 +1032,27 @@
     "description": "Phone number label"
   },
 
+  "enterPhoneNumber": "Please enter your phone number",
+  "@enterPhoneNumber": {
+    "description": "Enter phone number validation message"
+  },
+
+  "enterValidPhoneNumber": "Please enter a valid phone number",
+  "@enterValidPhoneNumber": {
+    "description": "Valid phone number validation message"
+  },
+
+  "verificationCode": "Verification Code",
+  "@verificationCode": {
+    "description": "Verification code label"
+  },
+
+  "enterVerificationCode": "Please enter verification code",
+  "@enterVerificationCode": {
+    "description": "Enter verification code validation message"
+  },
+
+  "verificationCodeSent": "Verification code sent",
   "enterPhone": "Please enter your phone number",
   "@enterPhone": {
     "description": "Enter phone validation message"
@@ -1062,6 +1083,27 @@
     "description": "Verification code sent message"
   },
 
+  "verificationCodeSentTo": "Code sent to {target}",
+  "@verificationCodeSentTo": {
+    "description": "Verification code sent to target message",
+    "placeholders": {
+      "target": {}
+    }
+  },
+
+  "sendCode": "Send Code",
+  "@sendCode": {
+    "description": "Send verification code button"
+  },
+
+  "resendCode": "Resend Code",
+  "@resendCode": {
+    "description": "Resend verification code button"
+  },
+
+  "resendIn": "Resend in {seconds}s",
+  "@resendIn": {
+    "description": "Resend countdown message",
   "codeSentTo": "Code sent to: {account}",
   "@codeSentTo": {
     "description": "Code sent to account message",
@@ -1083,6 +1125,102 @@
     }
   },
 
+  "verificationCodeExpired": "Verification code has expired",
+  "@verificationCodeExpired": {
+    "description": "Verification code expired message"
+  },
+
+  "verificationCodeInvalid": "Invalid verification code",
+  "@verificationCodeInvalid": {
+    "description": "Invalid verification code message"
+  },
+
+  "avatar": "Avatar",
+  "@avatar": {
+    "description": "Avatar label"
+  },
+
+  "chooseAvatar": "Choose Avatar",
+  "@chooseAvatar": {
+    "description": "Choose avatar button"
+  },
+
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+
+  "nickname": "Nickname",
+  "@nickname": {
+    "description": "Nickname label"
+  },
+
+  "enterNickname": "Please enter your nickname",
+  "@enterNickname": {
+    "description": "Enter nickname validation message"
+  },
+
+  "nicknameMinLength": "Nickname must be at least 2 characters",
+  "@nicknameMinLength": {
+    "description": "Nickname min length validation message"
+  },
+
+  "nicknameMaxLength": "Nickname must be at most 20 characters",
+  "@nicknameMaxLength": {
+    "description": "Nickname max length validation message"
+  },
+
+  "passwordRequirement": "At least 8 characters with letters and numbers",
+  "@passwordRequirement": {
+    "description": "Password requirement hint"
+  },
+
+  "passwordStrength": "Password must contain both letters and numbers",
+  "@passwordStrength": {
+    "description": "Password strength validation message"
+  },
+
+  "regionDetected": "Region detected: {region}",
+  "@regionDetected": {
+    "description": "Region detected message",
+    "placeholders": {
+      "region": {}
+    }
+  },
+
+  "chinaRegion": "China",
+  "@chinaRegion": {
+    "description": "China region name"
+  },
+
+  "internationalRegion": "International",
+  "@internationalRegion": {
+    "description": "International region name"
+  },
+
+  "verificationSuccessful": "Verification successful",
+  "@verificationSuccessful": {
+    "description": "Verification successful message"
+  },
+
+  "pleaseVerifyAccountFirst": "Please verify your account first",
+  "@pleaseVerifyAccountFirst": {
+    "description": "Please verify account first message"
+  },
+
+  "verifyCode": "Verify Code",
+  "@verifyCode": {
+    "description": "Verify code button"
+  },
+
+  "passwordMinLength8": "Password must be at least 8 characters",
+  "@passwordMinLength8": {
+    "description": "Password min 8 characters validation message"
   "verify": "Verify",
   "@verify": {
     "description": "Verify button"
