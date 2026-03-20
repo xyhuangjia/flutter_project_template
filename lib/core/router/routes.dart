@@ -55,6 +55,9 @@ abstract final class Routes {
 
   /// Account deletion route.
   static const String accountDeletion = '/account/deletion';
+
+  /// Forgot password route.
+  static const String forgotPassword = '/forgot-password';
 }
 
 /// Route names for named navigation.
@@ -105,4 +108,7 @@ abstract final class RouteNames {
 
   /// Account deletion route name.
   static const String accountDeletion = 'accountDeletion';
+
+  /// Forgot password route name.
+  static const String forgotPassword = 'forgotPassword';
 }

@@ -1,0 +1,44 @@
+{
+  "id": "forgot-password",
+  "name": "forgot-password",
+  "title": "忘记密码功能",
+  "description": "",
+  "status": "planning",
+  "dev_type": null,
+  "scope": null,
+  "priority": "P2",
+  "creator": "huangj",
+  "assignee": "huangj",
+  "createdAt": "2026-03-21",
+  "completedAt": null,
+  "branch": "feature/forgot-password",
+  "base_branch": "main",
+  "worktree_path": "/Users/huangj/Desktop/gitSpace/trellis-worktrees/feature/forgot-password",
+  "current_phase": 3,
+  "next_action": [
+    {
+      "phase": 1,
+      "action": "implement"
+    },
+    {
+      "phase": 2,
+      "action": "check"
+    },
+    {
+      "phase": 3,
+      "action": "finish"
+    },
+    {
+      "phase": 4,
+      "action": "create-pr"
+    }
+  ],
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {}
+}
