@@ -875,5 +875,115 @@
   "actionCannotBeUndone": "此操作无法撤销",
   "@actionCannotBeUndone": {
     "description": "Action cannot be undone warning"
+  },
+
+  "or": "或",
+  "@or": {
+    "description": "OR divider text"
+  },
+
+  "enterEmailOrUsername": "请输入邮箱或用户名",
+  "@enterEmailOrUsername": {
+    "description": "Enter email or username validation message"
+  },
+
+  "chats": "聊天",
+  "@chats": {
+    "description": "Chats screen title"
+  },
+
+  "searchConversations": "搜索对话...",
+  "@searchConversations": {
+    "description": "Search conversations hint"
+  },
+
+  "noConversationsYet": "暂无对话",
+  "@noConversationsYet": {
+    "description": "No conversations empty state title"
+  },
+
+  "startNewChatHint": "点击下方按钮开始新对话",
+  "@startNewChatHint": {
+    "description": "Start new chat hint"
+  },
+
+  "noConversationsFound": "未找到对话",
+  "@noConversationsFound": {
+    "description": "No search results title"
+  },
+
+  "tryDifferentSearch": "尝试其他搜索词",
+  "@tryDifferentSearch": {
+    "description": "Try different search hint"
+  },
+
+  "newChat": "新对话",
+  "@newChat": {
+    "description": "New chat title"
+  },
+
+  "chat": "聊天",
+  "@chat": {
+    "description": "Default chat title"
+  },
+
+  "startConversation": "开始对话",
+  "@startConversation": {
+    "description": "Start conversation title"
+  },
+
+  "sendMessageToBegin": "发送消息开始与 AI 聊天",
+  "@sendMessageToBegin": {
+    "description": "Send message to begin hint"
+  },
+
+  "deleteConversation": "删除对话",
+  "@deleteConversation": {
+    "description": "Delete conversation menu item"
+  },
+
+  "rename": "重命名",
+  "@rename": {
+    "description": "Rename menu item"
+  },
+
+  "copy": "复制",
+  "@copy": {
+    "description": "Copy menu item"
+  },
+
+  "delete": "删除",
+  "@delete": {
+    "description": "Delete menu item"
+  },
+
+  "messageCopied": "消息已复制",
+  "@messageCopied": {
+    "description": "Message copied snackbar"
+  },
+
+  "messageDeleted": "消息已删除",
+  "@messageDeleted": {
+    "description": "Message deleted snackbar"
+  },
+
+  "renameConversation": "重命名对话",
+  "@renameConversation": {
+    "description": "Rename conversation dialog title"
+  },
+
+  "enterNewTitle": "输入新标题",
+  "@enterNewTitle": {
+    "description": "Enter new title hint"
+  },
+
+  "conversationRenamed": "对话已重命名",
+  "@conversationRenamed": {
+    "description": "Conversation renamed snackbar"
+  },
+
+  "typeMessage": "输入消息...",
+  "@typeMessage": {
+    "description": "Type a message hint"
   }
 }

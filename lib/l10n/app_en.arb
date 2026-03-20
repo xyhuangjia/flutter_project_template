@@ -905,5 +905,110 @@
   "actionCannotBeUndone": "This action cannot be undone",
   "@actionCannotBeUndone": {
     "description": "Action cannot be undone warning"
+  },
+
+  "or": "OR",
+  "@or": {
+    "description": "OR divider text"
+  },
+
+  "enterEmailOrUsername": "Please enter your email or username",
+  "@enterEmailOrUsername": {
+    "description": "Enter email or username validation message"
+  },
+
+  "chats": "Chats",
+  "@chats": {
+    "description": "Chats screen title"
+  },
+
+  "searchConversations": "Search conversations...",
+  "@searchConversations": {
+    "description": "Search conversations hint"
+  },
+
+  "noConversationsYet": "No conversations yet",
+  "@noConversationsYet": {
+    "description": "No conversations empty state title"
+  },
+
+  "startNewChatHint": "Start a new chat by tapping the button below",
+  "@startNewChatHint": {
+    "description": "Start new chat hint"
+  },
+
+  "noConversationsFound": "No conversations found",
+  "@noConversationsFound": {
+    "description": "No search results title"
+  },
+
+  "tryDifferentSearch": "Try a different search term",
+  "@tryDifferentSearch": {
+    "description": "Try different search hint"
+  },
+
+  "newChat": "New Chat",
+  "@newChat": {
+    "description": "New chat title"
+  },
+
+  "chat": "Chat",
+  "@chat": {
+    "description": "Default chat title"
+  },
+
+  "startConversation": "Start a conversation",
+  "@startConversation": {
+    "description": "Start conversation title"
+  },
+
+  "sendMessageToBegin": "Send a message to begin chatting with AI",
+  "@sendMessageToBegin": {
+    "description": "Send message to begin hint"
+  },
+
+  "deleteConversation": "Delete Conversation",
+  "@deleteConversation": {
+    "description": "Delete conversation menu item"
+  },
+
+  "rename": "Rename",
+  "@rename": {
+    "description": "Rename menu item"
+  },
+
+  "copy": "Copy",
+  "@copy": {
+    "description": "Copy menu item"
+  },
+
+  "messageCopied": "Message copied",
+  "@messageCopied": {
+    "description": "Message copied snackbar"
+  },
+
+  "messageDeleted": "Message deleted",
+  "@messageDeleted": {
+    "description": "Message deleted snackbar"
+  },
+
+  "renameConversation": "Rename Conversation",
+  "@renameConversation": {
+    "description": "Rename conversation dialog title"
+  },
+
+  "enterNewTitle": "Enter new title",
+  "@enterNewTitle": {
+    "description": "Enter new title hint"
+  },
+
+  "conversationRenamed": "Conversation renamed",
+  "@conversationRenamed": {
+    "description": "Conversation renamed snackbar"
+  },
+
+  "typeMessage": "Type a message...",
+  "@typeMessage": {
+    "description": "Type a message hint"
   }
 }

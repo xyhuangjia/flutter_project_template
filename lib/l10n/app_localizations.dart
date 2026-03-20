@@ -1177,6 +1177,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This action cannot be undone'**
   String get actionCannotBeUndone;
+
+  /// OR divider text
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get or;
+
+  /// Enter email or username validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email or username'**
+  String get enterEmailOrUsername;
+
+  /// Chats screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get chats;
+
+  /// Search conversations hint
+  ///
+  /// In en, this message translates to:
+  /// **'Search conversations...'**
+  String get searchConversations;
+
+  /// No conversations empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations yet'**
+  String get noConversationsYet;
+
+  /// Start new chat hint
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new chat by tapping the button below'**
+  String get startNewChatHint;
+
+  /// No search results title
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations found'**
+  String get noConversationsFound;
+
+  /// Try different search hint
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term'**
+  String get tryDifferentSearch;
+
+  /// New chat title
+  ///
+  /// In en, this message translates to:
+  /// **'New Chat'**
+  String get newChat;
+
+  /// Default chat title
+  ///
+  /// In en, this message translates to:
+  /// **'Chat'**
+  String get chat;
+
+  /// Start conversation title
+  ///
+  /// In en, this message translates to:
+  /// **'Start a conversation'**
+  String get startConversation;
+
+  /// Send message to begin hint
+  ///
+  /// In en, this message translates to:
+  /// **'Send a message to begin chatting with AI'**
+  String get sendMessageToBegin;
+
+  /// Delete conversation menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Conversation'**
+  String get deleteConversation;
+
+  /// Rename menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get rename;
+
+  /// Copy menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// Message copied snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Message copied'**
+  String get messageCopied;
+
+  /// Message deleted snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted'**
+  String get messageDeleted;
+
+  /// Rename conversation dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Conversation'**
+  String get renameConversation;
+
+  /// Enter new title hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new title'**
+  String get enterNewTitle;
+
+  /// Conversation renamed snackbar
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation renamed'**
+  String get conversationRenamed;
+
+  /// Type a message hint
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get typeMessage;
 }
 
 class _AppLocalizationsDelegate

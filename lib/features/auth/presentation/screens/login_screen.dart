@@ -273,6 +273,8 @@ class _HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -290,7 +292,7 @@ class _HeaderSection extends StatelessWidget {
         ),
         SizedBox(height: isLarge ? 24 : 20),
         Text(
-          'Welcome Back',
+          localizations.welcomeBack,
           style: (isLarge
                   ? theme.textTheme.headlineMedium
                   : theme.textTheme.headlineSmall)
@@ -301,7 +303,7 @@ class _HeaderSection extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Sign in to continue',
+          localizations.signInToContinue,
           style: theme.textTheme.bodyLarge?.copyWith(
             color: colorScheme.onSurfaceVariant,
           ),
@@ -363,11 +365,11 @@ class _LoginForm extends StatelessWidget {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your email';
+                return localizations.enterEmail;
               }
               if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                   .hasMatch(value)) {
-                return 'Please enter a valid email';
+                return localizations.enterValidEmail;
               }
               return null;
             },
@@ -396,10 +398,10 @@ class _LoginForm extends StatelessWidget {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your password';
+                return localizations.enterPassword;
               }
               if (value.length < 6) {
-                return 'Password must be at least 6 characters';
+                return localizations.passwordMinLength;
               }
               return null;
             },
@@ -443,7 +445,7 @@ class _LoginForm extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'OR',
+                  localizations.or,
                   style: TextStyle(
                     color: colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
@@ -457,7 +459,7 @@ class _LoginForm extends StatelessWidget {
           // Social login buttons
           _SocialLoginButton(
             icon: Icons.chat_rounded,
-            label: 'Continue with WeChat',
+            label: localizations.continueWithWeChat,
             onPressed: isLoading
                 ? null
                 : () => onThirdPartyLogin(
@@ -470,7 +472,7 @@ class _LoginForm extends StatelessWidget {
           const SizedBox(height: 12),
           _SocialLoginButton(
             icon: Icons.apple,
-            label: 'Continue with Apple',
+            label: localizations.continueWithApple,
             onPressed: isLoading
                 ? null
                 : () => onThirdPartyLogin(
@@ -483,7 +485,7 @@ class _LoginForm extends StatelessWidget {
           const SizedBox(height: 12),
           _SocialLoginButton(
             icon: Icons.g_mobiledata_rounded,
-            label: 'Continue with Google',
+            label: localizations.continueWithGoogle,
             onPressed: isLoading
                 ? null
                 : () => onThirdPartyLogin(
@@ -558,7 +560,7 @@ class _RegisterLink extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Don't have an account? ",
+          '${localizations.noAccount} ',
           style: TextStyle(color: colorScheme.onSurfaceVariant),
         ),
         TextButton(

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/conversation_list_item.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,6 +54,7 @@ class _ConversationListScreenState
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final conversationsAsync = ref.watch(chatNotifierProvider);
@@ -68,7 +70,7 @@ class _ConversationListScreenState
                   color: isDark ? Colors.white : const Color(0xFF1E293B),
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Search conversations...',
+                  hintText: localizations.searchConversations,
                   hintStyle: TextStyle(
                     color: isDark
                         ? const Color(0xFF64748B)
@@ -80,7 +82,7 @@ class _ConversationListScreenState
                 onSubmitted: _performSearch,
               )
             : Text(
-                'Chats',
+                localizations.chats,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -122,9 +124,9 @@ class _ConversationListScreenState
           final conversations = state.filteredConversations;
           if (conversations.isEmpty) {
             if (_searchController.text.isNotEmpty) {
-              return _buildNoSearchResultsState(isDark);
+              return _buildNoSearchResultsState(isDark, localizations);
             }
-            return _buildEmptyState(isDark);
+            return _buildEmptyState(isDark, localizations);
           }
           return ListView.builder(
             itemCount: conversations.length,
@@ -149,7 +151,8 @@ class _ConversationListScreenState
     );
   }
 
-  Widget _buildEmptyState(bool isDark) => Center(
+  Widget _buildEmptyState(bool isDark, AppLocalizations localizations) =>
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -160,7 +163,7 @@ class _ConversationListScreenState
             ),
             const SizedBox(height: 16),
             Text(
-              'No conversations yet',
+              localizations.noConversationsYet,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -170,7 +173,7 @@ class _ConversationListScreenState
             ),
             const SizedBox(height: 8),
             Text(
-              'Start a new chat by tapping the button below',
+              localizations.startNewChatHint,
               style: TextStyle(
                 fontSize: 14,
                 color:
@@ -181,7 +184,9 @@ class _ConversationListScreenState
         ),
       );
 
-  Widget _buildNoSearchResultsState(bool isDark) => Center(
+  Widget _buildNoSearchResultsState(
+          bool isDark, AppLocalizations localizations) =>
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -192,7 +197,7 @@ class _ConversationListScreenState
             ),
             const SizedBox(height: 16),
             Text(
-              'No conversations found',
+              localizations.noConversationsFound,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -202,7 +207,7 @@ class _ConversationListScreenState
             ),
             const SizedBox(height: 8),
             Text(
-              'Try a different search term',
+              localizations.tryDifferentSearch,
               style: TextStyle(
                 fontSize: 14,
                 color:
@@ -218,7 +223,8 @@ class _ConversationListScreenState
 
   Future<void> _createNewConversation() async {
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
-    final id = await chatNotifier.createConversation('New Chat');
+    final localizations = AppLocalizations.of(context)!;
+    final id = await chatNotifier.createConversation(localizations.newChat);
     if (mounted) {
       unawaited(context.push('/chat/$id'));
     }

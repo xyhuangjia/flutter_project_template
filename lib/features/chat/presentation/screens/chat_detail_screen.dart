@@ -7,6 +7,7 @@ import 'package:flutter_project_template/features/chat/domain/entities/chat_mess
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/chat_input_field.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/message_bubble.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,6 +47,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final conversation = ref.watch(chatNotifierProvider).when(
@@ -60,7 +62,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
       appBar: AppBar(
         title: Text(
-          conversation?.title ?? 'Chat',
+          conversation?.title ?? localizations.chat,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -91,21 +93,23 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           Expanded(
             child: conversation == null
                 ? const Center(child: CircularProgressIndicator())
-                : _buildMessagesList(conversation, isDark),
+                : _buildMessagesList(conversation, isDark, localizations),
           ),
           ChatInputField(
             onSend: _sendMessage,
+            hintText: localizations.typeMessage,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMessagesList(ChatConversation conversation, bool isDark) {
+  Widget _buildMessagesList(ChatConversation conversation, bool isDark,
+      AppLocalizations localizations) {
     final messages = conversation.messages;
 
     if (messages.isEmpty) {
-      return _buildEmptyState(isDark);
+      return _buildEmptyState(isDark, localizations);
     }
 
     // Scroll to bottom after build
@@ -129,7 +133,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     );
   }
 
-  Widget _buildEmptyState(bool isDark) => Center(
+  Widget _buildEmptyState(bool isDark, AppLocalizations localizations) =>
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -148,7 +153,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Start a conversation',
+              localizations.startConversation,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -157,7 +162,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Send a message to begin chatting with AI',
+              localizations.sendMessageToBegin,
               style: TextStyle(
                 fontSize: 14,
                 color:
@@ -184,6 +189,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   void _showOptionsMenu(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -203,7 +209,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 color: isDark ? Colors.white : const Color(0xFF1E293B),
               ),
               title: Text(
-                'Delete Conversation',
+                localizations.deleteConversation,
                 style: TextStyle(
                   color: isDark ? Colors.white : const Color(0xFF1E293B),
                 ),
@@ -219,7 +225,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 color: isDark ? Colors.white : const Color(0xFF1E293B),
               ),
               title: Text(
-                'Rename',
+                localizations.rename,
                 style: TextStyle(
                   color: isDark ? Colors.white : const Color(0xFF1E293B),
                 ),
@@ -249,6 +255,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     ChatMessage message, {
     required bool isUserMessage,
   }) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -269,14 +276,14 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 color: isDark ? Colors.white : const Color(0xFF1E293B),
               ),
               title: Text(
-                'Copy',
+                localizations.copy,
                 style: TextStyle(
                   color: isDark ? Colors.white : const Color(0xFF1E293B),
                 ),
               ),
               onTap: () {
                 Navigator.pop(context);
-                _copyMessage(message);
+                _copyMessage(context, message);
               },
             ),
             // Delete option (only for user messages or unsent AI messages)
@@ -287,14 +294,14 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                   color: isDark ? Colors.red : const Color(0xFFE53935),
                 ),
                 title: Text(
-                  'Delete',
+                  localizations.delete,
                   style: TextStyle(
                     color: isDark ? Colors.red : const Color(0xFFE53935),
                   ),
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  _deleteMessage(message.id);
+                  _deleteMessage(context, message.id);
                 },
               ),
           ],
@@ -304,12 +311,13 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   /// Copies message content to clipboard.
-  Future<void> _copyMessage(ChatMessage message) async {
+  Future<void> _copyMessage(BuildContext context, ChatMessage message) async {
+    final localizations = AppLocalizations.of(context)!;
     await Clipboard.setData(ClipboardData(text: message.content));
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Message copied'),
+          content: Text(localizations.messageCopied),
           backgroundColor: const Color(0xFF8B5CF6),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 1),
@@ -319,13 +327,14 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   /// Deletes a message.
-  Future<void> _deleteMessage(String messageId) async {
+  Future<void> _deleteMessage(BuildContext context, String messageId) async {
+    final localizations = AppLocalizations.of(context)!;
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
     await chatNotifier.deleteMessage(messageId);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Message deleted'),
+          content: Text(localizations.messageDeleted),
           backgroundColor: const Color(0xFF8B5CF6),
           behavior: SnackBarBehavior.floating,
         ),
@@ -335,6 +344,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   /// Renames the conversation.
   Future<void> _renameConversation(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
     final conversation = chatNotifier.getConversation(widget.conversationId);
     if (conversation == null) return;
@@ -347,7 +357,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
         title: Text(
-          'Rename Conversation',
+          localizations.renameConversation,
           style: TextStyle(
             color: isDark ? Colors.white : const Color(0xFF1E293B),
           ),
@@ -357,9 +367,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           autofocus: true,
           maxLength: 100,
           textCapitalization: TextCapitalization.sentences,
-          decoration: const InputDecoration(
-            hintText: 'Enter new title',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            hintText: localizations.enterNewTitle,
+            border: const OutlineInputBorder(),
           ),
           style: TextStyle(
             color: isDark ? Colors.white : const Color(0xFF1E293B),
@@ -369,7 +379,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel',
+              localizations.cancel,
               style: TextStyle(
                 color:
                     isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
@@ -378,7 +388,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Save'),
+            child: Text(localizations.save),
           ),
         ],
       ),
@@ -391,7 +401,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Conversation renamed'),
+            content: Text(localizations.conversationRenamed),
             backgroundColor: const Color(0xFF8B5CF6),
             behavior: SnackBarBehavior.floating,
           ),

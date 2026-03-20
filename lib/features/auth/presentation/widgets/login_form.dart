@@ -56,24 +56,6 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  String? _validateEmailOrUsername(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your email or username';
-    }
-
-    if (_isEmailMode) {
-      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-        return 'Please enter a valid email';
-      }
-    } else {
-      if (value.length < 3) {
-        return 'Username must be at least 3 characters';
-      }
-    }
-
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -88,7 +70,7 @@ class _LoginFormState extends State<LoginForm> {
           Row(
             children: [
               ChoiceChip(
-                label: const Text('Email'),
+                label: Text(localizations.email),
                 selected: _isEmailMode,
                 onSelected: (selected) {
                   setState(() => _isEmailMode = true);
@@ -96,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               const SizedBox(width: 8),
               ChoiceChip(
-                label: const Text('Username'),
+                label: Text(localizations.username),
                 selected: !_isEmailMode,
                 onSelected: (selected) {
                   setState(() => _isEmailMode = false);
@@ -112,13 +94,31 @@ class _LoginFormState extends State<LoginForm> {
                 _isEmailMode ? TextInputType.emailAddress : TextInputType.text,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-              labelText: _isEmailMode ? localizations.email : 'Username',
+              labelText:
+                  _isEmailMode ? localizations.email : localizations.username,
               prefixIcon: Icon(
                 _isEmailMode ? Icons.email_outlined : Icons.person_outline,
               ),
               border: const OutlineInputBorder(),
             ),
-            validator: _validateEmailOrUsername,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return localizations.enterEmailOrUsername;
+              }
+
+              if (_isEmailMode) {
+                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                    .hasMatch(value)) {
+                  return localizations.enterValidEmail;
+                }
+              } else {
+                if (value.length < 3) {
+                  return localizations.usernameMinLength;
+                }
+              }
+
+              return null;
+            },
             enabled: !widget.isLoading,
           ),
           const SizedBox(height: 16),
@@ -144,10 +144,10 @@ class _LoginFormState extends State<LoginForm> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your password';
+                return localizations.enterPassword;
               }
               if (value.length < 6) {
-                return 'Password must be at least 6 characters';
+                return localizations.passwordMinLength;
               }
               return null;
             },

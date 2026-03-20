@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
 
 /// Social login buttons widget.
 ///
@@ -30,26 +31,28 @@ class SocialLoginButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SocialButton(
           icon: Icons.chat,
-          label: 'Continue with WeChat',
+          label: localizations.continueWithWeChat,
           onPressed: isLoading ? null : onWeChatLogin,
           backgroundColor: const Color(0xFF07C160),
         ),
         const SizedBox(height: 12),
         _SocialButton(
           icon: Icons.apple,
-          label: 'Continue with Apple',
+          label: localizations.continueWithApple,
           onPressed: isLoading ? null : onAppleLogin,
           backgroundColor: Colors.black,
         ),
         const SizedBox(height: 12),
         _SocialButton(
           icon: Icons.g_mobiledata,
-          label: 'Continue with Google',
+          label: localizations.continueWithGoogle,
           onPressed: isLoading ? null : onGoogleLogin,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -101,15 +104,18 @@ class OrDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       children: [
         const Expanded(child: Divider()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'OR',
+            localizations.or,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ),

@@ -571,4 +571,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionCannotBeUndone => 'This action cannot be undone';
+
+  @override
+  String get or => 'OR';
+
+  @override
+  String get enterEmailOrUsername => 'Please enter your email or username';
+
+  @override
+  String get chats => 'Chats';
+
+  @override
+  String get searchConversations => 'Search conversations...';
+
+  @override
+  String get noConversationsYet => 'No conversations yet';
+
+  @override
+  String get startNewChatHint => 'Start a new chat by tapping the button below';
+
+  @override
+  String get noConversationsFound => 'No conversations found';
+
+  @override
+  String get tryDifferentSearch => 'Try a different search term';
+
+  @override
+  String get newChat => 'New Chat';
+
+  @override
+  String get chat => 'Chat';
+
+  @override
+  String get startConversation => 'Start a conversation';
+
+  @override
+  String get sendMessageToBegin => 'Send a message to begin chatting with AI';
+
+  @override
+  String get deleteConversation => 'Delete Conversation';
+
+  @override
+  String get rename => 'Rename';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get messageCopied => 'Message copied';
+
+  @override
+  String get messageDeleted => 'Message deleted';
+
+  @override
+  String get renameConversation => 'Rename Conversation';
+
+  @override
+  String get enterNewTitle => 'Enter new title';
+
+  @override
+  String get conversationRenamed => 'Conversation renamed';
+
+  @override
+  String get typeMessage => 'Type a message...';
 }

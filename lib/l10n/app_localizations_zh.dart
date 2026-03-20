@@ -557,4 +557,67 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get actionCannotBeUndone => '此操作无法撤销';
+
+  @override
+  String get or => '或';
+
+  @override
+  String get enterEmailOrUsername => '请输入邮箱或用户名';
+
+  @override
+  String get chats => '聊天';
+
+  @override
+  String get searchConversations => '搜索对话...';
+
+  @override
+  String get noConversationsYet => '暂无对话';
+
+  @override
+  String get startNewChatHint => '点击下方按钮开始新对话';
+
+  @override
+  String get noConversationsFound => '未找到对话';
+
+  @override
+  String get tryDifferentSearch => '尝试其他搜索词';
+
+  @override
+  String get newChat => '新对话';
+
+  @override
+  String get chat => '聊天';
+
+  @override
+  String get startConversation => '开始对话';
+
+  @override
+  String get sendMessageToBegin => '发送消息开始与 AI 聊天';
+
+  @override
+  String get deleteConversation => '删除对话';
+
+  @override
+  String get rename => '重命名';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String get messageCopied => '消息已复制';
+
+  @override
+  String get messageDeleted => '消息已删除';
+
+  @override
+  String get renameConversation => '重命名对话';
+
+  @override
+  String get enterNewTitle => '输入新标题';
+
+  @override
+  String get conversationRenamed => '对话已重命名';
+
+  @override
+  String get typeMessage => '输入消息...';
 }
