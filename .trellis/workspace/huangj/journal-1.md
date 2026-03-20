@@ -256,3 +256,58 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 7: 隐私合规模块实现
+
+**Date**: 2026-03-21
+**Task**: 隐私合规模块实现
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| 功能 | 描述 |
+|------|------|
+| 首次启动隐私弹窗 | 必须同意隐私政策才能使用 APP |
+| 权限申请说明 | 相机/相册/定位/通知权限说明 |
+| 账号注销流程 | 二次确认 + 密码验证 + 数据清除 |
+| 隐私设置页 | 数据偏好/权限管理/地区切换 |
+| 市场差异化 | 中国 PIPL / 国际 GDPR 双市场支持 |
+| SplashScreen | 处理启动流程和路由守卫 |
+
+**技术实现**:
+- PrivacyNotifier 管理隐私状态
+- RouterGuard 增加隐私同意检查
+- 完整国际化支持 (中/英)
+
+**代码优化 (simplify)**:
+- 修复 didChangeDependencies hack -> addPostFrameCallback
+- 并行化 logout/clearPrivacyData 操作
+- 统一使用 Routes.webView 常量
+- 修复硬编码字符串国际化
+
+**新增文件**:
+- `lib/features/privacy/` (3,488 行)
+- `lib/core/splash/splash_screen.dart`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `aca4c17` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
