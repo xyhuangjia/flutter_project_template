@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/chat_input_field.dart';
@@ -48,7 +49,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final conversation = ref.watch(chatNotifierProvider).when(
-          data: (conversations) => conversations
+          data: (state) => state.conversations
               .where((c) => c.id == widget.conversationId)
               .firstOrNull,
           loading: () => null,
@@ -120,6 +121,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           message: message,
           showTimestamp: index == messages.length - 1 ||
               _shouldShowTimestamp(messages, index),
+          onLongPress: message.isFromAI
+              ? () => _showMessageMenu(context, message, isUserMessage: false)
+              : () => _showMessageMenu(context, message, isUserMessage: true),
         );
       },
     );
@@ -222,7 +226,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                // TODO(future): Implement rename
+                _renameConversation(context);
               },
             ),
           ],
@@ -236,6 +240,161 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     await chatNotifier.deleteConversation(widget.conversationId);
     if (mounted) {
       context.pop();
+    }
+  }
+
+  /// Shows the message options menu on long press.
+  void _showMessageMenu(
+    BuildContext context,
+    ChatMessage message, {
+    required bool isUserMessage,
+  }) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Copy option
+            ListTile(
+              leading: Icon(
+                Icons.copy_outlined,
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
+              ),
+              title: Text(
+                'Copy',
+                style: TextStyle(
+                  color: isDark ? Colors.white : const Color(0xFF1E293B),
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                _copyMessage(message);
+              },
+            ),
+            // Delete option (only for user messages or unsent AI messages)
+            if (isUserMessage || message.status == MessageStatus.sending)
+              ListTile(
+                leading: Icon(
+                  Icons.delete_outline,
+                  color: isDark ? Colors.red : const Color(0xFFE53935),
+                ),
+                title: Text(
+                  'Delete',
+                  style: TextStyle(
+                    color:
+                        isDark ? Colors.red : const Color(0xFFE53935),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _deleteMessage(message.id);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Copies message content to clipboard.
+  Future<void> _copyMessage(ChatMessage message) async {
+    await Clipboard.setData(ClipboardData(text: message.content));
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Message copied'),
+          backgroundColor: const Color(0xFF8B5CF6),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    }
+  }
+
+  /// Deletes a message.
+  Future<void> _deleteMessage(String messageId) async {
+    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    await chatNotifier.deleteMessage(messageId);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Message deleted'),
+          backgroundColor: const Color(0xFF8B5CF6),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  /// Renames the conversation.
+  Future<void> _renameConversation(BuildContext context) async {
+    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final conversation = chatNotifier.getConversation(widget.conversationId);
+    if (conversation == null) return;
+
+    final controller = TextEditingController(text: conversation.title);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final newTitle = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
+        title: Text(
+          'Rename Conversation',
+          style: TextStyle(
+            color: isDark ? Colors.white : const Color(0xFF1E293B),
+          ),
+        ),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          maxLength: 100,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: const InputDecoration(
+            hintText: 'Enter new title',
+            border: OutlineInputBorder(),
+          ),
+          style: TextStyle(
+            color: isDark ? Colors.white : const Color(0xFF1E293B),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text.trim()),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+
+    if (newTitle != null && newTitle.isNotEmpty && newTitle != conversation.title) {
+      await chatNotifier.renameConversation(widget.conversationId, newTitle);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Conversation renamed'),
+            backgroundColor: const Color(0xFF8B5CF6),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 }

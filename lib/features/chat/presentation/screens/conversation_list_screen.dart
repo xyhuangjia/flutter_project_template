@@ -22,6 +22,35 @@ class ConversationListScreen extends ConsumerStatefulWidget {
 
 class _ConversationListScreenState
     extends ConsumerState<ConversationListScreen> {
+  final _searchController = TextEditingController();
+  bool _isSearching = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _startSearch() {
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _performSearch(String query) {
+    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    chatNotifier.search(query.isEmpty ? null : query);
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    chatNotifier.clearSearch();
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -31,31 +60,70 @@ class _ConversationListScreenState
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Chats',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-        ),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                style: TextStyle(
+                  color: isDark ? Colors.white : const Color(0xFF1E293B),
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Search conversations...',
+                  hintStyle: TextStyle(
+                    color: isDark
+                        ? const Color(0xFF64748B)
+                        : const Color(0xFF94A3B8),
+                  ),
+                  border: InputBorder.none,
+                ),
+                onChanged: _performSearch,
+                onSubmitted: _performSearch,
+              )
+            : Text(
+                'Chats',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: isDark ? Colors.white : const Color(0xFF1E293B),
+                ),
+              ),
         backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
         elevation: 0,
+        leading: _isSearching
+            ? IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: isDark ? Colors.white : const Color(0xFF1E293B),
+                ),
+                onPressed: _clearSearch,
+              )
+            : null,
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: isDark ? Colors.white : const Color(0xFF1E293B),
+          if (_isSearching)
+            IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
+              ),
+              onPressed: _clearSearch,
+            )
+          else
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
+              ),
+              onPressed: _startSearch,
             ),
-            onPressed: () {
-              // TODO(future): Implement search
-            },
-          ),
         ],
       ),
       body: conversationsAsync.when(
-        data: (conversations) {
+        data: (state) {
+          final conversations = state.filteredConversations;
           if (conversations.isEmpty) {
+            if (_searchController.text.isNotEmpty) {
+              return _buildNoSearchResultsState(isDark);
+            }
             return _buildEmptyState(isDark);
           }
           return ListView.builder(
@@ -103,6 +171,38 @@ class _ConversationListScreenState
             const SizedBox(height: 8),
             Text(
               'Start a new chat by tapping the button below',
+              style: TextStyle(
+                fontSize: 14,
+                color:
+                    isDark ? const Color(0xFF475569) : const Color(0xFF94A3B8),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _buildNoSearchResultsState(bool isDark) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No conversations found',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color:
+                    isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Try a different search term',
               style: TextStyle(
                 fontSize: 14,
                 color:

@@ -14,6 +14,7 @@ class MessageBubble extends StatelessWidget {
     required this.message,
     super.key,
     this.showTimestamp = true,
+    this.onLongPress,
   });
 
   /// The message to display.
@@ -22,12 +23,15 @@ class MessageBubble extends StatelessWidget {
   /// Whether to show the timestamp.
   final bool showTimestamp;
 
+  /// Callback for long press events.
+  final VoidCallback? onLongPress;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    return Padding(
+    final child = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         mainAxisAlignment:
@@ -102,6 +106,10 @@ class MessageBubble extends StatelessWidget {
         ],
       ),
     );
+
+    return onLongPress != null
+        ? GestureDetector(onLongPress: onLongPress, child: child)
+        : child;
   }
 
   Widget _buildAIAvatar() => Container(

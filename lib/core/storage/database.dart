@@ -44,10 +44,111 @@ class Users extends Table {
       ];
 }
 
+/// Chat conversations table definition.
+///
+/// Stores conversation metadata.
+class ChatConversations extends Table {
+  /// Unique identifier.
+  TextColumn get id => text()();
+
+  /// Conversation title.
+  TextColumn get title => text().withLength(min: 1, max: 200)();
+
+  /// Preview of the last message.
+  TextColumn get lastMessage => text().nullable()();
+
+  /// Number of unread messages.
+  IntColumn get unreadCount => integer().withDefault(const Constant(0))();
+
+  /// Associated AI model ID (optional).
+  TextColumn get aiModelId => text().nullable()();
+
+  /// Total tokens used in this conversation.
+  IntColumn get totalTokens => integer().withDefault(const Constant(0))();
+
+  /// When the conversation was created.
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  /// When the conversation was last updated.
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Chat messages table definition.
+///
+/// Stores individual messages within conversations.
+class ChatMessages extends Table {
+  /// Unique identifier.
+  TextColumn get id => text()();
+
+  /// Associated conversation ID.
+  TextColumn get conversationId => text()();
+
+  /// Message content.
+  TextColumn get content => text()();
+
+  /// Message sender: 0 = user, 1 = ai.
+  IntColumn get sender => integer()();
+
+  /// Message status: 0 = sending, 1 = sent, 2 = read, 3 = error.
+  IntColumn get status => integer().withDefault(const Constant(1))();
+
+  /// Tokens used for this message (AI responses only).
+  IntColumn get tokens => integer().nullable()();
+
+  /// When the message was created.
+  DateTimeColumn get timestamp => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+
+  @override
+  List<Set<Column>>? get foreignKeys => [
+        {conversationId},
+      ];
+}
+
+/// AI configurations table definition.
+///
+/// Stores AI model configurations and API keys.
+class AIConfigs extends Table {
+  /// Unique identifier.
+  TextColumn get id => text()();
+
+  /// Display name for this configuration.
+  TextColumn get name => text().withLength(min: 1, max: 100)();
+
+  /// AI provider: 'openai' or 'claude'.
+  TextColumn get provider => text()();
+
+  /// Model identifier (e.g., 'gpt-4', 'claude-3-5-sonnet').
+  TextColumn get model => text()();
+
+  /// Encrypted API key.
+  TextColumn get apiKeyEncrypted => text()();
+
+  /// Whether this is the default configuration.
+  BoolColumn get isDefault => boolean().withDefault(const Constant(false))();
+
+  /// Additional configuration as JSON.
+  TextColumn get configJson => text().nullable()();
+
+  /// When the configuration was created.
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  /// When the configuration was last updated.
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 /// Application database.
 ///
 /// Defines all tables and provides database access methods.
-@DriftDatabase(tables: [Users])
+@DriftDatabase(tables: [Users, ChatConversations, ChatMessages, AIConfigs])
 class AppDatabase extends _$AppDatabase {
   /// Creates the application database.
   AppDatabase() : super(_openConnection());
@@ -56,20 +157,24 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.connection) : super();
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => m.createAll(),
         onUpgrade: (m, from, to) async {
-          // Add migration code here when schema changes
-          // if (from < 2) {
-          //   await m.addColumn(users, users.newColumn);
-          // }
+          if (from < 2) {
+            // Add chat tables for schema version 2
+            await m.createTable(chatConversations);
+            await m.createTable(chatMessages);
+            await m.createTable(aIConfigs);
+          }
         },
         beforeOpen: (details) async =>
             customStatement('PRAGMA foreign_keys = ON'),
       );
+
+  // ==================== Users ====================
 
   /// Fetches all users.
   Future<List<User>> getAllUsers() => select(users).get();
@@ -95,6 +200,147 @@ class AppDatabase extends _$AppDatabase {
 
   /// Clears all users.
   Future<int> clearAllUsers() => delete(users).go();
+
+  // ==================== Chat Conversations ====================
+
+  /// Fetches all conversations ordered by updatedAt desc.
+  Future<List<ChatConversation>> getAllConversations() =>
+      (select(chatConversations)..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+          .get();
+
+  /// Watches all conversations for changes.
+  Stream<List<ChatConversation>> watchAllConversations() =>
+      (select(chatConversations)..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+          .watch();
+
+  /// Fetches a conversation by ID.
+  Future<ChatConversation?> getConversationById(String id) =>
+      (select(chatConversations)..where((t) => t.id.equals(id)))
+          .getSingleOrNull();
+
+  /// Watches a single conversation for changes.
+  Stream<ChatConversation?> watchConversationById(String id) =>
+      (select(chatConversations)..where((t) => t.id.equals(id)))
+          .watchSingleOrNull();
+
+  /// Inserts or updates a conversation.
+  Future<void> upsertConversation(ChatConversationsCompanion conversation) =>
+      into(chatConversations).insertOnConflictUpdate(conversation);
+
+  /// Deletes a conversation and its messages.
+  Future<void> deleteConversation(String id) async {
+    // Delete messages first
+    await (delete(chatMessages)..where((t) => t.conversationId.equals(id))).go();
+    // Then delete conversation
+    await (delete(chatConversations)..where((t) => t.id.equals(id))).go();
+  }
+
+  /// Updates conversation's last message and timestamp.
+  Future<void> updateConversationLastMessage(
+    String id, {
+    required String lastMessage,
+    required DateTime updatedAt,
+    int? tokenCount,
+  }) async {
+    final conversation = await getConversationById(id);
+    if (conversation == null) return;
+
+    await (update(chatConversations)..where((t) => t.id.equals(id))).write(
+      ChatConversationsCompanion(
+        lastMessage: Value(lastMessage),
+        updatedAt: Value(updatedAt),
+        totalTokens: tokenCount != null
+            ? Value(conversation.totalTokens + tokenCount)
+            : Value(conversation.totalTokens),
+      ),
+    );
+  }
+
+  /// Updates conversation title.
+  Future<void> updateConversationTitle(String id, String title) async {
+    await (update(chatConversations)..where((t) => t.id.equals(id))).write(
+      ChatConversationsCompanion(title: Value(title)),
+    );
+  }
+
+  // ==================== Chat Messages ====================
+
+  /// Fetches all messages for a conversation.
+  Future<List<ChatMessage>> getMessagesByConversationId(String conversationId) =>
+      (select(chatMessages)
+            ..where((t) => t.conversationId.equals(conversationId))
+            ..orderBy([(t) => OrderingTerm.asc(t.timestamp)]))
+          .get();
+
+  /// Watches messages for a conversation.
+  Stream<List<ChatMessage>> watchMessagesByConversationId(
+    String conversationId,
+  ) =>
+      (select(chatMessages)
+            ..where((t) => t.conversationId.equals(conversationId))
+            ..orderBy([(t) => OrderingTerm.asc(t.timestamp)]))
+          .watch();
+
+  /// Fetches a message by ID.
+  Future<ChatMessage?> getMessageById(String id) =>
+      (select(chatMessages)..where((t) => t.id.equals(id))).getSingleOrNull();
+
+  /// Inserts a new message.
+  Future<void> insertMessage(ChatMessagesCompanion message) =>
+      into(chatMessages).insert(message);
+
+  /// Updates a message's content.
+  Future<void> updateMessageContent(String id, String content) async {
+    await (update(chatMessages)..where((t) => t.id.equals(id)))
+        .write(ChatMessagesCompanion(content: Value(content)));
+  }
+
+  /// Updates a message's status.
+  Future<void> updateMessageStatus(String id, int status) async {
+    await (update(chatMessages)..where((t) => t.id.equals(id)))
+        .write(ChatMessagesCompanion(status: Value(status)));
+  }
+
+  /// Deletes a message.
+  Future<int> deleteMessage(String id) =>
+      (delete(chatMessages)..where((t) => t.id.equals(id))).go();
+
+  /// Deletes all messages for a conversation.
+  Future<int> deleteMessagesByConversationId(String conversationId) =>
+      (delete(chatMessages)..where((t) => t.conversationId.equals(conversationId)))
+          .go();
+
+  // ==================== AI Configs ====================
+
+  /// Fetches all AI configurations.
+  Future<List<AIConfig>> getAllAIConfigs() => select(aIConfigs).get();
+
+  /// Fetches the default AI configuration.
+  Future<AIConfig?> getDefaultAIConfig() =>
+      (select(aIConfigs)..where((t) => t.isDefault.equals(true)))
+          .getSingleOrNull();
+
+  /// Fetches an AI configuration by ID.
+  Future<AIConfig?> getAIConfigById(String id) =>
+      (select(aIConfigs)..where((t) => t.id.equals(id))).getSingleOrNull();
+
+  /// Inserts or updates an AI configuration.
+  Future<void> upsertAIConfig(AIConfigsCompanion config) =>
+      into(aIConfigs).insertOnConflictUpdate(config);
+
+  /// Sets an AI configuration as default (unsets others).
+  Future<void> setDefaultAIConfig(String id) async {
+    // Unset all defaults first
+    await (update(aIConfigs)..where((t) => t.isDefault.equals(true)))
+        .write(const AIConfigsCompanion(isDefault: Value(false)));
+    // Set the specified one as default
+    await (update(aIConfigs)..where((t) => t.id.equals(id)))
+        .write(const AIConfigsCompanion(isDefault: Value(true)));
+  }
+
+  /// Deletes an AI configuration.
+  Future<int> deleteAIConfig(String id) =>
+      (delete(aIConfigs)..where((t) => t.id.equals(id))).go();
 }
 
 /// Opens the database connection.
