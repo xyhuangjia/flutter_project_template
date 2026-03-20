@@ -13,7 +13,8 @@
       "Bash(find lib/features/privacy -name \"*.dart\" -exec wc -l {} +)",
       "Bash(flutter test:*)",
       "Bash(find:*)",
-      "Bash(dart format:*)"
+      "Bash(dart format:*)",
+      "Bash(git push:*)"
     ]
   }
 }
