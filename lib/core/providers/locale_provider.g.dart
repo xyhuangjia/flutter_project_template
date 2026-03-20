@@ -6,7 +6,7 @@ part of 'locale_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sharedPrefsHash() => r'bc020e9c947de6f93a95199d3f2ceb19f5a90fb2';
+String _$sharedPrefsHash() => r'74f4f8751b28b55d7d21780ebae5ce2a6826ca2a';
 
 /// Async SharedPreferences provider for initialization.
 ///

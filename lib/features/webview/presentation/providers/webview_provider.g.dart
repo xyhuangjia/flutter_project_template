@@ -92,7 +92,7 @@ final webviewRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef WebviewRepositoryRef = AutoDisposeProviderRef<WebViewRepository>;
-String _$webViewNotifierHash() => r'6b6ac45d5c2a1c1f3ee8d109d935a79176d04e2c';
+String _$webViewNotifierHash() => r'f39011a2dd3ffdf3c57fb434c1ce31f49b4559ea';
 
 /// WebView state notifier provider.
 ///

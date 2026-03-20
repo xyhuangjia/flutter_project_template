@@ -3,7 +3,11 @@
     "allow": [
       "Bash(python3:*)",
       "Bash(dart run:*)",
-      "Bash(flutter analyze:*)"
+      "Bash(flutter analyze:*)",
+      "WebSearch",
+      "Bash(TASK_DIR=\".trellis/tasks/03-20-chat-module-enhancement\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
