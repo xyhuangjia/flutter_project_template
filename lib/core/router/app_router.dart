@@ -5,19 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/core/splash/splash_screen.dart';
+import 'package:flutter_project_template/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
-import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
-import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
-import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
-import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
-import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
+import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
+import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
+import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
+import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_consent_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_settings_screen.dart';
-import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/widgets/permission_card.dart';
-import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
+import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
+import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
+import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
 import 'package:go_router/go_router.dart';
 
 /// Application router configuration.
@@ -117,6 +118,12 @@ final GoRouter appRouter = GoRouter(
       path: Routes.accountDeletion,
       name: RouteNames.accountDeletion,
       builder: (context, state) => const AccountDeletionScreen(),
+    ),
+    // Forgot password route
+    GoRoute(
+      path: Routes.forgotPassword,
+      name: RouteNames.forgotPassword,
+      builder: (context, state) => const ForgotPasswordScreen(),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(

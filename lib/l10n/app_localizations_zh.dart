@@ -620,4 +620,98 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get typeMessage => '输入消息...';
+
+  @override
+  String get forgotPasswordTitle => '忘记密码';
+
+  @override
+  String get forgotPasswordSubtitle => '输入您的邮箱或手机号以重置密码';
+
+  @override
+  String get phone => '手机';
+
+  @override
+  String get phoneNumber => '手机号码';
+
+  @override
+  String get enterPhone => '请输入手机号码';
+
+  @override
+  String get enterValidPhone => '请输入有效的手机号码';
+
+  @override
+  String get sendVerificationCode => '发送验证码';
+
+  @override
+  String get enterVerificationCode => '输入验证码';
+
+  @override
+  String get verificationCode => '验证码';
+
+  @override
+  String get verificationCodeSent => '验证码已发送到您的账号';
+
+  @override
+  String codeSentTo(Object account) {
+    return '验证码已发送至：$account';
+  }
+
+  @override
+  String get resendCode => '重新发送';
+
+  @override
+  String resendCodeIn(Object seconds) {
+    return '$seconds秒后可重新发送';
+  }
+
+  @override
+  String get verify => '验证';
+
+  @override
+  String get setNewPassword => '设置新密码';
+
+  @override
+  String get createNewPassword => '为您的账号创建新密码';
+
+  @override
+  String get newPassword => '新密码';
+
+  @override
+  String get confirmNewPassword => '确认新密码';
+
+  @override
+  String get resetPassword => '重置密码';
+
+  @override
+  String get passwordRequirements => '密码要求';
+
+  @override
+  String get passwordMinLengthReq => '至少8个字符';
+
+  @override
+  String get passwordComplexityReq => '必须包含字母和数字';
+
+  @override
+  String get passwordResetSuccess => '密码重置成功';
+
+  @override
+  String get passwordResetSuccessMessage => '您的密码已成功重置。现在可以使用新密码登录。';
+
+  @override
+  String get backToLogin => '返回登录';
+
+  @override
+  String get invalidVerificationCode => '验证码无效';
+
+  @override
+  String get verificationCodeExpired => '验证码已过期';
+
+  @override
+  String get enterVerificationCodeHint => '请输入验证码';
+
+  @override
+  String get verificationCodeLength => '验证码必须是6位数字';
+
+  @override
+  String get passwordsDoNotMatchError => '两次密码输入不一致';
 }

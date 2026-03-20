@@ -634,4 +634,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get typeMessage => 'Type a message...';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter your email or phone number to reset your password';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get enterPhone => 'Please enter your phone number';
+
+  @override
+  String get enterValidPhone => 'Please enter a valid phone number';
+
+  @override
+  String get sendVerificationCode => 'Send Verification Code';
+
+  @override
+  String get enterVerificationCode => 'Enter Verification Code';
+
+  @override
+  String get verificationCode => 'Verification Code';
+
+  @override
+  String get verificationCodeSent =>
+      'We\'ve sent a verification code to your account';
+
+  @override
+  String codeSentTo(Object account) {
+    return 'Code sent to: $account';
+  }
+
+  @override
+  String get resendCode => 'Resend Code';
+
+  @override
+  String resendCodeIn(Object seconds) {
+    return 'Resend code in ${seconds}s';
+  }
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get setNewPassword => 'Set New Password';
+
+  @override
+  String get createNewPassword => 'Create a new password for your account';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmNewPassword => 'Confirm New Password';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get passwordRequirements => 'Password Requirements';
+
+  @override
+  String get passwordMinLengthReq => 'At least 8 characters';
+
+  @override
+  String get passwordComplexityReq => 'Must contain letters and numbers';
+
+  @override
+  String get passwordResetSuccess => 'Password Reset Successful';
+
+  @override
+  String get passwordResetSuccessMessage =>
+      'Your password has been reset successfully. You can now log in with your new password.';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get invalidVerificationCode => 'Invalid verification code';
+
+  @override
+  String get verificationCodeExpired => 'Verification code has expired';
+
+  @override
+  String get enterVerificationCodeHint => 'Please enter verification code';
+
+  @override
+  String get verificationCodeLength => 'Verification code must be 6 digits';
+
+  @override
+  String get passwordsDoNotMatchError => 'Passwords do not match';
 }
