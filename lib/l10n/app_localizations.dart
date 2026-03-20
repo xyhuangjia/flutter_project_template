@@ -1304,6 +1304,24 @@ abstract class AppLocalizations {
   /// **'Type a message...'**
   String get typeMessage;
 
+  /// Forgot password screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgotPasswordTitle;
+
+  /// Forgot password screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email or phone number to reset your password'**
+  String get forgotPasswordSubtitle;
+
+  /// Phone label
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
   /// Phone number label
   ///
   /// In en, this message translates to:
@@ -1353,6 +1371,49 @@ abstract class AppLocalizations {
   String get sendCode;
 
   /// Resend verification code button
+  /// Enter phone validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your phone number'**
+  String get enterPhone;
+
+  /// Valid phone validation message
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get enterValidPhone;
+
+  /// Send verification code button
+  ///
+  /// In en, this message translates to:
+  /// **'Send Verification Code'**
+  String get sendVerificationCode;
+
+  /// Enter verification code title
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Verification Code'**
+  String get enterVerificationCode;
+
+  /// Verification code label
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get verificationCode;
+
+  /// Verification code sent message
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification code to your account'**
+  String get verificationCodeSent;
+
+  /// Code sent to account message
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent to: {account}'**
+  String codeSentTo(Object account);
+
+  /// Resend code button
   ///
   /// In en, this message translates to:
   /// **'Resend Code'**
@@ -1477,6 +1538,113 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password must be at least 8 characters'**
   String get passwordMinLength8;
+  /// Resend code countdown
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code in {seconds}s'**
+  String resendCodeIn(Object seconds);
+
+  /// Verify button
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// Set new password title
+  ///
+  /// In en, this message translates to:
+  /// **'Set New Password'**
+  String get setNewPassword;
+
+  /// Create new password subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new password for your account'**
+  String get createNewPassword;
+
+  /// New password label
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// Confirm new password label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get confirmNewPassword;
+
+  /// Reset password button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// Password requirements title
+  ///
+  /// In en, this message translates to:
+  /// **'Password Requirements'**
+  String get passwordRequirements;
+
+  /// Password minimum length requirement
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get passwordMinLengthReq;
+
+  /// Password complexity requirement
+  ///
+  /// In en, this message translates to:
+  /// **'Must contain letters and numbers'**
+  String get passwordComplexityReq;
+
+  /// Password reset success title
+  ///
+  /// In en, this message translates to:
+  /// **'Password Reset Successful'**
+  String get passwordResetSuccess;
+
+  /// Password reset success message
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been reset successfully. You can now log in with your new password.'**
+  String get passwordResetSuccessMessage;
+
+  /// Back to login button
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// Invalid verification code error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid verification code'**
+  String get invalidVerificationCode;
+
+  /// Verification code expired error
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code has expired'**
+  String get verificationCodeExpired;
+
+  /// Enter verification code validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter verification code'**
+  String get enterVerificationCodeHint;
+
+  /// Verification code length validation
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code must be 6 digits'**
+  String get verificationCodeLength;
+
+  /// Passwords do not match error
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatchError;
 }
 
 class _AppLocalizationsDelegate

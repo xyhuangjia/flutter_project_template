@@ -988,6 +988,22 @@
   },
 
   "phoneNumber": "手机号",
+  "forgotPasswordTitle": "忘记密码",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+
+  "forgotPasswordSubtitle": "输入您的邮箱或手机号以重置密码",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot password screen subtitle"
+  },
+
+  "phone": "手机",
+  "@phone": {
+    "description": "Phone label"
+  },
+
+  "phoneNumber": "手机号码",
   "@phoneNumber": {
     "description": "Phone number label"
   },
@@ -1000,6 +1016,24 @@
   "enterValidPhoneNumber": "请输入有效的手机号",
   "@enterValidPhoneNumber": {
     "description": "Valid phone number validation message"
+  "enterPhone": "请输入手机号码",
+  "@enterPhone": {
+    "description": "Enter phone validation message"
+  },
+
+  "enterValidPhone": "请输入有效的手机号码",
+  "@enterValidPhone": {
+    "description": "Valid phone validation message"
+  },
+
+  "sendVerificationCode": "发送验证码",
+  "@sendVerificationCode": {
+    "description": "Send verification code button"
+  },
+
+  "enterVerificationCode": "输入验证码",
+  "@enterVerificationCode": {
+    "description": "Enter verification code title"
   },
 
   "verificationCode": "验证码",
@@ -1008,6 +1042,7 @@
   },
 
   "verificationCodeSent": "验证码已发送",
+  "verificationCodeSent": "验证码已发送到您的账号",
   "@verificationCodeSent": {
     "description": "Verification code sent message"
   },
@@ -1033,6 +1068,22 @@
   "resendIn": "{seconds}秒后重试",
   "@resendIn": {
     "description": "Resend countdown message",
+  "codeSentTo": "验证码已发送至：{account}",
+  "@codeSentTo": {
+    "description": "Code sent to account message",
+    "placeholders": {
+      "account": {}
+    }
+  },
+
+  "resendCode": "重新发送",
+  "@resendCode": {
+    "description": "Resend code button"
+  },
+
+  "resendCodeIn": "{seconds}秒后可重新发送",
+  "@resendCodeIn": {
+    "description": "Resend code countdown",
     "placeholders": {
       "seconds": {}
     }
@@ -1124,5 +1175,88 @@
   "passwordMinLength8": "密码至少需要8个字符",
   "@passwordMinLength8": {
     "description": "Password min 8 characters validation message"
+  "verify": "验证",
+  "@verify": {
+    "description": "Verify button"
+  },
+
+  "setNewPassword": "设置新密码",
+  "@setNewPassword": {
+    "description": "Set new password title"
+  },
+
+  "createNewPassword": "为您的账号创建新密码",
+  "@createNewPassword": {
+    "description": "Create new password subtitle"
+  },
+
+  "newPassword": "新密码",
+  "@newPassword": {
+    "description": "New password label"
+  },
+
+  "confirmNewPassword": "确认新密码",
+  "@confirmNewPassword": {
+    "description": "Confirm new password label"
+  },
+
+  "resetPassword": "重置密码",
+  "@resetPassword": {
+    "description": "Reset password button"
+  },
+
+  "passwordRequirements": "密码要求",
+  "@passwordRequirements": {
+    "description": "Password requirements title"
+  },
+
+  "passwordMinLengthReq": "至少8个字符",
+  "@passwordMinLengthReq": {
+    "description": "Password minimum length requirement"
+  },
+
+  "passwordComplexityReq": "必须包含字母和数字",
+  "@passwordComplexityReq": {
+    "description": "Password complexity requirement"
+  },
+
+  "passwordResetSuccess": "密码重置成功",
+  "@passwordResetSuccess": {
+    "description": "Password reset success title"
+  },
+
+  "passwordResetSuccessMessage": "您的密码已成功重置。现在可以使用新密码登录。",
+  "@passwordResetSuccessMessage": {
+    "description": "Password reset success message"
+  },
+
+  "backToLogin": "返回登录",
+  "@backToLogin": {
+    "description": "Back to login button"
+  },
+
+  "invalidVerificationCode": "验证码无效",
+  "@invalidVerificationCode": {
+    "description": "Invalid verification code error"
+  },
+
+  "verificationCodeExpired": "验证码已过期",
+  "@verificationCodeExpired": {
+    "description": "Verification code expired error"
+  },
+
+  "enterVerificationCodeHint": "请输入验证码",
+  "@enterVerificationCodeHint": {
+    "description": "Enter verification code validation"
+  },
+
+  "verificationCodeLength": "验证码必须是6位数字",
+  "@verificationCodeLength": {
+    "description": "Verification code length validation"
+  },
+
+  "passwordsDoNotMatchError": "两次密码输入不一致",
+  "@passwordsDoNotMatchError": {
+    "description": "Passwords do not match error"
   }
 }

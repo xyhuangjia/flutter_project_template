@@ -410,7 +410,8 @@ class _LoginForm extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: isLoading ? null : () {},
+              onPressed:
+                  isLoading ? null : () => context.go(Routes.forgotPassword),
               child: Text(localizations.forgotPassword),
             ),
           ),

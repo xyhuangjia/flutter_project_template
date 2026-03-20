@@ -1012,6 +1012,21 @@
     "description": "Type a message hint"
   },
 
+  "forgotPasswordTitle": "Forgot Password",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+
+  "forgotPasswordSubtitle": "Enter your email or phone number to reset your password",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot password screen subtitle"
+  },
+
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone label"
+  },
+
   "phoneNumber": "Phone Number",
   "@phoneNumber": {
     "description": "Phone number label"
@@ -1038,6 +1053,32 @@
   },
 
   "verificationCodeSent": "Verification code sent",
+  "enterPhone": "Please enter your phone number",
+  "@enterPhone": {
+    "description": "Enter phone validation message"
+  },
+
+  "enterValidPhone": "Please enter a valid phone number",
+  "@enterValidPhone": {
+    "description": "Valid phone validation message"
+  },
+
+  "sendVerificationCode": "Send Verification Code",
+  "@sendVerificationCode": {
+    "description": "Send verification code button"
+  },
+
+  "enterVerificationCode": "Enter Verification Code",
+  "@enterVerificationCode": {
+    "description": "Enter verification code title"
+  },
+
+  "verificationCode": "Verification Code",
+  "@verificationCode": {
+    "description": "Verification code label"
+  },
+
+  "verificationCodeSent": "We've sent a verification code to your account",
   "@verificationCodeSent": {
     "description": "Verification code sent message"
   },
@@ -1063,6 +1104,22 @@
   "resendIn": "Resend in {seconds}s",
   "@resendIn": {
     "description": "Resend countdown message",
+  "codeSentTo": "Code sent to: {account}",
+  "@codeSentTo": {
+    "description": "Code sent to account message",
+    "placeholders": {
+      "account": {}
+    }
+  },
+
+  "resendCode": "Resend Code",
+  "@resendCode": {
+    "description": "Resend code button"
+  },
+
+  "resendCodeIn": "Resend code in {seconds}s",
+  "@resendCodeIn": {
+    "description": "Resend code countdown",
     "placeholders": {
       "seconds": {}
     }
@@ -1164,5 +1221,88 @@
   "passwordMinLength8": "Password must be at least 8 characters",
   "@passwordMinLength8": {
     "description": "Password min 8 characters validation message"
+  "verify": "Verify",
+  "@verify": {
+    "description": "Verify button"
+  },
+
+  "setNewPassword": "Set New Password",
+  "@setNewPassword": {
+    "description": "Set new password title"
+  },
+
+  "createNewPassword": "Create a new password for your account",
+  "@createNewPassword": {
+    "description": "Create new password subtitle"
+  },
+
+  "newPassword": "New Password",
+  "@newPassword": {
+    "description": "New password label"
+  },
+
+  "confirmNewPassword": "Confirm New Password",
+  "@confirmNewPassword": {
+    "description": "Confirm new password label"
+  },
+
+  "resetPassword": "Reset Password",
+  "@resetPassword": {
+    "description": "Reset password button"
+  },
+
+  "passwordRequirements": "Password Requirements",
+  "@passwordRequirements": {
+    "description": "Password requirements title"
+  },
+
+  "passwordMinLengthReq": "At least 8 characters",
+  "@passwordMinLengthReq": {
+    "description": "Password minimum length requirement"
+  },
+
+  "passwordComplexityReq": "Must contain letters and numbers",
+  "@passwordComplexityReq": {
+    "description": "Password complexity requirement"
+  },
+
+  "passwordResetSuccess": "Password Reset Successful",
+  "@passwordResetSuccess": {
+    "description": "Password reset success title"
+  },
+
+  "passwordResetSuccessMessage": "Your password has been reset successfully. You can now log in with your new password.",
+  "@passwordResetSuccessMessage": {
+    "description": "Password reset success message"
+  },
+
+  "backToLogin": "Back to Login",
+  "@backToLogin": {
+    "description": "Back to login button"
+  },
+
+  "invalidVerificationCode": "Invalid verification code",
+  "@invalidVerificationCode": {
+    "description": "Invalid verification code error"
+  },
+
+  "verificationCodeExpired": "Verification code has expired",
+  "@verificationCodeExpired": {
+    "description": "Verification code expired error"
+  },
+
+  "enterVerificationCodeHint": "Please enter verification code",
+  "@enterVerificationCodeHint": {
+    "description": "Enter verification code validation"
+  },
+
+  "verificationCodeLength": "Verification code must be 6 digits",
+  "@verificationCodeLength": {
+    "description": "Verification code length validation"
+  },
+
+  "passwordsDoNotMatchError": "Passwords do not match",
+  "@passwordsDoNotMatchError": {
+    "description": "Passwords do not match error"
   }
 }
