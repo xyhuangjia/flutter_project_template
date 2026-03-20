@@ -142,6 +142,14 @@ class SettingsScreen extends ConsumerWidget {
               context.push('/about');
             },
           ),
+          const SettingsDivider(),
+          SettingsTile(
+            title: localizations.privacySettings,
+            leading: const Icon(Icons.privacy_tip_outlined),
+            onTap: () {
+              context.push('/privacy/settings');
+            },
+          ),
           const SizedBox(height: 24),
 
           // Developer options section (only in debug mode)

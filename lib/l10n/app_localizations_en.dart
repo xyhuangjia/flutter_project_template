@@ -341,4 +341,234 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get webViewUrlCopied => 'URL copied to clipboard';
+
+  @override
+  String get privacyConsentTitle => 'Privacy Policy & User Agreement';
+
+  @override
+  String get privacyConsentDescription =>
+      'Before using this app, please read and agree to our Privacy Policy and User Agreement. We take your privacy seriously and are committed to protecting your personal information.';
+
+  @override
+  String get privacyConsentReadMore =>
+      'Read the following documents for more details:';
+
+  @override
+  String get privacyConsentRequired =>
+      'You must agree to the privacy policy to use this app.';
+
+  @override
+  String get privacyConsentExitTitle => 'Exit App?';
+
+  @override
+  String get privacyConsentExitMessage =>
+      'If you do not agree with the privacy policy, you will not be able to use this app. Are you sure you want to exit?';
+
+  @override
+  String get agree => 'Agree';
+
+  @override
+  String get disagree => 'Disagree';
+
+  @override
+  String get showPrivacyConsent => 'Show Privacy Consent';
+
+  @override
+  String get privacySettings => 'Privacy Settings';
+
+  @override
+  String get legalDocuments => 'Legal Documents';
+
+  @override
+  String get dataPreferences => 'Data Preferences';
+
+  @override
+  String get dataCollection => 'Data Collection';
+
+  @override
+  String get dataCollectionDescription =>
+      'Allow app to collect usage data to improve services';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Help us improve by sharing anonymous usage data';
+
+  @override
+  String get appPermissions => 'App Permissions';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get photoLibrary => 'Photo Library';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get regionSettings => 'Region Settings';
+
+  @override
+  String get marketRegion => 'Market Region';
+
+  @override
+  String get selectRegion => 'Select Region';
+
+  @override
+  String get regionChina => 'China (PIPL)';
+
+  @override
+  String get regionInternational => 'International (GDPR)';
+
+  @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
+  String get deleteAccountSubtitle =>
+      'Permanently delete your account and all data';
+
+  @override
+  String get accountDeletionWarningTitle =>
+      'Warning: This action cannot be undone';
+
+  @override
+  String get accountDeletionWarningDescription =>
+      'Deleting your account will permanently remove all your data, including your profile, messages, and settings. This action cannot be undone.';
+
+  @override
+  String get dataToBeDeleted => 'Data to be deleted:';
+
+  @override
+  String get profileInformation => 'Profile information';
+
+  @override
+  String get chatHistory => 'Chat history';
+
+  @override
+  String get settingsAndPreferences => 'Settings and preferences';
+
+  @override
+  String get savedData => 'Saved data';
+
+  @override
+  String get accountDeletionConfirm1 =>
+      'I understand that all my data will be permanently deleted';
+
+  @override
+  String get accountDeletionConfirm2 =>
+      'I understand this action cannot be undone';
+
+  @override
+  String get deleteAccountPermanently => 'Delete Account Permanently';
+
+  @override
+  String get deleting => 'Deleting...';
+
+  @override
+  String get accountDeletedSuccess => 'Account deleted successfully';
+
+  @override
+  String get accountDeletedFailed =>
+      'Failed to delete account. Please try again.';
+
+  @override
+  String get pleaseConfirmAllCheckboxes => 'Please confirm all checkboxes';
+
+  @override
+  String get cameraPermissionTitle => 'Camera Access';
+
+  @override
+  String get cameraPermissionSubtitle => 'Required for taking photos';
+
+  @override
+  String get cameraPermissionDescription =>
+      'We need access to your camera to take photos for your profile picture and share with others. Your photos will only be shared with your consent.';
+
+  @override
+  String get photoLibraryPermissionTitle => 'Photo Library Access';
+
+  @override
+  String get photoLibraryPermissionSubtitle => 'Required for selecting photos';
+
+  @override
+  String get photoLibraryPermissionDescription =>
+      'We need access to your photo library to select and share photos. Your photos will only be shared with your consent.';
+
+  @override
+  String get locationPermissionTitle => 'Location Access';
+
+  @override
+  String get locationPermissionSubtitle => 'Required for location features';
+
+  @override
+  String get locationPermissionDescription =>
+      'We need access to your location to provide location-based features such as finding nearby users and sharing your location. Your location data is handled securely.';
+
+  @override
+  String get notificationPermissionTitle => 'Notification Access';
+
+  @override
+  String get notificationPermissionSubtitle => 'Required for notifications';
+
+  @override
+  String get notificationPermissionDescription =>
+      'We need permission to send you notifications about messages, updates, and important alerts. You can customize notification settings anytime.';
+
+  @override
+  String get grantPermission => 'Grant Permission';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get permissionPermanentlyDeniedTitle => 'Permission Denied';
+
+  @override
+  String get permissionPermanentlyDeniedMessage =>
+      'This permission has been permanently denied. Please enable it in app settings.';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get permissionAlreadyGranted => 'Permission already granted';
+
+  @override
+  String get privacyConsentStatus => 'Privacy Consent Status';
+
+  @override
+  String privacyConsentDate(Object date) {
+    return 'Consented on: $date';
+  }
+
+  @override
+  String privacyPolicyVersion(Object version) {
+    return 'Privacy Policy Version: $version';
+  }
+
+  @override
+  String get termsOfServiceSubtitle => 'Read our terms of service';
+
+  @override
+  String get privacyConsentPart1 =>
+      'Before using this app, please read and agree to our ';
+
+  @override
+  String get privacyConsentLinkPrivacy => 'Privacy Policy';
+
+  @override
+  String get privacyConsentPart2 => ' and ';
+
+  @override
+  String get privacyConsentLinkTerms => 'Terms of Service';
+
+  @override
+  String get privacyConsentPart3 =>
+      '. We take your privacy seriously and are committed to protecting your personal information.';
+
+  @override
+  String get actionCannotBeUndone => 'This action cannot be undone';
 }

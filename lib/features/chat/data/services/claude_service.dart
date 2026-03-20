@@ -161,7 +161,8 @@ class ClaudeService implements AIService {
         }
       }
     } on DioException catch (e) {
-      yield AIStreamChunk(content: '', isDone: true, error: _handleDioError(e).message);
+      yield AIStreamChunk(
+          content: '', isDone: true, error: _handleDioError(e).message);
     }
   }
 

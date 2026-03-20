@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  
+
   "appTitle": "Flutter Project Template",
   "@appTitle": {
     "description": "Application title"
@@ -554,5 +554,356 @@
   "webViewUrlCopied": "URL copied to clipboard",
   "@webViewUrlCopied": {
     "description": "URL copied message"
+  },
+
+  "privacyConsentTitle": "Privacy Policy & User Agreement",
+  "@privacyConsentTitle": {
+    "description": "Privacy consent dialog title"
+  },
+
+  "privacyConsentDescription": "Before using this app, please read and agree to our Privacy Policy and User Agreement. We take your privacy seriously and are committed to protecting your personal information.",
+  "@privacyConsentDescription": {
+    "description": "Privacy consent dialog description"
+  },
+
+  "privacyConsentReadMore": "Read the following documents for more details:",
+  "@privacyConsentReadMore": {
+    "description": "Read more text in privacy consent"
+  },
+
+  "privacyConsentRequired": "You must agree to the privacy policy to use this app.",
+  "@privacyConsentRequired": {
+    "description": "Privacy consent required message"
+  },
+
+  "privacyConsentExitTitle": "Exit App?",
+  "@privacyConsentExitTitle": {
+    "description": "Exit confirmation title"
+  },
+
+  "privacyConsentExitMessage": "If you do not agree with the privacy policy, you will not be able to use this app. Are you sure you want to exit?",
+  "@privacyConsentExitMessage": {
+    "description": "Exit confirmation message"
+  },
+
+  "agree": "Agree",
+  "@agree": {
+    "description": "Agree button text"
+  },
+
+  "disagree": "Disagree",
+  "@disagree": {
+    "description": "Disagree button text"
+  },
+
+  "showPrivacyConsent": "Show Privacy Consent",
+  "@showPrivacyConsent": {
+    "description": "Show privacy consent button text"
+  },
+
+  "privacySettings": "Privacy Settings",
+  "@privacySettings": {
+    "description": "Privacy settings screen title"
+  },
+
+  "legalDocuments": "Legal Documents",
+  "@legalDocuments": {
+    "description": "Legal documents section title"
+  },
+
+  "dataPreferences": "Data Preferences",
+  "@dataPreferences": {
+    "description": "Data preferences section title"
+  },
+
+  "dataCollection": "Data Collection",
+  "@dataCollection": {
+    "description": "Data collection setting"
+  },
+
+  "dataCollectionDescription": "Allow app to collect usage data to improve services",
+  "@dataCollectionDescription": {
+    "description": "Data collection description"
+  },
+
+  "analytics": "Analytics",
+  "@analytics": {
+    "description": "Analytics setting"
+  },
+
+  "analyticsDescription": "Help us improve by sharing anonymous usage data",
+  "@analyticsDescription": {
+    "description": "Analytics description"
+  },
+
+  "appPermissions": "App Permissions",
+  "@appPermissions": {
+    "description": "App permissions section title"
+  },
+
+  "camera": "Camera",
+  "@camera": {
+    "description": "Camera permission"
+  },
+
+  "photoLibrary": "Photo Library",
+  "@photoLibrary": {
+    "description": "Photo library permission"
+  },
+
+  "location": "Location",
+  "@location": {
+    "description": "Location permission"
+  },
+
+  "regionSettings": "Region Settings",
+  "@regionSettings": {
+    "description": "Region settings section title"
+  },
+
+  "marketRegion": "Market Region",
+  "@marketRegion": {
+    "description": "Market region setting"
+  },
+
+  "selectRegion": "Select Region",
+  "@selectRegion": {
+    "description": "Select region dialog title"
+  },
+
+  "regionChina": "China (PIPL)",
+  "@regionChina": {
+    "description": "China region option"
+  },
+
+  "regionInternational": "International (GDPR)",
+  "@regionInternational": {
+    "description": "International region option"
+  },
+
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {
+    "description": "Delete account button"
+  },
+
+  "deleteAccountSubtitle": "Permanently delete your account and all data",
+  "@deleteAccountSubtitle": {
+    "description": "Delete account subtitle"
+  },
+
+  "accountDeletionWarningTitle": "Warning: This action cannot be undone",
+  "@accountDeletionWarningTitle": {
+    "description": "Account deletion warning title"
+  },
+
+  "accountDeletionWarningDescription": "Deleting your account will permanently remove all your data, including your profile, messages, and settings. This action cannot be undone.",
+  "@accountDeletionWarningDescription": {
+    "description": "Account deletion warning description"
+  },
+
+  "dataToBeDeleted": "Data to be deleted:",
+  "@dataToBeDeleted": {
+    "description": "Data to be deleted label"
+  },
+
+  "profileInformation": "Profile information",
+  "@profileInformation": {
+    "description": "Profile information item"
+  },
+
+  "chatHistory": "Chat history",
+  "@chatHistory": {
+    "description": "Chat history item"
+  },
+
+  "settingsAndPreferences": "Settings and preferences",
+  "@settingsAndPreferences": {
+    "description": "Settings and preferences item"
+  },
+
+  "savedData": "Saved data",
+  "@savedData": {
+    "description": "Saved data item"
+  },
+
+  "accountDeletionConfirm1": "I understand that all my data will be permanently deleted",
+  "@accountDeletionConfirm1": {
+    "description": "First confirmation checkbox"
+  },
+
+  "accountDeletionConfirm2": "I understand this action cannot be undone",
+  "@accountDeletionConfirm2": {
+    "description": "Second confirmation checkbox"
+  },
+
+  "deleteAccountPermanently": "Delete Account Permanently",
+  "@deleteAccountPermanently": {
+    "description": "Delete account permanently button"
+  },
+
+  "deleting": "Deleting...",
+  "@deleting": {
+    "description": "Deleting in progress text"
+  },
+
+  "accountDeletedSuccess": "Account deleted successfully",
+  "@accountDeletedSuccess": {
+    "description": "Account deleted success message"
+  },
+
+  "accountDeletedFailed": "Failed to delete account. Please try again.",
+  "@accountDeletedFailed": {
+    "description": "Account deleted failed message"
+  },
+
+  "pleaseConfirmAllCheckboxes": "Please confirm all checkboxes",
+  "@pleaseConfirmAllCheckboxes": {
+    "description": "Please confirm all checkboxes message"
+  },
+
+  "cameraPermissionTitle": "Camera Access",
+  "@cameraPermissionTitle": {
+    "description": "Camera permission title"
+  },
+
+  "cameraPermissionSubtitle": "Required for taking photos",
+  "@cameraPermissionSubtitle": {
+    "description": "Camera permission subtitle"
+  },
+
+  "cameraPermissionDescription": "We need access to your camera to take photos for your profile picture and share with others. Your photos will only be shared with your consent.",
+  "@cameraPermissionDescription": {
+    "description": "Camera permission description"
+  },
+
+  "photoLibraryPermissionTitle": "Photo Library Access",
+  "@photoLibraryPermissionTitle": {
+    "description": "Photo library permission title"
+  },
+
+  "photoLibraryPermissionSubtitle": "Required for selecting photos",
+  "@photoLibraryPermissionSubtitle": {
+    "description": "Photo library permission subtitle"
+  },
+
+  "photoLibraryPermissionDescription": "We need access to your photo library to select and share photos. Your photos will only be shared with your consent.",
+  "@photoLibraryPermissionDescription": {
+    "description": "Photo library permission description"
+  },
+
+  "locationPermissionTitle": "Location Access",
+  "@locationPermissionTitle": {
+    "description": "Location permission title"
+  },
+
+  "locationPermissionSubtitle": "Required for location features",
+  "@locationPermissionSubtitle": {
+    "description": "Location permission subtitle"
+  },
+
+  "locationPermissionDescription": "We need access to your location to provide location-based features such as finding nearby users and sharing your location. Your location data is handled securely.",
+  "@locationPermissionDescription": {
+    "description": "Location permission description"
+  },
+
+  "notificationPermissionTitle": "Notification Access",
+  "@notificationPermissionTitle": {
+    "description": "Notification permission title"
+  },
+
+  "notificationPermissionSubtitle": "Required for notifications",
+  "@notificationPermissionSubtitle": {
+    "description": "Notification permission subtitle"
+  },
+
+  "notificationPermissionDescription": "We need permission to send you notifications about messages, updates, and important alerts. You can customize notification settings anytime.",
+  "@notificationPermissionDescription": {
+    "description": "Notification permission description"
+  },
+
+  "grantPermission": "Grant Permission",
+  "@grantPermission": {
+    "description": "Grant permission button"
+  },
+
+  "skip": "Skip",
+  "@skip": {
+    "description": "Skip button"
+  },
+
+  "permissionPermanentlyDeniedTitle": "Permission Denied",
+  "@permissionPermanentlyDeniedTitle": {
+    "description": "Permission permanently denied title"
+  },
+
+  "permissionPermanentlyDeniedMessage": "This permission has been permanently denied. Please enable it in app settings.",
+  "@permissionPermanentlyDeniedMessage": {
+    "description": "Permission permanently denied message"
+  },
+
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Open settings button"
+  },
+
+  "permissionAlreadyGranted": "Permission already granted",
+  "@permissionAlreadyGranted": {
+    "description": "Permission already granted message"
+  },
+
+  "privacyConsentStatus": "Privacy Consent Status",
+  "@privacyConsentStatus": {
+    "description": "Privacy consent status label"
+  },
+
+  "privacyConsentDate": "Consented on: {date}",
+  "@privacyConsentDate": {
+    "description": "Privacy consent date",
+    "placeholders": {
+      "date": {}
+    }
+  },
+
+  "privacyPolicyVersion": "Privacy Policy Version: {version}",
+  "@privacyPolicyVersion": {
+    "description": "Privacy policy version",
+    "placeholders": {
+      "version": {}
+    }
+  },
+
+  "termsOfServiceSubtitle": "Read our terms of service",
+  "@termsOfServiceSubtitle": {
+    "description": "Terms of service subtitle"
+  },
+
+  "privacyConsentPart1": "Before using this app, please read and agree to our ",
+  "@privacyConsentPart1": {
+    "description": "Privacy consent text part 1"
+  },
+
+  "privacyConsentLinkPrivacy": "Privacy Policy",
+  "@privacyConsentLinkPrivacy": {
+    "description": "Privacy policy link text"
+  },
+
+  "privacyConsentPart2": " and ",
+  "@privacyConsentPart2": {
+    "description": "Privacy consent text part 2"
+  },
+
+  "privacyConsentLinkTerms": "Terms of Service",
+  "@privacyConsentLinkTerms": {
+    "description": "Terms of service link text"
+  },
+
+  "privacyConsentPart3": ". We take your privacy seriously and are committed to protecting your personal information.",
+  "@privacyConsentPart3": {
+    "description": "Privacy consent text part 3"
+  },
+
+  "actionCannotBeUndone": "This action cannot be undone",
+  "@actionCannotBeUndone": {
+    "description": "Action cannot be undone warning"
   }
 }

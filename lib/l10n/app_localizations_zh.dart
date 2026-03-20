@@ -340,4 +340,221 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get webViewUrlCopied => '链接已复制';
+
+  @override
+  String get privacyConsentTitle => '隐私政策与用户协议';
+
+  @override
+  String get privacyConsentDescription =>
+      '在使用本应用之前，请阅读并同意我们的隐私政策和用户协议。我们非常重视您的隐私，并致力于保护您的个人信息。';
+
+  @override
+  String get privacyConsentReadMore => '阅读以下文档了解更多详情：';
+
+  @override
+  String get privacyConsentRequired => '您必须同意隐私政策才能使用本应用。';
+
+  @override
+  String get privacyConsentExitTitle => '退出应用？';
+
+  @override
+  String get privacyConsentExitMessage => '如果您不同意隐私政策，将无法使用本应用。确定要退出吗？';
+
+  @override
+  String get agree => '同意';
+
+  @override
+  String get disagree => '不同意';
+
+  @override
+  String get showPrivacyConsent => '显示隐私协议';
+
+  @override
+  String get privacySettings => '隐私设置';
+
+  @override
+  String get legalDocuments => '法律文档';
+
+  @override
+  String get dataPreferences => '数据偏好';
+
+  @override
+  String get dataCollection => '数据收集';
+
+  @override
+  String get dataCollectionDescription => '允许应用收集使用数据以改进服务';
+
+  @override
+  String get analytics => '分析';
+
+  @override
+  String get analyticsDescription => '通过分享匿名使用数据帮助我们改进';
+
+  @override
+  String get appPermissions => '应用权限';
+
+  @override
+  String get camera => '相机';
+
+  @override
+  String get photoLibrary => '相册';
+
+  @override
+  String get location => '位置';
+
+  @override
+  String get regionSettings => '地区设置';
+
+  @override
+  String get marketRegion => '市场地区';
+
+  @override
+  String get selectRegion => '选择地区';
+
+  @override
+  String get regionChina => '中国 (PIPL)';
+
+  @override
+  String get regionInternational => '国际 (GDPR)';
+
+  @override
+  String get deleteAccount => '注销账号';
+
+  @override
+  String get deleteAccountSubtitle => '永久删除您的账号和所有数据';
+
+  @override
+  String get accountDeletionWarningTitle => '警告：此操作无法撤销';
+
+  @override
+  String get accountDeletionWarningDescription =>
+      '注销账号将永久删除您的所有数据，包括个人资料、消息和设置。此操作无法撤销。';
+
+  @override
+  String get dataToBeDeleted => '将被删除的数据：';
+
+  @override
+  String get profileInformation => '个人信息';
+
+  @override
+  String get chatHistory => '聊天记录';
+
+  @override
+  String get settingsAndPreferences => '设置和偏好';
+
+  @override
+  String get savedData => '保存的数据';
+
+  @override
+  String get accountDeletionConfirm1 => '我理解所有数据将被永久删除';
+
+  @override
+  String get accountDeletionConfirm2 => '我理解此操作无法撤销';
+
+  @override
+  String get deleteAccountPermanently => '永久注销账号';
+
+  @override
+  String get deleting => '注销中...';
+
+  @override
+  String get accountDeletedSuccess => '账号注销成功';
+
+  @override
+  String get accountDeletedFailed => '账号注销失败，请重试。';
+
+  @override
+  String get pleaseConfirmAllCheckboxes => '请确认所有选项';
+
+  @override
+  String get cameraPermissionTitle => '相机访问权限';
+
+  @override
+  String get cameraPermissionSubtitle => '用于拍照功能';
+
+  @override
+  String get cameraPermissionDescription =>
+      '我们需要访问您的相机以拍摄头像照片和与他人分享。您的照片仅在您同意的情况下分享。';
+
+  @override
+  String get photoLibraryPermissionTitle => '相册访问权限';
+
+  @override
+  String get photoLibraryPermissionSubtitle => '用于选择照片';
+
+  @override
+  String get photoLibraryPermissionDescription =>
+      '我们需要访问您的相册以选择和分享照片。您的照片仅在您同意的情况下分享。';
+
+  @override
+  String get locationPermissionTitle => '位置访问权限';
+
+  @override
+  String get locationPermissionSubtitle => '用于位置相关功能';
+
+  @override
+  String get locationPermissionDescription =>
+      '我们需要访问您的位置以提供基于位置的功能，如查找附近用户和分享位置。您的位置数据会被安全处理。';
+
+  @override
+  String get notificationPermissionTitle => '通知访问权限';
+
+  @override
+  String get notificationPermissionSubtitle => '用于接收通知';
+
+  @override
+  String get notificationPermissionDescription =>
+      '我们需要权限向您发送有关消息、更新和重要提醒的通知。您可以随时自定义通知设置。';
+
+  @override
+  String get grantPermission => '授予权限';
+
+  @override
+  String get skip => '跳过';
+
+  @override
+  String get permissionPermanentlyDeniedTitle => '权限被拒绝';
+
+  @override
+  String get permissionPermanentlyDeniedMessage => '此权限已被永久拒绝。请在应用设置中启用。';
+
+  @override
+  String get openSettings => '打开设置';
+
+  @override
+  String get permissionAlreadyGranted => '权限已授予';
+
+  @override
+  String get privacyConsentStatus => '隐私协议状态';
+
+  @override
+  String privacyConsentDate(Object date) {
+    return '同意日期：$date';
+  }
+
+  @override
+  String privacyPolicyVersion(Object version) {
+    return '隐私政策版本：$version';
+  }
+
+  @override
+  String get termsOfServiceSubtitle => '阅读我们的服务条款';
+
+  @override
+  String get privacyConsentPart1 => '在使用本应用之前，请阅读并同意我们的';
+
+  @override
+  String get privacyConsentLinkPrivacy => '《隐私政策》';
+
+  @override
+  String get privacyConsentPart2 => '和';
+
+  @override
+  String get privacyConsentLinkTerms => '《用户协议》';
+
+  @override
+  String get privacyConsentPart3 => '。我们非常重视您的隐私，并致力于保护您的个人信息。';
+
+  @override
+  String get actionCannotBeUndone => '此操作无法撤销';
 }

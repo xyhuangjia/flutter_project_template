@@ -763,6 +763,420 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'URL copied to clipboard'**
   String get webViewUrlCopied;
+
+  /// Privacy consent dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy & User Agreement'**
+  String get privacyConsentTitle;
+
+  /// Privacy consent dialog description
+  ///
+  /// In en, this message translates to:
+  /// **'Before using this app, please read and agree to our Privacy Policy and User Agreement. We take your privacy seriously and are committed to protecting your personal information.'**
+  String get privacyConsentDescription;
+
+  /// Read more text in privacy consent
+  ///
+  /// In en, this message translates to:
+  /// **'Read the following documents for more details:'**
+  String get privacyConsentReadMore;
+
+  /// Privacy consent required message
+  ///
+  /// In en, this message translates to:
+  /// **'You must agree to the privacy policy to use this app.'**
+  String get privacyConsentRequired;
+
+  /// Exit confirmation title
+  ///
+  /// In en, this message translates to:
+  /// **'Exit App?'**
+  String get privacyConsentExitTitle;
+
+  /// Exit confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'If you do not agree with the privacy policy, you will not be able to use this app. Are you sure you want to exit?'**
+  String get privacyConsentExitMessage;
+
+  /// Agree button text
+  ///
+  /// In en, this message translates to:
+  /// **'Agree'**
+  String get agree;
+
+  /// Disagree button text
+  ///
+  /// In en, this message translates to:
+  /// **'Disagree'**
+  String get disagree;
+
+  /// Show privacy consent button text
+  ///
+  /// In en, this message translates to:
+  /// **'Show Privacy Consent'**
+  String get showPrivacyConsent;
+
+  /// Privacy settings screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Settings'**
+  String get privacySettings;
+
+  /// Legal documents section title
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Documents'**
+  String get legalDocuments;
+
+  /// Data preferences section title
+  ///
+  /// In en, this message translates to:
+  /// **'Data Preferences'**
+  String get dataPreferences;
+
+  /// Data collection setting
+  ///
+  /// In en, this message translates to:
+  /// **'Data Collection'**
+  String get dataCollection;
+
+  /// Data collection description
+  ///
+  /// In en, this message translates to:
+  /// **'Allow app to collect usage data to improve services'**
+  String get dataCollectionDescription;
+
+  /// Analytics setting
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
+
+  /// Analytics description
+  ///
+  /// In en, this message translates to:
+  /// **'Help us improve by sharing anonymous usage data'**
+  String get analyticsDescription;
+
+  /// App permissions section title
+  ///
+  /// In en, this message translates to:
+  /// **'App Permissions'**
+  String get appPermissions;
+
+  /// Camera permission
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get camera;
+
+  /// Photo library permission
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Library'**
+  String get photoLibrary;
+
+  /// Location permission
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// Region settings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Region Settings'**
+  String get regionSettings;
+
+  /// Market region setting
+  ///
+  /// In en, this message translates to:
+  /// **'Market Region'**
+  String get marketRegion;
+
+  /// Select region dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Region'**
+  String get selectRegion;
+
+  /// China region option
+  ///
+  /// In en, this message translates to:
+  /// **'China (PIPL)'**
+  String get regionChina;
+
+  /// International region option
+  ///
+  /// In en, this message translates to:
+  /// **'International (GDPR)'**
+  String get regionInternational;
+
+  /// Delete account button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// Delete account subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete your account and all data'**
+  String get deleteAccountSubtitle;
+
+  /// Account deletion warning title
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: This action cannot be undone'**
+  String get accountDeletionWarningTitle;
+
+  /// Account deletion warning description
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting your account will permanently remove all your data, including your profile, messages, and settings. This action cannot be undone.'**
+  String get accountDeletionWarningDescription;
+
+  /// Data to be deleted label
+  ///
+  /// In en, this message translates to:
+  /// **'Data to be deleted:'**
+  String get dataToBeDeleted;
+
+  /// Profile information item
+  ///
+  /// In en, this message translates to:
+  /// **'Profile information'**
+  String get profileInformation;
+
+  /// Chat history item
+  ///
+  /// In en, this message translates to:
+  /// **'Chat history'**
+  String get chatHistory;
+
+  /// Settings and preferences item
+  ///
+  /// In en, this message translates to:
+  /// **'Settings and preferences'**
+  String get settingsAndPreferences;
+
+  /// Saved data item
+  ///
+  /// In en, this message translates to:
+  /// **'Saved data'**
+  String get savedData;
+
+  /// First confirmation checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'I understand that all my data will be permanently deleted'**
+  String get accountDeletionConfirm1;
+
+  /// Second confirmation checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'I understand this action cannot be undone'**
+  String get accountDeletionConfirm2;
+
+  /// Delete account permanently button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account Permanently'**
+  String get deleteAccountPermanently;
+
+  /// Deleting in progress text
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting...'**
+  String get deleting;
+
+  /// Account deleted success message
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted successfully'**
+  String get accountDeletedSuccess;
+
+  /// Account deleted failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete account. Please try again.'**
+  String get accountDeletedFailed;
+
+  /// Please confirm all checkboxes message
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm all checkboxes'**
+  String get pleaseConfirmAllCheckboxes;
+
+  /// Camera permission title
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Access'**
+  String get cameraPermissionTitle;
+
+  /// Camera permission subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Required for taking photos'**
+  String get cameraPermissionSubtitle;
+
+  /// Camera permission description
+  ///
+  /// In en, this message translates to:
+  /// **'We need access to your camera to take photos for your profile picture and share with others. Your photos will only be shared with your consent.'**
+  String get cameraPermissionDescription;
+
+  /// Photo library permission title
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Library Access'**
+  String get photoLibraryPermissionTitle;
+
+  /// Photo library permission subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Required for selecting photos'**
+  String get photoLibraryPermissionSubtitle;
+
+  /// Photo library permission description
+  ///
+  /// In en, this message translates to:
+  /// **'We need access to your photo library to select and share photos. Your photos will only be shared with your consent.'**
+  String get photoLibraryPermissionDescription;
+
+  /// Location permission title
+  ///
+  /// In en, this message translates to:
+  /// **'Location Access'**
+  String get locationPermissionTitle;
+
+  /// Location permission subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Required for location features'**
+  String get locationPermissionSubtitle;
+
+  /// Location permission description
+  ///
+  /// In en, this message translates to:
+  /// **'We need access to your location to provide location-based features such as finding nearby users and sharing your location. Your location data is handled securely.'**
+  String get locationPermissionDescription;
+
+  /// Notification permission title
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Access'**
+  String get notificationPermissionTitle;
+
+  /// Notification permission subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Required for notifications'**
+  String get notificationPermissionSubtitle;
+
+  /// Notification permission description
+  ///
+  /// In en, this message translates to:
+  /// **'We need permission to send you notifications about messages, updates, and important alerts. You can customize notification settings anytime.'**
+  String get notificationPermissionDescription;
+
+  /// Grant permission button
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Permission'**
+  String get grantPermission;
+
+  /// Skip button
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// Permission permanently denied title
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Denied'**
+  String get permissionPermanentlyDeniedTitle;
+
+  /// Permission permanently denied message
+  ///
+  /// In en, this message translates to:
+  /// **'This permission has been permanently denied. Please enable it in app settings.'**
+  String get permissionPermanentlyDeniedMessage;
+
+  /// Open settings button
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// Permission already granted message
+  ///
+  /// In en, this message translates to:
+  /// **'Permission already granted'**
+  String get permissionAlreadyGranted;
+
+  /// Privacy consent status label
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Consent Status'**
+  String get privacyConsentStatus;
+
+  /// Privacy consent date
+  ///
+  /// In en, this message translates to:
+  /// **'Consented on: {date}'**
+  String privacyConsentDate(Object date);
+
+  /// Privacy policy version
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy Version: {version}'**
+  String privacyPolicyVersion(Object version);
+
+  /// Terms of service subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Read our terms of service'**
+  String get termsOfServiceSubtitle;
+
+  /// Privacy consent text part 1
+  ///
+  /// In en, this message translates to:
+  /// **'Before using this app, please read and agree to our '**
+  String get privacyConsentPart1;
+
+  /// Privacy policy link text
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyConsentLinkPrivacy;
+
+  /// Privacy consent text part 2
+  ///
+  /// In en, this message translates to:
+  /// **' and '**
+  String get privacyConsentPart2;
+
+  /// Terms of service link text
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get privacyConsentLinkTerms;
+
+  /// Privacy consent text part 3
+  ///
+  /// In en, this message translates to:
+  /// **'. We take your privacy seriously and are committed to protecting your personal information.'**
+  String get privacyConsentPart3;
+
+  /// Action cannot be undone warning
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone'**
+  String get actionCannotBeUndone;
 }
 
 class _AppLocalizationsDelegate

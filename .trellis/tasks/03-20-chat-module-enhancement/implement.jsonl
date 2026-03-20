@@ -1,7 +1,5 @@
 {"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
 {"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
 {"file": ".trellis/spec/frontend/directory-structure.md", "reason": "Clean Architecture 目录结构"}
-{"file": ".trellis/spec/frontend/hook-guidelines.md", "reason": "Riverpod Provider 模式"}
-{"file": ".trellis/spec/frontend/type-safety.md", "reason": "Drift/json_serializable 类型安全"}
-{"file": "lib/core/storage/database.dart", "reason": "现有数据库模式参考"}
-{"file": "lib/core/network/dio_client.dart", "reason": "HTTP 客户端模式"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Riverpod 状态管理模式"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "json_serializable 和 Drift 类型安全"}

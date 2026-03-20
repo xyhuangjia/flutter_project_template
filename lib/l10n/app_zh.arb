@@ -524,5 +524,356 @@
   "webViewUrlCopied": "链接已复制",
   "@webViewUrlCopied": {
     "description": "URL copied message"
+  },
+
+  "privacyConsentTitle": "隐私政策与用户协议",
+  "@privacyConsentTitle": {
+    "description": "Privacy consent dialog title"
+  },
+
+  "privacyConsentDescription": "在使用本应用之前，请阅读并同意我们的隐私政策和用户协议。我们非常重视您的隐私，并致力于保护您的个人信息。",
+  "@privacyConsentDescription": {
+    "description": "Privacy consent dialog description"
+  },
+
+  "privacyConsentReadMore": "阅读以下文档了解更多详情：",
+  "@privacyConsentReadMore": {
+    "description": "Read more text in privacy consent"
+  },
+
+  "privacyConsentRequired": "您必须同意隐私政策才能使用本应用。",
+  "@privacyConsentRequired": {
+    "description": "Privacy consent required message"
+  },
+
+  "privacyConsentExitTitle": "退出应用？",
+  "@privacyConsentExitTitle": {
+    "description": "Exit confirmation title"
+  },
+
+  "privacyConsentExitMessage": "如果您不同意隐私政策，将无法使用本应用。确定要退出吗？",
+  "@privacyConsentExitMessage": {
+    "description": "Exit confirmation message"
+  },
+
+  "agree": "同意",
+  "@agree": {
+    "description": "Agree button text"
+  },
+
+  "disagree": "不同意",
+  "@disagree": {
+    "description": "Disagree button text"
+  },
+
+  "showPrivacyConsent": "显示隐私协议",
+  "@showPrivacyConsent": {
+    "description": "Show privacy consent button text"
+  },
+
+  "privacySettings": "隐私设置",
+  "@privacySettings": {
+    "description": "Privacy settings screen title"
+  },
+
+  "legalDocuments": "法律文档",
+  "@legalDocuments": {
+    "description": "Legal documents section title"
+  },
+
+  "dataPreferences": "数据偏好",
+  "@dataPreferences": {
+    "description": "Data preferences section title"
+  },
+
+  "dataCollection": "数据收集",
+  "@dataCollection": {
+    "description": "Data collection setting"
+  },
+
+  "dataCollectionDescription": "允许应用收集使用数据以改进服务",
+  "@dataCollectionDescription": {
+    "description": "Data collection description"
+  },
+
+  "analytics": "分析",
+  "@analytics": {
+    "description": "Analytics setting"
+  },
+
+  "analyticsDescription": "通过分享匿名使用数据帮助我们改进",
+  "@analyticsDescription": {
+    "description": "Analytics description"
+  },
+
+  "appPermissions": "应用权限",
+  "@appPermissions": {
+    "description": "App permissions section title"
+  },
+
+  "camera": "相机",
+  "@camera": {
+    "description": "Camera permission"
+  },
+
+  "photoLibrary": "相册",
+  "@photoLibrary": {
+    "description": "Photo library permission"
+  },
+
+  "location": "位置",
+  "@location": {
+    "description": "Location permission"
+  },
+
+  "regionSettings": "地区设置",
+  "@regionSettings": {
+    "description": "Region settings section title"
+  },
+
+  "marketRegion": "市场地区",
+  "@marketRegion": {
+    "description": "Market region setting"
+  },
+
+  "selectRegion": "选择地区",
+  "@selectRegion": {
+    "description": "Select region dialog title"
+  },
+
+  "regionChina": "中国 (PIPL)",
+  "@regionChina": {
+    "description": "China region option"
+  },
+
+  "regionInternational": "国际 (GDPR)",
+  "@regionInternational": {
+    "description": "International region option"
+  },
+
+  "deleteAccount": "注销账号",
+  "@deleteAccount": {
+    "description": "Delete account button"
+  },
+
+  "deleteAccountSubtitle": "永久删除您的账号和所有数据",
+  "@deleteAccountSubtitle": {
+    "description": "Delete account subtitle"
+  },
+
+  "accountDeletionWarningTitle": "警告：此操作无法撤销",
+  "@accountDeletionWarningTitle": {
+    "description": "Account deletion warning title"
+  },
+
+  "accountDeletionWarningDescription": "注销账号将永久删除您的所有数据，包括个人资料、消息和设置。此操作无法撤销。",
+  "@accountDeletionWarningDescription": {
+    "description": "Account deletion warning description"
+  },
+
+  "dataToBeDeleted": "将被删除的数据：",
+  "@dataToBeDeleted": {
+    "description": "Data to be deleted label"
+  },
+
+  "profileInformation": "个人信息",
+  "@profileInformation": {
+    "description": "Profile information item"
+  },
+
+  "chatHistory": "聊天记录",
+  "@chatHistory": {
+    "description": "Chat history item"
+  },
+
+  "settingsAndPreferences": "设置和偏好",
+  "@settingsAndPreferences": {
+    "description": "Settings and preferences item"
+  },
+
+  "savedData": "保存的数据",
+  "@savedData": {
+    "description": "Saved data item"
+  },
+
+  "accountDeletionConfirm1": "我理解所有数据将被永久删除",
+  "@accountDeletionConfirm1": {
+    "description": "First confirmation checkbox"
+  },
+
+  "accountDeletionConfirm2": "我理解此操作无法撤销",
+  "@accountDeletionConfirm2": {
+    "description": "Second confirmation checkbox"
+  },
+
+  "deleteAccountPermanently": "永久注销账号",
+  "@deleteAccountPermanently": {
+    "description": "Delete account permanently button"
+  },
+
+  "deleting": "注销中...",
+  "@deleting": {
+    "description": "Deleting in progress text"
+  },
+
+  "accountDeletedSuccess": "账号注销成功",
+  "@accountDeletedSuccess": {
+    "description": "Account deleted success message"
+  },
+
+  "accountDeletedFailed": "账号注销失败，请重试。",
+  "@accountDeletedFailed": {
+    "description": "Account deleted failed message"
+  },
+
+  "pleaseConfirmAllCheckboxes": "请确认所有选项",
+  "@pleaseConfirmAllCheckboxes": {
+    "description": "Please confirm all checkboxes message"
+  },
+
+  "cameraPermissionTitle": "相机访问权限",
+  "@cameraPermissionTitle": {
+    "description": "Camera permission title"
+  },
+
+  "cameraPermissionSubtitle": "用于拍照功能",
+  "@cameraPermissionSubtitle": {
+    "description": "Camera permission subtitle"
+  },
+
+  "cameraPermissionDescription": "我们需要访问您的相机以拍摄头像照片和与他人分享。您的照片仅在您同意的情况下分享。",
+  "@cameraPermissionDescription": {
+    "description": "Camera permission description"
+  },
+
+  "photoLibraryPermissionTitle": "相册访问权限",
+  "@photoLibraryPermissionTitle": {
+    "description": "Photo library permission title"
+  },
+
+  "photoLibraryPermissionSubtitle": "用于选择照片",
+  "@photoLibraryPermissionSubtitle": {
+    "description": "Photo library permission subtitle"
+  },
+
+  "photoLibraryPermissionDescription": "我们需要访问您的相册以选择和分享照片。您的照片仅在您同意的情况下分享。",
+  "@photoLibraryPermissionDescription": {
+    "description": "Photo library permission description"
+  },
+
+  "locationPermissionTitle": "位置访问权限",
+  "@locationPermissionTitle": {
+    "description": "Location permission title"
+  },
+
+  "locationPermissionSubtitle": "用于位置相关功能",
+  "@locationPermissionSubtitle": {
+    "description": "Location permission subtitle"
+  },
+
+  "locationPermissionDescription": "我们需要访问您的位置以提供基于位置的功能，如查找附近用户和分享位置。您的位置数据会被安全处理。",
+  "@locationPermissionDescription": {
+    "description": "Location permission description"
+  },
+
+  "notificationPermissionTitle": "通知访问权限",
+  "@notificationPermissionTitle": {
+    "description": "Notification permission title"
+  },
+
+  "notificationPermissionSubtitle": "用于接收通知",
+  "@notificationPermissionSubtitle": {
+    "description": "Notification permission subtitle"
+  },
+
+  "notificationPermissionDescription": "我们需要权限向您发送有关消息、更新和重要提醒的通知。您可以随时自定义通知设置。",
+  "@notificationPermissionDescription": {
+    "description": "Notification permission description"
+  },
+
+  "grantPermission": "授予权限",
+  "@grantPermission": {
+    "description": "Grant permission button"
+  },
+
+  "skip": "跳过",
+  "@skip": {
+    "description": "Skip button"
+  },
+
+  "permissionPermanentlyDeniedTitle": "权限被拒绝",
+  "@permissionPermanentlyDeniedTitle": {
+    "description": "Permission permanently denied title"
+  },
+
+  "permissionPermanentlyDeniedMessage": "此权限已被永久拒绝。请在应用设置中启用。",
+  "@permissionPermanentlyDeniedMessage": {
+    "description": "Permission permanently denied message"
+  },
+
+  "openSettings": "打开设置",
+  "@openSettings": {
+    "description": "Open settings button"
+  },
+
+  "permissionAlreadyGranted": "权限已授予",
+  "@permissionAlreadyGranted": {
+    "description": "Permission already granted message"
+  },
+
+  "privacyConsentStatus": "隐私协议状态",
+  "@privacyConsentStatus": {
+    "description": "Privacy consent status label"
+  },
+
+  "privacyConsentDate": "同意日期：{date}",
+  "@privacyConsentDate": {
+    "description": "Privacy consent date",
+    "placeholders": {
+      "date": {}
+    }
+  },
+
+  "privacyPolicyVersion": "隐私政策版本：{version}",
+  "@privacyPolicyVersion": {
+    "description": "Privacy policy version",
+    "placeholders": {
+      "version": {}
+    }
+  },
+
+  "termsOfServiceSubtitle": "阅读我们的服务条款",
+  "@termsOfServiceSubtitle": {
+    "description": "Terms of service subtitle"
+  },
+
+  "privacyConsentPart1": "在使用本应用之前，请阅读并同意我们的",
+  "@privacyConsentPart1": {
+    "description": "Privacy consent text part 1"
+  },
+
+  "privacyConsentLinkPrivacy": "《隐私政策》",
+  "@privacyConsentLinkPrivacy": {
+    "description": "Privacy policy link text"
+  },
+
+  "privacyConsentPart2": "和",
+  "@privacyConsentPart2": {
+    "description": "Privacy consent text part 2"
+  },
+
+  "privacyConsentLinkTerms": "《用户协议》",
+  "@privacyConsentLinkTerms": {
+    "description": "Terms of service link text"
+  },
+
+  "privacyConsentPart3": "。我们非常重视您的隐私，并致力于保护您的个人信息。",
+  "@privacyConsentPart3": {
+    "description": "Privacy consent text part 3"
+  },
+
+  "actionCannotBeUndone": "此操作无法撤销",
+  "@actionCannotBeUndone": {
+    "description": "Action cannot be undone warning"
   }
 }

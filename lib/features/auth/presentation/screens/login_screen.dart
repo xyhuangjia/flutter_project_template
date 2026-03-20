@@ -46,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = false);
 
     if (success && mounted) {
-      context.go(Routes.home);
+      context.go(Routes.chat);
     }
   }
 
@@ -58,7 +58,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = false);
 
     if (success && mounted) {
-      context.go(Routes.home);
+      context.go(Routes.chat);
     }
   }
 
@@ -66,6 +66,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final authState = ref.watch(authNotifierProvider);
 
     // Show error if any
@@ -74,7 +75,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(next.error.toString()),
-            backgroundColor: theme.colorScheme.error,
+            backgroundColor: colorScheme.error,
+            behavior: SnackBarBehavior.floating,
           ),
         );
       }
@@ -82,308 +84,419 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _HeaderSection(theme: theme),
-                    const SizedBox(height: 32),
-                    _EmailField(
-                      controller: _emailController,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 16),
-                    _PasswordField(
-                      controller: _passwordController,
-                      obscurePassword: _obscurePassword,
-                      onToggleObscure: () {
-                        setState(() => _obscurePassword = !_obscurePassword);
-                      },
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 8),
-                    _ForgotPasswordLink(localizations: localizations),
-                    const SizedBox(height: 24),
-                    _LoginButton(
-                      isLoading: _isLoading || authState.isLoading,
-                      onPressed: _handleLogin,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 24),
-                    _DividerWithText(localizations: localizations),
-                    const SizedBox(height: 24),
-                    _ThirdPartyLoginButtons(
-                      isLoading: _isLoading || authState.isLoading,
-                      onWeChatLogin: () => _handleThirdPartyLogin(
-                        () => ref
-                            .read(authNotifierProvider.notifier)
-                            .loginWithWeChat(),
-                      ),
-                      onAppleLogin: () => _handleThirdPartyLogin(
-                        () => ref
-                            .read(authNotifierProvider.notifier)
-                            .loginWithApple(),
-                      ),
-                      onGoogleLogin: () => _handleThirdPartyLogin(
-                        () => ref
-                            .read(authNotifierProvider.notifier)
-                            .loginWithGoogle(),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    _RegisterLink(
-                      localizations: localizations,
-                      onRegisterTap: () => context.go(Routes.register),
-                    ),
-                  ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isTablet = constraints.maxWidth > 600;
+            final isLandscape = constraints.maxWidth > constraints.maxHeight;
+
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: isTablet
+                      ? _buildTabletLayout(
+                          context,
+                          theme,
+                          colorScheme,
+                          localizations,
+                          authState,
+                          isLandscape,
+                        )
+                      : _buildMobileLayout(
+                          context,
+                          theme,
+                          colorScheme,
+                          localizations,
+                          authState,
+                        ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // Mobile layout - single column
+  Widget _buildMobileLayout(
+    BuildContext context,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    AppLocalizations localizations,
+    AsyncValue<AuthState> authState,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          const Spacer(flex: 2),
+          _HeaderSection(theme: theme, colorScheme: colorScheme),
+          const Spacer(),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: _LoginForm(
+              formKey: _formKey,
+              emailController: _emailController,
+              passwordController: _passwordController,
+              obscurePassword: _obscurePassword,
+              onTogglePassword: () =>
+                  setState(() => _obscurePassword = !_obscurePassword),
+              onLogin: _handleLogin,
+              onThirdPartyLogin: _handleThirdPartyLogin,
+              localizations: localizations,
+              isLoading: _isLoading || authState.isLoading,
+              ref: ref,
+            ),
+          ),
+          const Spacer(flex: 2),
+          _RegisterLink(
+            localizations: localizations,
+            onRegisterTap: () => context.go(Routes.register),
+          ),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  // Tablet layout - two columns for landscape, centered for portrait
+  Widget _buildTabletLayout(
+    BuildContext context,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    AppLocalizations localizations,
+    AsyncValue<AuthState> authState,
+    bool isLandscape,
+  ) {
+    if (isLandscape) {
+      // Two-column layout for landscape tablets
+      return Row(
+        children: [
+          // Left side - branding
+          Expanded(
+            flex: 5,
+            child: Container(
+              color: colorScheme.primaryContainer,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(48),
+                  child: _HeaderSection(
+                    theme: theme,
+                    colorScheme: colorScheme,
+                    isLarge: true,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+          // Right side - form
+          Expanded(
+            flex: 5,
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(48),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: _LoginForm(
+                    formKey: _formKey,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    obscurePassword: _obscurePassword,
+                    onTogglePassword: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
+                    onLogin: _handleLogin,
+                    onThirdPartyLogin: _handleThirdPartyLogin,
+                    localizations: localizations,
+                    isLoading: _isLoading || authState.isLoading,
+                    ref: ref,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    // Portrait tablet - centered layout with larger spacing
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 48),
+      child: Column(
+        children: [
+          const Spacer(flex: 2),
+          _HeaderSection(theme: theme, colorScheme: colorScheme, isLarge: true),
+          const Spacer(),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 450),
+            child: _LoginForm(
+              formKey: _formKey,
+              emailController: _emailController,
+              passwordController: _passwordController,
+              obscurePassword: _obscurePassword,
+              onTogglePassword: () =>
+                  setState(() => _obscurePassword = !_obscurePassword),
+              onLogin: _handleLogin,
+              onThirdPartyLogin: _handleThirdPartyLogin,
+              localizations: localizations,
+              isLoading: _isLoading || authState.isLoading,
+              ref: ref,
+            ),
+          ),
+          const Spacer(flex: 2),
+          _RegisterLink(
+            localizations: localizations,
+            onRegisterTap: () => context.go(Routes.register),
+          ),
+          const SizedBox(height: 32),
+        ],
       ),
     );
   }
 }
 
+// ==================== Shared Widgets ====================
+
 /// Header section with logo and title.
 class _HeaderSection extends StatelessWidget {
-  const _HeaderSection({required this.theme});
+  const _HeaderSection({
+    required this.theme,
+    required this.colorScheme,
+    this.isLarge = false,
+  });
 
   final ThemeData theme;
+  final ColorScheme colorScheme;
+  final bool isLarge;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.lock_open_rounded,
-          size: 64,
-          color: theme.colorScheme.primary,
+        Container(
+          padding: EdgeInsets.all(isLarge ? 24 : 20),
+          decoration: BoxDecoration(
+            color: colorScheme.primaryContainer,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.lock_open_rounded,
+            size: isLarge ? 56 : 48,
+            color: colorScheme.onPrimaryContainer,
+          ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: isLarge ? 24 : 20),
         Text(
           'Welcome Back',
-          style: theme.textTheme.headlineMedium?.copyWith(
+          style: (isLarge
+                  ? theme.textTheme.headlineMedium
+                  : theme.textTheme.headlineSmall)
+              ?.copyWith(
             fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
         Text(
           'Sign in to continue',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: colorScheme.onSurfaceVariant,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );
   }
 }
 
-/// Email input field.
-class _EmailField extends StatelessWidget {
-  const _EmailField({required this.controller, required this.localizations});
-
-  final TextEditingController controller;
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        labelText: localizations.email,
-        prefixIcon: const Icon(Icons.email_outlined),
-        border: const OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your email';
-        }
-        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-          return 'Please enter a valid email';
-        }
-        return null;
-      },
-    );
-  }
-}
-
-/// Password input field.
-class _PasswordField extends StatelessWidget {
-  const _PasswordField({
-    required this.controller,
+/// Login form widget.
+class _LoginForm extends StatelessWidget {
+  const _LoginForm({
+    required this.formKey,
+    required this.emailController,
+    required this.passwordController,
     required this.obscurePassword,
-    required this.onToggleObscure,
+    required this.onTogglePassword,
+    required this.onLogin,
+    required this.onThirdPartyLogin,
     required this.localizations,
-  });
-
-  final TextEditingController controller;
-  final bool obscurePassword;
-  final VoidCallback onToggleObscure;
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscurePassword,
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        labelText: localizations.password,
-        prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: IconButton(
-          icon: Icon(
-            obscurePassword
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
-          ),
-          onPressed: onToggleObscure,
-        ),
-        border: const OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your password';
-        }
-        if (value.length < 6) {
-          return 'Password must be at least 6 characters';
-        }
-        return null;
-      },
-    );
-  }
-}
-
-/// Forgot password link.
-class _ForgotPasswordLink extends StatelessWidget {
-  const _ForgotPasswordLink({required this.localizations});
-
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {
-          // TODO: Navigate to forgot password screen
-        },
-        child: Text(localizations.forgotPassword),
-      ),
-    );
-  }
-}
-
-/// Login button.
-class _LoginButton extends StatelessWidget {
-  const _LoginButton({
     required this.isLoading,
-    required this.onPressed,
-    required this.localizations,
+    required this.ref,
   });
 
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final bool obscurePassword;
+  final VoidCallback onTogglePassword;
+  final VoidCallback onLogin;
+  final Future<void> Function(Future<bool> Function() loginFn)
+      onThirdPartyLogin;
+  final AppLocalizations localizations;
   final bool isLoading;
-  final VoidCallback onPressed;
-  final AppLocalizations localizations;
+  final WidgetRef ref;
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: isLoading ? null : onPressed,
-      style: FilledButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
-      child: isLoading
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Colors.white,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Email field
+          TextFormField(
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              labelText: localizations.email,
+              prefixIcon: const Icon(Icons.email_outlined),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-            )
-          : Text(localizations.login),
-    );
-  }
-}
-
-/// Divider with text.
-class _DividerWithText extends StatelessWidget {
-  const _DividerWithText({required this.localizations});
-
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Expanded(child: Divider()),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'OR',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              }
+              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                  .hasMatch(value)) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          // Password field
+          TextFormField(
+            controller: passwordController,
+            obscureText: obscurePassword,
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (_) => onLogin(),
+            decoration: InputDecoration(
+              labelText: localizations.password,
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscurePassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                ),
+                onPressed: onTogglePassword,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your password';
+              }
+              if (value.length < 6) {
+                return 'Password must be at least 6 characters';
+              }
+              return null;
+            },
+          ),
+          // Forgot password
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: isLoading ? null : () {},
+              child: Text(localizations.forgotPassword),
             ),
           ),
-        ),
-        const Expanded(child: Divider()),
-      ],
-    );
-  }
-}
-
-/// Third-party login buttons.
-class _ThirdPartyLoginButtons extends StatelessWidget {
-  const _ThirdPartyLoginButtons({
-    required this.isLoading,
-    required this.onWeChatLogin,
-    required this.onAppleLogin,
-    required this.onGoogleLogin,
-  });
-
-  final bool isLoading;
-  final VoidCallback onWeChatLogin;
-  final VoidCallback onAppleLogin;
-  final VoidCallback onGoogleLogin;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _SocialLoginButton(
-          icon: Icons.chat,
-          label: 'Continue with WeChat',
-          onPressed: isLoading ? null : onWeChatLogin,
-          backgroundColor: const Color(0xFF07C160),
-        ),
-        const SizedBox(height: 12),
-        _SocialLoginButton(
-          icon: Icons.apple,
-          label: 'Continue with Apple',
-          onPressed: isLoading ? null : onAppleLogin,
-          backgroundColor: Colors.black,
-        ),
-        const SizedBox(height: 12),
-        _SocialLoginButton(
-          icon: Icons.g_mobiledata,
-          label: 'Continue with Google',
-          onPressed: isLoading ? null : onGoogleLogin,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          borderColor: Colors.grey.shade300,
-        ),
-      ],
+          const SizedBox(height: 8),
+          // Login button
+          SizedBox(
+            height: 52,
+            child: FilledButton(
+              onPressed: isLoading ? null : onLogin,
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      localizations.login,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // Divider
+          Row(
+            children: [
+              Expanded(child: Divider(color: colorScheme.outlineVariant)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'OR',
+                  style: TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              Expanded(child: Divider(color: colorScheme.outlineVariant)),
+            ],
+          ),
+          const SizedBox(height: 24),
+          // Social login buttons
+          _SocialLoginButton(
+            icon: Icons.chat_rounded,
+            label: 'Continue with WeChat',
+            onPressed: isLoading
+                ? null
+                : () => onThirdPartyLogin(
+                      () => ref
+                          .read(authNotifierProvider.notifier)
+                          .loginWithWeChat(),
+                    ),
+            backgroundColor: const Color(0xFF07C160),
+          ),
+          const SizedBox(height: 12),
+          _SocialLoginButton(
+            icon: Icons.apple,
+            label: 'Continue with Apple',
+            onPressed: isLoading
+                ? null
+                : () => onThirdPartyLogin(
+                      () => ref
+                          .read(authNotifierProvider.notifier)
+                          .loginWithApple(),
+                    ),
+            backgroundColor: Colors.black,
+          ),
+          const SizedBox(height: 12),
+          _SocialLoginButton(
+            icon: Icons.g_mobiledata_rounded,
+            label: 'Continue with Google',
+            onPressed: isLoading
+                ? null
+                : () => onThirdPartyLogin(
+                      () => ref
+                          .read(authNotifierProvider.notifier)
+                          .loginWithGoogle(),
+                    ),
+            backgroundColor: colorScheme.surface,
+            foregroundColor: colorScheme.onSurface,
+            borderColor: colorScheme.outline,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -408,16 +521,21 @@ class _SocialLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        side: borderColor != null ? BorderSide(color: borderColor!) : null,
-        padding: const EdgeInsets.symmetric(vertical: 14),
+    return SizedBox(
+      height: 52,
+      child: OutlinedButton.icon(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          side: borderColor != null ? BorderSide(color: borderColor!) : null,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        icon: Icon(icon, size: 24),
+        label: Text(label, style: const TextStyle(fontSize: 15)),
       ),
-      icon: Icon(icon, size: 24),
-      label: Text(label),
     );
   }
 }
@@ -434,14 +552,14 @@ class _RegisterLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Don't have an account? ",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+          style: TextStyle(color: colorScheme.onSurfaceVariant),
         ),
         TextButton(
           onPressed: onRegisterTap,

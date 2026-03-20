@@ -1,0 +1,7 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Riverpod provider patterns"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Widget component patterns"}
+{"file": ".trellis/spec/frontend/i18n-guidelines.md", "reason": "Internationalization patterns"}
+{"file": "lib/features/settings/presentation/providers/settings_provider.dart", "reason": "Provider example"}
+{"file": "lib/core/router/router_guard.dart", "reason": "Route guard pattern"}

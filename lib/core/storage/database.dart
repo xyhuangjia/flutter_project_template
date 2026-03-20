@@ -205,12 +205,14 @@ class AppDatabase extends _$AppDatabase {
 
   /// Fetches all conversations ordered by updatedAt desc.
   Future<List<ChatConversation>> getAllConversations() =>
-      (select(chatConversations)..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+      (select(chatConversations)
+            ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
           .get();
 
   /// Watches all conversations for changes.
   Stream<List<ChatConversation>> watchAllConversations() =>
-      (select(chatConversations)..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+      (select(chatConversations)
+            ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
           .watch();
 
   /// Fetches a conversation by ID.
@@ -230,7 +232,8 @@ class AppDatabase extends _$AppDatabase {
   /// Deletes a conversation and its messages.
   Future<void> deleteConversation(String id) async {
     // Delete messages first
-    await (delete(chatMessages)..where((t) => t.conversationId.equals(id))).go();
+    await (delete(chatMessages)..where((t) => t.conversationId.equals(id)))
+        .go();
     // Then delete conversation
     await (delete(chatConversations)..where((t) => t.id.equals(id))).go();
   }
@@ -266,7 +269,8 @@ class AppDatabase extends _$AppDatabase {
   // ==================== Chat Messages ====================
 
   /// Fetches all messages for a conversation.
-  Future<List<ChatMessage>> getMessagesByConversationId(String conversationId) =>
+  Future<List<ChatMessage>> getMessagesByConversationId(
+          String conversationId) =>
       (select(chatMessages)
             ..where((t) => t.conversationId.equals(conversationId))
             ..orderBy([(t) => OrderingTerm.asc(t.timestamp)]))
@@ -307,7 +311,8 @@ class AppDatabase extends _$AppDatabase {
 
   /// Deletes all messages for a conversation.
   Future<int> deleteMessagesByConversationId(String conversationId) =>
-      (delete(chatMessages)..where((t) => t.conversationId.equals(conversationId)))
+      (delete(chatMessages)
+            ..where((t) => t.conversationId.equals(conversationId)))
           .go();
 
   // ==================== AI Configs ====================

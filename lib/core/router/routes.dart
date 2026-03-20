@@ -43,6 +43,18 @@ abstract final class Routes {
 
   /// Chat detail route (requires :id parameter).
   static const String chatDetail = '/chat/:id';
+
+  /// Privacy consent route.
+  static const String privacyConsent = '/privacy/consent';
+
+  /// Privacy settings route.
+  static const String privacySettings = '/privacy/settings';
+
+  /// Permission rationale route.
+  static const String permissionRationale = '/permission/rationale';
+
+  /// Account deletion route.
+  static const String accountDeletion = '/account/deletion';
 }
 
 /// Route names for named navigation.
@@ -81,4 +93,16 @@ abstract final class RouteNames {
 
   /// Chat detail route name.
   static const String chatDetail = 'chatDetail';
+
+  /// Privacy consent route name.
+  static const String privacyConsent = 'privacyConsent';
+
+  /// Privacy settings route name.
+  static const String privacySettings = 'privacySettings';
+
+  /// Permission rationale route name.
+  static const String permissionRationale = 'permissionRationale';
+
+  /// Account deletion route name.
+  static const String accountDeletion = 'accountDeletion';
 }

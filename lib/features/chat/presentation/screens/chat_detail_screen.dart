@@ -289,8 +289,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 title: Text(
                   'Delete',
                   style: TextStyle(
-                    color:
-                        isDark ? Colors.red : const Color(0xFFE53935),
+                    color: isDark ? Colors.red : const Color(0xFFE53935),
                   ),
                 ),
                 onTap: () {
@@ -372,7 +371,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             child: Text(
               'Cancel',
               style: TextStyle(
-                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                color:
+                    isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
               ),
             ),
           ),
@@ -384,7 +384,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ),
     );
 
-    if (newTitle != null && newTitle.isNotEmpty && newTitle != conversation.title) {
+    if (newTitle != null &&
+        newTitle.isNotEmpty &&
+        newTitle != conversation.title) {
       await chatNotifier.renameConversation(widget.conversationId, newTitle);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

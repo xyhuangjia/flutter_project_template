@@ -35,7 +35,8 @@ abstract class ChatLocalDataSource {
   Future<List<ChatMessage>> getMessagesByConversationId(String conversationId);
 
   /// Watches messages for a conversation.
-  Stream<List<ChatMessage>> watchMessagesByConversationId(String conversationId);
+  Stream<List<ChatMessage>> watchMessagesByConversationId(
+      String conversationId);
 
   /// Creates a new message.
   Future<void> insertMessage(ChatMessagesCompanion message);
@@ -106,7 +107,8 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
       _database.updateConversationTitle(id, title);
 
   @override
-  Future<List<ChatMessage>> getMessagesByConversationId(String conversationId) =>
+  Future<List<ChatMessage>> getMessagesByConversationId(
+          String conversationId) =>
       _database.getMessagesByConversationId(conversationId);
 
   @override
@@ -144,7 +146,8 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
       _database.upsertAIConfig(config);
 
   @override
-  Future<void> setDefaultAIConfig(String id) => _database.setDefaultAIConfig(id);
+  Future<void> setDefaultAIConfig(String id) =>
+      _database.setDefaultAIConfig(id);
 
   @override
   Future<void> deleteAIConfig(String id) => _database.deleteAIConfig(id);

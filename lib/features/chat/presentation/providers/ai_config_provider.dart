@@ -139,9 +139,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
     return AIConfigState(
       configs: _toEntities(configs),
-      defaultConfig: defaultConfig != null
-          ? _toEntity(defaultConfig)
-          : null,
+      defaultConfig: defaultConfig != null ? _toEntity(defaultConfig) : null,
     );
   }
 
@@ -326,9 +324,16 @@ List<AIModelInfo> availableModels(AvailableModelsRef ref) {
       provider: 'openai',
       providerDisplayName: 'OpenAI',
       models: [
-        ModelInfo(id: 'gpt-4o', name: 'GPT-4o', description: 'Most capable model'),
-        ModelInfo(id: 'gpt-4o-mini', name: 'GPT-4o Mini', description: 'Fast and affordable'),
-        ModelInfo(id: 'gpt-4-turbo', name: 'GPT-4 Turbo', description: 'Previous flagship'),
+        ModelInfo(
+            id: 'gpt-4o', name: 'GPT-4o', description: 'Most capable model'),
+        ModelInfo(
+            id: 'gpt-4o-mini',
+            name: 'GPT-4o Mini',
+            description: 'Fast and affordable'),
+        ModelInfo(
+            id: 'gpt-4-turbo',
+            name: 'GPT-4 Turbo',
+            description: 'Previous flagship'),
       ],
     ),
     AIModelInfo(

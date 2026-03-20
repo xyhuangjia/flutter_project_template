@@ -7,6 +7,7 @@ library;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_project_template/features/privacy/presentation/providers/privacy_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,25 +35,47 @@ abstract final class RouterGuard {
     Routes.splash,
     Routes.error,
     Routes.about,
+    Routes.privacyConsent,
   ];
 
-  /// Redirects based on authentication state.
+  /// Routes that don't require privacy consent (initialization screens).
+  static const List<String> noConsentRequiredRoutes = [
+    Routes.splash,
+    Routes.privacyConsent,
+    Routes.error,
+  ];
+
+  /// Redirects based on authentication and privacy consent state.
   ///
   /// Returns a redirect path if needed, null otherwise.
   static String? redirect(BuildContext context, GoRouterState state) {
-    final isAuthenticated = _checkAuthentication();
-    final isPublicRoute = publicRoutes.contains(state.matchedLocation);
+    final currentPath = state.matchedLocation;
 
-    // If not authenticated and trying to access protected route
+    // Skip redirect logic for splash and error screens
+    // These screens handle their own navigation logic
+    if (currentPath == Routes.splash || currentPath == Routes.error) {
+      return null;
+    }
+
+    final isAuthenticated = _checkAuthentication();
+    final hasConsent = _checkPrivacyConsent();
+    final isPublicRoute = publicRoutes.contains(currentPath);
+    final requiresConsent = !noConsentRequiredRoutes.contains(currentPath);
+
+    // First check: Privacy consent (must be accepted before any other screen)
+    if (!hasConsent && requiresConsent) {
+      return Routes.privacyConsent;
+    }
+
+    // Second check: Authentication
     if (!isAuthenticated && !isPublicRoute) {
       return Routes.login;
     }
 
     // If authenticated and trying to access login/register
     if (isAuthenticated &&
-        (state.matchedLocation == Routes.login ||
-            state.matchedLocation == Routes.register)) {
-      return Routes.home;
+        (currentPath == Routes.login || currentPath == Routes.register)) {
+      return Routes.chat;
     }
 
     return null;
@@ -72,7 +95,24 @@ abstract final class RouterGuard {
     }
   }
 
+  /// Checks if the user has accepted privacy consent.
+  static bool _checkPrivacyConsent() {
+    if (_globalContainer == null) {
+      return false;
+    }
+    try {
+      final privacyState = _globalContainer!.read(privacyNotifierProvider);
+      return privacyState.valueOrNull?.hasConsented ?? false;
+    } on Exception {
+      return false;
+    }
+  }
+
   /// Checks if a route requires authentication.
   static bool requiresAuthentication(String path) =>
       !publicRoutes.contains(path);
+
+  /// Checks if a route requires privacy consent.
+  static bool requiresConsent(String path) =>
+      !noConsentRequiredRoutes.contains(path);
 }

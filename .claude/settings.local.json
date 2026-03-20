@@ -7,7 +7,13 @@
       "WebSearch",
       "Bash(TASK_DIR=\".trellis/tasks/03-20-chat-module-enhancement\")",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(dart analyze:*)",
+      "Bash(flutter gen-l10n:*)",
+      "Bash(find lib/features/privacy -name \"*.dart\" -exec wc -l {} +)",
+      "Bash(flutter test:*)",
+      "Bash(find:*)",
+      "Bash(dart format:*)"
     ]
   }
 }

@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
+import 'package:flutter_project_template/core/splash/splash_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
@@ -12,6 +13,11 @@ import 'package:flutter_project_template/features/settings/presentation/screens/
 import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
 import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
+import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_consent_screen.dart';
+import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_settings_screen.dart';
+import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
+import 'package:flutter_project_template/features/privacy/presentation/widgets/permission_card.dart';
+import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
 import 'package:go_router/go_router.dart';
 
 /// Application router configuration.
@@ -19,13 +25,19 @@ import 'package:go_router/go_router.dart';
 /// Provides the go_router configuration with all routes,
 /// redirect logic, and error handling.
 final GoRouter appRouter = GoRouter(
-  initialLocation: Routes.chat,
+  initialLocation: Routes.splash,
   debugLogDiagnostics: true,
   redirect: RouterGuard.redirect,
   routes: [
+    // Splash screen - entry point for app initialization
+    GoRoute(
+      path: Routes.splash,
+      name: RouteNames.splash,
+      builder: (context, state) => const SplashScreen(),
+    ),
     GoRoute(
       path: Routes.root,
-      redirect: (context, state) => Routes.chat,
+      redirect: (context, state) => Routes.splash,
     ),
     GoRoute(
       path: Routes.home,
@@ -77,6 +89,34 @@ final GoRouter appRouter = GoRouter(
         final id = state.pathParameters['id'] ?? '';
         return ChatDetailScreen(conversationId: id);
       },
+    ),
+    // Privacy routes
+    GoRoute(
+      path: Routes.privacyConsent,
+      name: RouteNames.privacyConsent,
+      builder: (context, state) => const PrivacyConsentScreen(),
+    ),
+    GoRoute(
+      path: Routes.privacySettings,
+      name: RouteNames.privacySettings,
+      builder: (context, state) => const PrivacySettingsScreen(),
+    ),
+    GoRoute(
+      path: Routes.permissionRationale,
+      name: RouteNames.permissionRationale,
+      builder: (context, state) {
+        final typeStr = state.uri.queryParameters['type'] ?? 'camera';
+        final permissionType = PermissionType.values.firstWhere(
+          (e) => e.name == typeStr,
+          orElse: () => PermissionType.camera,
+        );
+        return PermissionRationaleScreen(permissionType: permissionType);
+      },
+    ),
+    GoRoute(
+      path: Routes.accountDeletion,
+      name: RouteNames.accountDeletion,
+      builder: (context, state) => const AccountDeletionScreen(),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(
