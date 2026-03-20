@@ -219,4 +219,124 @@ class AuthNotifier extends _$AuthNotifier {
 
   /// Checks if the user is authenticated.
   bool get isAuthenticated => state.valueOrNull?.isAuthenticated ?? false;
+
+  /// Sends verification code to phone number.
+  Future<bool> sendVerificationCodeToPhone(String phoneNumber) async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.sendVerificationCodeToPhone(phoneNumber);
+
+    return result.when(
+      failure: (_) => false,
+      success: (_) => true,
+    );
+  }
+
+  /// Sends verification code to email.
+  Future<bool> sendVerificationCodeToEmail(String email) async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.sendVerificationCodeToEmail(email);
+
+    return result.when(
+      failure: (_) => false,
+      success: (_) => true,
+    );
+  }
+
+  /// Verifies phone code.
+  Future<bool> verifyPhoneCode({
+    required String phoneNumber,
+    required String code,
+  }) async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.verifyPhoneCode(
+      phoneNumber: phoneNumber,
+      code: code,
+    );
+
+    return result.when(
+      failure: (_) => false,
+      success: (verified) => verified,
+    );
+  }
+
+  /// Verifies email code.
+  Future<bool> verifyEmailCode({
+    required String email,
+    required String code,
+  }) async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.verifyEmailCode(
+      email: email,
+      code: code,
+    );
+
+    return result.when(
+      failure: (_) => false,
+      success: (verified) => verified,
+    );
+  }
+
+  /// Registers with phone verification.
+  Future<bool> registerWithPhone({
+    required String phoneNumber,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  }) async {
+    state = const AsyncValue.loading();
+
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.registerWithPhone(
+      phoneNumber: phoneNumber,
+      username: username,
+      password: password,
+      verificationCode: verificationCode,
+      avatarUrl: avatarUrl,
+    );
+
+    state = result.when(
+      failure: (f) => AsyncValue.error(f, StackTrace.current),
+      success: (user) => AsyncValue.data(
+        AuthState.authenticated(
+          user: user,
+          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+        ),
+      ),
+    );
+
+    return !state.hasError;
+  }
+
+  /// Registers with email verification.
+  Future<bool> registerWithEmail({
+    required String email,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  }) async {
+    state = const AsyncValue.loading();
+
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.registerWithEmail(
+      email: email,
+      username: username,
+      password: password,
+      verificationCode: verificationCode,
+      avatarUrl: avatarUrl,
+    );
+
+    state = result.when(
+      failure: (f) => AsyncValue.error(f, StackTrace.current),
+      success: (user) => AsyncValue.data(
+        AuthState.authenticated(
+          user: user,
+          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+        ),
+      ),
+    );
+
+    return !state.hasError;
+  }
 }

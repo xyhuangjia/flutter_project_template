@@ -3,6 +3,45 @@ library;
 
 import 'package:flutter_project_template/features/auth/data/models/user_dto.dart';
 
+/// Verification code storage for mock implementation.
+class _VerificationCodeStorage {
+  static final Map<String, _CodeInfo> _codes = {};
+
+  /// Stores a verification code.
+  static void store(String target, String code) {
+    _codes[target] = _CodeInfo(
+      code: code,
+      expiresAt: DateTime.now().add(const Duration(minutes: 5)),
+    );
+  }
+
+  /// Gets and validates a verification code.
+  static _CodeInfo? get(String target) {
+    final info = _codes[target];
+    if (info == null) return null;
+
+    if (DateTime.now().isAfter(info.expiresAt)) {
+      _codes.remove(target);
+      return null;
+    }
+
+    return info;
+  }
+
+  /// Removes a verification code.
+  static void remove(String target) {
+    _codes.remove(target);
+  }
+}
+
+/// Verification code info.
+class _CodeInfo {
+  _CodeInfo({required this.code, required this.expiresAt});
+
+  final String code;
+  final DateTime expiresAt;
+}
+
 /// Authentication remote data source.
 ///
 /// Handles remote API calls for authentication.
@@ -11,6 +50,11 @@ class AuthRemoteDataSource {
   /// Simulates network delay.
   Future<void> _simulateNetworkDelay() async {
     await Future<void>.delayed(const Duration(milliseconds: 800));
+  }
+
+  /// Simulates longer network delay for registration.
+  Future<void> _simulateRegistrationDelay() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1500));
   }
 
   /// Logs in with email and password.
@@ -192,6 +236,201 @@ class AuthRemoteDataSource {
   /// Validates email format.
   bool _isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  }
+
+  /// Validates Chinese phone number format.
+  bool _isValidChinesePhone(String phone) {
+    return RegExp(r'^1[3-9]\d{9}$').hasMatch(phone);
+  }
+
+  /// Sends a verification code to phone number.
+  ///
+  /// Mock implementation - stores code and always succeeds.
+  Future<void> sendVerificationCodeToPhone(String phoneNumber) async {
+    await _simulateNetworkDelay();
+
+    if (!_isValidChinesePhone(phoneNumber)) {
+      throw AuthException('Invalid phone number format');
+    }
+
+    // Generate 6-digit code
+    final code = (100000 + DateTime.now().millisecondsSinceEpoch % 900000)
+        .toString();
+    _VerificationCodeStorage.store(phoneNumber, code);
+
+    // In real implementation, this would send SMS
+    // For mock, we'll log it (in production, remove this)
+    // ignore: avoid_print
+    print('Mock SMS to $phoneNumber: Your verification code is $code');
+  }
+
+  /// Sends a verification code to email.
+  ///
+  /// Mock implementation - stores code and always succeeds.
+  Future<void> sendVerificationCodeToEmail(String email) async {
+    await _simulateNetworkDelay();
+
+    if (!_isValidEmail(email)) {
+      throw AuthException('Invalid email format');
+    }
+
+    // Generate 6-digit code
+    final code = (100000 + DateTime.now().millisecondsSinceEpoch % 900000)
+        .toString();
+    _VerificationCodeStorage.store(email, code);
+
+    // In real implementation, this would send email
+    // For mock, we'll log it (in production, remove this)
+    // ignore: avoid_print
+    print('Mock Email to $email: Your verification code is $code');
+  }
+
+  /// Verifies the code sent to phone number.
+  ///
+  /// Mock implementation - checks stored code.
+  Future<bool> verifyPhoneCode({
+    required String phoneNumber,
+    required String code,
+  }) async {
+    await _simulateNetworkDelay();
+
+    final info = _VerificationCodeStorage.get(phoneNumber);
+    if (info == null) {
+      throw AuthException('Verification code has expired');
+    }
+
+    if (info.code != code) {
+      throw AuthException('Invalid verification code');
+    }
+
+    // Remove code after successful verification
+    _VerificationCodeStorage.remove(phoneNumber);
+    return true;
+  }
+
+  /// Verifies the code sent to email.
+  ///
+  /// Mock implementation - checks stored code.
+  Future<bool> verifyEmailCode({
+    required String email,
+    required String code,
+  }) async {
+    await _simulateNetworkDelay();
+
+    final info = _VerificationCodeStorage.get(email);
+    if (info == null) {
+      throw AuthException('Verification code has expired');
+    }
+
+    if (info.code != code) {
+      throw AuthException('Invalid verification code');
+    }
+
+    // Remove code after successful verification
+    _VerificationCodeStorage.remove(email);
+    return true;
+  }
+
+  /// Registers a new user with phone verification.
+  ///
+  /// Mock implementation - always succeeds with mock user.
+  Future<UserDto> registerWithPhone({
+    required String phoneNumber,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  }) async {
+    await _simulateRegistrationDelay();
+
+    // Validate phone format
+    if (!_isValidChinesePhone(phoneNumber)) {
+      throw AuthException('Invalid phone number format');
+    }
+
+    // Validate username
+    if (username.length < 2 || username.length > 20) {
+      throw AuthException('Nickname must be between 2-20 characters');
+    }
+
+    // Validate password
+    if (!_isValidPassword(password)) {
+      throw AuthException(
+        'Password must be at least 8 characters with letters and numbers',
+      );
+    }
+
+    // Verify code (already verified in flow, but double-check)
+    final codeInfo = _VerificationCodeStorage.get(phoneNumber);
+    if (codeInfo == null) {
+      throw AuthException('Please verify your phone number first');
+    }
+
+    // Return mock user
+    return UserDto(
+      id: 'user_${DateTime.now().millisecondsSinceEpoch}',
+      email: '$phoneNumber@phone.mock',
+      username: username,
+      displayName: username,
+      avatarUrl: avatarUrl ?? 'https://i.pravatar.cc/150?u=$username',
+      phoneNumber: phoneNumber,
+      token: 'mock_token_${DateTime.now().millisecondsSinceEpoch}',
+    );
+  }
+
+  /// Registers a new user with email verification.
+  ///
+  /// Mock implementation - always succeeds with mock user.
+  Future<UserDto> registerWithEmail({
+    required String email,
+    required String username,
+    required String password,
+    required String verificationCode,
+    String? avatarUrl,
+  }) async {
+    await _simulateRegistrationDelay();
+
+    // Validate email format
+    if (!_isValidEmail(email)) {
+      throw AuthException('Invalid email format');
+    }
+
+    // Validate username
+    if (username.length < 2 || username.length > 20) {
+      throw AuthException('Nickname must be between 2-20 characters');
+    }
+
+    // Validate password
+    if (!_isValidPassword(password)) {
+      throw AuthException(
+        'Password must be at least 8 characters with letters and numbers',
+      );
+    }
+
+    // Verify code (already verified in flow, but double-check)
+    final codeInfo = _VerificationCodeStorage.get(email);
+    if (codeInfo == null) {
+      throw AuthException('Please verify your email first');
+    }
+
+    // Return mock user
+    return UserDto(
+      id: 'user_${DateTime.now().millisecondsSinceEpoch}',
+      email: email,
+      username: username,
+      displayName: username,
+      avatarUrl: avatarUrl ?? 'https://i.pravatar.cc/150?u=$username',
+      token: 'mock_token_${DateTime.now().millisecondsSinceEpoch}',
+    );
+  }
+
+  /// Validates password strength.
+  /// At least 8 characters with both letters and numbers.
+  bool _isValidPassword(String password) {
+    if (password.length < 8) return false;
+    final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(password);
+    final hasNumber = RegExp(r'[0-9]').hasMatch(password);
+    return hasLetter && hasNumber;
   }
 }
 
