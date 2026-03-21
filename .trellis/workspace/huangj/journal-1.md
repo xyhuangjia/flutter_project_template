@@ -424,3 +424,35 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 10: 重构隐私协议流程
+
+**Date**: 2026-03-21
+**Task**: 重构隐私协议流程
+
+### Summary
+
+将隐私协议对话框集成到闪屏页，简化启动流程
+
+### Main Changes
+
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `b401ab6` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
