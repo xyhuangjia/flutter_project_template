@@ -14,7 +14,8 @@
       "Bash(flutter test:*)",
       "Bash(find:*)",
       "Bash(dart format:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(flutter pub:*)"
     ]
   }
 }

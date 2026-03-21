@@ -102,6 +102,17 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
 
+          // AI section
+          SettingsSectionHeader(title: localizations.aiAssistant),
+          SettingsTile(
+            title: localizations.aiConfiguration,
+            leading: const Icon(Icons.smart_toy_outlined),
+            onTap: () {
+              context.push('/settings/ai-config');
+            },
+          ),
+          const SizedBox(height: 24),
+
           // Security section (only if authenticated)
           if (isAuthenticated) ...[
             SettingsSectionHeader(title: localizations.security),

@@ -1,15 +1,20 @@
 /// Chat detail screen for individual conversations.
 library;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
+import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/chat_input_field.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/message_bubble.dart';
+import 'package:flutter_project_template/features/chat/presentation/widgets/typing_indicator.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// Chat detail screen.
 class ChatDetailScreen extends ConsumerStatefulWidget {
@@ -28,6 +33,8 @@ class ChatDetailScreen extends ConsumerStatefulWidget {
 
 class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   final _scrollController = ScrollController();
+  String? _streamingMessageId;
+  String _streamingContent = '';
 
   @override
   void dispose() {
@@ -57,17 +64,32 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           loading: () => null,
           error: (_, __) => null,
         );
+    final isTyping = ref.watch(isTypingProvider);
+    final aiConfig = ref.watch(aIConfigNotifierProvider).valueOrNull?.defaultConfig;
 
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
       appBar: AppBar(
-        title: Text(
-          conversation?.title ?? localizations.chat,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              conversation?.title ?? localizations.chat,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
+              ),
+            ),
+            if (aiConfig != null)
+              Text(
+                aiConfig.name,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                ),
+              ),
+          ],
         ),
         backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
         elevation: 0,
@@ -93,34 +115,107 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           Expanded(
             child: conversation == null
                 ? const Center(child: CircularProgressIndicator())
-                : _buildMessagesList(conversation, isDark, localizations),
+                : _buildMessagesList(conversation, isDark, localizations, isTyping),
           ),
+          if (aiConfig == null)
+            _buildNoConfigBanner(context, localizations, isDark),
           ChatInputField(
             onSend: _sendMessage,
             hintText: localizations.typeMessage,
+            enabled: aiConfig != null,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMessagesList(ChatConversation conversation, bool isDark,
-      AppLocalizations localizations) {
+  Widget _buildNoConfigBanner(
+    BuildContext context,
+    AppLocalizations localizations,
+    bool isDark,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
+      child: Row(
+        children: [
+          Icon(
+            Icons.info_outline,
+            color: const Color(0xFF8B5CF6),
+            size: 20,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              localizations.noAIConfigMessage,
+              style: TextStyle(
+                fontSize: 14,
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () => context.push('/settings/ai-config'),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF8B5CF6),
+            ),
+            child: Text(localizations.configureAI),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMessagesList(
+    ChatConversation conversation,
+    bool isDark,
+    AppLocalizations localizations,
+    bool isTyping,
+  ) {
     final messages = conversation.messages;
 
-    if (messages.isEmpty) {
+    if (messages.isEmpty && !isTyping) {
       return _buildEmptyState(isDark, localizations);
     }
 
     // Scroll to bottom after build
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
 
+    final itemCount = messages.length + (isTyping ? 1 : 0);
+
     return ListView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.symmetric(vertical: 16),
-      itemCount: messages.length,
+      itemCount: itemCount,
       itemBuilder: (context, index) {
+        // Show typing indicator at the end
+        if (isTyping && index == messages.length) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: TypingIndicator(),
+          );
+        }
+
         final message = messages[index];
+        // Show streaming content for the AI message being generated
+        if (message.id == _streamingMessageId && _streamingContent.isNotEmpty) {
+          final streamingMessage = ChatMessage(
+            id: message.id,
+            content: _streamingContent,
+            sender: message.sender,
+            timestamp: message.timestamp,
+            status: MessageStatus.sending,
+          );
+          return MessageBubble(
+            message: streamingMessage,
+            showTimestamp: false,
+            onLongPress: () => _showMessageMenu(
+              context,
+              streamingMessage,
+              isUserMessage: false,
+            ),
+          );
+        }
         return MessageBubble(
           message: message,
           showTimestamp: index == messages.length - 1 ||
@@ -184,8 +279,49 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   Future<void> _sendMessage(String text) async {
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
-    await chatNotifier.sendMessage(widget.conversationId, text);
-    _scrollToBottom();
+    final isTypingNotifier = ref.read(isTypingProvider.notifier);
+
+    isTypingNotifier.setTyping(true);
+    _streamingContent = '';
+    _streamingMessageId = null;
+
+    try {
+      await for (final event
+          in chatNotifier.sendMessageStream(widget.conversationId, text)) {
+        if (event is ChatUserMessageCreated) {
+          // User message created, scroll to bottom
+          _scrollToBottom();
+        } else if (event is ChatAIResponseChunk) {
+          // AI response chunk received
+          _streamingMessageId = event.messageId;
+          if (event.content.isNotEmpty) {
+            _streamingContent += event.content;
+          }
+          if (mounted) {
+            setState(() {});
+          }
+          _scrollToBottom();
+
+          if (event.isDone) {
+            _streamingMessageId = null;
+            _streamingContent = '';
+          }
+        } else if (event is ChatAIResponseError) {
+          // Error occurred
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(event.message),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        }
+      }
+    } finally {
+      isTypingNotifier.setTyping(false);
+    }
   }
 
   void _showOptionsMenu(BuildContext context) {
@@ -203,6 +339,22 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ListTile(
+              leading: Icon(
+                Icons.ios_share,
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
+              ),
+              title: Text(
+                localizations.exportChat,
+                style: TextStyle(
+                  color: isDark ? Colors.white : const Color(0xFF1E293B),
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                _exportConversation();
+              },
+            ),
             ListTile(
               leading: Icon(
                 Icons.delete_outline,
@@ -239,6 +391,35 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _exportConversation() async {
+    final localizations = AppLocalizations.of(context)!;
+    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+
+    try {
+      final markdown = await chatNotifier.exportConversation(widget.conversationId);
+      await Share.share(markdown, subject: localizations.exportChat);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.chatExported),
+            backgroundColor: const Color(0xFF8B5CF6),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.exportFailed),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
   }
 
   Future<void> _deleteConversation() async {

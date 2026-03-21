@@ -1633,6 +1633,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get passwordsDoNotMatchError;
+
+  /// AI Assistant section title
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get aiAssistant;
+
+  /// AI configuration screen title
+  ///
+  /// In en, this message translates to:
+  /// **'AI Configuration'**
+  String get aiConfiguration;
+
+  /// No AI configuration empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'No AI Configuration'**
+  String get noAIConfig;
+
+  /// Add AI configuration hint
+  ///
+  /// In en, this message translates to:
+  /// **'Add an AI model configuration to start chatting with AI'**
+  String get addAIConfigHint;
+
+  /// Add AI configuration button
+  ///
+  /// In en, this message translates to:
+  /// **'Add AI Configuration'**
+  String get addAIConfig;
+
+  /// AI provider label
+  ///
+  /// In en, this message translates to:
+  /// **'Provider'**
+  String get provider;
+
+  /// AI model label
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get model;
+
+  /// Configuration name label
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration Name'**
+  String get configName;
+
+  /// Configuration name hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., My GPT-4'**
+  String get configNameHint;
+
+  /// API key label
+  ///
+  /// In en, this message translates to:
+  /// **'API Key'**
+  String get apiKey;
+
+  /// API key hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your API key'**
+  String get apiKeyHint;
+
+  /// OpenAI API key help text
+  ///
+  /// In en, this message translates to:
+  /// **'Get your API key from platform.openai.com/api-keys'**
+  String get openAIKeyHelp;
+
+  /// Claude API key help text
+  ///
+  /// In en, this message translates to:
+  /// **'Get your API key from console.anthropic.com'**
+  String get claudeKeyHelp;
+
+  /// Name required validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name'**
+  String get nameRequired;
+
+  /// API key required validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter an API key'**
+  String get apiKeyRequired;
+
+  /// Invalid API key error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid API key. Please check and try again.'**
+  String get invalidApiKey;
+
+  /// Configuration saved message
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration saved successfully'**
+  String get configSaved;
+
+  /// Delete configuration dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Configuration'**
+  String get deleteConfig;
+
+  /// Delete configuration confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"?'**
+  String deleteConfigConfirm(Object name);
+
+  /// Default label badge
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultLabel;
+
+  /// Set as default button
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Default'**
+  String get setAsDefault;
+
+  /// Export chat menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Export Chat'**
+  String get exportChat;
+
+  /// Chat exported message
+  ///
+  /// In en, this message translates to:
+  /// **'Chat exported successfully'**
+  String get chatExported;
+
+  /// Export failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to export chat'**
+  String get exportFailed;
+
+  /// Tokens used label
+  ///
+  /// In en, this message translates to:
+  /// **'Tokens: {count}'**
+  String tokensUsed(Object count);
+
+  /// AI thinking indicator
+  ///
+  /// In en, this message translates to:
+  /// **'AI is thinking...'**
+  String get aiThinking;
+
+  /// Configure AI prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Configure AI'**
+  String get configureAI;
+
+  /// No AI config message in chat
+  ///
+  /// In en, this message translates to:
+  /// **'Please configure an AI model to start chatting'**
+  String get noAIConfigMessage;
 }
 
 class _AppLocalizationsDelegate

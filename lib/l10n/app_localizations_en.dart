@@ -814,4 +814,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatchError => 'Passwords do not match';
+
+  @override
+  String get aiAssistant => 'AI Assistant';
+
+  @override
+  String get aiConfiguration => 'AI Configuration';
+
+  @override
+  String get noAIConfig => 'No AI Configuration';
+
+  @override
+  String get addAIConfigHint =>
+      'Add an AI model configuration to start chatting with AI';
+
+  @override
+  String get addAIConfig => 'Add AI Configuration';
+
+  @override
+  String get provider => 'Provider';
+
+  @override
+  String get model => 'Model';
+
+  @override
+  String get configName => 'Configuration Name';
+
+  @override
+  String get configNameHint => 'e.g., My GPT-4';
+
+  @override
+  String get apiKey => 'API Key';
+
+  @override
+  String get apiKeyHint => 'Enter your API key';
+
+  @override
+  String get openAIKeyHelp =>
+      'Get your API key from platform.openai.com/api-keys';
+
+  @override
+  String get claudeKeyHelp => 'Get your API key from console.anthropic.com';
+
+  @override
+  String get nameRequired => 'Please enter a name';
+
+  @override
+  String get apiKeyRequired => 'Please enter an API key';
+
+  @override
+  String get invalidApiKey => 'Invalid API key. Please check and try again.';
+
+  @override
+  String get configSaved => 'Configuration saved successfully';
+
+  @override
+  String get deleteConfig => 'Delete Configuration';
+
+  @override
+  String deleteConfigConfirm(Object name) {
+    return 'Are you sure you want to delete \"$name\"?';
+  }
+
+  @override
+  String get defaultLabel => 'Default';
+
+  @override
+  String get setAsDefault => 'Set as Default';
+
+  @override
+  String get exportChat => 'Export Chat';
+
+  @override
+  String get chatExported => 'Chat exported successfully';
+
+  @override
+  String get exportFailed => 'Failed to export chat';
+
+  @override
+  String tokensUsed(Object count) {
+    return 'Tokens: $count';
+  }
+
+  @override
+  String get aiThinking => 'AI is thinking...';
+
+  @override
+  String get configureAI => 'Configure AI';
+
+  @override
+  String get noAIConfigMessage =>
+      'Please configure an AI model to start chatting';
 }

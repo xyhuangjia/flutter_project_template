@@ -58,6 +58,9 @@ abstract final class Routes {
 
   /// Forgot password route.
   static const String forgotPassword = '/forgot-password';
+
+  /// AI configuration route.
+  static const String aiConfig = '/settings/ai-config';
 }
 
 /// Route names for named navigation.
@@ -111,4 +114,7 @@ abstract final class RouteNames {
 
   /// Forgot password route name.
   static const String forgotPassword = 'forgotPassword';
+
+  /// AI configuration route name.
+  static const String aiConfig = 'aiConfig';
 }

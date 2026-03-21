@@ -1305,5 +1305,151 @@
   "passwordsDoNotMatchError": "两次密码输入不一致",
   "@passwordsDoNotMatchError": {
     "description": "Passwords do not match error"
+  },
+
+  "aiAssistant": "AI 助手",
+  "@aiAssistant": {
+    "description": "AI Assistant section title"
+  },
+
+  "aiConfiguration": "AI 配置",
+  "@aiConfiguration": {
+    "description": "AI configuration screen title"
+  },
+
+  "noAIConfig": "暂无 AI 配置",
+  "@noAIConfig": {
+    "description": "No AI configuration empty state title"
+  },
+
+  "addAIConfigHint": "添加 AI 模型配置以开始与 AI 聊天",
+  "@addAIConfigHint": {
+    "description": "Add AI configuration hint"
+  },
+
+  "addAIConfig": "添加 AI 配置",
+  "@addAIConfig": {
+    "description": "Add AI configuration button"
+  },
+
+  "provider": "提供商",
+  "@provider": {
+    "description": "AI provider label"
+  },
+
+  "model": "模型",
+  "@model": {
+    "description": "AI model label"
+  },
+
+  "configName": "配置名称",
+  "@configName": {
+    "description": "Configuration name label"
+  },
+
+  "configNameHint": "例如：我的 GPT-4",
+  "@configNameHint": {
+    "description": "Configuration name hint"
+  },
+
+  "apiKey": "API 密钥",
+  "@apiKey": {
+    "description": "API key label"
+  },
+
+  "apiKeyHint": "输入您的 API 密钥",
+  "@apiKeyHint": {
+    "description": "API key hint"
+  },
+
+  "openAIKeyHelp": "从 platform.openai.com/api-keys 获取您的 API 密钥",
+  "@openAIKeyHelp": {
+    "description": "OpenAI API key help text"
+  },
+
+  "claudeKeyHelp": "从 console.anthropic.com 获取您的 API 密钥",
+  "@claudeKeyHelp": {
+    "description": "Claude API key help text"
+  },
+
+  "nameRequired": "请输入名称",
+  "@nameRequired": {
+    "description": "Name required validation"
+  },
+
+  "apiKeyRequired": "请输入 API 密钥",
+  "@apiKeyRequired": {
+    "description": "API key required validation"
+  },
+
+  "invalidApiKey": "API 密钥无效，请检查后重试",
+  "@invalidApiKey": {
+    "description": "Invalid API key error"
+  },
+
+  "configSaved": "配置已保存",
+  "@configSaved": {
+    "description": "Configuration saved message"
+  },
+
+  "deleteConfig": "删除配置",
+  "@deleteConfig": {
+    "description": "Delete configuration dialog title"
+  },
+
+  "deleteConfigConfirm": "确定要删除「{name}」吗？",
+  "@deleteConfigConfirm": {
+    "description": "Delete configuration confirmation",
+    "placeholders": {
+      "name": {}
+    }
+  },
+
+  "defaultLabel": "默认",
+  "@defaultLabel": {
+    "description": "Default label badge"
+  },
+
+  "setAsDefault": "设为默认",
+  "@setAsDefault": {
+    "description": "Set as default button"
+  },
+
+  "exportChat": "导出聊天",
+  "@exportChat": {
+    "description": "Export chat menu item"
+  },
+
+  "chatExported": "聊天已导出",
+  "@chatExported": {
+    "description": "Chat exported message"
+  },
+
+  "exportFailed": "导出失败",
+  "@exportFailed": {
+    "description": "Export failed message"
+  },
+
+  "tokensUsed": "Token: {count}",
+  "@tokensUsed": {
+    "description": "Tokens used label",
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "aiThinking": "AI 正在思考...",
+  "@aiThinking": {
+    "description": "AI thinking indicator"
+  },
+
+  "configureAI": "配置 AI",
+  "@configureAI": {
+    "description": "Configure AI prompt"
+  },
+
+  "noAIConfigMessage": "请先配置 AI 模型以开始聊天",
+  "@noAIConfigMessage": {
+    "description": "No AI config message in chat"
   }
 }

@@ -76,5 +76,19 @@
   ".opencode/lib/trellis-context.js": "8974c446808852152d1f9cd1165d5dad3c215e9c9206339d83fedca464f886a8",
   ".opencode/package.json": "6867538b2f6025286a70c943d15db4191d2412daa8bf7431a846b00c863f26b8",
   ".opencode/plugin/inject-subagent-context.js": "6a1257d7a2e485d3de3b0e34c40ab285dfe48e976d442288423eab23d2a0e717",
-  ".opencode/plugin/session-start.js": "ce013e3b329b954cd1317fc69d804ad69f6524ff73531b29bac8d67e6a4d8d81"
+  ".opencode/plugin/session-start.js": "ce013e3b329b954cd1317fc69d804ad69f6524ff73531b29bac8d67e6a4d8d81",
+  ".cursor/commands/trellis-before-backend-dev.md": "7e35444de2a5779ef39944f17f566ea21d2ed7f4994246f4cfe6ebf9a11dd3e3",
+  ".cursor/commands/trellis-before-frontend-dev.md": "a6225f9d123dbd4a7aec822652030cae50be3f5b308297015e04d42b23a27b2a",
+  ".cursor/commands/trellis-brainstorm.md": "cd0cc2f346b16b289ebcd7a35c402db53fb8c7c9653a5679ad3dc065c200e300",
+  ".cursor/commands/trellis-break-loop.md": "24d07ac0ac1873cb7adf5228c597e58a58125d80fc1e8d2eb5d6948c43761566",
+  ".cursor/commands/trellis-check-backend.md": "4e81a28d681ea770f780df55a212fd504ce21ee49b44ba16023b74b5c243cef3",
+  ".cursor/commands/trellis-check-cross-layer.md": "a79fe38f29f84a4524a70987e9fecfca569430df476082bff9dde31596ca3951",
+  ".cursor/commands/trellis-check-frontend.md": "5e8e3b682032ba0dd6bb843dd4826fff0159f78a7084964ccb119c6cf98b3d91",
+  ".cursor/commands/trellis-create-command.md": "9a9283add72832e0e015de770531edf37cf3720e4a72782c1cea6e9941603490",
+  ".cursor/commands/trellis-finish-work.md": "582e968ada1b2b6124baf19a0e89ba1e5617330f4a1318e8d3334698e40fce67",
+  ".cursor/commands/trellis-integrate-skill.md": "bb15144c308939abfd41cb008da71088910b6ec432c763ab4c0762dd6f0819e8",
+  ".cursor/commands/trellis-onboard.md": "ebfbe707f428f036b7d716061dfc33187b940ef9acdf3f824d1c43d1e2035ecb",
+  ".cursor/commands/trellis-record-session.md": "0c4f61283c2f262c1f9c900d9207309107497d4ac848cca86eb62bc5b7189fe7",
+  ".cursor/commands/trellis-start.md": "a6a020be5d2dafa4726f1c78641cbbcb325f31d2c636d645f1f42822e04e8286",
+  ".cursor/commands/trellis-update-spec.md": "714ce498567304c679d4b541e13cc670ce1cfc34c2abeb6d7e7d0f7196a52eff"
 }

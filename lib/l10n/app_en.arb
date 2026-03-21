@@ -1305,5 +1305,151 @@
   "passwordsDoNotMatchError": "Passwords do not match",
   "@passwordsDoNotMatchError": {
     "description": "Passwords do not match error"
+  },
+
+  "aiAssistant": "AI Assistant",
+  "@aiAssistant": {
+    "description": "AI Assistant section title"
+  },
+
+  "aiConfiguration": "AI Configuration",
+  "@aiConfiguration": {
+    "description": "AI configuration screen title"
+  },
+
+  "noAIConfig": "No AI Configuration",
+  "@noAIConfig": {
+    "description": "No AI configuration empty state title"
+  },
+
+  "addAIConfigHint": "Add an AI model configuration to start chatting with AI",
+  "@addAIConfigHint": {
+    "description": "Add AI configuration hint"
+  },
+
+  "addAIConfig": "Add AI Configuration",
+  "@addAIConfig": {
+    "description": "Add AI configuration button"
+  },
+
+  "provider": "Provider",
+  "@provider": {
+    "description": "AI provider label"
+  },
+
+  "model": "Model",
+  "@model": {
+    "description": "AI model label"
+  },
+
+  "configName": "Configuration Name",
+  "@configName": {
+    "description": "Configuration name label"
+  },
+
+  "configNameHint": "e.g., My GPT-4",
+  "@configNameHint": {
+    "description": "Configuration name hint"
+  },
+
+  "apiKey": "API Key",
+  "@apiKey": {
+    "description": "API key label"
+  },
+
+  "apiKeyHint": "Enter your API key",
+  "@apiKeyHint": {
+    "description": "API key hint"
+  },
+
+  "openAIKeyHelp": "Get your API key from platform.openai.com/api-keys",
+  "@openAIKeyHelp": {
+    "description": "OpenAI API key help text"
+  },
+
+  "claudeKeyHelp": "Get your API key from console.anthropic.com",
+  "@claudeKeyHelp": {
+    "description": "Claude API key help text"
+  },
+
+  "nameRequired": "Please enter a name",
+  "@nameRequired": {
+    "description": "Name required validation"
+  },
+
+  "apiKeyRequired": "Please enter an API key",
+  "@apiKeyRequired": {
+    "description": "API key required validation"
+  },
+
+  "invalidApiKey": "Invalid API key. Please check and try again.",
+  "@invalidApiKey": {
+    "description": "Invalid API key error"
+  },
+
+  "configSaved": "Configuration saved successfully",
+  "@configSaved": {
+    "description": "Configuration saved message"
+  },
+
+  "deleteConfig": "Delete Configuration",
+  "@deleteConfig": {
+    "description": "Delete configuration dialog title"
+  },
+
+  "deleteConfigConfirm": "Are you sure you want to delete \"{name}\"?",
+  "@deleteConfigConfirm": {
+    "description": "Delete configuration confirmation",
+    "placeholders": {
+      "name": {}
+    }
+  },
+
+  "defaultLabel": "Default",
+  "@defaultLabel": {
+    "description": "Default label badge"
+  },
+
+  "setAsDefault": "Set as Default",
+  "@setAsDefault": {
+    "description": "Set as default button"
+  },
+
+  "exportChat": "Export Chat",
+  "@exportChat": {
+    "description": "Export chat menu item"
+  },
+
+  "chatExported": "Chat exported successfully",
+  "@chatExported": {
+    "description": "Chat exported message"
+  },
+
+  "exportFailed": "Failed to export chat",
+  "@exportFailed": {
+    "description": "Export failed message"
+  },
+
+  "tokensUsed": "Tokens: {count}",
+  "@tokensUsed": {
+    "description": "Tokens used label",
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "aiThinking": "AI is thinking...",
+  "@aiThinking": {
+    "description": "AI thinking indicator"
+  },
+
+  "configureAI": "Configure AI",
+  "@configureAI": {
+    "description": "Configure AI prompt"
+  },
+
+  "noAIConfigMessage": "Please configure an AI model to start chatting",
+  "@noAIConfigMessage": {
+    "description": "No AI config message in chat"
   }
 }

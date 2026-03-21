@@ -10,6 +10,7 @@ import 'package:flutter_project_template/features/auth/presentation/screens/logi
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
+import 'package:flutter_project_template/features/chat/presentation/screens/ai_config_screen.dart';
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
@@ -124,6 +125,12 @@ final GoRouter appRouter = GoRouter(
       path: Routes.forgotPassword,
       name: RouteNames.forgotPassword,
       builder: (context, state) => const ForgotPasswordScreen(),
+    ),
+    // AI configuration route
+    GoRoute(
+      path: Routes.aiConfig,
+      name: RouteNames.aiConfig,
+      builder: (context, state) => const AIConfigScreen(),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(

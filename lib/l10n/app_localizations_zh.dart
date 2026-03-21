@@ -795,4 +795,92 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatchError => '两次密码输入不一致';
+
+  @override
+  String get aiAssistant => 'AI 助手';
+
+  @override
+  String get aiConfiguration => 'AI 配置';
+
+  @override
+  String get noAIConfig => '暂无 AI 配置';
+
+  @override
+  String get addAIConfigHint => '添加 AI 模型配置以开始与 AI 聊天';
+
+  @override
+  String get addAIConfig => '添加 AI 配置';
+
+  @override
+  String get provider => '提供商';
+
+  @override
+  String get model => '模型';
+
+  @override
+  String get configName => '配置名称';
+
+  @override
+  String get configNameHint => '例如：我的 GPT-4';
+
+  @override
+  String get apiKey => 'API 密钥';
+
+  @override
+  String get apiKeyHint => '输入您的 API 密钥';
+
+  @override
+  String get openAIKeyHelp => '从 platform.openai.com/api-keys 获取您的 API 密钥';
+
+  @override
+  String get claudeKeyHelp => '从 console.anthropic.com 获取您的 API 密钥';
+
+  @override
+  String get nameRequired => '请输入名称';
+
+  @override
+  String get apiKeyRequired => '请输入 API 密钥';
+
+  @override
+  String get invalidApiKey => 'API 密钥无效，请检查后重试';
+
+  @override
+  String get configSaved => '配置已保存';
+
+  @override
+  String get deleteConfig => '删除配置';
+
+  @override
+  String deleteConfigConfirm(Object name) {
+    return '确定要删除「$name」吗？';
+  }
+
+  @override
+  String get defaultLabel => '默认';
+
+  @override
+  String get setAsDefault => '设为默认';
+
+  @override
+  String get exportChat => '导出聊天';
+
+  @override
+  String get chatExported => '聊天已导出';
+
+  @override
+  String get exportFailed => '导出失败';
+
+  @override
+  String tokensUsed(Object count) {
+    return 'Token: $count';
+  }
+
+  @override
+  String get aiThinking => 'AI 正在思考...';
+
+  @override
+  String get configureAI => '配置 AI';
+
+  @override
+  String get noAIConfigMessage => '请先配置 AI 模型以开始聊天';
 }
