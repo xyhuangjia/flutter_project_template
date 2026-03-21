@@ -212,6 +212,12 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// Edit text
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
   /// Register text
   ///
   /// In en, this message translates to:

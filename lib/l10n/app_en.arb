@@ -96,6 +96,11 @@
     "description": "Logout text"
   },
 
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit text"
+  },
+
   "register": "Register",
   "@register": {
     "description": "Register text"

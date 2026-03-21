@@ -96,6 +96,11 @@
     "description": "Logout text"
   },
 
+  "edit": "编辑",
+  "@edit": {
+    "description": "Edit text"
+  },
+
   "register": "注册",
   "@register": {
     "description": "Register text"

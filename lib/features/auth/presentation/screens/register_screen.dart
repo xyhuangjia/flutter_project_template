@@ -2,7 +2,6 @@
 library;
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_project_template/features/auth/presentation/providers/au
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 /// Region type for registration.
 enum RegionType {
@@ -35,7 +33,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _accountController = TextEditingController();
   final _verificationCodeController = TextEditingController();
-  final _nicknameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -46,7 +43,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _isSendingCode = false;
   bool _isVerifyingCode = false;
   bool _isCodeVerified = false;
-  String? _avatarPath;
   int _countdown = 0;
   Timer? _timer;
 
@@ -75,7 +71,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   void dispose() {
     _accountController.dispose();
     _verificationCodeController.dispose();
-    _nicknameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _timer?.cancel();
@@ -192,21 +187,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
   }
 
-  /// Picks avatar from gallery.
-  Future<void> _pickAvatar() async {
-    final picker = ImagePicker();
-    final image = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 512,
-      maxHeight: 512,
-      imageQuality: 85,
-    );
-
-    if (image != null) {
-      setState(() => _avatarPath = image.path);
-    }
-  }
-
   /// Handles registration.
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
@@ -220,30 +200,28 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _isLoading = true);
 
     final account = _accountController.text.trim();
-    final nickname = _nicknameController.text.trim();
     final password = _passwordController.text;
     final code = _verificationCodeController.text.trim();
 
     final success = _regionType == RegionType.china
         ? await ref.read(authNotifierProvider.notifier).registerWithPhone(
               phoneNumber: account,
-              username: nickname,
+              username: account,
               password: password,
               verificationCode: code,
-              avatarUrl: _avatarPath,
             )
         : await ref.read(authNotifierProvider.notifier).registerWithEmail(
               email: account,
-              username: nickname,
+              username: account,
               password: password,
               verificationCode: code,
-              avatarUrl: _avatarPath,
             );
 
     setState(() => _isLoading = false);
 
     if (success && mounted) {
-      context.go(Routes.home);
+      // Registration successful, navigate directly to chat
+      context.go(Routes.chat);
     }
   }
 
@@ -295,7 +273,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               formKey: _formKey,
               accountController: _accountController,
               verificationCodeController: _verificationCodeController,
-              nicknameController: _nicknameController,
               passwordController: _passwordController,
               confirmPasswordController: _confirmPasswordController,
               regionType: _regionType,
@@ -306,15 +283,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               isVerifyingCode: _isVerifyingCode,
               isCodeVerified: _isCodeVerified,
               countdown: _countdown,
-              avatarPath: _avatarPath,
               authState: authState,
               onTogglePassword: () =>
                   setState(() => _obscurePassword = !_obscurePassword),
-              onToggleConfirmPassword: () =>
-                  setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+              onToggleConfirmPassword: () => setState(
+                () => _obscureConfirmPassword = !_obscureConfirmPassword,
+              ),
               onSendCode: _sendVerificationCode,
               onVerifyCode: _verifyCode,
-              onPickAvatar: _pickAvatar,
               onRegister: _handleRegister,
               localizations: localizations,
               theme: theme,
@@ -392,7 +368,6 @@ class _RegisterFormView extends StatelessWidget {
     required this.formKey,
     required this.accountController,
     required this.verificationCodeController,
-    required this.nicknameController,
     required this.passwordController,
     required this.confirmPasswordController,
     required this.regionType,
@@ -403,13 +378,11 @@ class _RegisterFormView extends StatelessWidget {
     required this.isVerifyingCode,
     required this.isCodeVerified,
     required this.countdown,
-    required this.avatarPath,
     required this.authState,
     required this.onTogglePassword,
     required this.onToggleConfirmPassword,
     required this.onSendCode,
     required this.onVerifyCode,
-    required this.onPickAvatar,
     required this.onRegister,
     required this.localizations,
     required this.theme,
@@ -418,7 +391,6 @@ class _RegisterFormView extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController accountController;
   final TextEditingController verificationCodeController;
-  final TextEditingController nicknameController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
   final RegionType regionType;
@@ -429,13 +401,11 @@ class _RegisterFormView extends StatelessWidget {
   final bool isVerifyingCode;
   final bool isCodeVerified;
   final int countdown;
-  final String? avatarPath;
   final AsyncValue<AuthState> authState;
   final VoidCallback onTogglePassword;
   final VoidCallback onToggleConfirmPassword;
   final VoidCallback onSendCode;
   final VoidCallback onVerifyCode;
-  final VoidCallback onPickAvatar;
   final VoidCallback onRegister;
   final AppLocalizations localizations;
   final ThemeData theme;
@@ -475,17 +445,6 @@ class _RegisterFormView extends StatelessWidget {
                     isCodeVerified: isCodeVerified,
                     onSendCode: onSendCode,
                     onVerifyCode: onVerifyCode,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 16),
-                  _AvatarSection(
-                    avatarPath: avatarPath,
-                    onPickAvatar: onPickAvatar,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 16),
-                  _NicknameField(
-                    controller: nicknameController,
                     localizations: localizations,
                   ),
                   const SizedBox(height: 16),
@@ -746,112 +705,6 @@ class _VerificationCodeSection extends StatelessWidget {
           ),
         ],
       ],
-    );
-  }
-}
-
-/// Avatar section with picker.
-class _AvatarSection extends StatelessWidget {
-  const _AvatarSection({
-    required this.avatarPath,
-    required this.onPickAvatar,
-    required this.localizations,
-  });
-
-  final String? avatarPath;
-  final VoidCallback onPickAvatar;
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      onTap: onPickAvatar,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border.all(color: theme.colorScheme.outline),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundImage:
-                  avatarPath != null ? FileImage(File(avatarPath!)) : null,
-              backgroundColor: theme.colorScheme.primaryContainer,
-              child: avatarPath == null
-                  ? Icon(
-                      Icons.person,
-                      size: 32,
-                      color: theme.colorScheme.onPrimaryContainer,
-                    )
-                  : null,
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    localizations.avatar,
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    localizations.chooseAvatar,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              Icons.photo_camera_outlined,
-              color: theme.colorScheme.primary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Nickname input field.
-class _NicknameField extends StatelessWidget {
-  const _NicknameField({
-    required this.controller,
-    required this.localizations,
-  });
-
-  final TextEditingController controller;
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        labelText: localizations.nickname,
-        prefixIcon: const Icon(Icons.badge_outlined),
-        border: const OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return localizations.enterNickname;
-        }
-        if (value.length < 2) {
-          return localizations.nicknameMinLength;
-        }
-        if (value.length > 20) {
-          return localizations.nicknameMaxLength;
-        }
-        return null;
-      },
     );
   }
 }

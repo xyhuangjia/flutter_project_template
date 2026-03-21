@@ -11,6 +11,7 @@ import 'package:flutter_project_template/features/auth/presentation/screens/regi
 import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/ai_config_screen.dart';
+import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
@@ -65,6 +66,11 @@ final GoRouter appRouter = GoRouter(
       path: Routes.about,
       name: RouteNames.about,
       builder: (context, state) => const AboutScreen(),
+    ),
+    GoRoute(
+      path: Routes.profile,
+      name: RouteNames.profile,
+      builder: (context, state) => const ProfileScreen(),
     ),
     GoRoute(
       path: Routes.webView,

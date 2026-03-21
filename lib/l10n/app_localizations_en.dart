@@ -66,6 +66,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
+  String get edit => 'Edit';
+
+  @override
   String get register => 'Register';
 
   @override

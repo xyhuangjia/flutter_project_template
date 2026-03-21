@@ -66,6 +66,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get logout => '退出登录';
 
   @override
+  String get edit => '编辑';
+
+  @override
   String get register => '注册';
 
   @override
