@@ -3,7 +3,7 @@
   "name": "forgot-password",
   "title": "忘记密码功能",
   "description": "",
-  "status": "planning",
+  "status": "in_progress",
   "dev_type": null,
   "scope": null,
   "priority": "P2",
@@ -14,7 +14,7 @@
   "branch": "feature/forgot-password",
   "base_branch": "main",
   "worktree_path": "/Users/huangj/Desktop/gitSpace/trellis-worktrees/feature/forgot-password",
-  "current_phase": 3,
+  "current_phase": 0,
   "next_action": [
     {
       "phase": 1,

@@ -3,7 +3,7 @@
   "name": "user-registration",
   "title": "用户注册功能",
   "description": "",
-  "status": "planning",
+  "status": "in_progress",
   "dev_type": null,
   "scope": null,
   "priority": "P2",
@@ -14,7 +14,7 @@
   "branch": "feature/user-registration",
   "base_branch": "main",
   "worktree_path": "/Users/huangj/Desktop/gitSpace/trellis-worktrees/feature/user-registration",
-  "current_phase": 3,
+  "current_phase": 0,
   "next_action": [
     {
       "phase": 1,
