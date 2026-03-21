@@ -8,20 +8,48 @@ import 'package:flutter_project_template/core/splash/splash_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
+import 'package:flutter_project_template/features/chat/presentation/screens/ai_config_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/chat_detail_screen.dart';
 import 'package:flutter_project_template/features/chat/presentation/screens/conversation_list_screen.dart';
-import 'package:flutter_project_template/features/chat/presentation/screens/ai_config_screen.dart';
-import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_consent_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_settings_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/widgets/permission_card.dart';
+import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
 import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
 import 'package:go_router/go_router.dart';
+
+/// Creates a page with iOS-style slide transition.
+CustomTransitionPage<T> _iosSlidePage<T>({
+  required Widget child,
+  required GoRouterState state,
+  String? name,
+}) =>
+    CustomTransitionPage<T>(
+      key: state.pageKey,
+      name: name,
+      child: child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        // iOS push animation: slide from right
+        final slideAnimation = Tween<Offset>(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeInOut,
+          reverseCurve: Curves.easeInOut,
+        ));
+
+        return SlideTransition(
+          position: slideAnimation,
+          child: child,
+        );
+      },
+    );
 
 /// Application router configuration.
 ///
@@ -47,40 +75,70 @@ final GoRouter appRouter = GoRouter(
       name: RouteNames.home,
       builder: (context, state) => const HomeScreen(),
     ),
+    // Login - use iOS transition
     GoRoute(
       path: Routes.login,
       name: RouteNames.login,
-      builder: (context, state) => const LoginScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const LoginScreen(),
+        state: state,
+        name: RouteNames.login,
+      ),
     ),
+    // Register - use iOS transition
     GoRoute(
       path: Routes.register,
       name: RouteNames.register,
-      builder: (context, state) => const RegisterScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const RegisterScreen(),
+        state: state,
+        name: RouteNames.register,
+      ),
     ),
+    // Settings - use iOS transition
     GoRoute(
       path: Routes.settings,
       name: RouteNames.settings,
-      builder: (context, state) => const SettingsScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const SettingsScreen(),
+        state: state,
+        name: RouteNames.settings,
+      ),
     ),
+    // About - use iOS transition
     GoRoute(
       path: Routes.about,
       name: RouteNames.about,
-      builder: (context, state) => const AboutScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const AboutScreen(),
+        state: state,
+        name: RouteNames.about,
+      ),
     ),
+    // Profile - use iOS transition
     GoRoute(
       path: Routes.profile,
       name: RouteNames.profile,
-      builder: (context, state) => const ProfileScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const ProfileScreen(),
+        state: state,
+        name: RouteNames.profile,
+      ),
     ),
+    // WebView - use iOS transition
     GoRoute(
       path: Routes.webView,
       name: RouteNames.webView,
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final title = state.uri.queryParameters['title'] ?? '';
         final url = state.uri.queryParameters['url'] ?? '';
-        return WebViewScreen.url(
-          url: url,
-          title: title,
+        return _iosSlidePage(
+          child: WebViewScreen.url(
+            url: url,
+            title: title,
+          ),
+          state: state,
+          name: RouteNames.webView,
         );
       },
     ),
@@ -90,53 +148,82 @@ final GoRouter appRouter = GoRouter(
       name: RouteNames.chat,
       builder: (context, state) => const ConversationListScreen(),
     ),
+    // Chat detail - use iOS transition
     GoRoute(
       path: Routes.chatDetail,
       name: RouteNames.chatDetail,
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final id = state.pathParameters['id'] ?? '';
-        return ChatDetailScreen(conversationId: id);
+        return _iosSlidePage(
+          child: ChatDetailScreen(conversationId: id),
+          state: state,
+          name: RouteNames.chatDetail,
+        );
       },
     ),
-    // Privacy routes
+    // Privacy routes - use iOS transition
     GoRoute(
       path: Routes.privacyConsent,
       name: RouteNames.privacyConsent,
-      builder: (context, state) => const PrivacyConsentScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const PrivacyConsentScreen(),
+        state: state,
+        name: RouteNames.privacyConsent,
+      ),
     ),
     GoRoute(
       path: Routes.privacySettings,
       name: RouteNames.privacySettings,
-      builder: (context, state) => const PrivacySettingsScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const PrivacySettingsScreen(),
+        state: state,
+        name: RouteNames.privacySettings,
+      ),
     ),
     GoRoute(
       path: Routes.permissionRationale,
       name: RouteNames.permissionRationale,
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final typeStr = state.uri.queryParameters['type'] ?? 'camera';
         final permissionType = PermissionType.values.firstWhere(
           (e) => e.name == typeStr,
           orElse: () => PermissionType.camera,
         );
-        return PermissionRationaleScreen(permissionType: permissionType);
+        return _iosSlidePage(
+          child: PermissionRationaleScreen(permissionType: permissionType),
+          state: state,
+          name: RouteNames.permissionRationale,
+        );
       },
     ),
     GoRoute(
       path: Routes.accountDeletion,
       name: RouteNames.accountDeletion,
-      builder: (context, state) => const AccountDeletionScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const AccountDeletionScreen(),
+        state: state,
+        name: RouteNames.accountDeletion,
+      ),
     ),
-    // Forgot password route
+    // Forgot password - use iOS transition
     GoRoute(
       path: Routes.forgotPassword,
       name: RouteNames.forgotPassword,
-      builder: (context, state) => const ForgotPasswordScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const ForgotPasswordScreen(),
+        state: state,
+        name: RouteNames.forgotPassword,
+      ),
     ),
-    // AI configuration route
+    // AI configuration - use iOS transition
     GoRoute(
       path: Routes.aiConfig,
       name: RouteNames.aiConfig,
-      builder: (context, state) => const AIConfigScreen(),
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const AIConfigScreen(),
+        state: state,
+        name: RouteNames.aiConfig,
+      ),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(

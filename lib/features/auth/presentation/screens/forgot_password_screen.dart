@@ -4,7 +4,6 @@ library;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/forgot_password_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/forgot_password_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -76,7 +75,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       // Show success for 2 seconds then go back to login
       await Future<void>.delayed(const Duration(seconds: 2));
       if (mounted) {
-        context.go(Routes.login);
+        context.pop();
       }
     }
   }
@@ -112,7 +111,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 state.step != ForgotPasswordStep.success) {
               ref.read(forgotPasswordNotifierProvider.notifier).goBack();
             } else {
-              context.go(Routes.login);
+              context.pop();
             }
           },
         ),
@@ -736,7 +735,7 @@ class _SuccessSection extends StatelessWidget {
           height: 52,
           width: double.infinity,
           child: FilledButton(
-            onPressed: () => context.go(Routes.login),
+            onPressed: () => context.pop(),
             style: FilledButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
