@@ -3,7 +3,7 @@
   "name": "chat-module-enhancement",
   "title": "完善 Chat 模块：持久化 + AI API + UI增强",
   "description": "",
-  "status": "in_progress",
+  "status": "pending",
   "dev_type": null,
   "scope": "chat",
   "priority": "P2",

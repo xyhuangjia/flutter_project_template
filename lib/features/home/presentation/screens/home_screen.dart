@@ -142,6 +142,8 @@ class _HomeContent extends StatelessWidget {
                 textTheme: textTheme,
                 localizations: localizations,
               ),
+              const SizedBox(height: 24),
+              _QuickAccessGrid(),
             ],
           ),
         ),
@@ -310,6 +312,159 @@ class _FeatureList extends StatelessWidget {
             ),
           )
           .toList(),
+    );
+  }
+}
+
+/// Quick access grid for main features.
+class _QuickAccessGrid extends StatelessWidget {
+  const _QuickAccessGrid({super.key});
+
+  static const _FeatureItem _auth = _FeatureItem(
+    icon: Icons.login,
+    title: 'Authentication',
+    description: 'Login, register, and manage your account',
+    route: '/login',
+  );
+
+  static const _FeatureItem _profile = _FeatureItem(
+    icon: Icons.person,
+    title: 'Profile',
+    description: 'View and manage your profile',
+    route: '/profile',
+  );
+
+  static const _FeatureItem _chat = _FeatureItem(
+    icon: Icons.chat_bubble,
+    title: 'AI Chat',
+    description: 'Chat with AI assistant',
+    route: '/chat',
+  );
+
+  static const _FeatureItem _settings = _FeatureItem(
+    icon: Icons.settings,
+    title: 'Settings',
+    description: 'Configure app preferences',
+    route: '/settings',
+  );
+
+  static const _FeatureItem _privacy = _FeatureItem(
+    icon: Icons.privacy_tip,
+    title: 'Privacy',
+    description: 'Manage privacy settings',
+    route: '/privacy/settings',
+  );
+
+  static const _FeatureItem _webview = _FeatureItem(
+    icon: Icons.web,
+    title: 'WebView',
+    description: 'Browse web content',
+    route: '/webview',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const _QuickAccessCard(item: _auth),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _profile),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _chat),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _settings),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _privacy),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _webview),
+      ],
+    );
+  }
+}
+
+/// Feature item data class.
+class _FeatureItem {
+  const _FeatureItem({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.route,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+  final String route;
+}
+
+/// Quick access card for a feature.
+class _QuickAccessCard extends StatelessWidget {
+  const _QuickAccessCard({
+    required this.item,
+    super.key,
+  });
+
+  final _FeatureItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
+
+        return Card(
+          child: InkWell(
+            onTap: () => context.push(item.route),
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      item.icon,
+                      color: colorScheme.onPrimaryContainer,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.title,
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          item.description,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

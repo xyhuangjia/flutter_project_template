@@ -52,12 +52,21 @@
 
 ### Feature Modules
 
+The template includes the following feature modules:
+
 #### 🔐 Authentication (`features/auth`)
 - Login with email/password
 - User registration with validation
 - Forgot password flow
 - Secure token storage with flutter_secure_storage
 - Social login ready architecture
+
+#### 👤 Profile (`features/profile`)
+- User profile management
+- Change password with validation
+- Account information display
+- Avatar management
+- Account deletion support
 
 #### 💬 AI Chat (`features/chat`)
 - AI-powered conversations (OpenAI/Claude compatible)
@@ -69,18 +78,28 @@
 #### 🏠 Home (`features/home`)
 - Main dashboard screen
 - Feature navigation hub
+- Quick access to all features
 - User-specific content display
 
 #### ⚙️ Settings (`features/settings`)
 - Theme switching (Light/Dark/System)
 - Language preferences
 - Notification settings
+- Developer options
 - App version information
 
 #### 🔒 Privacy Policy (`features/privacy`)
 - Privacy policy display
 - Terms of service
 - User consent management
+- Data collection preferences
+- Regional settings
+
+#### 🌐 WebView (`features/webview`)
+- Full-featured WebView with JavaScript bridge
+- Custom navigation controls
+- Error handling and loading states
+- Local storage, cookies, and session management
 
 #### 🌐 WebView (`features/webview`)
 - Full-featured WebView with JavaScript bridge
@@ -189,6 +208,10 @@ lib/
 │   │   ├── data/               # Home data layer
 │   │   ├── domain/             # Home entities
 │   │   └── presentation/       # Home screen UI
+│   ├── profile/                 # Profile module
+│   │   ├── data/               # Profile data layer
+│   │   ├── domain/             # Profile entities
+│   │   └── presentation/       # Profile screen UI (change password, etc.)
 │   ├── privacy/                # Privacy policy module
 │   │   ├── data/               # Privacy data
 │   │   ├── domain/             # Privacy entities

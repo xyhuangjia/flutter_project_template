@@ -38,16 +38,67 @@
 - [许可证](#许可证)
 
 ## ✨ 功能特性
+ 
+ - 🏗️ **Clean Architecture** - 清晰的分层架构（Domain、Data、Presentation）
+ - 🔄 **Riverpod 状态管理** - 使用 riverpod_generator 进行代码生成
+ - 📝 **Talker 日志系统** - 完整的日志解决方案
+ - 🌐 **Dio HTTP 客户端** - 配置完善的网络请求层
+ - 💾 **Drift 数据库** - 类型安全的本地数据库
+ - 🚀 **GoRouter 路由** - 声明式路由管理
+ - 🌍 **国际化支持** - 多语言支持（中英文）
+ - 🔒 **类型安全** - freezed + json_serializable 强类型模型
+ - 🎨 **代码规范** - 完善的 lint 规则
 
-- 🏗️ **Clean Architecture** - 清晰的分层架构（Domain、Data、Presentation）
-- 🔄 **Riverpod 状态管理** - 使用 riverpod_generator 进行代码生成
-- 📝 **Talker 日志系统** - 完整的日志解决方案
-- 🌐 **Dio HTTP 客户端** - 配置完善的网络请求层
-- 💾 **Drift 数据库** - 类型安全的本地数据库
-- 🚀 **GoRouter 路由** - 声明式路由管理
-- 🌍 **国际化支持** - 多语言支持（中英文）
-- 🔒 **类型安全** - freezed + json_serializable 强类型模型
-- 🎨 **代码规范** - 完善的 lint 规则
+### 功能模块
+
+该模板包含以下功能模块：
+
+#### 🔐 认证模块 (`features/auth`)
+- 邮箱密码登录
+- 用户注册与验证
+- 忘记密码流程
+- 使用 flutter_secure_storage 安全存储 Token
+- 社交登录架构预留
+
+#### 👤 用户资料 (`features/profile`)
+- 用户资料管理
+- 修改密码与验证
+- 账户信息展示
+- 头像管理
+- 账户删除支持
+
+#### 💬 AI 聊天 (`features/chat`)
+- AI 对话功能（支持 OpenAI/Claude）
+- 消息持久化到本地数据库
+- 对话历史管理
+- AI 配置管理
+- 实时消息流
+
+#### 🏠 首页 (`features/home`)
+- 主仪表盘界面
+- 功能导航中心
+- 快速访问所有功能
+- 用户个性化内容展示
+
+#### ⚙️ 设置 (`features/settings`)
+- 主题切换（亮色/暗色/系统）
+- 语言偏好设置
+- 通知设置
+- 开发者选项
+- 应用版本信息
+
+#### 🔒 隐私政策 (`features/privacy`)
+- 隐私政策展示
+- 服务条款
+- 用户同意管理
+- 数据收集偏好
+- 区域设置
+
+#### 🌐 网页浏览 (`features/webview`)
+- 功能完整的 WebView（支持 JavaScript Bridge）
+- 自定义导航控件
+- 错误处理和加载状态
+- 本地存储、Cookie 和会话管理
 
 ## 🛠 技术栈
 
@@ -129,10 +180,35 @@ lib/
 │   ├── storage/                # 存储
 │   └── utils/                  # 工具类
 ├── features/                   # 功能模块
-│   └── home/                   # Home 模块示例
-│       ├── data/               # 数据层
-│       ├── domain/             # 领域层
-│       └── presentation/       # 表现层
+│   ├── auth/                   # 认证模块
+│   │   ├── data/               # 数据层（仓库实现、数据源）
+│   │   ├── domain/             # 领域层（实体、仓库、用例）
+│   │   └── presentation/       # 表现层（屏幕、Provider、组件）
+│   ├── chat/                   # AI 聊天模块
+│   │   ├── data/               # 消息持久化、AI API 集成
+│   │   ├── domain/             # 聊天实体、对话管理
+│   │   ├── presentation/       # 聊天 UI、消息组件
+│   │   └── utils/              # 聊天工具
+│   ├── home/                   # 首页模块
+│   │   ├── data/               # 首页数据层
+│   │   ├── domain/             # 首页实体
+│   │   └── presentation/       # 首页屏幕 UI
+│   ├── profile/                 # 用户资料模块
+│   │   ├── data/               # 资料数据层
+│   │   ├── domain/             # 资料实体
+│   │   └── presentation/       # 资料屏幕 UI（修改密码等）
+│   ├── privacy/                # 隐私政策模块
+│   │   ├── data/               # 隐私数据
+│   │   ├── domain/             # 隐私实体
+│   │   └── presentation/       # 隐私屏幕
+│   ├── settings/               # 设置模块
+│   │   ├── data/               # 设置持久化
+│   │   ├── domain/             # 设置实体
+│   │   └── presentation/       # 设置屏幕
+│   └── webview/                # 网页浏览模块
+│       ├── data/               # WebView 状态管理
+│       ├── domain/             # WebView 配置
+│       └── presentation/       # WebView 屏幕与控件
 └── shared/                     # 共享模块
     ├── models/                 # 共享模型
     └── widgets/                # 共享组件
