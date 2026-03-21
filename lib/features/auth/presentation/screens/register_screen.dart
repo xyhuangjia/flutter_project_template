@@ -259,6 +259,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
   }
 
+  /// Handles logout for already logged in users.
+  Future<void> _handleLogout() async {
+    final success = await ref.read(authNotifierProvider.notifier).logout();
+    if (success && mounted) {
+      // User is now logged out, the widget will rebuild automatically
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -272,89 +280,241 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       }
     });
 
+    // If user is already logged in, show a dialog to logout first
+    final isAuthenticated = authState.valueOrNull?.isAuthenticated ?? false;
+
     return Scaffold(
       appBar: AppBar(title: Text(localizations.register)),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _HeaderSection(theme: theme, localizations: localizations),
-                    const SizedBox(height: 16),
-                    _RegionIndicator(
-                      regionType: _regionType,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 24),
-                    _AccountField(
-                      controller: _accountController,
-                      regionType: _regionType,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 16),
-                    _VerificationCodeSection(
-                      controller: _verificationCodeController,
-                      countdown: _countdown,
-                      isSendingCode: _isSendingCode,
-                      isVerifyingCode: _isVerifyingCode,
-                      isCodeVerified: _isCodeVerified,
-                      onSendCode: _sendVerificationCode,
-                      onVerifyCode: _verifyCode,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 16),
-                    _AvatarSection(
-                      avatarPath: _avatarPath,
-                      onPickAvatar: _pickAvatar,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 16),
-                    _NicknameField(
-                      controller: _nicknameController,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 16),
-                    _PasswordField(
-                      controller: _passwordController,
-                      obscurePassword: _obscurePassword,
-                      onToggleObscure: () {
-                        setState(() => _obscurePassword = !_obscurePassword);
-                      },
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 16),
-                    _ConfirmPasswordField(
-                      controller: _confirmPasswordController,
-                      passwordController: _passwordController,
-                      obscurePassword: _obscureConfirmPassword,
-                      onToggleObscure: () {
-                        setState(
-                          () => _obscureConfirmPassword =
-                              !_obscureConfirmPassword,
-                        );
-                      },
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 24),
-                    _RegisterButton(
-                      isLoading: _isLoading || authState.isLoading,
-                      onPressed: _handleRegister,
-                      localizations: localizations,
-                    ),
-                    const SizedBox(height: 24),
-                    _LoginLink(
-                      localizations: localizations,
-                      onLoginTap: () => context.go(Routes.login),
-                    ),
-                  ],
+      body: isAuthenticated
+          ? _AlreadyLoggedInView(
+              localizations: localizations,
+              theme: theme,
+              onLogout: _handleLogout,
+            )
+          : _RegisterFormView(
+              formKey: _formKey,
+              accountController: _accountController,
+              verificationCodeController: _verificationCodeController,
+              nicknameController: _nicknameController,
+              passwordController: _passwordController,
+              confirmPasswordController: _confirmPasswordController,
+              regionType: _regionType,
+              obscurePassword: _obscurePassword,
+              obscureConfirmPassword: _obscureConfirmPassword,
+              isLoading: _isLoading,
+              isSendingCode: _isSendingCode,
+              isVerifyingCode: _isVerifyingCode,
+              isCodeVerified: _isCodeVerified,
+              countdown: _countdown,
+              avatarPath: _avatarPath,
+              authState: authState,
+              onTogglePassword: () =>
+                  setState(() => _obscurePassword = !_obscurePassword),
+              onToggleConfirmPassword: () =>
+                  setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+              onSendCode: _sendVerificationCode,
+              onVerifyCode: _verifyCode,
+              onPickAvatar: _pickAvatar,
+              onRegister: _handleRegister,
+              localizations: localizations,
+              theme: theme,
+            ),
+    );
+  }
+}
+
+/// View shown when user is already logged in.
+class _AlreadyLoggedInView extends StatelessWidget {
+  const _AlreadyLoggedInView({
+    required this.localizations,
+    required this.theme,
+    required this.onLogout,
+  });
+
+  final AppLocalizations localizations;
+  final ThemeData theme;
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.info_outline,
+              size: 64,
+              color: theme.colorScheme.primary,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'You are already logged in',
+              style: theme.textTheme.headlineSmall,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'To register a new account, please logout first.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            FilledButton.icon(
+              onPressed: onLogout,
+              icon: const Icon(Icons.logout),
+              label: const Text('Logout'),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
                 ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () => context.go(Routes.chat),
+              child: const Text('Back to Chat'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// View containing the registration form.
+class _RegisterFormView extends StatelessWidget {
+  const _RegisterFormView({
+    required this.formKey,
+    required this.accountController,
+    required this.verificationCodeController,
+    required this.nicknameController,
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.regionType,
+    required this.obscurePassword,
+    required this.obscureConfirmPassword,
+    required this.isLoading,
+    required this.isSendingCode,
+    required this.isVerifyingCode,
+    required this.isCodeVerified,
+    required this.countdown,
+    required this.avatarPath,
+    required this.authState,
+    required this.onTogglePassword,
+    required this.onToggleConfirmPassword,
+    required this.onSendCode,
+    required this.onVerifyCode,
+    required this.onPickAvatar,
+    required this.onRegister,
+    required this.localizations,
+    required this.theme,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final TextEditingController accountController;
+  final TextEditingController verificationCodeController;
+  final TextEditingController nicknameController;
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+  final RegionType regionType;
+  final bool obscurePassword;
+  final bool obscureConfirmPassword;
+  final bool isLoading;
+  final bool isSendingCode;
+  final bool isVerifyingCode;
+  final bool isCodeVerified;
+  final int countdown;
+  final String? avatarPath;
+  final AsyncValue<AuthState> authState;
+  final VoidCallback onTogglePassword;
+  final VoidCallback onToggleConfirmPassword;
+  final VoidCallback onSendCode;
+  final VoidCallback onVerifyCode;
+  final VoidCallback onPickAvatar;
+  final VoidCallback onRegister;
+  final AppLocalizations localizations;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _HeaderSection(theme: theme, localizations: localizations),
+                  const SizedBox(height: 16),
+                  _RegionIndicator(
+                    regionType: regionType,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 24),
+                  _AccountField(
+                    controller: accountController,
+                    regionType: regionType,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 16),
+                  _VerificationCodeSection(
+                    controller: verificationCodeController,
+                    countdown: countdown,
+                    isSendingCode: isSendingCode,
+                    isVerifyingCode: isVerifyingCode,
+                    isCodeVerified: isCodeVerified,
+                    onSendCode: onSendCode,
+                    onVerifyCode: onVerifyCode,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 16),
+                  _AvatarSection(
+                    avatarPath: avatarPath,
+                    onPickAvatar: onPickAvatar,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 16),
+                  _NicknameField(
+                    controller: nicknameController,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 16),
+                  _PasswordField(
+                    controller: passwordController,
+                    obscurePassword: obscurePassword,
+                    onToggleObscure: onTogglePassword,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 16),
+                  _ConfirmPasswordField(
+                    controller: confirmPasswordController,
+                    passwordController: passwordController,
+                    obscurePassword: obscureConfirmPassword,
+                    onToggleObscure: onToggleConfirmPassword,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 24),
+                  _RegisterButton(
+                    isLoading: isLoading || authState.isLoading,
+                    onPressed: onRegister,
+                    localizations: localizations,
+                  ),
+                  const SizedBox(height: 24),
+                  _LoginLink(
+                    localizations: localizations,
+                    onLoginTap: () => context.go(Routes.login),
+                  ),
+                ],
               ),
             ),
           ),

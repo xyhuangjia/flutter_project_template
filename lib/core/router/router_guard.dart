@@ -72,9 +72,10 @@ abstract final class RouterGuard {
       return Routes.login;
     }
 
-    // If authenticated and trying to access login/register
-    if (isAuthenticated &&
-        (currentPath == Routes.login || currentPath == Routes.register)) {
+    // If authenticated user tries to access login/register:
+    // - Redirect away from login page
+    // - Allow access to register page (user might want to register new account)
+    if (isAuthenticated && currentPath == Routes.login) {
       return Routes.chat;
     }
 
