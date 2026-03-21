@@ -39,6 +39,7 @@
 
 ## ✨ Features
 
+### Core Features
 - 🏗️ **Clean Architecture** - Clear layered architecture (Domain, Data, Presentation)
 - 🔄 **Riverpod State Management** - Code generation with riverpod_generator
 - 📝 **Talker Logging** - Complete logging solution
@@ -49,19 +50,62 @@
 - 🔒 **Type Safety** - freezed + json_serializable strongly typed models
 - 🎨 **Code Standards** - Comprehensive lint rules
 
+### Feature Modules
+
+#### 🔐 Authentication (`features/auth`)
+- Login with email/password
+- User registration with validation
+- Forgot password flow
+- Secure token storage with flutter_secure_storage
+- Social login ready architecture
+
+#### 💬 AI Chat (`features/chat`)
+- AI-powered conversations (OpenAI/Claude compatible)
+- Message persistence to local database
+- Conversation history management
+- AI configuration management
+- Real-time message streaming
+
+#### 🏠 Home (`features/home`)
+- Main dashboard screen
+- Feature navigation hub
+- User-specific content display
+
+#### ⚙️ Settings (`features/settings`)
+- Theme switching (Light/Dark/System)
+- Language preferences
+- Notification settings
+- App version information
+
+#### 🔒 Privacy Policy (`features/privacy`)
+- Privacy policy display
+- Terms of service
+- User consent management
+
+#### 🌐 WebView (`features/webview`)
+- Full-featured WebView with JavaScript bridge
+- Custom navigation controls
+- Error handling and loading states
+- Local storage, cookies, and session management
+
 ## 🛠 Tech Stack
 
 | Category | Technology |
 |----------|------------|
-| State Management | flutter_riverpod, riverpod_annotation |
+| State Management | flutter_riverpod, riverpod_annotation, riverpod_generator |
 | Networking | dio, talker_dio_logger |
-| Local Database | drift, sqlite3_flutter_libs |
+| Local Database | drift, sqlite3_flutter_libs, path_provider |
 | Routing | go_router |
 | Dependency Injection | get_it, injectable |
 | Serialization | json_serializable, freezed |
-| Logging | talker, talker_flutter, talker_riverpod_logger |
-| i18n | flutter_localizations, intl |
-| Utils | uuid, connectivity_plus, flutter_secure_storage |
+| Logging | talker, talker_flutter, talker_dio_logger, talker_riverpod_logger |
+| i18n | flutter_localizations, intl, intl_utils |
+| Secure Storage | flutter_secure_storage |
+| Preferences | shared_preferences |
+| WebView | webview_flutter |
+| Utils | uuid, connectivity_plus, crypto, collection |
+| UI | flutter_pickers, image_picker, url_launcher, permission_handler, vibration |
+| App Info | package_info_plus |
 
 ## 📦 Requirements
 
@@ -82,8 +126,8 @@ Make sure you have the following installed:
 #### 1. Clone the repository
 
 ```bash
-git clone https://github.com/xyhuangjia/flutte_project_template.git
-cd flutte_project_template
+git clone https://github.com/xyhuangjia/flutter_project_template.git
+cd flutter_project_template
 ```
 
 #### 2. Install dependencies
@@ -120,22 +164,52 @@ lib/
 ├── app.dart                    # MaterialApp configuration
 ├── main.dart                   # App entry point
 ├── core/                       # Core layer
-│   ├── constants/              # Constants
+│   ├── config/                 # Environment configuration
+│   ├── constants/              # App constants
 │   ├── errors/                 # Error handling
-│   ├── logging/                # Logging config
-│   ├── network/                # Network layer
+│   ├── logging/                # Logging config (Talker)
+│   ├── network/                # Network layer (Dio)
 │   ├── providers/              # Global providers
-│   ├── router/                 # Routing
-│   ├── storage/                # Storage
-│   └── utils/                  # Utilities
+│   ├── router/                 # Routing (GoRouter)
+│   ├── splash/                 # Splash screen
+│   ├── storage/                # Database (Drift) & storage
+│   ├── theme/                  # App theming
+│   └── utils/                  # Utilities & extensions
 ├── features/                   # Feature modules
-│   └── home/                   # Home module example
-│       ├── data/               # Data layer
-│       ├── domain/             # Domain layer
-│       └── presentation/       # Presentation layer
-└── shared/                     # Shared modules
-    ├── models/                 # Shared models
-    └── widgets/                # Shared widgets
+│   ├── auth/                   # Authentication module
+│   │   ├── data/               # Data layer (repository impl, data sources)
+│   │   ├── domain/             # Domain layer (entities, repositories, use cases)
+│   │   └── presentation/       # Presentation layer (screens, providers, widgets)
+│   ├── chat/                   # AI Chat module
+│   │   ├── data/               # Message persistence, AI API integration
+│   │   ├── domain/             # Chat entities, conversation management
+│   │   ├── presentation/       # Chat UI, message components
+│   │   └── utils/              # Chat utilities
+│   ├── home/                   # Home module
+│   │   ├── data/               # Home data layer
+│   │   ├── domain/             # Home entities
+│   │   └── presentation/       # Home screen UI
+│   ├── privacy/                # Privacy policy module
+│   │   ├── data/               # Privacy data
+│   │   ├── domain/             # Privacy entities
+│   │   └── presentation/       # Privacy screen
+│   ├── settings/               # Settings module
+│   │   ├── data/               # Settings persistence
+│   │   ├── domain/             # Settings entities
+│   │   └── presentation/       # Settings screen
+│   └── webview/                # WebView module
+│       ├── data/               # WebView state management
+│       ├── domain/             # WebView configuration
+│       └── presentation/       # WebView screen with controls
+├── shared/                     # Shared modules
+│   ├── models/                 # Shared data models
+│   ├── screens/                # Shared screens
+│   └── widgets/                # Reusable widgets
+├── l10n/                       # Internationalization
+│   ├── app_en.arb              # English translations
+│   └── app_zh.arb              # Chinese translations
+└── generated/                  # Generated code
+    └── intl/                   # Generated i18n files
 ```
 
 ## 🏗 Architecture
@@ -173,6 +247,26 @@ UI (Screen) → Provider → UseCase → Repository → DataSource
               State Update
                     ↓
 UI Rebuild
+```
+
+### Feature Module Architecture
+
+Each feature follows Clean Architecture with three layers:
+
+```
+features/{feature}/
+├── data/                          # Data Layer
+│   ├── datasources/               # Remote & Local data sources
+│   ├── models/                    # Data transfer objects (DTOs)
+│   └── repositories/              # Repository implementations
+├── domain/                        # Domain Layer
+│   ├── entities/                  # Business objects
+│   ├── repositories/              # Repository interfaces
+│   └── usecases/                  # Business logic use cases
+└── presentation/                  # Presentation Layer
+    ├── providers/                 # Riverpod providers (state management)
+    ├── screens/                   # UI screens/pages
+    └── widgets/                   # Feature-specific widgets
 ```
 
 ## 📖 Documentation
@@ -218,12 +312,22 @@ flutter test test/widget_test.dart
 
 ### Code Generation
 
+This project uses code generation for:
+- **Riverpod Providers** - State management
+- **Freezed Models** - Immutable data classes
+- **JSON Serialization** - fromJson/toJson methods
+- **Drift Database** - Type-safe database code
+- **Injectable** - Dependency injection
+
 ```bash
-# Generate once
+# Generate all code files
 dart run build_runner build --delete-conflicting-outputs
 
-# Watch mode
+# Watch mode for development (auto-generates on changes)
 dart run build_runner watch --delete-conflicting-outputs
+
+# Generate localization files
+flutter gen-l10n
 ```
 
 ### Internationalization
@@ -239,9 +343,19 @@ The app supports multiple languages. To add a new translation:
 The project uses `.env` file for environment variables:
 
 ```env
-API_BASE_URL=https://api.example.com
+# App Configuration
 APP_NAME=Flutter Project Template
+ENVIRONMENT=development  # development | staging | production
+
+# API Configuration
+API_BASE_URL=https://api.example.com
+
+# AI Configuration (for Chat module)
+OPENAI_API_KEY=your_openai_api_key
+AI_MODEL=gpt-4
 ```
+
+Available environments: `development`, `staging`, `production`
 
 ## 🤝 Contributing
 
@@ -259,9 +373,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📮 Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter)
-
-Project Link: [https://github.com/xyhuangjia/flutte_project_template](https://github.com/xyhuangjia/flutte_project_template)
+Project Link: [https://github.com/xyhuangjia/flutter_project_template](https://github.com/xyhuangjia/flutter_project_template)
 
 ---
 
