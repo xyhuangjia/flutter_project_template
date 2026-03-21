@@ -886,4 +886,109 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noAIConfigMessage => '请先配置 AI 模型以开始聊天';
+
+  @override
+  String get environmentSection => '环境设置';
+
+  @override
+  String get customApiUrl => '自定义 API 地址';
+
+  @override
+  String get useDefault => '使用默认';
+
+  @override
+  String get apiBaseUrlHint => 'https://api.example.com';
+
+  @override
+  String get resetToDefault => '恢复默认';
+
+  @override
+  String get loggingSection => '日志设置';
+
+  @override
+  String get enableLogging => '启用日志';
+
+  @override
+  String get logLevel => '日志级别';
+
+  @override
+  String get logLevelDebug => '调试';
+
+  @override
+  String get logLevelInfo => '信息';
+
+  @override
+  String get logLevelWarning => '警告';
+
+  @override
+  String get logLevelError => '错误';
+
+  @override
+  String get logLevelNone => '无';
+
+  @override
+  String get debugTools => '调试工具';
+
+  @override
+  String get networkLogging => '网络日志';
+
+  @override
+  String get networkLoggingDescription => '记录所有网络请求和响应';
+
+  @override
+  String get performanceMonitor => '性能监控';
+
+  @override
+  String get performanceMonitorDescription => '显示性能监控覆盖层';
+
+  @override
+  String get showDebugInfo => '显示调试信息';
+
+  @override
+  String get showDebugInfoDescription => '显示调试信息覆盖层';
+
+  @override
+  String get cacheAndData => '缓存与数据';
+
+  @override
+  String get clearCache => '清除缓存';
+
+  @override
+  String get clearCacheDescription => '清除应用缓存数据';
+
+  @override
+  String get clearCacheConfirm => '确定要清除缓存吗？';
+
+  @override
+  String get cacheCleared => '缓存已清除';
+
+  @override
+  String get clearDatabase => '清除数据库';
+
+  @override
+  String get clearDatabaseDescription => '删除所有本地数据';
+
+  @override
+  String get clearDatabaseConfirm => '这将永久删除所有本地数据，此操作无法撤销。';
+
+  @override
+  String get databaseCleared => '数据库已清除';
+
+  @override
+  String get resetOptions => '重置选项';
+
+  @override
+  String get resetToDefaults => '恢复默认设置';
+
+  @override
+  String get resetToDefaultsDescription => '将所有开发者选项恢复为默认值';
+
+  @override
+  String get resetToDefaultsConfirm => '这将把所有开发者选项恢复为默认值。';
+
+  @override
+  String get optionsReset => '已恢复默认设置';
+
+  @override
+  String get operationFailed => '操作失败，请重试。';
 }

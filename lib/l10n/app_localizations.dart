@@ -1807,6 +1807,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please configure an AI model to start chatting'**
   String get noAIConfigMessage;
+
+  /// Environment section title
+  ///
+  /// In en, this message translates to:
+  /// **'Environment'**
+  String get environmentSection;
+
+  /// Custom API URL label
+  ///
+  /// In en, this message translates to:
+  /// **'Custom API URL'**
+  String get customApiUrl;
+
+  /// Use default value
+  ///
+  /// In en, this message translates to:
+  /// **'Use Default'**
+  String get useDefault;
+
+  /// API base URL hint
+  ///
+  /// In en, this message translates to:
+  /// **'https://api.example.com'**
+  String get apiBaseUrlHint;
+
+  /// Reset to default button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Default'**
+  String get resetToDefault;
+
+  /// Logging section title
+  ///
+  /// In en, this message translates to:
+  /// **'Logging'**
+  String get loggingSection;
+
+  /// Enable logging toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Logging'**
+  String get enableLogging;
+
+  /// Log level label
+  ///
+  /// In en, this message translates to:
+  /// **'Log Level'**
+  String get logLevel;
+
+  /// Debug log level
+  ///
+  /// In en, this message translates to:
+  /// **'Debug'**
+  String get logLevelDebug;
+
+  /// Info log level
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get logLevelInfo;
+
+  /// Warning log level
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get logLevelWarning;
+
+  /// Error log level
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get logLevelError;
+
+  /// No logging
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get logLevelNone;
+
+  /// Debug tools section title
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Tools'**
+  String get debugTools;
+
+  /// Network logging toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Network Logging'**
+  String get networkLogging;
+
+  /// Network logging description
+  ///
+  /// In en, this message translates to:
+  /// **'Log all network requests and responses'**
+  String get networkLoggingDescription;
+
+  /// Performance monitor toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Performance Monitor'**
+  String get performanceMonitor;
+
+  /// Performance monitor description
+  ///
+  /// In en, this message translates to:
+  /// **'Show performance overlay'**
+  String get performanceMonitorDescription;
+
+  /// Show debug info toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Show Debug Info'**
+  String get showDebugInfo;
+
+  /// Show debug info description
+  ///
+  /// In en, this message translates to:
+  /// **'Display debug information overlay'**
+  String get showDebugInfoDescription;
+
+  /// Cache and data section title
+  ///
+  /// In en, this message translates to:
+  /// **'Cache & Data'**
+  String get cacheAndData;
+
+  /// Clear cache button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get clearCache;
+
+  /// Clear cache description
+  ///
+  /// In en, this message translates to:
+  /// **'Clear application cache data'**
+  String get clearCacheDescription;
+
+  /// Clear cache confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear the cache?'**
+  String get clearCacheConfirm;
+
+  /// Cache cleared success message
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared successfully'**
+  String get cacheCleared;
+
+  /// Clear database button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Database'**
+  String get clearDatabase;
+
+  /// Clear database description
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all local data'**
+  String get clearDatabaseDescription;
+
+  /// Clear database confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete all your local data. This action cannot be undone.'**
+  String get clearDatabaseConfirm;
+
+  /// Database cleared success message
+  ///
+  /// In en, this message translates to:
+  /// **'Database cleared successfully'**
+  String get databaseCleared;
+
+  /// Reset options section title
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Options'**
+  String get resetOptions;
+
+  /// Reset to defaults button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Defaults'**
+  String get resetToDefaults;
+
+  /// Reset to defaults description
+  ///
+  /// In en, this message translates to:
+  /// **'Restore all developer options to default values'**
+  String get resetToDefaultsDescription;
+
+  /// Reset to defaults confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'This will reset all developer options to their default values.'**
+  String get resetToDefaultsConfirm;
+
+  /// Options reset success message
+  ///
+  /// In en, this message translates to:
+  /// **'Options reset to defaults'**
+  String get optionsReset;
+
+  /// Operation failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Operation failed. Please try again.'**
+  String get operationFailed;
 }
 
 class _AppLocalizationsDelegate

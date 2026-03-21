@@ -18,6 +18,7 @@ import 'package:flutter_project_template/features/privacy/presentation/screens/p
 import 'package:flutter_project_template/features/privacy/presentation/widgets/permission_card.dart';
 import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
+import 'package:flutter_project_template/features/settings/presentation/screens/developer_options_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
 import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -213,6 +214,16 @@ final GoRouter appRouter = GoRouter(
         child: const AIConfigScreen(),
         state: state,
         name: RouteNames.aiConfig,
+      ),
+    ),
+    // Developer options - use iOS transition
+    GoRoute(
+      path: Routes.developerOptions,
+      name: RouteNames.developerOptions,
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const DeveloperOptionsScreen(),
+        state: state,
+        name: RouteNames.developerOptions,
       ),
     ),
   ],

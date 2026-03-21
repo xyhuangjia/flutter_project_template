@@ -908,4 +908,113 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noAIConfigMessage =>
       'Please configure an AI model to start chatting';
+
+  @override
+  String get environmentSection => 'Environment';
+
+  @override
+  String get customApiUrl => 'Custom API URL';
+
+  @override
+  String get useDefault => 'Use Default';
+
+  @override
+  String get apiBaseUrlHint => 'https://api.example.com';
+
+  @override
+  String get resetToDefault => 'Reset to Default';
+
+  @override
+  String get loggingSection => 'Logging';
+
+  @override
+  String get enableLogging => 'Enable Logging';
+
+  @override
+  String get logLevel => 'Log Level';
+
+  @override
+  String get logLevelDebug => 'Debug';
+
+  @override
+  String get logLevelInfo => 'Info';
+
+  @override
+  String get logLevelWarning => 'Warning';
+
+  @override
+  String get logLevelError => 'Error';
+
+  @override
+  String get logLevelNone => 'None';
+
+  @override
+  String get debugTools => 'Debug Tools';
+
+  @override
+  String get networkLogging => 'Network Logging';
+
+  @override
+  String get networkLoggingDescription =>
+      'Log all network requests and responses';
+
+  @override
+  String get performanceMonitor => 'Performance Monitor';
+
+  @override
+  String get performanceMonitorDescription => 'Show performance overlay';
+
+  @override
+  String get showDebugInfo => 'Show Debug Info';
+
+  @override
+  String get showDebugInfoDescription => 'Display debug information overlay';
+
+  @override
+  String get cacheAndData => 'Cache & Data';
+
+  @override
+  String get clearCache => 'Clear Cache';
+
+  @override
+  String get clearCacheDescription => 'Clear application cache data';
+
+  @override
+  String get clearCacheConfirm => 'Are you sure you want to clear the cache?';
+
+  @override
+  String get cacheCleared => 'Cache cleared successfully';
+
+  @override
+  String get clearDatabase => 'Clear Database';
+
+  @override
+  String get clearDatabaseDescription => 'Delete all local data';
+
+  @override
+  String get clearDatabaseConfirm =>
+      'This will permanently delete all your local data. This action cannot be undone.';
+
+  @override
+  String get databaseCleared => 'Database cleared successfully';
+
+  @override
+  String get resetOptions => 'Reset Options';
+
+  @override
+  String get resetToDefaults => 'Reset to Defaults';
+
+  @override
+  String get resetToDefaultsDescription =>
+      'Restore all developer options to default values';
+
+  @override
+  String get resetToDefaultsConfirm =>
+      'This will reset all developer options to their default values.';
+
+  @override
+  String get optionsReset => 'Options reset to defaults';
+
+  @override
+  String get operationFailed => 'Operation failed. Please try again.';
 }

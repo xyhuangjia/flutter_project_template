@@ -1456,5 +1456,180 @@
   "noAIConfigMessage": "Please configure an AI model to start chatting",
   "@noAIConfigMessage": {
     "description": "No AI config message in chat"
+  },
+
+  "environmentSection": "Environment",
+  "@environmentSection": {
+    "description": "Environment section title"
+  },
+
+  "customApiUrl": "Custom API URL",
+  "@customApiUrl": {
+    "description": "Custom API URL label"
+  },
+
+  "useDefault": "Use Default",
+  "@useDefault": {
+    "description": "Use default value"
+  },
+
+  "apiBaseUrlHint": "https://api.example.com",
+  "@apiBaseUrlHint": {
+    "description": "API base URL hint"
+  },
+
+  "resetToDefault": "Reset to Default",
+  "@resetToDefault": {
+    "description": "Reset to default button"
+  },
+
+  "loggingSection": "Logging",
+  "@loggingSection": {
+    "description": "Logging section title"
+  },
+
+  "enableLogging": "Enable Logging",
+  "@enableLogging": {
+    "description": "Enable logging toggle"
+  },
+
+  "logLevel": "Log Level",
+  "@logLevel": {
+    "description": "Log level label"
+  },
+
+  "logLevelDebug": "Debug",
+  "@logLevelDebug": {
+    "description": "Debug log level"
+  },
+
+  "logLevelInfo": "Info",
+  "@logLevelInfo": {
+    "description": "Info log level"
+  },
+
+  "logLevelWarning": "Warning",
+  "@logLevelWarning": {
+    "description": "Warning log level"
+  },
+
+  "logLevelError": "Error",
+  "@logLevelError": {
+    "description": "Error log level"
+  },
+
+  "logLevelNone": "None",
+  "@logLevelNone": {
+    "description": "No logging"
+  },
+
+  "debugTools": "Debug Tools",
+  "@debugTools": {
+    "description": "Debug tools section title"
+  },
+
+  "networkLogging": "Network Logging",
+  "@networkLogging": {
+    "description": "Network logging toggle"
+  },
+
+  "networkLoggingDescription": "Log all network requests and responses",
+  "@networkLoggingDescription": {
+    "description": "Network logging description"
+  },
+
+  "performanceMonitor": "Performance Monitor",
+  "@performanceMonitor": {
+    "description": "Performance monitor toggle"
+  },
+
+  "performanceMonitorDescription": "Show performance overlay",
+  "@performanceMonitorDescription": {
+    "description": "Performance monitor description"
+  },
+
+  "showDebugInfo": "Show Debug Info",
+  "@showDebugInfo": {
+    "description": "Show debug info toggle"
+  },
+
+  "showDebugInfoDescription": "Display debug information overlay",
+  "@showDebugInfoDescription": {
+    "description": "Show debug info description"
+  },
+
+  "cacheAndData": "Cache & Data",
+  "@cacheAndData": {
+    "description": "Cache and data section title"
+  },
+
+  "clearCache": "Clear Cache",
+  "@clearCache": {
+    "description": "Clear cache button"
+  },
+
+  "clearCacheDescription": "Clear application cache data",
+  "@clearCacheDescription": {
+    "description": "Clear cache description"
+  },
+
+  "clearCacheConfirm": "Are you sure you want to clear the cache?",
+  "@clearCacheConfirm": {
+    "description": "Clear cache confirmation message"
+  },
+
+  "cacheCleared": "Cache cleared successfully",
+  "@cacheCleared": {
+    "description": "Cache cleared success message"
+  },
+
+  "clearDatabase": "Clear Database",
+  "@clearDatabase": {
+    "description": "Clear database button"
+  },
+
+  "clearDatabaseDescription": "Delete all local data",
+  "@clearDatabaseDescription": {
+    "description": "Clear database description"
+  },
+
+  "clearDatabaseConfirm": "This will permanently delete all your local data. This action cannot be undone.",
+  "@clearDatabaseConfirm": {
+    "description": "Clear database confirmation message"
+  },
+
+  "databaseCleared": "Database cleared successfully",
+  "@databaseCleared": {
+    "description": "Database cleared success message"
+  },
+
+  "resetOptions": "Reset Options",
+  "@resetOptions": {
+    "description": "Reset options section title"
+  },
+
+  "resetToDefaults": "Reset to Defaults",
+  "@resetToDefaults": {
+    "description": "Reset to defaults button"
+  },
+
+  "resetToDefaultsDescription": "Restore all developer options to default values",
+  "@resetToDefaultsDescription": {
+    "description": "Reset to defaults description"
+  },
+
+  "resetToDefaultsConfirm": "This will reset all developer options to their default values.",
+  "@resetToDefaultsConfirm": {
+    "description": "Reset to defaults confirmation message"
+  },
+
+  "optionsReset": "Options reset to defaults",
+  "@optionsReset": {
+    "description": "Options reset success message"
+  },
+
+  "operationFailed": "Operation failed. Please try again.",
+  "@operationFailed": {
+    "description": "Operation failed message"
   }
 }

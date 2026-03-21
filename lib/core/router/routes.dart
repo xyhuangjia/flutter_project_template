@@ -61,6 +61,9 @@ abstract final class Routes {
 
   /// AI configuration route.
   static const String aiConfig = '/settings/ai-config';
+
+  /// Developer options route.
+  static const String developerOptions = '/settings/developer-options';
 }
 
 /// Route names for named navigation.
@@ -117,4 +120,7 @@ abstract final class RouteNames {
 
   /// AI configuration route name.
   static const String aiConfig = 'aiConfig';
+
+  /// Developer options route name.
+  static const String developerOptions = 'developerOptions';
 }

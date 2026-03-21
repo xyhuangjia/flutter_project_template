@@ -166,17 +166,13 @@ class SettingsScreen extends ConsumerWidget {
           // Developer options section (only in debug mode)
           if (showDeveloperOptions) ...[
             SettingsSectionHeader(title: localizations.developerOptions),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: EnvironmentSelector(
-                currentEnvironment: null,
-                onEnvironmentChanged: (type) => _showEnvironmentChangeDialog(
-                  context,
-                  ref,
-                  localizations,
-                  type,
-                ),
-              ),
+            SettingsTile(
+              title: localizations.developerOptions,
+              subtitle: localizations.currentEnvironment,
+              leading: const Icon(Icons.developer_mode),
+              onTap: () {
+                context.push('/settings/developer-options');
+              },
             ),
             const SizedBox(height: 24),
           ],

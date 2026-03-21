@@ -1456,5 +1456,180 @@
   "noAIConfigMessage": "请先配置 AI 模型以开始聊天",
   "@noAIConfigMessage": {
     "description": "No AI config message in chat"
+  },
+
+  "environmentSection": "环境设置",
+  "@environmentSection": {
+    "description": "Environment section title"
+  },
+
+  "customApiUrl": "自定义 API 地址",
+  "@customApiUrl": {
+    "description": "Custom API URL label"
+  },
+
+  "useDefault": "使用默认",
+  "@useDefault": {
+    "description": "Use default value"
+  },
+
+  "apiBaseUrlHint": "https://api.example.com",
+  "@apiBaseUrlHint": {
+    "description": "API base URL hint"
+  },
+
+  "resetToDefault": "恢复默认",
+  "@resetToDefault": {
+    "description": "Reset to default button"
+  },
+
+  "loggingSection": "日志设置",
+  "@loggingSection": {
+    "description": "Logging section title"
+  },
+
+  "enableLogging": "启用日志",
+  "@enableLogging": {
+    "description": "Enable logging toggle"
+  },
+
+  "logLevel": "日志级别",
+  "@logLevel": {
+    "description": "Log level label"
+  },
+
+  "logLevelDebug": "调试",
+  "@logLevelDebug": {
+    "description": "Debug log level"
+  },
+
+  "logLevelInfo": "信息",
+  "@logLevelInfo": {
+    "description": "Info log level"
+  },
+
+  "logLevelWarning": "警告",
+  "@logLevelWarning": {
+    "description": "Warning log level"
+  },
+
+  "logLevelError": "错误",
+  "@logLevelError": {
+    "description": "Error log level"
+  },
+
+  "logLevelNone": "无",
+  "@logLevelNone": {
+    "description": "No logging"
+  },
+
+  "debugTools": "调试工具",
+  "@debugTools": {
+    "description": "Debug tools section title"
+  },
+
+  "networkLogging": "网络日志",
+  "@networkLogging": {
+    "description": "Network logging toggle"
+  },
+
+  "networkLoggingDescription": "记录所有网络请求和响应",
+  "@networkLoggingDescription": {
+    "description": "Network logging description"
+  },
+
+  "performanceMonitor": "性能监控",
+  "@performanceMonitor": {
+    "description": "Performance monitor toggle"
+  },
+
+  "performanceMonitorDescription": "显示性能监控覆盖层",
+  "@performanceMonitorDescription": {
+    "description": "Performance monitor description"
+  },
+
+  "showDebugInfo": "显示调试信息",
+  "@showDebugInfo": {
+    "description": "Show debug info toggle"
+  },
+
+  "showDebugInfoDescription": "显示调试信息覆盖层",
+  "@showDebugInfoDescription": {
+    "description": "Show debug info description"
+  },
+
+  "cacheAndData": "缓存与数据",
+  "@cacheAndData": {
+    "description": "Cache and data section title"
+  },
+
+  "clearCache": "清除缓存",
+  "@clearCache": {
+    "description": "Clear cache button"
+  },
+
+  "clearCacheDescription": "清除应用缓存数据",
+  "@clearCacheDescription": {
+    "description": "Clear cache description"
+  },
+
+  "clearCacheConfirm": "确定要清除缓存吗？",
+  "@clearCacheConfirm": {
+    "description": "Clear cache confirmation message"
+  },
+
+  "cacheCleared": "缓存已清除",
+  "@cacheCleared": {
+    "description": "Cache cleared success message"
+  },
+
+  "clearDatabase": "清除数据库",
+  "@clearDatabase": {
+    "description": "Clear database button"
+  },
+
+  "clearDatabaseDescription": "删除所有本地数据",
+  "@clearDatabaseDescription": {
+    "description": "Clear database description"
+  },
+
+  "clearDatabaseConfirm": "这将永久删除所有本地数据，此操作无法撤销。",
+  "@clearDatabaseConfirm": {
+    "description": "Clear database confirmation message"
+  },
+
+  "databaseCleared": "数据库已清除",
+  "@databaseCleared": {
+    "description": "Database cleared success message"
+  },
+
+  "resetOptions": "重置选项",
+  "@resetOptions": {
+    "description": "Reset options section title"
+  },
+
+  "resetToDefaults": "恢复默认设置",
+  "@resetToDefaults": {
+    "description": "Reset to defaults button"
+  },
+
+  "resetToDefaultsDescription": "将所有开发者选项恢复为默认值",
+  "@resetToDefaultsDescription": {
+    "description": "Reset to defaults description"
+  },
+
+  "resetToDefaultsConfirm": "这将把所有开发者选项恢复为默认值。",
+  "@resetToDefaultsConfirm": {
+    "description": "Reset to defaults confirmation message"
+  },
+
+  "optionsReset": "已恢复默认设置",
+  "@optionsReset": {
+    "description": "Options reset success message"
+  },
+
+  "operationFailed": "操作失败，请重试。",
+  "@operationFailed": {
+    "description": "Operation failed message"
   }
 }
