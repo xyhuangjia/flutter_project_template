@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 14
+- **Total Sessions**: 15
 - **Last Active**: 2026-03-21
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~638 | Active |
+| `journal-1.md` | ~690 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits |
 |---|------|-------|---------|
+| 15 | 2026-03-21 | 更新首页显示中文并添加国际化 | `7633f33`, `0fd751c` |
 | 14 | 2026-03-21 | 更新首页和文档 | `3514046` |
 | 13 | 2026-03-21 | 新增用户修改密码功能 | - |
 | 12 | 2026-03-21 | 添加 Auth 和 Privacy 测试覆盖 | `f21ec5b` |

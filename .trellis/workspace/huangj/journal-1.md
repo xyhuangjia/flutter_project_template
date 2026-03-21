@@ -636,3 +636,55 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 15: 更新首页显示中文并添加国际化
+
+**Date**: 2026-03-21
+**Task**: 更新首页显示中文并添加国际化
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| Feature | Description |
+|---------|-------------|
+| UI | 首页添加快速访问网格（6 个功能入口）|
+| UI | 添加功能卡片（Authentication、Profile、Chat、Settings、Privacy、WebView）|
+| i18n | 添加 quickAccess 相关的国际化键值|
+| i18n | 更新英文和中文国际化文件|
+| i18n | 生成最新的国际化文件|
+| Documentation | 更新英文 README（Profile、Home、功能模块）|
+| Documentation | 更新中文 README（用户资料、首页、功能模块）|
+| Documentation | 更新项目结构说明以反映最新的模块组织|
+| Task Management | 将 Chat 模块任务状态调整为 pending |
+
+**Updated Files**:
+- `lib/features/home/presentation/screens/home_screen.dart`
+- `lib/l10n/app_en.arb`
+- `lib/l10n/app_zh.arb`
+- `README.md`
+- `README-CN.md`
+- `.trellis/tasks/03-20-chat-module-enhancement/task.json`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `7633f33` | (see git log) |
+| `0fd751c` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
