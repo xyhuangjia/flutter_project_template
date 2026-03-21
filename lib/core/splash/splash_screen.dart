@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
+import 'package:flutter_project_template/features/privacy/domain/entities/privacy_state.dart';
 import 'package:flutter_project_template/features/privacy/presentation/providers/privacy_provider.dart';
 import 'package:flutter_project_template/features/privacy/presentation/widgets/privacy_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,26 +64,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Future<void> _initializeApp() async {
-    // Wait for privacy state to load
-    await ref.read(privacyNotifierProvider.future);
+    // Wait for privacy state to load and get the value directly
+    final privacyState = await ref.read(privacyNotifierProvider.future);
 
     // Small delay for smooth transition
     await Future<void>.delayed(const Duration(milliseconds: 800));
 
     if (!mounted) return;
 
-    _navigateOrShowDialog();
+    _navigateOrShowDialog(privacyState);
   }
 
-  void _navigateOrShowDialog() {
-    final privacyState = ref.read(privacyNotifierProvider).valueOrNull;
-
+  void _navigateOrShowDialog(PrivacyState privacyState) {
     talker.log(
-      '[SplashScreen] _navigateOrShowDialog: hasConsented=${privacyState?.hasConsented}',
+      '[SplashScreen] _navigateOrShowDialog: hasConsented=${privacyState.hasConsented}',
     );
 
     // Check privacy consent first
-    if (privacyState?.hasConsented != true) {
+    if (!privacyState.hasConsented) {
       _showPrivacyConsentDialog();
       return;
     }
