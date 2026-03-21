@@ -141,6 +141,45 @@ class AppLocalizationsZh extends AppLocalizations {
   String get quickActions => '快捷操作';
 
   @override
+  String get quickAccess => '快速访问';
+
+  @override
+  String get quickAccessAuth => '认证管理';
+
+  @override
+  String get quickAccessAuthDescription => '登录、注册和管理账户';
+
+  @override
+  String get quickAccessProfile => '用户资料';
+
+  @override
+  String get quickAccessProfileDescription => '查看和管理个人资料';
+
+  @override
+  String get quickAccessChat => 'AI 对话';
+
+  @override
+  String get quickAccessChatDescription => '与 AI 助手聊天';
+
+  @override
+  String get quickAccessSettings => '应用设置';
+
+  @override
+  String get quickAccessSettingsDescription => '配置应用偏好设置';
+
+  @override
+  String get quickAccessPrivacy => '隐私设置';
+
+  @override
+  String get quickAccessPrivacyDescription => '管理隐私和安全设置';
+
+  @override
+  String get quickAccessWebView => '网页浏览';
+
+  @override
+  String get quickAccessWebViewDescription => '浏览网页内容';
+
+  @override
   String get guest => '访客';
 
   @override

@@ -141,6 +141,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickActions => 'Quick Actions';
 
   @override
+  String get quickAccess => 'Quick Access';
+
+  @override
+  String get quickAccessAuth => 'Authentication';
+
+  @override
+  String get quickAccessAuthDescription =>
+      'Login, register and manage your account';
+
+  @override
+  String get quickAccessProfile => 'Profile';
+
+  @override
+  String get quickAccessProfileDescription => 'View and manage your profile';
+
+  @override
+  String get quickAccessChat => 'AI Chat';
+
+  @override
+  String get quickAccessChatDescription => 'Chat with AI assistant';
+
+  @override
+  String get quickAccessSettings => 'Settings';
+
+  @override
+  String get quickAccessSettingsDescription => 'Configure app preferences';
+
+  @override
+  String get quickAccessPrivacy => 'Privacy';
+
+  @override
+  String get quickAccessPrivacyDescription =>
+      'Manage privacy and security settings';
+
+  @override
+  String get quickAccessWebView => 'WebView';
+
+  @override
+  String get quickAccessWebViewDescription => 'Browse web content';
+
+  @override
   String get guest => 'Guest';
 
   @override

@@ -362,6 +362,84 @@ abstract class AppLocalizations {
   /// **'Quick Actions'**
   String get quickActions;
 
+  /// Quick access section title
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Access'**
+  String get quickAccess;
+
+  /// Quick access authentication card title
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication'**
+  String get quickAccessAuth;
+
+  /// Quick access authentication card description
+  ///
+  /// In en, this message translates to:
+  /// **'Login, register and manage your account'**
+  String get quickAccessAuthDescription;
+
+  /// Quick access profile card title
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get quickAccessProfile;
+
+  /// Quick access profile card description
+  ///
+  /// In en, this message translates to:
+  /// **'View and manage your profile'**
+  String get quickAccessProfileDescription;
+
+  /// Quick access chat card title
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat'**
+  String get quickAccessChat;
+
+  /// Quick access chat card description
+  ///
+  /// In en, this message translates to:
+  /// **'Chat with AI assistant'**
+  String get quickAccessChatDescription;
+
+  /// Quick access settings card title
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get quickAccessSettings;
+
+  /// Quick access settings card description
+  ///
+  /// In en, this message translates to:
+  /// **'Configure app preferences'**
+  String get quickAccessSettingsDescription;
+
+  /// Quick access privacy card title
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get quickAccessPrivacy;
+
+  /// Quick access privacy card description
+  ///
+  /// In en, this message translates to:
+  /// **'Manage privacy and security settings'**
+  String get quickAccessPrivacyDescription;
+
+  /// Quick access webview card title
+  ///
+  /// In en, this message translates to:
+  /// **'WebView'**
+  String get quickAccessWebView;
+
+  /// Quick access webview card description
+  ///
+  /// In en, this message translates to:
+  /// **'Browse web content'**
+  String get quickAccessWebViewDescription;
+
   /// Guest user name
   ///
   /// In en, this message translates to:

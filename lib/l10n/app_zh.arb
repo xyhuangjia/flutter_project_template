@@ -220,7 +220,66 @@
   "@quickActions": {
     "description": "Quick actions section title"
   },
-
+  
+  "quickAccess": "快速访问",
+  "@quickAccess": {
+    "description": "Quick access section title"
+  },
+  
+  "quickAccessAuth": "认证管理",
+  "@quickAccessAuth": {
+    "description": "Quick access authentication card title"
+  },
+  "quickAccessAuthDescription": "登录、注册和管理账户",
+  "@quickAccessAuthDescription": {
+    "description": "Quick access authentication card description"
+  },
+  
+  "quickAccessProfile": "用户资料",
+  "@quickAccessProfile": {
+    "description": "Quick access profile card title"
+  },
+  "quickAccessProfileDescription": "查看和管理个人资料",
+  "@quickAccessProfileDescription": {
+    "description": "Quick access profile card description"
+  },
+  
+  "quickAccessChat": "AI 对话",
+  "@quickAccessChat": {
+    "description": "Quick access chat card title"
+  },
+  "quickAccessChatDescription": "与 AI 助手聊天",
+  "@quickAccessChatDescription": {
+    "description": "Quick access chat card description"
+  },
+  
+  "quickAccessSettings": "应用设置",
+  "@quickAccessSettings": {
+    "description": "Quick access settings card title"
+  },
+  "quickAccessSettingsDescription": "配置应用偏好设置",
+  "@quickAccessSettingsDescription": {
+    "description": "Quick access settings card description"
+  },
+  
+  "quickAccessPrivacy": "隐私设置",
+  "@quickAccessPrivacy": {
+    "description": "Quick access privacy card title"
+  },
+  "quickAccessPrivacyDescription": "管理隐私和安全设置",
+  "@quickAccessPrivacyDescription": {
+    "description": "Quick access privacy card description"
+  },
+  
+  "quickAccessWebView": "网页浏览",
+  "@quickAccessWebView": {
+    "description": "Quick access webview card title"
+  },
+  "quickAccessWebViewDescription": "浏览网页内容",
+  "@quickAccessWebViewDescription": {
+    "description": "Quick access webview card description"
+  },
+  
   "guest": "访客",
   "@guest": {
     "description": "Guest user name"

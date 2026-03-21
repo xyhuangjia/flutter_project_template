@@ -220,7 +220,66 @@
   "@quickActions": {
     "description": "Quick actions section title"
   },
-
+  
+  "quickAccess": "Quick Access",
+  "@quickAccess": {
+    "description": "Quick access section title"
+  },
+  
+  "quickAccessAuth": "Authentication",
+  "@quickAccessAuth": {
+    "description": "Quick access authentication card title"
+  },
+  "quickAccessAuthDescription": "Login, register and manage your account",
+  "@quickAccessAuthDescription": {
+    "description": "Quick access authentication card description"
+  },
+  
+  "quickAccessProfile": "Profile",
+  "@quickAccessProfile": {
+    "description": "Quick access profile card title"
+  },
+  "quickAccessProfileDescription": "View and manage your profile",
+  "@quickAccessProfileDescription": {
+    "description": "Quick access profile card description"
+  },
+  
+  "quickAccessChat": "AI Chat",
+  "@quickAccessChat": {
+    "description": "Quick access chat card title"
+  },
+  "quickAccessChatDescription": "Chat with AI assistant",
+  "@quickAccessChatDescription": {
+    "description": "Quick access chat card description"
+  },
+  
+  "quickAccessSettings": "Settings",
+  "@quickAccessSettings": {
+    "description": "Quick access settings card title"
+  },
+  "quickAccessSettingsDescription": "Configure app preferences",
+  "@quickAccessSettingsDescription": {
+    "description": "Quick access settings card description"
+  },
+  
+  "quickAccessPrivacy": "Privacy",
+  "@quickAccessPrivacy": {
+    "description": "Quick access privacy card title"
+  },
+  "quickAccessPrivacyDescription": "Manage privacy and security settings",
+  "@quickAccessPrivacyDescription": {
+    "description": "Quick access privacy card description"
+  },
+  
+  "quickAccessWebView": "WebView",
+  "@quickAccessWebView": {
+    "description": "Quick access webview card title"
+  },
+  "quickAccessWebViewDescription": "Browse web content",
+  "@quickAccessWebViewDescription": {
+    "description": "Quick access webview card description"
+  },
+  
   "guest": "Guest",
   "@guest": {
     "description": "Guest user name"
