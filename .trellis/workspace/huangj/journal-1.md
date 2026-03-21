@@ -456,3 +456,35 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 11: 修复隐私协议重复显示 bug
+
+**Date**: 2026-03-21
+**Task**: 修复隐私协议重复显示 bug
+
+### Summary
+
+修复已同意隐私协议后仍显示对话框的问题
+
+### Main Changes
+
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `1fb0e4e` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
