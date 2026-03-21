@@ -488,3 +488,56 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 12: 添加 Auth 和 Privacy 测试覆盖
+
+**Date**: 2026-03-21
+**Task**: 添加 Auth 和 Privacy 测试覆盖
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| Feature | Description |
+|---------|-------------|
+| Test Coverage | 新增 AuthLocalDataSource 测试（18个测试）|
+| Test Coverage | 新增 PrivacyLocalDataSource 测试（13个测试）|
+| Test Coverage | 新增 PrivacyNotifier 测试（22个测试）|
+| Test Infrastructure | 新增 FakePrivacyRepository 用于测试|
+| Code Optimization | 优化 auth 和 privacy provider 初始化流程|
+| Logging | 添加详细的 talker 日志用于调试|
+| Provider | AuthNotifier 和 PrivacyNotifier 使用 keepAlive 防止自动销毁|
+| Code Quality | 移除 home_screen 中重复的按钮|
+
+**Updated Files**:
+- `test/fakes/fake_privacy_repository.dart`
+- `test/features/auth/data/auth_local_data_source_test.dart`
+- `test/features/privacy/data/privacy_local_data_source_test.dart`
+- `test/features/privacy/providers/privacy_notifier_test.dart`
+- `lib/features/auth/presentation/providers/auth_provider.dart`
+- `lib/features/privacy/presentation/providers/privacy_provider.dart`
+- `lib/core/splash/splash_screen.dart`
+
+**Test Results**: 53 个新测试全部通过
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `f21ec5b` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
