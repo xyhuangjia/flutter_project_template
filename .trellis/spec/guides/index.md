@@ -77,3 +77,7 @@ Found a new "didn't think of that" moment? Add it to the relevant guide.
 ---
 
 **Core Principle**: 30 minutes of thinking saves 3 hours of debugging.
+
+---
+
+**Language**: All documentation should be written in **Chinese**.

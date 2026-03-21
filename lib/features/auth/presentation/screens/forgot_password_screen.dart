@@ -104,6 +104,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text(_getAppBarTitle(state.step, localizations)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -131,7 +132,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 32),
               _buildStepContent(
-                  context, state, localizations, theme, colorScheme),
+                context, state, localizations, theme, colorScheme,
+              ),
               const SizedBox(height: 24),
             ],
           ),
@@ -224,6 +226,15 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         );
     }
   }
+
+  String _getAppBarTitle(ForgotPasswordStep step, AppLocalizations localizations) {
+    return switch (step) {
+      ForgotPasswordStep.enterAccount => localizations.forgotPasswordTitle,
+      ForgotPasswordStep.enterCode => localizations.enterVerificationCode,
+      ForgotPasswordStep.resetPassword => localizations.setNewPassword,
+      ForgotPasswordStep.success => localizations.passwordResetSuccess,
+    };
+  }
 }
 
 // ==================== Header Section ====================
@@ -240,15 +251,6 @@ class _HeaderSection extends StatelessWidget {
   final ColorScheme colorScheme;
   final ForgotPasswordStep step;
   final AppLocalizations localizations;
-
-  String get _title {
-    return switch (step) {
-      ForgotPasswordStep.enterAccount => localizations.forgotPasswordTitle,
-      ForgotPasswordStep.enterCode => localizations.enterVerificationCode,
-      ForgotPasswordStep.resetPassword => localizations.setNewPassword,
-      ForgotPasswordStep.success => localizations.passwordResetSuccess,
-    };
-  }
 
   String get _subtitle {
     return switch (step) {
@@ -287,14 +289,6 @@ class _HeaderSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        Text(
-          _title,
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 8),
         Text(
           _subtitle,
           style: theme.textTheme.bodyLarge?.copyWith(

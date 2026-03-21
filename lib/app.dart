@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/core/router/app_router.dart';
 import 'package:flutter_project_template/core/theme/app_theme.dart';
+import 'package:flutter_project_template/core/widgets/keyboard_dismiss_wrapper.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/settings_entity.dart';
 import 'package:flutter_project_template/features/settings/presentation/providers/settings_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -25,38 +26,34 @@ class MyApp extends ConsumerWidget {
     final localeAsync = ref.watch(localeNotifierProvider);
     final settingsAsync = ref.watch(settingsNotifierProvider);
 
-    return localeAsync.when(
-      data: (locale) => MaterialApp.router(
+    return KeyboardDismissWrapper(
+      child: localeAsync.when(
+        data: (locale) => _buildMaterialApp(
+          themeMode: _getThemeMode(settingsAsync),
+          locale: locale,
+        ),
+        loading: _buildMaterialApp,
+        error: (_, __) => _buildMaterialApp(),
+      ),
+    );
+  }
+
+  /// Builds the MaterialApp.router with common configuration.
+  Widget _buildMaterialApp({
+    ThemeMode themeMode = ThemeMode.system,
+    Locale? locale,
+  }) =>
+      MaterialApp.router(
         title: 'Flutter Project Template',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme(),
         darkTheme: AppTheme.darkTheme(),
-        themeMode: _getThemeMode(settingsAsync),
+        themeMode: themeMode,
         routerConfig: appRouter,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: locale,
-      ),
-      loading: () => MaterialApp.router(
-        title: 'Flutter Project Template',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme(),
-        darkTheme: AppTheme.darkTheme(),
-        routerConfig: appRouter,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-      ),
-      error: (_, __) => MaterialApp.router(
-        title: 'Flutter Project Template',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme(),
-        darkTheme: AppTheme.darkTheme(),
-        routerConfig: appRouter,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-      ),
-    );
-  }
+      );
 
   /// Gets the ThemeMode from settings.
   ThemeMode _getThemeMode(AsyncValue<SettingsEntity> settingsAsync) =>
