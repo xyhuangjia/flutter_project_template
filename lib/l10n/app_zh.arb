@@ -306,6 +306,11 @@
     "description": "Change password label"
   },
 
+  "currentPassword": "当前密码",
+  "@currentPassword": {
+    "description": "Current password label"
+  },
+
   "aboutApp": "关于应用",
   "@aboutApp": {
     "description": "About app section title"
@@ -1177,6 +1182,26 @@
   "nicknameMaxLength": "昵称最多20个字符",
   "@nicknameMaxLength": {
     "description": "Nickname max length validation message"
+  },
+
+  "gender": "性别",
+  "@gender": {
+    "description": "Gender label"
+  },
+
+  "male": "男",
+  "@male": {
+    "description": "Male gender"
+  },
+
+  "female": "女",
+  "@female": {
+    "description": "Female gender"
+  },
+
+  "unspecified": "未设置",
+  "@unspecified": {
+    "description": "Unspecified gender"
   },
 
   "passwordRequirement": "至少8位，包含字母和数字",

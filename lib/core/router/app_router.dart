@@ -16,6 +16,7 @@ import 'package:flutter_project_template/features/privacy/presentation/screens/a
 import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_settings_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/widgets/permission_card.dart';
+import 'package:flutter_project_template/features/profile/presentation/screens/change_password_screen.dart';
 import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/developer_options_screen.dart';
@@ -38,11 +39,13 @@ CustomTransitionPage<T> _iosSlidePage<T>({
         final slideAnimation = Tween<Offset>(
           begin: const Offset(1, 0),
           end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeInOut,
-          reverseCurve: Curves.easeInOut,
-        ));
+        ).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+            reverseCurve: Curves.easeInOut,
+          ),
+        );
 
         return SlideTransition(
           position: slideAnimation,
@@ -123,6 +126,16 @@ final GoRouter appRouter = GoRouter(
         child: const ProfileScreen(),
         state: state,
         name: RouteNames.profile,
+      ),
+    ),
+    // Change password - use iOS transition
+    GoRoute(
+      path: Routes.changePassword,
+      name: RouteNames.changePassword,
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const ChangePasswordScreen(),
+        state: state,
+        name: RouteNames.changePassword,
       ),
     ),
     // WebView - use iOS transition

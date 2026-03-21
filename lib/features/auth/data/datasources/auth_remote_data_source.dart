@@ -432,6 +432,35 @@ class AuthRemoteDataSource {
     final hasNumber = RegExp(r'[0-9]').hasMatch(password);
     return hasLetter && hasNumber;
   }
+
+  /// Updates user profile.
+  ///
+  /// Mock implementation - always succeeds.
+  Future<UserDto> updateUserProfile({
+    required String userId,
+    String? displayName,
+    String? avatarUrl,
+    String? phoneNumber,
+    String? gender,
+  }) async {
+    await _simulateNetworkDelay();
+
+    // Mock validation for phone number
+    if (phoneNumber != null && !_isValidChinesePhone(phoneNumber)) {
+      throw AuthException('Invalid phone number format');
+    }
+
+    // Mock: Return updated user
+    return UserDto(
+      id: userId,
+      email: 'user@mock.com',
+      username: 'mock_user',
+      displayName: displayName ?? 'Mock User',
+      avatarUrl: avatarUrl ?? 'https://i.pravatar.cc/150?u=$userId',
+      phoneNumber: phoneNumber,
+      gender: gender,
+    );
+  }
 }
 
 /// Exception thrown during authentication operations.

@@ -192,6 +192,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changePassword => 'Change Password';
 
   @override
+  String get currentPassword => 'Current Password';
+
+  @override
   String get aboutApp => 'About App';
 
   @override
@@ -737,6 +740,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nicknameMaxLength => 'Nickname must be at most 20 characters';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get unspecified => 'Not Specified';
 
   @override
   String get passwordRequirement =>

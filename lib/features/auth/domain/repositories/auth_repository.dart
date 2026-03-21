@@ -126,4 +126,14 @@ abstract class AuthRepository {
     required String verificationCode,
     String? avatarUrl,
   });
+
+  /// Updates user profile.
+  ///
+  /// Returns either a [User] on success or a [Failure] on error.
+  Future<Result<User>> updateUserProfile({
+    String? displayName,
+    String? avatarUrl,
+    String? phoneNumber,
+    UserGender? gender,
+  });
 }

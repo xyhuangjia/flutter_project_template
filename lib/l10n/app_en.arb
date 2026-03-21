@@ -306,6 +306,11 @@
     "description": "Change password label"
   },
 
+  "currentPassword": "Current Password",
+  "@currentPassword": {
+    "description": "Current password label"
+  },
+
   "aboutApp": "About App",
   "@aboutApp": {
     "description": "About app section title"
@@ -1177,6 +1182,26 @@
   "nicknameMaxLength": "Nickname must be at most 20 characters",
   "@nicknameMaxLength": {
     "description": "Nickname max length validation message"
+  },
+
+  "gender": "Gender",
+  "@gender": {
+    "description": "Gender label"
+  },
+
+  "male": "Male",
+  "@male": {
+    "description": "Male gender"
+  },
+
+  "female": "Female",
+  "@female": {
+    "description": "Female gender"
+  },
+
+  "unspecified": "Not Specified",
+  "@unspecified": {
+    "description": "Unspecified gender"
   },
 
   "passwordRequirement": "At least 8 characters with letters and numbers",

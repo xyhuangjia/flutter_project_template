@@ -464,6 +464,12 @@ abstract class AppLocalizations {
   /// **'Change Password'**
   String get changePassword;
 
+  /// Current password label
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPassword;
+
   /// About app section title
   ///
   /// In en, this message translates to:
@@ -1489,6 +1495,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nickname must be at most 20 characters'**
   String get nicknameMaxLength;
+
+  /// Gender label
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// Male gender
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// Female gender
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// Unspecified gender
+  ///
+  /// In en, this message translates to:
+  /// **'Not Specified'**
+  String get unspecified;
 
   /// Password requirement hint
   ///

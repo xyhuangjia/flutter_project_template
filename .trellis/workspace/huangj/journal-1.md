@@ -541,3 +541,52 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 13: 新增用户修改密码功能
+
+**Date**: 2026-03-21
+**Task**: 新增用户修改密码功能
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| Feature | Description |
+|---------|-------------|
+| UI | 新增 ChangePasswordScreen 界面（当前密码、新密码、确认密码）|
+| UI | 新增密码可见性切换功能 |
+| Validation | 新增 PasswordValidator（长度、字符类型、匹配验证）|
+| Data Layer | 扩展 AuthRepository 支持 updatePassword 方法 |
+| Data Layer | 更新 AuthLocalDataSource 支持更新用户数据 |
+| Domain | 扩展 Auth Repository 接口 |
+| Provider | 扩展 AuthNotifier 支持 changePassword 方法 |
+| Routing | 添加修改密码路由 |
+| Routing | 从资料页面添加修改密码入口 |
+| i18n | 添加所有文本的国际化支持（中英文）|
+
+**New Files**:
+- `lib/features/profile/presentation/screens/change_password_screen.dart`
+- `test/features/profile/screens/change_password_screen_test.dart`
+- `test/features/profile/screens/password_validator_test.dart`
+
+**Test Coverage**: 39 个新测试全部通过
+
+
+### Git Commits
+
+(No commits - planning session)
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete

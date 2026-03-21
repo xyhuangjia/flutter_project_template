@@ -64,6 +64,9 @@ abstract final class Routes {
 
   /// Developer options route.
   static const String developerOptions = '/settings/developer-options';
+
+  /// Change password route.
+  static const String changePassword = '/profile/change-password';
 }
 
 /// Route names for named navigation.
@@ -123,4 +126,7 @@ abstract final class RouteNames {
 
   /// Developer options route name.
   static const String developerOptions = 'developerOptions';
+
+  /// Change password route name.
+  static const String changePassword = 'changePassword';
 }

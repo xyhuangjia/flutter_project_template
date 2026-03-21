@@ -358,4 +358,32 @@ class AuthNotifier extends _$AuthNotifier {
 
     return !state.hasError;
   }
+
+  /// Updates user profile.
+  Future<bool> updateUserProfile({
+    String? displayName,
+    String? avatarUrl,
+    String? phoneNumber,
+    UserGender? gender,
+  }) async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.updateUserProfile(
+      displayName: displayName,
+      avatarUrl: avatarUrl,
+      phoneNumber: phoneNumber,
+      gender: gender,
+    );
+
+    return result.when(
+      failure: (_) => false,
+      success: (user) {
+        final token =
+            ref.read(authLocalDataSourceProvider).getToken() ?? '';
+        state = AsyncValue.data(
+          AuthState.authenticated(user: user, token: token),
+        );
+        return true;
+      },
+    );
+  }
 }

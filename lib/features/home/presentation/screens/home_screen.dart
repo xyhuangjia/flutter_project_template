@@ -5,7 +5,6 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/home/domain/entities/home_entity.dart';
 import 'package:flutter_project_template/features/home/presentation/providers/home_provider.dart';
@@ -33,6 +32,13 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(localizations.home),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            onPressed: () => context.push(Routes.profile),
+            tooltip: localizations.profile,
+          ),
+        ],
       ),
       body: homeState.when(
         data: (home) => _HomeContent(
@@ -91,93 +97,6 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-/// Language selection dialog.
-class _LanguageDialog extends ConsumerWidget {
-  const _LanguageDialog({
-    required this.localizations,
-  });
-
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final localeAsync = ref.watch(localeNotifierProvider);
-    final currentLocale = localeAsync.valueOrNull;
-
-    return AlertDialog(
-      title: Text(localizations.selectLanguage),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _LanguageOption(
-            label: localizations.languageSystem,
-            isSelected: currentLocale == null,
-            onTap: () {
-              ref.read(localeNotifierProvider.notifier).resetToSystem();
-              Navigator.of(context).pop();
-            },
-          ),
-          _LanguageOption(
-            label: localizations.languageEnglish,
-            isSelected: currentLocale?.languageCode == 'en',
-            onTap: () {
-              ref
-                  .read(localeNotifierProvider.notifier)
-                  .setLocale(const Locale('en'));
-              Navigator.of(context).pop();
-            },
-          ),
-          _LanguageOption(
-            label: localizations.languageChinese,
-            isSelected: currentLocale?.languageCode == 'zh',
-            onTap: () {
-              ref
-                  .read(localeNotifierProvider.notifier)
-                  .setLocale(const Locale('zh'));
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(localizations.close),
-        ),
-      ],
-    );
-  }
-}
-
-/// Language option widget.
-class _LanguageOption extends StatelessWidget {
-  const _LanguageOption({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return ListTile(
-      title: Text(label),
-      trailing: isSelected
-          ? Icon(
-              Icons.check,
-              color: theme.colorScheme.primary,
-            )
-          : null,
-      onTap: onTap,
-    );
-  }
-}
-
 /// Home content widget displaying the main content.
 class _HomeContent extends StatelessWidget {
   const _HomeContent({
@@ -218,13 +137,6 @@ class _HomeContent extends StatelessWidget {
               _WelcomeCard(
                 title: home.title,
                 message: home.welcomeMessage,
-                theme: theme,
-                colorScheme: colorScheme,
-                textTheme: textTheme,
-                localizations: localizations,
-              ),
-              const SizedBox(height: 24),
-              _QuickActionsSection(
                 theme: theme,
                 colorScheme: colorScheme,
                 textTheme: textTheme,
@@ -400,104 +312,4 @@ class _FeatureList extends StatelessWidget {
           .toList(),
     );
   }
-}
-
-/// Quick actions section with action buttons.
-class _QuickActionsSection extends StatelessWidget {
-  const _QuickActionsSection({
-    required this.theme,
-    required this.colorScheme,
-    required this.textTheme,
-    required this.localizations,
-  });
-
-  final ThemeData theme;
-  final ColorScheme colorScheme;
-  final TextTheme textTheme;
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            localizations.quickActions,
-            style: textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _ActionCard(
-                  icon: Icons.login,
-                  label: localizations.login,
-                  theme: theme,
-                  onTap: () => context.push(Routes.login),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _ActionCard(
-                  icon: Icons.settings_outlined,
-                  label: localizations.settings,
-                  theme: theme,
-                  onTap: () => context.push(Routes.settings),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _ActionCard(
-                  icon: Icons.info_outline,
-                  label: localizations.about,
-                  theme: theme,
-                  onTap: () => context.push(Routes.about),
-                ),
-              ),
-            ],
-          ),
-        ],
-      );
-}
-
-/// Action card widget.
-class _ActionCard extends StatelessWidget {
-  const _ActionCard({
-    required this.icon,
-    required this.label,
-    required this.theme,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final ThemeData theme;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => Card(
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Icon(
-                  icon,
-                  size: 32,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  label,
-                  style: theme.textTheme.bodySmall,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
 }

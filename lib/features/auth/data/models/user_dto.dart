@@ -8,7 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_dto.g.dart';
 
-/// User data transfer object.
+/// User DTO for data transfer.
 ///
 /// Used for serializing/deserializing user data from API.
 @JsonSerializable()
@@ -21,6 +21,7 @@ class UserDto {
     this.displayName,
     this.avatarUrl,
     this.phoneNumber,
+    this.gender,
     this.bio,
     this.token,
   });
@@ -47,6 +48,9 @@ class UserDto {
   /// The user's phone number (optional).
   final String? phoneNumber;
 
+  /// The user's gender (optional).
+  final String? gender;
+
   /// The user's bio/description (optional).
   final String? bio;
 
@@ -64,8 +68,18 @@ class UserDto {
         displayName: displayName,
         avatarUrl: avatarUrl,
         phoneNumber: phoneNumber,
+        gender: _parseGender(gender),
         bio: bio,
       );
+
+  static UserGender _parseGender(String? value) {
+    if (value == null) return UserGender.unspecified;
+    return switch (value.toLowerCase()) {
+      'male' => UserGender.male,
+      'female' => UserGender.female,
+      _ => UserGender.unspecified,
+    };
+  }
 
   @override
   String toString() {

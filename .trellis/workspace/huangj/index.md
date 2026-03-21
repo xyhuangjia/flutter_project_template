@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 12
+- **Total Sessions**: 13
 - **Last Active**: 2026-03-21
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~543 | Active |
+| `journal-1.md` | ~592 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits |
 |---|------|-------|---------|
+| 13 | 2026-03-21 | 新增用户修改密码功能 | - |
 | 12 | 2026-03-21 | 添加 Auth 和 Privacy 测试覆盖 | `f21ec5b` |
 | 11 | 2026-03-21 | 修复隐私协议重复显示 bug | `1fb0e4e` |
 | 10 | 2026-03-21 | 重构隐私协议流程 | `b401ab6` |

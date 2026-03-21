@@ -5,6 +5,8 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_pickers/l10n/generated/app_localizations.dart'
+    as picker_l10n;
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/core/router/app_router.dart';
 import 'package:flutter_project_template/core/theme/app_theme.dart';
@@ -50,7 +52,10 @@ class MyApp extends ConsumerWidget {
         darkTheme: AppTheme.darkTheme(),
         themeMode: themeMode,
         routerConfig: appRouter,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: [
+          ...AppLocalizations.localizationsDelegates,
+          picker_l10n.AppLocalizations.delegate,
+        ],
         supportedLocales: AppLocalizations.supportedLocales,
         locale: locale,
       );

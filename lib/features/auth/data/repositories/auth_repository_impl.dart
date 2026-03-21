@@ -152,6 +152,8 @@ class AuthRepositoryImpl implements AuthRepository {
         username: _localDataSource.getUsername() ?? '',
         displayName: _localDataSource.getDisplayName(),
         avatarUrl: _localDataSource.getAvatarUrl(),
+        phoneNumber: _localDataSource.getPhoneNumber(),
+        gender: _localDataSource.getGender() ?? UserGender.unspecified,
       );
 
       return Success(user);
@@ -300,6 +302,49 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _saveUserData(userDto);
+
+      return Success(userDto.toEntity());
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
+  Future<Result<User>> updateUserProfile({
+    String? displayName,
+    String? avatarUrl,
+    String? phoneNumber,
+    UserGender? gender,
+  }) async {
+    try {
+      final userId = _localDataSource.getUserId();
+      if (userId == null) {
+        return FailureResult(AuthFailure(message: 'User not logged in'));
+      }
+
+      final userDto = await _remoteDataSource.updateUserProfile(
+        userId: userId,
+        displayName: displayName,
+        avatarUrl: avatarUrl,
+        phoneNumber: phoneNumber,
+        gender: gender?.name,
+      );
+
+      // Update local storage
+      await _localDataSource.saveUserData(
+        userId: userId,
+        email: _localDataSource.getUserEmail() ?? '',
+        username: _localDataSource.getUsername() ?? '',
+        displayName: userDto.displayName,
+        avatarUrl: userDto.avatarUrl,
+        phoneNumber: userDto.phoneNumber,
+        gender: UserGender.values.firstWhere(
+          (g) => g.name == userDto.gender,
+          orElse: () => UserGender.unspecified,
+        ),
+      );
 
       return Success(userDto.toEntity());
     } on AuthException catch (e) {

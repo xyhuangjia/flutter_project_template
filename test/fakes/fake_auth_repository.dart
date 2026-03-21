@@ -368,4 +368,33 @@ class FakeAuthRepository implements AuthRepository {
 
     return Success(currentUser!);
   }
+
+  @override
+  Future<Result<User>> updateUserProfile({
+    String? displayName,
+    String? avatarUrl,
+    String? phoneNumber,
+    UserGender? gender,
+  }) async {
+    methodCalls.add('updateUserProfile');
+    await _simulateDelay();
+
+    if (shouldFail) {
+      return FailureResult(failureToReturn);
+    }
+
+    if (currentUser != null) {
+      currentUser = User(
+        id: currentUser!.id,
+        email: currentUser!.email,
+        username: currentUser!.username,
+        displayName: displayName ?? currentUser!.displayName,
+        avatarUrl: avatarUrl ?? currentUser!.avatarUrl,
+        phoneNumber: phoneNumber ?? currentUser!.phoneNumber,
+        gender: gender ?? currentUser!.gender,
+      );
+    }
+
+    return Success(currentUser!);
+  }
 }

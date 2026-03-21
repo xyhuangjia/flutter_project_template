@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter_project_template/core/logging/talker_config.dart';
+import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Authentication local data source.
@@ -32,6 +33,12 @@ class AuthLocalDataSource {
   /// Key for storing avatar URL.
   static const String _avatarUrlKey = 'avatar_url';
 
+  /// Key for storing phone number.
+  static const String _phoneNumberKey = 'phone_number';
+
+  /// Key for storing gender.
+  static const String _genderKey = 'gender';
+
   /// Saves the authentication token.
   Future<void> saveToken(String token) async {
     await _sharedPreferences.setString(_tokenKey, token);
@@ -41,7 +48,9 @@ class AuthLocalDataSource {
   /// Gets the stored authentication token.
   String? getToken() {
     final token = _sharedPreferences.getString(_tokenKey);
-    talker.log('[AuthLocalDataSource] getToken: ${token != null ? "found" : "null"}');
+    talker.log(
+      '[AuthLocalDataSource] getToken: ${token != null ? "found" : "null"}',
+    );
     return token;
   }
 
@@ -52,6 +61,8 @@ class AuthLocalDataSource {
     required String username,
     String? displayName,
     String? avatarUrl,
+    String? phoneNumber,
+    UserGender? gender,
   }) async {
     await Future.wait([
       _sharedPreferences.setString(_userIdKey, userId),
@@ -61,6 +72,10 @@ class AuthLocalDataSource {
         _sharedPreferences.setString(_displayNameKey, displayName),
       if (avatarUrl != null)
         _sharedPreferences.setString(_avatarUrlKey, avatarUrl),
+      if (phoneNumber != null)
+        _sharedPreferences.setString(_phoneNumberKey, phoneNumber),
+      if (gender != null)
+        _sharedPreferences.setString(_genderKey, gender.name),
     ]);
     talker.log('[AuthLocalDataSource] User data saved: $username');
   }
@@ -90,6 +105,23 @@ class AuthLocalDataSource {
     return _sharedPreferences.getString(_avatarUrlKey);
   }
 
+  /// Gets the stored phone number.
+  String? getPhoneNumber() {
+    return _sharedPreferences.getString(_phoneNumberKey);
+  }
+
+  /// Gets the stored gender.
+  UserGender? getGender() {
+    final genderStr = _sharedPreferences.getString(_genderKey);
+    if (genderStr == null) return null;
+    return switch (genderStr) {
+      'male' => UserGender.male,
+      'female' => UserGender.female,
+      'unspecified' => UserGender.unspecified,
+      _ => null,
+    };
+  }
+
   /// Clears all stored authentication data.
   Future<void> clearAuthData() async {
     await Future.wait([
@@ -99,6 +131,8 @@ class AuthLocalDataSource {
       _sharedPreferences.remove(_usernameKey),
       _sharedPreferences.remove(_displayNameKey),
       _sharedPreferences.remove(_avatarUrlKey),
+      _sharedPreferences.remove(_phoneNumberKey),
+      _sharedPreferences.remove(_genderKey),
     ]);
     talker.log('[AuthLocalDataSource] Auth data cleared');
   }

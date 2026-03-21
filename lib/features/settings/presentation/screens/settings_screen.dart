@@ -2,18 +2,15 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project_template/core/config/environment.dart';
 import 'package:flutter_project_template/core/config/environment_provider.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/settings_entity.dart';
 import 'package:flutter_project_template/features/settings/presentation/providers/settings_provider.dart';
-import 'package:flutter_project_template/features/settings/presentation/widgets/environment_selector.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/language_selector.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
-import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -117,14 +114,6 @@ class SettingsScreen extends ConsumerWidget {
           if (isAuthenticated) ...[
             SettingsSectionHeader(title: localizations.security),
             SettingsTile(
-              title: localizations.changePassword,
-              leading: const Icon(Icons.lock_outline),
-              onTap: () {
-                // TODO: Navigate to change password screen
-              },
-            ),
-            const SettingsDivider(),
-            SettingsTile(
               title: localizations.logout,
               leading: Icon(
                 Icons.logout,
@@ -176,50 +165,6 @@ class SettingsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
           ],
-        ],
-      ),
-    );
-  }
-
-  /// Shows a confirmation dialog when changing environment.
-  void _showEnvironmentChangeDialog(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations localizations,
-    EnvironmentType newEnvironment,
-  ) {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.restartRequired),
-        content: Text(localizations.restartRequiredMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.restartLater),
-          ),
-          FilledButton(
-            onPressed: () async {
-              Navigator.of(dialogContext).pop();
-
-              // Save the new environment
-              await ref
-                  .read(environmentProvider.notifier)
-                  .switchEnvironment(newEnvironment);
-
-              // Show a success dialog
-              if (context.mounted) {
-                DialogUtil.showSuccessDialog(
-                  context,
-                  localizations.saveSuccess,
-                );
-              }
-
-              // In a real app, you would restart the app here
-              // For example, using: SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-            },
-            child: Text(localizations.restartNow),
-          ),
         ],
       ),
     );

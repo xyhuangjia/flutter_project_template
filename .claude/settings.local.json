@@ -21,7 +21,8 @@
       "Bash(ls:*)",
       "Bash(git checkout:*)",
       "Bash(flutter devices:*)",
-      "Bash(flutter run:*)"
+      "Bash(flutter run:*)",
+      "Bash(perl -i -pe 'chomp if eof' /Users/huangj/Desktop/gitSpace/flutter_project_template/lib/features/home/presentation/screens/home_screen.dart)"
     ]
   }
 }

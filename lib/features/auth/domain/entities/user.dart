@@ -5,6 +5,18 @@ library;
 
 import 'package:flutter/foundation.dart';
 
+/// User gender enum.
+enum UserGender {
+  /// Male.
+  male,
+
+  /// Female.
+  female,
+
+  /// Not specified.
+  unspecified,
+}
+
 /// User entity representing an authenticated user.
 @immutable
 class User {
@@ -16,6 +28,7 @@ class User {
     this.displayName,
     this.avatarUrl,
     this.phoneNumber,
+    this.gender = UserGender.unspecified,
     this.bio,
   });
 
@@ -37,6 +50,9 @@ class User {
   /// The user's phone number (optional).
   final String? phoneNumber;
 
+  /// The user's gender.
+  final UserGender gender;
+
   /// The user's bio/description (optional).
   final String? bio;
 
@@ -48,6 +64,7 @@ class User {
     String? displayName,
     String? avatarUrl,
     String? phoneNumber,
+    UserGender? gender,
     String? bio,
   }) {
     return User(
@@ -57,6 +74,7 @@ class User {
       displayName: displayName ?? this.displayName,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      gender: gender ?? this.gender,
       bio: bio ?? this.bio,
     );
   }
@@ -72,6 +90,7 @@ class User {
         other.displayName == displayName &&
         other.avatarUrl == avatarUrl &&
         other.phoneNumber == phoneNumber &&
+        other.gender == gender &&
         other.bio == bio;
   }
 
@@ -84,6 +103,7 @@ class User {
       displayName,
       avatarUrl,
       phoneNumber,
+      gender,
       bio,
     );
   }
@@ -92,6 +112,6 @@ class User {
   String toString() {
     return 'User(id: $id, email: $email, username: $username, '
         'displayName: $displayName, avatarUrl: $avatarUrl, '
-        'phoneNumber: $phoneNumber, bio: $bio)';
+        'phoneNumber: $phoneNumber, gender: $gender, bio: $bio)';
   }
 }

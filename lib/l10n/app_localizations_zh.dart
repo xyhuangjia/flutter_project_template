@@ -192,6 +192,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changePassword => '修改密码';
 
   @override
+  String get currentPassword => '当前密码';
+
+  @override
   String get aboutApp => '关于应用';
 
   @override
@@ -721,6 +724,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get nicknameMaxLength => '昵称最多20个字符';
+
+  @override
+  String get gender => '性别';
+
+  @override
+  String get male => '男';
+
+  @override
+  String get female => '女';
+
+  @override
+  String get unspecified => '未设置';
 
   @override
   String get passwordRequirement => '至少8位，包含字母和数字';
