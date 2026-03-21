@@ -5,6 +5,7 @@
 library;
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/features/privacy/presentation/providers/privacy_provider.dart';
@@ -35,13 +36,11 @@ abstract final class RouterGuard {
     Routes.splash,
     Routes.error,
     Routes.about,
-    Routes.privacyConsent,
   ];
 
   /// Routes that don't require privacy consent (initialization screens).
   static const List<String> noConsentRequiredRoutes = [
     Routes.splash,
-    Routes.privacyConsent,
     Routes.error,
   ];
 
@@ -62,13 +61,21 @@ abstract final class RouterGuard {
     final isPublicRoute = publicRoutes.contains(currentPath);
     final requiresConsent = !noConsentRequiredRoutes.contains(currentPath);
 
+    talker.log(
+      '[RouterGuard] redirect: path=$currentPath, '
+      'isAuthenticated=$isAuthenticated, hasConsent=$hasConsent',
+    );
+
     // First check: Privacy consent (must be accepted before any other screen)
+    // If user hasn't consented, redirect to splash screen which will show the dialog
     if (!hasConsent && requiresConsent) {
-      return Routes.privacyConsent;
+      talker.log('[RouterGuard] Redirecting to splash for privacy consent');
+      return Routes.splash;
     }
 
     // Second check: Authentication
     if (!isAuthenticated && !isPublicRoute) {
+      talker.log('[RouterGuard] Redirecting to login');
       return Routes.login;
     }
 
@@ -76,7 +83,8 @@ abstract final class RouterGuard {
     // - Redirect away from login page
     // - Allow access to register page (user might want to register new account)
     if (isAuthenticated && currentPath == Routes.login) {
-      return Routes.chat;
+      talker.log('[RouterGuard] Authenticated user at login, redirecting to home');
+      return Routes.home;
     }
 
     return null;

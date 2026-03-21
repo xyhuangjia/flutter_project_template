@@ -14,7 +14,6 @@ import 'package:flutter_project_template/features/chat/presentation/screens/conv
 import 'package:flutter_project_template/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/account_deletion_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/permission_rationale_screen.dart';
-import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_consent_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/screens/privacy_settings_screen.dart';
 import 'package:flutter_project_template/features/privacy/presentation/widgets/permission_card.dart';
 import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
@@ -162,15 +161,6 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     // Privacy routes - use iOS transition
-    GoRoute(
-      path: Routes.privacyConsent,
-      name: RouteNames.privacyConsent,
-      pageBuilder: (context, state) => _iosSlidePage(
-        child: const PrivacyConsentScreen(),
-        state: state,
-        name: RouteNames.privacyConsent,
-      ),
-    ),
     GoRoute(
       path: Routes.privacySettings,
       name: RouteNames.privacySettings,

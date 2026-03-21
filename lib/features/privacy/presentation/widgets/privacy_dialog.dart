@@ -1,7 +1,10 @@
 /// Privacy dialog widget for showing privacy consent.
 library;
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/privacy/data/models/region_config.dart';
 import 'package:flutter_project_template/features/privacy/domain/entities/privacy_state.dart';
@@ -41,16 +44,9 @@ class PrivacyConsentDialog extends ConsumerWidget {
                   Flexible(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _Content(localizations: localizations),
-                          const SizedBox(height: 24),
-                          _Links(
-                            localizations: localizations,
-                            regionConfig: regionConfig,
-                          ),
-                        ],
+                      child: _Content(
+                        localizations: localizations,
+                        regionConfig: regionConfig,
                       ),
                     ),
                   ),
@@ -114,56 +110,10 @@ class _Header extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({required this.localizations});
-
-  final AppLocalizations localizations;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          localizations.privacyConsentDescription,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                Icons.info_outline_rounded,
-                size: 20,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  localizations.privacyConsentRequired,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Links extends StatelessWidget {
-  const _Links({required this.localizations, required this.regionConfig});
+  const _Content({
+    required this.localizations,
+    required this.regionConfig,
+  });
 
   final AppLocalizations localizations;
   final RegionConfig regionConfig;
@@ -171,82 +121,65 @@ class _Links extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          localizations.privacyConsentReadMore,
-          style: theme.textTheme.labelMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
+    return RichText(
+      text: TextSpan(
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colorScheme.onSurfaceVariant,
+          height: 1.6,
         ),
-        const SizedBox(height: 12),
-        _LinkTile(
-          icon: Icons.policy_rounded,
-          title: localizations.privacyPolicy,
-          url: regionConfig.privacyPolicyUrl,
-        ),
-        const SizedBox(height: 8),
-        _LinkTile(
-          icon: Icons.description_rounded,
-          title: localizations.termsOfService,
-          url: regionConfig.termsOfServiceUrl,
-        ),
-      ],
-    );
-  }
-}
-
-class _LinkTile extends StatelessWidget {
-  const _LinkTile({
-    required this.icon,
-    required this.title,
-    required this.url,
-  });
-
-  final IconData icon;
-  final String title;
-  final String url;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Material(
-      color: theme.colorScheme.surfaceContainerHighest,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {
-          context.push(
-            '${Routes.webView}?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}',
-          );
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              Icon(icon, size: 20, color: theme.colorScheme.primary),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  title,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w500,
-                  ),
+        children: [
+          TextSpan(text: localizations.privacyConsentPart1),
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: GestureDetector(
+              onTap: () => _openUrl(
+                context,
+                regionConfig.privacyPolicyUrl,
+                localizations.privacyPolicy,
+              ),
+              child: Text(
+                localizations.privacyConsentLinkPrivacy,
+                style: TextStyle(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
                 ),
               ),
-              Icon(
-                Icons.open_in_new_rounded,
-                size: 18,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ],
+            ),
           ),
-        ),
+          TextSpan(text: localizations.privacyConsentPart2),
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: GestureDetector(
+              onTap: () => _openUrl(
+                context,
+                regionConfig.termsOfServiceUrl,
+                localizations.termsOfService,
+              ),
+              child: Text(
+                localizations.privacyConsentLinkTerms,
+                style: TextStyle(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ),
+          TextSpan(text: localizations.privacyConsentPart3),
+        ],
       ),
+    );
+  }
+
+  void _openUrl(BuildContext context, String url, String title) {
+    context.push(
+      '${Routes.webView}?url=${Uri.encodeComponent(url)}'
+      '&title=${Uri.encodeComponent(title)}',
     );
   }
 }
@@ -323,6 +256,7 @@ class _Actions extends StatelessWidget {
 
     showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
@@ -342,7 +276,9 @@ class _Actions extends StatelessWidget {
           FilledButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
+              // Close the main consent dialog first, then exit
               Navigator.of(context).pop(false);
+              _exitApp();
             },
             style: FilledButton.styleFrom(
               backgroundColor: theme.colorScheme.error,
@@ -352,6 +288,18 @@ class _Actions extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// Exits the app in a platform-appropriate way.
+  void _exitApp() {
+    if (Platform.isIOS) {
+      // On iOS, exit(0) is the most reliable way to exit
+      // ignore: avoid_slow_async_io
+      exit(0);
+    } else {
+      // On Android and other platforms, use SystemNavigator
+      SystemNavigator.pop();
+    }
   }
 }
 

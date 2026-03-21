@@ -2,9 +2,11 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/features/privacy/presentation/providers/privacy_provider.dart';
+import 'package:flutter_project_template/features/privacy/presentation/widgets/privacy_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,6 +24,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+  bool _dialogShown = false;
 
   @override
   void initState() {
@@ -68,28 +71,57 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     if (!mounted) return;
 
-    _navigateToNextScreen();
+    _navigateOrShowDialog();
   }
 
-  void _navigateToNextScreen() {
+  void _navigateOrShowDialog() {
     final privacyState = ref.read(privacyNotifierProvider).valueOrNull;
-    final isAuthenticated =
-        ref.read(authNotifierProvider.notifier).isAuthenticated;
 
-    // Step 1: Check privacy consent
+    talker.log(
+      '[SplashScreen] _navigateOrShowDialog: hasConsented=${privacyState?.hasConsented}',
+    );
+
+    // Check privacy consent first
     if (privacyState?.hasConsented != true) {
-      context.go(Routes.privacyConsent);
+      _showPrivacyConsentDialog();
       return;
     }
 
-    // Step 2: Check authentication
+    // Privacy consented, proceed to navigation
+    _navigateToNextScreen();
+  }
+
+  Future<void> _showPrivacyConsentDialog() async {
+    if (_dialogShown) return;
+    _dialogShown = true;
+
+    final result = await showPrivacyConsentDialog(context);
+
+    if (!mounted) return;
+
+    if (result == true) {
+      // User agreed, navigate to next screen
+      _navigateToNextScreen();
+    }
+    // If user disagreed, dialog handles app exit internally
+  }
+
+  void _navigateToNextScreen() {
+    final isAuthenticated =
+        ref.read(authNotifierProvider.notifier).isAuthenticated;
+
+    talker.log(
+      '[SplashScreen] _navigateToNextScreen: isAuthenticated=$isAuthenticated',
+    );
+
     if (!isAuthenticated) {
+      talker.log('[SplashScreen] Navigating to login');
       context.go(Routes.login);
       return;
     }
 
-    // Step 3: Go to main screen
-    context.go(Routes.chat);
+    talker.log('[SplashScreen] Navigating to home');
+    context.go(Routes.home);
   }
 
   @override
