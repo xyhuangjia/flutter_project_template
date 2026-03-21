@@ -154,7 +154,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const Spacer(flex: 2),
           _RegisterLink(
             localizations: localizations,
-            onRegisterTap: () => context.go(Routes.register),
+            onRegisterTap: () => context.push(Routes.register),
           ),
           const SizedBox(height: 24),
         ],
@@ -248,7 +248,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const Spacer(flex: 2),
           _RegisterLink(
             localizations: localizations,
-            onRegisterTap: () => context.go(Routes.register),
+            onRegisterTap: () => context.push(Routes.register),
           ),
           const SizedBox(height: 32),
         ],
