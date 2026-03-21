@@ -7,7 +7,7 @@ part of 'auth_provider.dart';
 // **************************************************************************
 
 String _$authLocalDataSourceHash() =>
-    r'06e10247c7a94ac1d1f52923f278b8ea767ca689';
+    r'a972a27891bd69e0d712cdb115b1905cffacbec1';
 
 /// Provider for AuthLocalDataSource.
 ///
@@ -67,16 +67,17 @@ final authRepositoryProvider = AutoDisposeProvider<AuthRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepository>;
-String _$authNotifierHash() => r'4b87fdfd4c22e952d5d776e88b937dd383dd0194';
+String _$authNotifierHash() => r'9c21689e807bf502c9e9916a5d9356266d61a2e9';
 
 /// Auth state notifier provider.
 ///
 /// Manages the authentication state.
+/// Uses keepAlive to prevent auto-dispose during navigation.
 ///
 /// Copied from [AuthNotifier].
 @ProviderFor(AuthNotifier)
 final authNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<AuthNotifier, AuthState>.internal(
+    AsyncNotifierProvider<AuthNotifier, AuthState>.internal(
   AuthNotifier.new,
   name: r'authNotifierProvider',
   debugGetCreateSourceHash:
@@ -85,6 +86,6 @@ final authNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthNotifier = AutoDisposeAsyncNotifier<AuthState>;
+typedef _$AuthNotifier = AsyncNotifier<AuthState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

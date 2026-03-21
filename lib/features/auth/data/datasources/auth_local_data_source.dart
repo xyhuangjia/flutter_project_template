@@ -1,6 +1,7 @@
 /// Auth local data source for caching authentication data.
 library;
 
+import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Authentication local data source.
@@ -34,11 +35,14 @@ class AuthLocalDataSource {
   /// Saves the authentication token.
   Future<void> saveToken(String token) async {
     await _sharedPreferences.setString(_tokenKey, token);
+    talker.log('[AuthLocalDataSource] Token saved');
   }
 
   /// Gets the stored authentication token.
   String? getToken() {
-    return _sharedPreferences.getString(_tokenKey);
+    final token = _sharedPreferences.getString(_tokenKey);
+    talker.log('[AuthLocalDataSource] getToken: ${token != null ? "found" : "null"}');
+    return token;
   }
 
   /// Saves user data locally.
@@ -58,6 +62,7 @@ class AuthLocalDataSource {
       if (avatarUrl != null)
         _sharedPreferences.setString(_avatarUrlKey, avatarUrl),
     ]);
+    talker.log('[AuthLocalDataSource] User data saved: $username');
   }
 
   /// Gets the stored user ID.
@@ -95,6 +100,7 @@ class AuthLocalDataSource {
       _sharedPreferences.remove(_displayNameKey),
       _sharedPreferences.remove(_avatarUrlKey),
     ]);
+    talker.log('[AuthLocalDataSource] Auth data cleared');
   }
 
   /// Checks if user is authenticated (has token).

@@ -77,7 +77,6 @@ class _AboutScreenState extends State<AboutScreen> {
                   const SizedBox(height: 16),
                   _buildAppInfo(localizations, theme),
                   const SizedBox(height: 24),
-                  SettingsSectionHeader(title: localizations.legal),
                   SettingsTile(
                     title: localizations.privacyPolicy,
                     leading: const Icon(Icons.privacy_tip_outlined),

@@ -26,7 +26,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.privacySettings),
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: privacyState.when(
         data: (state) =>

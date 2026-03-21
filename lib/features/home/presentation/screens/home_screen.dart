@@ -33,18 +33,6 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(localizations.home),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.language),
-            onPressed: () => _showLanguageDialog(context, ref, localizations),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () {
-              // Navigate to settings
-            },
-          ),
-        ],
       ),
       body: homeState.when(
         data: (home) => _HomeContent(
@@ -98,19 +86,6 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showLanguageDialog(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations localizations,
-  ) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => _LanguageDialog(
-        localizations: localizations,
       ),
     );
   }

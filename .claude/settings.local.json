@@ -15,7 +15,13 @@
       "Bash(find:*)",
       "Bash(dart format:*)",
       "Bash(git push:*)",
-      "Bash(flutter pub:*)"
+      "Bash(flutter pub:*)",
+      "Bash(wc:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(git checkout:*)",
+      "Bash(flutter devices:*)",
+      "Bash(flutter run:*)"
     ]
   }
 }

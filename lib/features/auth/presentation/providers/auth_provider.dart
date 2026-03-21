@@ -1,7 +1,8 @@
 /// Auth provider using Riverpod code generation.
 library;
 
-import 'package:flutter_project_template/core/providers/locale_provider.dart';
+import 'package:flutter_project_template/core/config/environment_provider.dart';
+import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:flutter_project_template/features/auth/data/repositories/auth_repository_impl.dart';
@@ -15,10 +16,8 @@ part 'auth_provider.g.dart';
 /// Provider for AuthLocalDataSource.
 @riverpod
 AuthLocalDataSource authLocalDataSource(AuthLocalDataSourceRef ref) {
-  final prefs = ref.watch(sharedPrefsProvider).valueOrNull;
-  if (prefs == null) {
-    throw StateError('SharedPreferences not initialized');
-  }
+  // Use the same sharedPreferencesProvider that is overridden in main.dart
+  final prefs = ref.watch(sharedPreferencesProvider);
   return AuthLocalDataSource(sharedPreferences: prefs);
 }
 
@@ -40,21 +39,29 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 /// Auth state notifier provider.
 ///
 /// Manages the authentication state.
-@riverpod
+/// Uses keepAlive to prevent auto-dispose during navigation.
+@Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
   @override
   Future<AuthState> build() async {
-    await ref.watch(sharedPrefsProvider.future);
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.getCurrentUser();
 
+    talker.log('[AuthNotifier] build() called');
     return result.when(
-      failure: (_) => const AuthState.unauthenticated(),
+      failure: (_) {
+        talker.log('[AuthNotifier] build() failed, returning unauthenticated');
+        return const AuthState.unauthenticated();
+      },
       success: (user) {
         if (user != null) {
           final token = ref.read(authLocalDataSourceProvider).getToken();
+          talker.log(
+            '[AuthNotifier] build() success, user: ${user.username}',
+          );
           return AuthState.authenticated(user: user, token: token ?? '');
         }
+        talker.log('[AuthNotifier] build() no user, returning unauthenticated');
         return const AuthState.unauthenticated();
       },
     );
@@ -65,6 +72,7 @@ class AuthNotifier extends _$AuthNotifier {
     required String email,
     required String password,
   }) async {
+    talker.log('[AuthNotifier] loginWithEmail() called for: $email');
     state = const AsyncValue.loading();
 
     final repository = ref.read(authRepositoryProvider);
@@ -74,13 +82,19 @@ class AuthNotifier extends _$AuthNotifier {
     );
 
     state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
-        ),
-      ),
+      failure: (f) {
+        talker.error('[AuthNotifier] loginWithEmail() failed: ${f.message}');
+        return AsyncValue.error(f, StackTrace.current);
+      },
+      success: (user) {
+        talker.log('[AuthNotifier] loginWithEmail() success: ${user.username}');
+        return AsyncValue.data(
+          AuthState.authenticated(
+            user: user,
+            token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+          ),
+        );
+      },
     );
 
     return !state.hasError;
@@ -202,13 +216,18 @@ class AuthNotifier extends _$AuthNotifier {
 
   /// Logs out the current user.
   Future<bool> logout() async {
+    talker.log('[AuthNotifier] logout() called');
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.logout();
 
     result.when<void>(
-      failure: (_) => null,
-      success: (_) =>
-          state = const AsyncValue.data(AuthState.unauthenticated()),
+      failure: (f) {
+        talker.error('[AuthNotifier] logout() failed: ${f.message}');
+      },
+      success: (_) {
+        talker.log('[AuthNotifier] logout() success');
+        state = const AsyncValue.data(AuthState.unauthenticated());
+      },
     );
 
     return !result.isFailure;

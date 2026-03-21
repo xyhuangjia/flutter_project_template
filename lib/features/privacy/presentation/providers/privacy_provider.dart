@@ -1,7 +1,8 @@
 /// Privacy provider using Riverpod code generation.
 library;
 
-import 'package:flutter_project_template/core/providers/locale_provider.dart';
+import 'package:flutter_project_template/core/config/environment_provider.dart';
+import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/features/privacy/data/datasources/privacy_local_data_source.dart';
 import 'package:flutter_project_template/features/privacy/data/repositories/privacy_repository_impl.dart';
 import 'package:flutter_project_template/features/privacy/data/services/account_service_mock.dart';
@@ -14,10 +15,8 @@ part 'privacy_provider.g.dart';
 /// Privacy local data source provider.
 @riverpod
 PrivacyLocalDataSource privacyLocalDataSource(PrivacyLocalDataSourceRef ref) {
-  final prefs = ref.watch(sharedPrefsProvider).valueOrNull;
-  if (prefs == null) {
-    throw StateError('SharedPreferences not initialized');
-  }
+  // Use the same sharedPreferencesProvider that is overridden in main.dart
+  final prefs = ref.watch(sharedPreferencesProvider);
   return PrivacyLocalDataSource(sharedPreferences: prefs);
 }
 
@@ -37,17 +36,28 @@ PrivacyRepository privacyRepository(PrivacyRepositoryRef ref) {
 }
 
 /// Privacy state notifier provider.
-@riverpod
+///
+/// Manages the privacy state.
+/// Uses keepAlive to prevent auto-dispose during navigation.
+@Riverpod(keepAlive: true)
 class PrivacyNotifier extends _$PrivacyNotifier {
   @override
   Future<PrivacyState> build() async {
-    await ref.watch(sharedPrefsProvider.future);
     final repository = ref.read(privacyRepositoryProvider);
     final result = await repository.getPrivacyState();
 
+    talker.log('[PrivacyNotifier] build() called');
     return result.when(
-      failure: (_) => PrivacyState.defaultState,
-      success: (state) => state,
+      failure: (_) {
+        talker.log('[PrivacyNotifier] build() failed, returning default state');
+        return PrivacyState.defaultState;
+      },
+      success: (state) {
+        talker.log(
+          '[PrivacyNotifier] build() success, hasConsented: ${state.hasConsented}',
+        );
+        return state;
+      },
     );
   }
 
@@ -57,6 +67,9 @@ class PrivacyNotifier extends _$PrivacyNotifier {
     String? privacyPolicyVersion,
     String? termsOfServiceVersion,
   }) async {
+    talker.log(
+      '[PrivacyNotifier] saveConsent() called, hasConsented: $hasConsented',
+    );
     final repository = ref.read(privacyRepositoryProvider);
     final result = await repository.saveConsent(
       hasConsented: hasConsented,
@@ -65,8 +78,15 @@ class PrivacyNotifier extends _$PrivacyNotifier {
     );
 
     result.when(
-      failure: (_) => null,
-      success: (newState) => state = AsyncValue.data(newState),
+      failure: (f) {
+        talker.error('[PrivacyNotifier] saveConsent() failed: ${f.message}');
+      },
+      success: (newState) {
+        talker.log(
+          '[PrivacyNotifier] saveConsent() success, new hasConsented: ${newState.hasConsented}',
+        );
+        state = AsyncValue.data(newState);
+      },
     );
 
     return !result.isFailure;

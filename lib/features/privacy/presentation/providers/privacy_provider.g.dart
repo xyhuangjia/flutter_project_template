@@ -7,7 +7,7 @@ part of 'privacy_provider.dart';
 // **************************************************************************
 
 String _$privacyLocalDataSourceHash() =>
-    r'7884a6af6e86b64ee29abb6afe61cf303f4f91be';
+    r'a1232ea09c31aca2f5f50b757929ac7e2a0c75bf';
 
 /// Privacy local data source provider.
 ///
@@ -69,14 +69,17 @@ final privacyRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef PrivacyRepositoryRef = AutoDisposeProviderRef<PrivacyRepository>;
-String _$privacyNotifierHash() => r'a37020977251a545d16eb4ae40f5f1e70b8960d2';
+String _$privacyNotifierHash() => r'748f726546da5c36acecad0508f65d774c57271d';
 
 /// Privacy state notifier provider.
+///
+/// Manages the privacy state.
+/// Uses keepAlive to prevent auto-dispose during navigation.
 ///
 /// Copied from [PrivacyNotifier].
 @ProviderFor(PrivacyNotifier)
 final privacyNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<PrivacyNotifier, PrivacyState>.internal(
+    AsyncNotifierProvider<PrivacyNotifier, PrivacyState>.internal(
   PrivacyNotifier.new,
   name: r'privacyNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -86,6 +89,6 @@ final privacyNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$PrivacyNotifier = AutoDisposeAsyncNotifier<PrivacyState>;
+typedef _$PrivacyNotifier = AsyncNotifier<PrivacyState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
