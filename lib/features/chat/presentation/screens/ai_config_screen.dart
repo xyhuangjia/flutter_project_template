@@ -56,7 +56,8 @@ class AIConfigScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddConfigDialog(context, ref, localizations, isDark),
+        onPressed: () =>
+            _showAddConfigDialog(context, ref, localizations, isDark),
         backgroundColor: const Color(0xFF8B5CF6),
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -162,7 +163,8 @@ class AIConfigScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
             ),
             child: Row(
               children: [
@@ -180,7 +182,8 @@ class AIConfigScreen extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: isDark ? Colors.white : const Color(0xFF1E293B),
+                          color:
+                              isDark ? Colors.white : const Color(0xFF1E293B),
                         ),
                       ),
                       Text(
@@ -197,7 +200,8 @@ class AIConfigScreen extends ConsumerWidget {
                 ),
                 if (isDefault)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: const Color(0xFF8B5CF6),
                       borderRadius: BorderRadius.circular(12),
@@ -336,14 +340,17 @@ class AIConfigScreen extends ConsumerWidget {
             child: Text(
               localizations.cancel,
               style: TextStyle(
-                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                color:
+                    isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
               ),
             ),
           ),
           FilledButton(
             onPressed: () async {
               Navigator.pop(dialogContext);
-              await ref.read(aIConfigNotifierProvider.notifier).deleteConfig(config.id);
+              await ref
+                  .read(aIConfigNotifierProvider.notifier)
+                  .deleteConfig(config.id);
             },
             style: FilledButton.styleFrom(
               backgroundColor: Colors.red,
@@ -566,12 +573,14 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, color: Colors.red.shade700, size: 20),
+                    Icon(Icons.error_outline,
+                        color: Colors.red.shade700, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _error!,
-                        style: TextStyle(color: Colors.red.shade700, fontSize: 14),
+                        style:
+                            TextStyle(color: Colors.red.shade700, fontSize: 14),
                       ),
                     ),
                   ],
@@ -626,9 +635,8 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
             }
           },
           selectedColor: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
-          backgroundColor: widget.isDark
-              ? const Color(0xFF0F172A)
-              : Colors.grey.shade100,
+          backgroundColor:
+              widget.isDark ? const Color(0xFF0F172A) : Colors.grey.shade100,
           labelStyle: TextStyle(
             color: isSelected
                 ? const Color(0xFF8B5CF6)
@@ -658,8 +666,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
         child: DropdownButton<String>(
           value: _selectedModel,
           isExpanded: true,
-          dropdownColor:
-              widget.isDark ? const Color(0xFF1E293B) : Colors.white,
+          dropdownColor: widget.isDark ? const Color(0xFF1E293B) : Colors.white,
           items: providerInfo.models.map((model) {
             return DropdownMenuItem(
               value: model.id,
@@ -721,13 +728,14 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
     });
 
     try {
-      final config = await ref.read(aIConfigNotifierProvider.notifier).addConfig(
-            name: name,
-            provider: _selectedProvider,
-            model: _selectedModel,
-            apiKey: apiKey,
-            isDefault: true,
-          );
+      final config =
+          await ref.read(aIConfigNotifierProvider.notifier).addConfig(
+                name: name,
+                provider: _selectedProvider,
+                model: _selectedModel,
+                apiKey: apiKey,
+                isDefault: true,
+              );
 
       if (config != null) {
         if (mounted) {

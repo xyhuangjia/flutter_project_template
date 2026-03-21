@@ -29,8 +29,9 @@ class DeveloperOptionsDto {
       networkLogEnabled: entity.networkLogEnabled,
       performanceMonitorEnabled: entity.performanceMonitorEnabled,
       showDebugInfo: entity.showDebugInfo,
-      experimentalFeatures: Map<String, dynamic>.from(entity.experimentalFeatures)
-          .map((key, value) => MapEntry(key, value as bool)),
+      experimentalFeatures:
+          Map<String, dynamic>.from(entity.experimentalFeatures)
+              .map((key, value) => MapEntry(key, value as bool)),
     );
   }
 

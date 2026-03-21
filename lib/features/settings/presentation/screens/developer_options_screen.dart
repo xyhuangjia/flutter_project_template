@@ -1,10 +1,11 @@
-/// Developer options screen for advanced settings.
+/// Developer options screen with Chinese app style design.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/config/environment.dart';
 import 'package:flutter_project_template/core/config/environment_provider.dart';
-import 'package:flutter_project_template/features/settings/domain/entities/developer_options.dart' as dev;
+import 'package:flutter_project_template/features/settings/domain/entities/developer_options.dart'
+    as dev;
 import 'package:flutter_project_template/features/settings/presentation/providers/developer_options_provider.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -20,246 +21,394 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final optionsAsync = ref.watch(developerOptionsNotifierProvider);
     final currentEnv = ref.watch(environmentProvider);
 
     return Scaffold(
+      backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
         title: Text(localizations.developerOptions),
       ),
       body: optionsAsync.when(
-        data: (options) => _buildContent(
-          context,
-          ref,
-          localizations,
-          theme,
-          options,
-          currentEnv,
+        data: (options) => _DeveloperOptionsContent(
+          localizations: localizations,
+          theme: theme,
+          colorScheme: colorScheme,
+          options: options,
+          currentEnv: currentEnv,
+          ref: ref,
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('${localizations.error}: $error'),
+        loading: () => _LoadingState(
+          localizations: localizations,
+          colorScheme: colorScheme,
+        ),
+        error: (error, stack) => _ErrorState(
+          error: error,
+          localizations: localizations,
+          colorScheme: colorScheme,
         ),
       ),
     );
   }
+}
 
-  Widget _buildContent(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations localizations,
-    ThemeData theme,
-    dev.DeveloperOptions options,
-    EnvironmentConfig currentEnv,
-  ) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Environment section
-          SettingsSectionHeader(title: localizations.environmentSection),
-          _buildEnvironmentTile(
-            context,
-            ref,
-            localizations,
-            theme,
-            currentEnv,
+/// Loading state widget.
+class _LoadingState extends StatelessWidget {
+  const _LoadingState({
+    required this.localizations,
+    required this.colorScheme,
+  });
+
+  final AppLocalizations localizations;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(color: colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(localizations.loading),
+          ],
+        ),
+      );
+}
+
+/// Error state widget.
+class _ErrorState extends StatelessWidget {
+  const _ErrorState({
+    required this.error,
+    required this.localizations,
+    required this.colorScheme,
+  });
+
+  final Object error;
+  final AppLocalizations localizations;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: colorScheme.error,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                localizations.error,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                error.toString(),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.customApiUrl,
-            subtitle: options.customApiBaseUrl ?? localizations.useDefault,
-            leading: const Icon(Icons.dns_outlined),
-            onTap: () => _showApiUrlDialog(
-              context,
-              ref,
-              localizations,
-              options.customApiBaseUrl,
+        ),
+      );
+}
+
+/// Developer options content widget.
+class _DeveloperOptionsContent extends StatelessWidget {
+  const _DeveloperOptionsContent({
+    required this.localizations,
+    required this.theme,
+    required this.colorScheme,
+    required this.options,
+    required this.currentEnv,
+    required this.ref,
+  });
+
+  final AppLocalizations localizations;
+  final ThemeData theme;
+  final ColorScheme colorScheme;
+  final dev.DeveloperOptions options;
+  final EnvironmentConfig currentEnv;
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) => SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Environment section
+            _SectionTitle(
+              title: localizations.environmentSection,
+              colorScheme: colorScheme,
             ),
-          ),
-          const SizedBox(height: 24),
-
-          // Logging section
-          SettingsSectionHeader(title: localizations.loggingSection),
-          SettingsTile(
-            title: localizations.enableLogging,
-            leading: const Icon(Icons.article_outlined),
-            trailing: Switch(
-              value: options.loggingEnabled,
-              onChanged: (value) {
-                ref
-                    .read(developerOptionsNotifierProvider.notifier)
-                    .updateLoggingEnabled(value);
-              },
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.currentEnvironment,
+                  subtitle: _getEnvironmentName(
+                    currentEnv.type,
+                    localizations,
+                  ),
+                  icon: Icons.cloud_outlined,
+                  iconColor: const Color(0xFF0EA5E9),
+                  iconBgColor: const Color(0xFFF0F9FF),
+                  onTap: () => _showEnvironmentDialog(
+                    context,
+                    ref,
+                    localizations,
+                    currentEnv.type,
+                  ),
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.customApiUrl,
+                  subtitle:
+                      options.customApiBaseUrl ?? localizations.useDefault,
+                  icon: Icons.dns_outlined,
+                  iconColor: const Color(0xFF8B5CF6),
+                  iconBgColor: const Color(0xFFF5F3FF),
+                  onTap: () => _showApiUrlDialog(
+                    context,
+                    ref,
+                    localizations,
+                    options.customApiBaseUrl,
+                  ),
+                ),
+              ],
             ),
-            showChevron: false,
-          ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.logLevel,
-            subtitle: _getLogLevelName(options.logLevel, localizations),
-            leading: const Icon(Icons.filter_list),
-            onTap: () => _showLogLevelDialog(
-              context,
-              ref,
-              localizations,
-              options.logLevel,
+            const SizedBox(height: 16),
+
+            // Logging section
+            _SectionTitle(
+              title: localizations.loggingSection,
+              colorScheme: colorScheme,
             ),
-          ),
-          const SizedBox(height: 24),
-
-          // Debug tools section
-          SettingsSectionHeader(title: localizations.debugTools),
-          SettingsTile(
-            title: localizations.networkLogging,
-            subtitle: localizations.networkLoggingDescription,
-            leading: const Icon(Icons.network_check),
-            trailing: Switch(
-              value: options.networkLogEnabled,
-              onChanged: (value) {
-                ref
-                    .read(developerOptionsNotifierProvider.notifier)
-                    .updateNetworkLogEnabled(value);
-              },
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.enableLogging,
+                  icon: Icons.article_outlined,
+                  iconColor: const Color(0xFF14B8A6),
+                  iconBgColor: const Color(0xFFF0FDFA),
+                  trailing: Switch(
+                    value: options.loggingEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(developerOptionsNotifierProvider.notifier)
+                          .updateLoggingEnabled(value);
+                    },
+                  ),
+                  showChevron: false,
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.logLevel,
+                  subtitle: _getLogLevelName(
+                    options.logLevel,
+                    localizations,
+                  ),
+                  icon: Icons.filter_list,
+                  iconColor: const Color(0xFFF97316),
+                  iconBgColor: const Color(0xFFFFF7ED),
+                  onTap: () => _showLogLevelDialog(
+                    context,
+                    ref,
+                    localizations,
+                    options.logLevel,
+                  ),
+                ),
+              ],
             ),
-            showChevron: false,
-          ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.performanceMonitor,
-            subtitle: localizations.performanceMonitorDescription,
-            leading: const Icon(Icons.speed),
-            trailing: Switch(
-              value: options.performanceMonitorEnabled,
-              onChanged: (value) {
-                ref
-                    .read(developerOptionsNotifierProvider.notifier)
-                    .updatePerformanceMonitorEnabled(value);
-              },
+            const SizedBox(height: 16),
+
+            // Debug tools section
+            _SectionTitle(
+              title: localizations.debugTools,
+              colorScheme: colorScheme,
             ),
-            showChevron: false,
-          ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.showDebugInfo,
-            subtitle: localizations.showDebugInfoDescription,
-            leading: const Icon(Icons.info_outline),
-            trailing: Switch(
-              value: options.showDebugInfo,
-              onChanged: (value) {
-                ref
-                    .read(developerOptionsNotifierProvider.notifier)
-                    .updateShowDebugInfo(value);
-              },
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.networkLogging,
+                  subtitle: localizations.networkLoggingDescription,
+                  icon: Icons.network_check,
+                  iconColor: const Color(0xFF3B82F6),
+                  iconBgColor: const Color(0xFFEBF5FF),
+                  trailing: Switch(
+                    value: options.networkLogEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(developerOptionsNotifierProvider.notifier)
+                          .updateNetworkLogEnabled(value);
+                    },
+                  ),
+                  showChevron: false,
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.performanceMonitor,
+                  subtitle: localizations.performanceMonitorDescription,
+                  icon: Icons.speed,
+                  iconColor: const Color(0xFFEC4899),
+                  iconBgColor: const Color(0xFFFDF2F8),
+                  trailing: Switch(
+                    value: options.performanceMonitorEnabled,
+                    onChanged: (value) {
+                      ref
+                          .read(developerOptionsNotifierProvider.notifier)
+                          .updatePerformanceMonitorEnabled(value);
+                    },
+                  ),
+                  showChevron: false,
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.showDebugInfo,
+                  subtitle: localizations.showDebugInfoDescription,
+                  icon: Icons.info_outline,
+                  iconColor: const Color(0xFF64748B),
+                  iconBgColor: const Color(0xFFF1F5F9),
+                  trailing: Switch(
+                    value: options.showDebugInfo,
+                    onChanged: (value) {
+                      ref
+                          .read(developerOptionsNotifierProvider.notifier)
+                          .updateShowDebugInfo(value);
+                    },
+                  ),
+                  showChevron: false,
+                ),
+              ],
             ),
-            showChevron: false,
-          ),
-          const SizedBox(height: 24),
+            const SizedBox(height: 16),
 
-          // Cache & Data section
-          SettingsSectionHeader(title: localizations.cacheAndData),
-          SettingsTile(
-            title: localizations.clearCache,
-            subtitle: localizations.clearCacheDescription,
-            leading: const Icon(Icons.cleaning_services_outlined),
-            onTap: () => _confirmClearCache(context, ref, localizations),
-          ),
-          const SettingsDivider(),
-          SettingsTile(
-            title: localizations.clearDatabase,
-            subtitle: localizations.clearDatabaseDescription,
-            leading: Icon(
-              Icons.delete_forever_outlined,
-              color: theme.colorScheme.error,
+            // Cache & Data section
+            _SectionTitle(
+              title: localizations.cacheAndData,
+              colorScheme: colorScheme,
             ),
-            titleColor: theme.colorScheme.error,
-            onTap: () => _confirmClearDatabase(context, ref, localizations, theme),
-          ),
-          const SizedBox(height: 24),
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.clearCache,
+                  subtitle: localizations.clearCacheDescription,
+                  icon: Icons.cleaning_services_outlined,
+                  iconColor: const Color(0xFF14B8A6),
+                  iconBgColor: const Color(0xFFF0FDFA),
+                  onTap: () => _confirmClearCache(context, ref, localizations),
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.clearDatabase,
+                  subtitle: localizations.clearDatabaseDescription,
+                  icon: Icons.delete_forever_outlined,
+                  iconColor: colorScheme.error,
+                  iconBgColor: colorScheme.errorContainer,
+                  titleColor: colorScheme.error,
+                  onTap: () => _confirmClearDatabase(
+                    context,
+                    ref,
+                    localizations,
+                    theme,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
 
-          // Reset section
-          SettingsSectionHeader(title: localizations.resetOptions),
-          SettingsTile(
-            title: localizations.resetToDefaults,
-            subtitle: localizations.resetToDefaultsDescription,
-            leading: const Icon(Icons.restore),
-            onTap: () => _confirmResetToDefaults(context, ref, localizations),
-          ),
-          const SizedBox(height: 32),
-        ],
-      ),
-    );
-  }
+            // Reset section
+            _SectionTitle(
+              title: localizations.resetOptions,
+              colorScheme: colorScheme,
+            ),
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.resetToDefaults,
+                  subtitle: localizations.resetToDefaultsDescription,
+                  icon: Icons.restore,
+                  iconColor: const Color(0xFF0EA5E9),
+                  iconBgColor: const Color(0xFFF0F9FF),
+                  onTap: () =>
+                      _confirmResetToDefaults(context, ref, localizations),
+                ),
+              ],
+            ),
 
-  Widget _buildEnvironmentTile(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations localizations,
-    ThemeData theme,
-    EnvironmentConfig currentEnv,
-  ) {
-    return SettingsTile(
-      title: localizations.currentEnvironment,
-      subtitle: _getEnvironmentName(currentEnv.type, localizations),
-      leading: const Icon(Icons.cloud_outlined),
-      onTap: () => _showEnvironmentDialog(
-        context,
-        ref,
-        localizations,
-        currentEnv.type,
-      ),
-    );
-  }
+            // Bottom padding
+            const SizedBox(height: 32),
+          ],
+        ),
+      );
 
-  String _getEnvironmentName(EnvironmentType type, AppLocalizations localizations) {
-    return switch (type) {
-      EnvironmentType.development => localizations.environmentDevelopment,
-      EnvironmentType.staging => localizations.environmentStaging,
-      EnvironmentType.production => localizations.environmentProduction,
-    };
-  }
+  String _getEnvironmentName(
+    EnvironmentType type,
+    AppLocalizations loc,
+  ) =>
+      switch (type) {
+        EnvironmentType.development => loc.environmentDevelopment,
+        EnvironmentType.staging => loc.environmentStaging,
+        EnvironmentType.production => loc.environmentProduction,
+      };
 
-  String _getLogLevelName(dev.LogLevel level, AppLocalizations localizations) {
-    return switch (level) {
-      dev.LogLevel.debug => localizations.logLevelDebug,
-      dev.LogLevel.info => localizations.logLevelInfo,
-      dev.LogLevel.warning => localizations.logLevelWarning,
-      dev.LogLevel.error => localizations.logLevelError,
-      dev.LogLevel.none => localizations.logLevelNone,
-    };
-  }
+  String _getLogLevelName(dev.LogLevel level, AppLocalizations loc) =>
+      switch (level) {
+        dev.LogLevel.debug => loc.logLevelDebug,
+        dev.LogLevel.info => loc.logLevelInfo,
+        dev.LogLevel.warning => loc.logLevelWarning,
+        dev.LogLevel.error => loc.logLevelError,
+        dev.LogLevel.none => loc.logLevelNone,
+      };
 
   void _showEnvironmentDialog(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
     EnvironmentType currentType,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.selectEnvironment),
+        title: Text(loc.selectEnvironment),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildEnvironmentOption(
               dialogContext,
               ref,
-              localizations,
+              loc,
               EnvironmentType.development,
               currentType,
             ),
             _buildEnvironmentOption(
               dialogContext,
               ref,
-              localizations,
+              loc,
               EnvironmentType.staging,
               currentType,
             ),
             _buildEnvironmentOption(
               dialogContext,
               ref,
-              localizations,
+              loc,
               EnvironmentType.production,
               currentType,
             ),
@@ -272,20 +421,20 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   Widget _buildEnvironmentOption(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
     EnvironmentType type,
     EnvironmentType currentType,
   ) {
     final isSelected = type == currentType;
     return RadioListTile<EnvironmentType>(
-      title: Text(_getEnvironmentName(type, localizations)),
+      title: Text(_getEnvironmentName(type, loc)),
       value: type,
       groupValue: currentType,
       selected: isSelected,
       onChanged: (value) {
         Navigator.of(context).pop();
         if (value != null && value != currentType) {
-          _showEnvironmentChangeDialog(context, ref, localizations, value);
+          _showEnvironmentChangeDialog(context, ref, loc, value);
         }
       },
     );
@@ -294,18 +443,18 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   void _showEnvironmentChangeDialog(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
     EnvironmentType newEnvironment,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.restartRequired),
-        content: Text(localizations.restartRequiredMessage),
+        title: Text(loc.restartRequired),
+        content: Text(loc.restartRequiredMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.restartLater),
+            child: Text(loc.restartLater),
           ),
           FilledButton(
             onPressed: () async {
@@ -316,11 +465,11 @@ class DeveloperOptionsScreen extends ConsumerWidget {
               if (context.mounted) {
                 DialogUtil.showSuccessDialog(
                   context,
-                  localizations.saveSuccess,
+                  loc.saveSuccess,
                 );
               }
             },
-            child: Text(localizations.restartNow),
+            child: Text(loc.restartNow),
           ),
         ],
       ),
@@ -330,18 +479,18 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   void _showApiUrlDialog(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
     String? currentUrl,
   ) {
     final controller = TextEditingController(text: currentUrl ?? '');
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.customApiUrl),
+        title: Text(loc.customApiUrl),
         content: TextField(
           controller: controller,
           decoration: InputDecoration(
-            hintText: localizations.apiBaseUrlHint,
+            hintText: loc.apiBaseUrlHint,
             border: const OutlineInputBorder(),
           ),
           keyboardType: TextInputType.url,
@@ -349,7 +498,7 @@ class DeveloperOptionsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.cancel),
+            child: Text(loc.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -359,11 +508,11 @@ class DeveloperOptionsScreen extends ConsumerWidget {
                   .updateCustomApiBaseUrl(null);
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(localizations.saveSuccess)),
+                  SnackBar(content: Text(loc.saveSuccess)),
                 );
               }
             },
-            child: Text(localizations.resetToDefault),
+            child: Text(loc.resetToDefault),
           ),
           FilledButton(
             onPressed: () async {
@@ -375,12 +524,12 @@ class DeveloperOptionsScreen extends ConsumerWidget {
                     .updateCustomApiBaseUrl(url);
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(localizations.saveSuccess)),
+                    SnackBar(content: Text(loc.saveSuccess)),
                   );
                 }
               }
             },
-            child: Text(localizations.save),
+            child: Text(loc.save),
           ),
         ],
       ),
@@ -390,18 +539,18 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   void _showLogLevelDialog(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
     dev.LogLevel currentLevel,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.logLevel),
+        title: Text(loc.logLevel),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: dev.LogLevel.values.map((level) {
             return RadioListTile<dev.LogLevel>(
-              title: Text(_getLogLevelName(level, localizations)),
+              title: Text(_getLogLevelName(level, loc)),
               value: level,
               groupValue: currentLevel,
               selected: level == currentLevel,
@@ -423,17 +572,17 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   void _confirmClearCache(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.clearCache),
-        content: Text(localizations.clearCacheConfirm),
+        title: Text(loc.clearCache),
+        content: Text(loc.clearCacheConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.cancel),
+            child: Text(loc.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -445,15 +594,13 @@ class DeveloperOptionsScreen extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      success
-                          ? localizations.cacheCleared
-                          : localizations.operationFailed,
+                      success ? loc.cacheCleared : loc.operationFailed,
                     ),
                   ),
                 );
               }
             },
-            child: Text(localizations.confirm),
+            child: Text(loc.confirm),
           ),
         ],
       ),
@@ -463,21 +610,21 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   void _confirmClearDatabase(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
     ThemeData theme,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(
-          localizations.clearDatabase,
+          loc.clearDatabase,
           style: TextStyle(color: theme.colorScheme.error),
         ),
-        content: Text(localizations.clearDatabaseConfirm),
+        content: Text(loc.clearDatabaseConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.cancel),
+            child: Text(loc.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -492,15 +639,13 @@ class DeveloperOptionsScreen extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      success
-                          ? localizations.databaseCleared
-                          : localizations.operationFailed,
+                      success ? loc.databaseCleared : loc.operationFailed,
                     ),
                   ),
                 );
               }
             },
-            child: Text(localizations.confirm),
+            child: Text(loc.confirm),
           ),
         ],
       ),
@@ -510,17 +655,17 @@ class DeveloperOptionsScreen extends ConsumerWidget {
   void _confirmResetToDefaults(
     BuildContext context,
     WidgetRef ref,
-    AppLocalizations localizations,
+    AppLocalizations loc,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(localizations.resetToDefaults),
-        content: Text(localizations.resetToDefaultsConfirm),
+        title: Text(loc.resetToDefaults),
+        content: Text(loc.resetToDefaultsConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.cancel),
+            child: Text(loc.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -532,18 +677,96 @@ class DeveloperOptionsScreen extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      success
-                          ? localizations.optionsReset
-                          : localizations.operationFailed,
+                      success ? loc.optionsReset : loc.operationFailed,
                     ),
                   ),
                 );
               }
             },
-            child: Text(localizations.confirm),
+            child: Text(loc.confirm),
           ),
         ],
       ),
     );
   }
+}
+
+/// Section title widget with accent bar.
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({
+    required this.title,
+    required this.colorScheme,
+  });
+
+  final String title;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Container(
+            width: 4,
+            height: 18,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
+      );
+}
+
+/// Settings card with rounded corners and shadow.
+class _SettingsCard extends StatelessWidget {
+  const _SettingsCard({
+    required this.colorScheme,
+    required this.children,
+  });
+
+  final ColorScheme colorScheme;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: children,
+        ),
+      );
+}
+
+/// Settings divider widget.
+class _SettingsDivider extends StatelessWidget {
+  const _SettingsDivider({
+    required this.colorScheme,
+  });
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 60),
+        child: Divider(
+          height: 1,
+          color: colorScheme.surfaceContainerHighest,
+        ),
+      );
 }

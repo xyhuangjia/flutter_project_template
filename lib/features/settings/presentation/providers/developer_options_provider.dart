@@ -2,7 +2,6 @@
 library;
 
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
-import 'package:flutter_project_template/core/storage/database.dart';
 import 'package:flutter_project_template/features/settings/data/datasources/developer_options_local_data_source.dart';
 import 'package:flutter_project_template/features/settings/data/repositories/developer_options_repository_impl.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/developer_options.dart';

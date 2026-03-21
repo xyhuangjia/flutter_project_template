@@ -1073,4 +1073,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get operationFailed => 'Operation failed. Please try again.';
+
+  @override
+  String get modulesIntro => 'Available Modules';
+
+  @override
+  String get moduleAuthTitle => 'Authentication';
+
+  @override
+  String get moduleAuthDescription =>
+      'Complete authentication flow with social login support, including login, registration, and account management features.';
+
+  @override
+  String get moduleChatTitle => 'AI Chat';
+
+  @override
+  String get moduleChatDescription =>
+      'AI-powered chat module with OpenAI and Claude integration, supporting conversation history and multi-model configuration.';
+
+  @override
+  String get moduleSettingsTitle => 'Settings';
+
+  @override
+  String get moduleSettingsDescription =>
+      'Comprehensive settings management including theme, language, notifications, and developer options.';
+
+  @override
+  String get modulePrivacyTitle => 'Privacy';
+
+  @override
+  String get modulePrivacyDescription =>
+      'Privacy and security management with consent tracking, permission control, and account deletion features.';
+
+  @override
+  String get moduleWebViewTitle => 'WebView';
+
+  @override
+  String get moduleWebViewDescription =>
+      'Full-featured WebView component with JavaScript bridge, custom navigation, and file download support.';
+
+  @override
+  String get moduleMore => 'More';
+
+  @override
+  String get searchHint => 'Search';
 }

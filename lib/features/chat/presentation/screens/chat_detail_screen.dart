@@ -65,7 +65,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           error: (_, __) => null,
         );
     final isTyping = ref.watch(isTypingProvider);
-    final aiConfig = ref.watch(aIConfigNotifierProvider).valueOrNull?.defaultConfig;
+    final aiConfig =
+        ref.watch(aIConfigNotifierProvider).valueOrNull?.defaultConfig;
 
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
@@ -86,7 +87,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 aiConfig.name,
                 style: TextStyle(
                   fontSize: 12,
-                  color: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                  color: isDark
+                      ? const Color(0xFF64748B)
+                      : const Color(0xFF94A3B8),
                 ),
               ),
           ],
@@ -115,7 +118,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           Expanded(
             child: conversation == null
                 ? const Center(child: CircularProgressIndicator())
-                : _buildMessagesList(conversation, isDark, localizations, isTyping),
+                : _buildMessagesList(
+                    conversation, isDark, localizations, isTyping),
           ),
           if (aiConfig == null)
             _buildNoConfigBanner(context, localizations, isDark),
@@ -398,7 +402,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
 
     try {
-      final markdown = await chatNotifier.exportConversation(widget.conversationId);
+      final markdown =
+          await chatNotifier.exportConversation(widget.conversationId);
       await Share.share(markdown, subject: localizations.exportChat);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

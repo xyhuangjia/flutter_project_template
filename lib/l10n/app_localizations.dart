@@ -2125,6 +2125,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Operation failed. Please try again.'**
   String get operationFailed;
+
+  /// Modules introduction section title
+  ///
+  /// In en, this message translates to:
+  /// **'Available Modules'**
+  String get modulesIntro;
+
+  /// Auth module title
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication'**
+  String get moduleAuthTitle;
+
+  /// Auth module description
+  ///
+  /// In en, this message translates to:
+  /// **'Complete authentication flow with social login support, including login, registration, and account management features.'**
+  String get moduleAuthDescription;
+
+  /// Chat module title
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat'**
+  String get moduleChatTitle;
+
+  /// Chat module description
+  ///
+  /// In en, this message translates to:
+  /// **'AI-powered chat module with OpenAI and Claude integration, supporting conversation history and multi-model configuration.'**
+  String get moduleChatDescription;
+
+  /// Settings module title
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get moduleSettingsTitle;
+
+  /// Settings module description
+  ///
+  /// In en, this message translates to:
+  /// **'Comprehensive settings management including theme, language, notifications, and developer options.'**
+  String get moduleSettingsDescription;
+
+  /// Privacy module title
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get modulePrivacyTitle;
+
+  /// Privacy module description
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy and security management with consent tracking, permission control, and account deletion features.'**
+  String get modulePrivacyDescription;
+
+  /// WebView module title
+  ///
+  /// In en, this message translates to:
+  /// **'WebView'**
+  String get moduleWebViewTitle;
+
+  /// WebView module description
+  ///
+  /// In en, this message translates to:
+  /// **'Full-featured WebView component with JavaScript bridge, custom navigation, and file download support.'**
+  String get moduleWebViewDescription;
+
+  /// More modules placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get moduleMore;
+
+  /// Search hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchHint;
 }
 
 class _AppLocalizationsDelegate

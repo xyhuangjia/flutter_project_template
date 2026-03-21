@@ -180,7 +180,8 @@ void main() {
           email: 'test@example.com',
           username: 'testuser',
         );
-        const state = AuthState.authenticated(user: user, token: 'secret-token');
+        const state =
+            AuthState.authenticated(user: user, token: 'secret-token');
 
         // Act
         final string = state.toString();

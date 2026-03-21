@@ -21,6 +21,17 @@ This directory contains guidelines for frontend development. Fill in each file w
 | [Quality Guidelines](./quality-guidelines.md) | Lint rules, testing, code review standards | ✅ Filled |
 | [Type Safety](./type-safety.md) | json_serializable, Drift, retrofit patterns | ✅ Filled |
 | [i18n Guidelines](./i18n-guidelines.md) | Internationalization, ARB files, locale management | ✅ Filled |
+| [Chinese App Style](./chinese-app-style.md) | **UI design style for Chinese apps, MUST READ before UI work** | ✅ Filled |
+
+---
+
+## Pre-Development Checklist
+
+**Before starting any UI/Screen development**, read these documents:
+
+1. **[Chinese App Style](./chinese-app-style.md)** - Design style and patterns
+2. [Component Guidelines](./component-guidelines.md) - Widget patterns
+3. [State Management](./state-management.md) - Riverpod patterns
 
 ---
 

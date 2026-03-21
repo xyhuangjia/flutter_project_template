@@ -1045,4 +1045,45 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get operationFailed => '操作失败，请重试。';
+
+  @override
+  String get modulesIntro => '可用模块';
+
+  @override
+  String get moduleAuthTitle => '认证模块';
+
+  @override
+  String get moduleAuthDescription => '完整的认证流程，支持社交登录，包括登录、注册和账户管理功能。';
+
+  @override
+  String get moduleChatTitle => 'AI 聊天模块';
+
+  @override
+  String get moduleChatDescription =>
+      'AI 驱动的聊天模块，集成 OpenAI 和 Claude，支持对话历史和多模型配置。';
+
+  @override
+  String get moduleSettingsTitle => '设置模块';
+
+  @override
+  String get moduleSettingsDescription => '完善的设置管理，包括主题、语言、通知和开发者选项。';
+
+  @override
+  String get modulePrivacyTitle => '隐私模块';
+
+  @override
+  String get modulePrivacyDescription => '隐私和安全管理，支持协议追踪、权限控制和账号注销功能。';
+
+  @override
+  String get moduleWebViewTitle => '网页浏览模块';
+
+  @override
+  String get moduleWebViewDescription =>
+      '功能完整的 WebView 组件，支持 JavaScript 桥接、自定义导航和文件下载。';
+
+  @override
+  String get moduleMore => '更多';
+
+  @override
+  String get searchHint => '搜索';
 }

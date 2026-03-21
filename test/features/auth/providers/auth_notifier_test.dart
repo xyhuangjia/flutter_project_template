@@ -317,7 +317,8 @@ void main() {
 
     test('verifyEmailCode should return false on failure', () async {
       // Arrange
-      fakeRepository.setupFailedLogin(const AuthFailure(message: 'Invalid code'));
+      fakeRepository
+          .setupFailedLogin(const AuthFailure(message: 'Invalid code'));
 
       // Act
       final success = await authNotifier.verifyEmailCode(

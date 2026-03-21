@@ -131,7 +131,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 32),
               _buildStepContent(
-                context, state, localizations, theme, colorScheme,
+                context,
+                state,
+                localizations,
+                theme,
+                colorScheme,
               ),
               const SizedBox(height: 24),
             ],
@@ -226,7 +230,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     }
   }
 
-  String _getAppBarTitle(ForgotPasswordStep step, AppLocalizations localizations) {
+  String _getAppBarTitle(
+      ForgotPasswordStep step, AppLocalizations localizations) {
     return switch (step) {
       ForgotPasswordStep.enterAccount => localizations.forgotPasswordTitle,
       ForgotPasswordStep.enterCode => localizations.enterVerificationCode,

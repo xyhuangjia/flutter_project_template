@@ -31,8 +31,8 @@ class EnvironmentOption {
 class EnvironmentSelector extends ConsumerWidget {
   /// Creates an environment selector.
   const EnvironmentSelector({
-    super.key,
     required this.onEnvironmentChanged,
+    super.key,
     this.currentEnvironment,
     this.environments = const [
       EnvironmentOption(

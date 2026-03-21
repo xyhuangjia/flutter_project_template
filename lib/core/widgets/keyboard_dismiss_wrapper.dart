@@ -35,9 +35,7 @@ class KeyboardDismissWrapper extends ConsumerWidget {
     final isEnabled = ref.watch(keyboardDismissControllerProvider);
 
     return Listener(
-      onPointerDown: isEnabled
-          ? (_) => FocusScope.of(context).unfocus()
-          : null,
+      onPointerDown: isEnabled ? (_) => FocusScope.of(context).unfocus() : null,
       child: child,
     );
   }

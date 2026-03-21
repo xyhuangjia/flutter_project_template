@@ -1,4 +1,4 @@
-/// Profile screen for user information management.
+/// Profile screen with Chinese app style design.
 library;
 
 import 'dart:io';
@@ -261,6 +261,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final authState = ref.watch(authNotifierProvider);
 
     return Scaffold(
+      backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
         title: Text(localizations.profile),
         actions: [
@@ -272,107 +273,227 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       ),
       body: authState.when(
-        data: (state) => _buildContent(
-          context,
-          localizations,
-          colorScheme,
-          state,
+        data: (state) => _ProfileContent(
+          localizations: localizations,
+          colorScheme: colorScheme,
+          authState: state,
+          avatarPath: _avatarPath,
+          onAvatarTap: _showAvatarOptions,
+          onNicknameTap: _showNicknameDialog,
+          onPhoneTap: _showPhoneDialog,
+          onGenderTap: _showGenderDialog,
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) =>
-            Center(child: Text('${localizations.error}: $error')),
+        loading: () => _LoadingState(colorScheme: colorScheme),
+        error: (error, _) => _ErrorState(
+          localizations: localizations,
+          colorScheme: colorScheme,
+          error: error,
+        ),
       ),
     );
   }
+}
 
-  Widget _buildContent(
-    BuildContext context,
-    AppLocalizations localizations,
-    ColorScheme colorScheme,
-    AuthState authState,
-  ) {
+/// Loading state widget.
+class _LoadingState extends StatelessWidget {
+  const _LoadingState({
+    required this.colorScheme,
+  });
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: CircularProgressIndicator(color: colorScheme.primary),
+      );
+}
+
+/// Error state widget.
+class _ErrorState extends StatelessWidget {
+  const _ErrorState({
+    required this.localizations,
+    required this.colorScheme,
+    required this.error,
+  });
+
+  final AppLocalizations localizations;
+  final ColorScheme colorScheme;
+  final Object error;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: colorScheme.error,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '${localizations.error}: $error',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+}
+
+/// Profile content widget.
+class _ProfileContent extends StatelessWidget {
+  const _ProfileContent({
+    required this.localizations,
+    required this.colorScheme,
+    required this.authState,
+    required this.avatarPath,
+    required this.onAvatarTap,
+    required this.onNicknameTap,
+    required this.onPhoneTap,
+    required this.onGenderTap,
+  });
+
+  final AppLocalizations localizations;
+  final ColorScheme colorScheme;
+  final AuthState authState;
+  final String? avatarPath;
+  final VoidCallback onAvatarTap;
+  final void Function(User) onNicknameTap;
+  final void Function(User) onPhoneTap;
+  final void Function(User) onGenderTap;
+
+  @override
+  Widget build(BuildContext context) {
     final user = authState.user;
 
     if (user == null) {
-      return _buildNotLoggedInState(context, localizations, colorScheme);
+      return _NotLoggedInState(
+        localizations: localizations,
+        colorScheme: colorScheme,
+      );
     }
 
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // Avatar section
-          GestureDetector(
-            onTap: _showAvatarOptions,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 44,
-                    backgroundColor: colorScheme.primaryContainer,
-                    backgroundImage: _avatarPath != null
-                        ? FileImage(File(_avatarPath!))
-                        : (user.avatarUrl != null && user.avatarUrl!.isNotEmpty)
-                            ? NetworkImage(user.avatarUrl!) as ImageProvider
-                            : null,
-                    child: (_avatarPath == null &&
-                            (user.avatarUrl == null || user.avatarUrl!.isEmpty))
-                        ? Icon(
-                            Icons.person,
-                            size: 44,
-                            color: colorScheme.onPrimaryContainer,
-                          )
-                        : null,
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: colorScheme.primary,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: colorScheme.surface,
-                          width: 2,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 16,
-                        color: colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          // Avatar card
+          _AvatarCard(
+            user: user,
+            avatarPath: avatarPath,
+            colorScheme: colorScheme,
+            onTap: onAvatarTap,
           ),
-          // Info list
-          _buildInfoList(user, localizations, colorScheme),
+          const SizedBox(height: 16),
+
+          // Basic info section
+          _SectionTitle(
+            title: localizations.profile,
+            colorScheme: colorScheme,
+          ),
+          const SizedBox(height: 12),
+          _SettingsCard(
+            colorScheme: colorScheme,
+            children: [
+              _ProfileTile(
+                title: localizations.nickname,
+                value: user.displayName ?? user.username,
+                icon: Icons.person_outline,
+                iconColor: const Color(0xFF3B82F6),
+                iconBgColor: const Color(0xFFEBF5FF),
+                onTap: () => onNicknameTap(user),
+              ),
+              _SettingsDivider(colorScheme: colorScheme),
+              _ProfileTile(
+                title: localizations.phoneNumber,
+                value: user.phoneNumber ?? localizations.unspecified,
+                icon: Icons.phone_outlined,
+                iconColor: const Color(0xFF14B8A6),
+                iconBgColor: const Color(0xFFF0FDFA),
+                onTap: () => onPhoneTap(user),
+              ),
+              _SettingsDivider(colorScheme: colorScheme),
+              _ProfileTile(
+                title: localizations.gender,
+                value: _getGenderLabel(user.gender, localizations),
+                icon: Icons.wc_outlined,
+                iconColor: const Color(0xFFEC4899),
+                iconBgColor: const Color(0xFFFDF2F8),
+                onTap: () => onGenderTap(user),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Security section
+          _SectionTitle(
+            title: localizations.security,
+            colorScheme: colorScheme,
+          ),
+          const SizedBox(height: 12),
+          _SettingsCard(
+            colorScheme: colorScheme,
+            children: [
+              _ProfileTile(
+                title: localizations.changePassword,
+                value: '',
+                icon: Icons.lock_outline,
+                iconColor: const Color(0xFFF97316),
+                iconBgColor: const Color(0xFFFFF7ED),
+                onTap: () => context.push('/profile/change-password'),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 32),
         ],
       ),
     );
   }
 
-  Widget _buildNotLoggedInState(
-    BuildContext context,
-    AppLocalizations localizations,
-    ColorScheme colorScheme,
-  ) =>
-      Center(
+  String _getGenderLabel(UserGender gender, AppLocalizations loc) =>
+      switch (gender) {
+        UserGender.male => loc.male,
+        UserGender.female => loc.female,
+        UserGender.unspecified => loc.unspecified,
+      };
+}
+
+/// Not logged in state widget.
+class _NotLoggedInState extends StatelessWidget {
+  const _NotLoggedInState({
+    required this.localizations,
+    required this.colorScheme,
+  });
+
+  final AppLocalizations localizations;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.person_outline,
-              size: 64,
-              color: colorScheme.onSurfaceVariant,
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: colorScheme.primaryContainer,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.person_outline,
+                size: 48,
+                color: colorScheme.onPrimaryContainer,
+              ),
             ),
             const SizedBox(height: 16),
             Text(
               localizations.noAccount,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 24),
             FilledButton.icon(
@@ -383,100 +504,255 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ],
         ),
       );
+}
 
-  Widget _buildInfoList(
-    User user,
-    AppLocalizations localizations,
-    ColorScheme colorScheme,
-  ) =>
-      Column(
-        children: [
-          _buildEditableTile(
-            icon: Icons.person_outline,
-            label: localizations.nickname,
-            value: user.displayName ?? user.username,
-            colorScheme: colorScheme,
-            onTap: () => _showNicknameDialog(user),
-          ),
-          _buildDivider(),
-          _buildEditableTile(
-            icon: Icons.phone_outlined,
-            label: localizations.phoneNumber,
-            value: user.phoneNumber ?? localizations.unspecified,
-            colorScheme: colorScheme,
-            onTap: () => _showPhoneDialog(user),
-          ),
-          _buildDivider(),
-          _buildEditableTile(
-            icon: Icons.wc_outlined,
-            label: localizations.gender,
-            value: _getGenderLabel(user.gender, localizations),
-            colorScheme: colorScheme,
-            onTap: () => _showGenderDialog(user),
-          ),
-          _buildDivider(),
-          _buildEditableTile(
-            icon: Icons.lock_outline,
-            label: localizations.changePassword,
-            value: '',
-            colorScheme: colorScheme,
-            onTap: () => context.push('/profile/change-password'),
-          ),
-          _buildDivider(),
-        ],
-      );
+/// Avatar card widget.
+class _AvatarCard extends StatelessWidget {
+  const _AvatarCard({
+    required this.user,
+    required this.avatarPath,
+    required this.colorScheme,
+    required this.onTap,
+  });
 
-  Widget _buildEditableTile({
-    required IconData icon,
-    required String label,
-    required String value,
-    required ColorScheme colorScheme,
-    required VoidCallback onTap,
-  }) =>
-      InkWell(
-        onTap: onTap,
+  final User user;
+  final String? avatarPath;
+  final ColorScheme colorScheme;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
+          padding: const EdgeInsets.all(24),
+          child: Column(
             children: [
-              Icon(
-                icon,
-                size: 22,
-                color: colorScheme.primary,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              GestureDetector(
+                onTap: onTap,
+                child: Stack(
                   children: [
-                    Text(
-                      label,
-                      style: TextStyle(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                    CircleAvatar(
+                      radius: 44,
+                      backgroundColor: colorScheme.primaryContainer,
+                      backgroundImage: avatarPath != null
+                          ? FileImage(File(avatarPath!))
+                          : (user.avatarUrl != null &&
+                                  user.avatarUrl!.isNotEmpty)
+                              ? NetworkImage(user.avatarUrl!) as ImageProvider
+                              : null,
+                      child: (avatarPath == null &&
+                              (user.avatarUrl == null ||
+                                  user.avatarUrl!.isEmpty))
+                          ? Icon(
+                              Icons.person,
+                              size: 44,
+                              color: colorScheme.onPrimaryContainer,
+                            )
+                          : null,
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          value,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: colorScheme.surface,
+                            width: 2,
+                          ),
                         ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          Icons.chevron_right,
-                          size: 20,
-                          color: colorScheme.onSurfaceVariant,
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 16,
+                          color: colorScheme.onPrimary,
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                user.displayName ?? user.username,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                user.email,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
               ),
             ],
           ),
         ),
       );
+}
 
-  Widget _buildDivider() => const Divider(height: 1, indent: 54);
+/// Section title widget with accent bar.
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({
+    required this.title,
+    required this.colorScheme,
+  });
+
+  final String title;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Container(
+            width: 4,
+            height: 18,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
+      );
+}
+
+/// Settings card with rounded corners and shadow.
+class _SettingsCard extends StatelessWidget {
+  const _SettingsCard({
+    required this.colorScheme,
+    required this.children,
+  });
+
+  final ColorScheme colorScheme;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: children,
+        ),
+      );
+}
+
+/// Profile tile widget.
+class _ProfileTile extends StatelessWidget {
+  const _ProfileTile({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.iconColor,
+    required this.iconBgColor,
+    required this.onTap,
+  });
+
+  final String title;
+  final String value;
+  final IconData icon;
+  final Color iconColor;
+  final Color iconBgColor;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: iconBgColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                size: 22,
+                color: iconColor,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    value,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 20,
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Settings divider widget.
+class _SettingsDivider extends StatelessWidget {
+  const _SettingsDivider({
+    required this.colorScheme,
+  });
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 60),
+        child: Divider(
+          height: 1,
+          color: colorScheme.surfaceContainerHighest,
+        ),
+      );
 }

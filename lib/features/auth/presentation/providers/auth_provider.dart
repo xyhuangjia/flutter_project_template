@@ -377,8 +377,7 @@ class AuthNotifier extends _$AuthNotifier {
     return result.when(
       failure: (_) => false,
       success: (user) {
-        final token =
-            ref.read(authLocalDataSourceProvider).getToken() ?? '';
+        final token = ref.read(authLocalDataSourceProvider).getToken() ?? '';
         state = AsyncValue.data(
           AuthState.authenticated(user: user, token: token),
         );

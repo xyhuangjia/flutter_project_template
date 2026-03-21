@@ -36,7 +36,8 @@ class PrivacyLocalDataSource {
       );
       return dto;
     } catch (e) {
-      talker.error('[PrivacyLocalDataSource] getPrivacyConsent parse error: $e');
+      talker
+          .error('[PrivacyLocalDataSource] getPrivacyConsent parse error: $e');
       return null;
     }
   }

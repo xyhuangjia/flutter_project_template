@@ -1715,5 +1715,65 @@
   "operationFailed": "Operation failed. Please try again.",
   "@operationFailed": {
     "description": "Operation failed message"
+  },
+
+  "modulesIntro": "Available Modules",
+  "@modulesIntro": {
+    "description": "Modules introduction section title"
+  },
+
+  "moduleAuthTitle": "Authentication",
+  "@moduleAuthTitle": {
+    "description": "Auth module title"
+  },
+  "moduleAuthDescription": "Complete authentication flow with social login support, including login, registration, and account management features.",
+  "@moduleAuthDescription": {
+    "description": "Auth module description"
+  },
+
+  "moduleChatTitle": "AI Chat",
+  "@moduleChatTitle": {
+    "description": "Chat module title"
+  },
+  "moduleChatDescription": "AI-powered chat module with OpenAI and Claude integration, supporting conversation history and multi-model configuration.",
+  "@moduleChatDescription": {
+    "description": "Chat module description"
+  },
+
+  "moduleSettingsTitle": "Settings",
+  "@moduleSettingsTitle": {
+    "description": "Settings module title"
+  },
+  "moduleSettingsDescription": "Comprehensive settings management including theme, language, notifications, and developer options.",
+  "@moduleSettingsDescription": {
+    "description": "Settings module description"
+  },
+
+  "modulePrivacyTitle": "Privacy",
+  "@modulePrivacyTitle": {
+    "description": "Privacy module title"
+  },
+  "modulePrivacyDescription": "Privacy and security management with consent tracking, permission control, and account deletion features.",
+  "@modulePrivacyDescription": {
+    "description": "Privacy module description"
+  },
+
+  "moduleWebViewTitle": "WebView",
+  "@moduleWebViewTitle": {
+    "description": "WebView module title"
+  },
+  "moduleWebViewDescription": "Full-featured WebView component with JavaScript bridge, custom navigation, and file download support.",
+  "@moduleWebViewDescription": {
+    "description": "WebView module description"
+  },
+
+  "moduleMore": "More",
+  "@moduleMore": {
+    "description": "More modules placeholder"
+  },
+
+  "searchHint": "Search",
+  "@searchHint": {
+    "description": "Search hint text"
   }
 }

@@ -6,11 +6,13 @@ import 'package:flutter_pickers/style/default_style.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/settings_entity.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 
+/// Theme selector widget with Chinese app style.
 class ThemeSelector extends StatelessWidget {
+  /// Creates a theme selector.
   const ThemeSelector({
-    super.key,
     required this.currentTheme,
     required this.onThemeChanged,
+    super.key,
   });
 
   final AppThemeMode currentTheme;
@@ -20,6 +22,7 @@ class ThemeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     final themeOptions = {
       AppThemeMode.system: localizations.themeSystem,
@@ -29,11 +32,7 @@ class ThemeSelector extends StatelessWidget {
 
     final currentName = themeOptions[currentTheme] ?? localizations.themeSystem;
 
-    return ListTile(
-      leading: const Icon(Icons.palette_outlined),
-      title: Text(localizations.theme),
-      subtitle: Text(currentName),
-      trailing: const Icon(Icons.chevron_right),
+    return InkWell(
       onTap: () {
         final themeNames = themeOptions.values.toList();
         final themeModes = themeOptions.keys.toList();
@@ -50,6 +49,49 @@ class ThemeSelector extends StatelessWidget {
           },
         );
       },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            // Icon with background
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF97316).withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.palette_outlined,
+                size: 22,
+                color: Color(0xFFF97316),
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Title
+            Expanded(
+              child: Text(
+                localizations.theme,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            // Current value
+            Text(
+              currentName,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 20,
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

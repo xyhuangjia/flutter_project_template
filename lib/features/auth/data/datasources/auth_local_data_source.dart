@@ -74,8 +74,7 @@ class AuthLocalDataSource {
         _sharedPreferences.setString(_avatarUrlKey, avatarUrl),
       if (phoneNumber != null)
         _sharedPreferences.setString(_phoneNumberKey, phoneNumber),
-      if (gender != null)
-        _sharedPreferences.setString(_genderKey, gender.name),
+      if (gender != null) _sharedPreferences.setString(_genderKey, gender.name),
     ]);
     talker.log('[AuthLocalDataSource] User data saved: $username');
   }

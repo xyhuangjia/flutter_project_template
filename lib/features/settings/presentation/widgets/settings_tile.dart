@@ -1,16 +1,23 @@
-/// Settings tile widget.
+/// Settings tile widget for Chinese app style.
 library;
 
 import 'package:flutter/material.dart';
 
 /// Settings tile widget for displaying a settings item.
+///
+/// Features:
+/// - Icon with background color
+/// - Rounded corners
+/// - Compact layout
 class SettingsTile extends StatelessWidget {
   /// Creates a settings tile.
   const SettingsTile({
-    super.key,
     required this.title,
+    super.key,
     this.subtitle,
-    this.leading,
+    this.icon,
+    this.iconColor,
+    this.iconBgColor,
     this.trailing,
     this.onTap,
     this.showChevron = true,
@@ -23,8 +30,14 @@ class SettingsTile extends StatelessWidget {
   /// The optional subtitle of the tile.
   final String? subtitle;
 
-  /// The optional leading widget.
-  final Widget? leading;
+  /// The icon to display.
+  final IconData? icon;
+
+  /// The color of the icon.
+  final Color? iconColor;
+
+  /// The background color of the icon container.
+  final Color? iconBgColor;
 
   /// The optional trailing widget.
   final Widget? trailing;
@@ -41,70 +54,65 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    return ListTile(
-      title: Text(
-        title,
-        style: theme.textTheme.bodyLarge?.copyWith(
-          color: titleColor,
-        ),
-      ),
-      subtitle: subtitle != null
-          ? Text(
-              subtitle!,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            )
-          : null,
-      leading: leading,
-      trailing: trailing ??
-          (showChevron && onTap != null
-              ? Icon(
-                  Icons.chevron_right,
-                  color: theme.colorScheme.onSurfaceVariant,
-                )
-              : null),
+    return InkWell(
       onTap: onTap,
-    );
-  }
-}
-
-/// Settings section header widget.
-class SettingsSectionHeader extends StatelessWidget {
-  /// Creates a settings section header.
-  const SettingsSectionHeader({
-    super.key,
-    required this.title,
-  });
-
-  /// The title of the section.
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Text(
-        title,
-        style: theme.textTheme.titleSmall?.copyWith(
-          color: theme.colorScheme.primary,
-          fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            // Icon with background
+            if (icon != null)
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: iconBgColor ?? colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  icon,
+                  size: 22,
+                  color: iconColor ?? colorScheme.primary,
+                ),
+              ),
+            const SizedBox(width: 12),
+            // Title and subtitle
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: titleColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            // Trailing widget or chevron
+            if (trailing != null)
+              trailing!
+            else if (showChevron && onTap != null)
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 20,
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+              ),
+          ],
         ),
       ),
     );
-  }
-}
-
-/// Settings divider widget.
-class SettingsDivider extends StatelessWidget {
-  /// Creates a settings divider.
-  const SettingsDivider({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Divider(height: 1);
   }
 }

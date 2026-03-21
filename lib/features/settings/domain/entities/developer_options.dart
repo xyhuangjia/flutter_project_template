@@ -71,8 +71,9 @@ class DeveloperOptions {
     Map<String, bool>? experimentalFeatures,
   }) {
     return DeveloperOptions(
-      customApiBaseUrl:
-          clearCustomApiBaseUrl ? null : customApiBaseUrl ?? this.customApiBaseUrl,
+      customApiBaseUrl: clearCustomApiBaseUrl
+          ? null
+          : customApiBaseUrl ?? this.customApiBaseUrl,
       logLevel: logLevel ?? this.logLevel,
       loggingEnabled: loggingEnabled ?? this.loggingEnabled,
       networkLogEnabled: networkLogEnabled ?? this.networkLogEnabled,

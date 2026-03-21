@@ -1,4 +1,4 @@
-/// About screen displaying app information and legal links.
+/// About screen with Chinese app style design.
 library;
 
 import 'package:flutter/material.dart';
@@ -39,8 +39,9 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 
   String _getBuildDate() {
-    final now = DateTime.now();
-    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    // Note: In production, this should read from a build config file
+    // or be injected at build time. For now, we use a placeholder.
+    return '2024-01-01';
   }
 
   Future<void> _launchBeianUrl() async {
@@ -61,121 +62,274 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
+      backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
         title: Text(localizations.about),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 32),
-                  _buildAppIcon(theme),
-                  const SizedBox(height: 16),
-                  _buildAppInfo(localizations, theme),
-                  const SizedBox(height: 24),
-                  SettingsTile(
-                    title: localizations.privacyPolicy,
-                    leading: const Icon(Icons.privacy_tip_outlined),
-                    onTap: () => _navigateToWebView(
-                      localizations.privacyPolicy,
-                      'https://example.com/privacy',
-                    ),
-                  ),
-                  const SettingsDivider(),
-                  SettingsTile(
-                    title: localizations.termsOfService,
-                    leading: const Icon(Icons.description_outlined),
-                    onTap: () => _navigateToWebView(
-                      localizations.termsOfService,
-                      'https://example.com/terms',
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
+      body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // App info card
+            _AppInfoCard(
+              packageInfo: _packageInfo,
+              buildDate: _buildDate,
+              localizations: localizations,
+              theme: theme,
+              colorScheme: colorScheme,
             ),
-          ),
-          _buildIcpInfo(theme, localizations),
-          const SizedBox(height: 16),
-        ],
+            const SizedBox(height: 16),
+
+            // Legal section
+            _SectionTitle(
+              title: localizations.legal,
+              colorScheme: colorScheme,
+            ),
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.privacyPolicy,
+                  icon: Icons.privacy_tip_outlined,
+                  iconColor: const Color(0xFF14B8A6),
+                  iconBgColor: const Color(0xFFF0FDFA),
+                  onTap: () => _navigateToWebView(
+                    localizations.privacyPolicy,
+                    'https://example.com/privacy',
+                  ),
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.termsOfService,
+                  icon: Icons.description_outlined,
+                  iconColor: const Color(0xFF0EA5E9),
+                  iconBgColor: const Color(0xFFF0F9FF),
+                  onTap: () => _navigateToWebView(
+                    localizations.termsOfService,
+                    'https://example.com/terms',
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // ICP info
+            _IcpInfo(
+              theme: theme,
+              localizations: localizations,
+              onTap: _launchBeianUrl,
+            ),
+
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildAppIcon(ThemeData theme) => Container(
-        width: 100,
-        height: 100,
+/// App info card with icon and version.
+class _AppInfoCard extends StatelessWidget {
+  const _AppInfoCard({
+    required this.packageInfo,
+    required this.buildDate,
+    required this.localizations,
+    required this.theme,
+    required this.colorScheme,
+  });
+
+  final PackageInfo? packageInfo;
+  final String buildDate;
+  final AppLocalizations localizations;
+  final ThemeData theme;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(22),
-          color: theme.colorScheme.primaryContainer,
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        child: Icon(
-          Icons.flutter_dash,
-          size: 60,
-          color: theme.colorScheme.onPrimaryContainer,
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              // App icon
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: colorScheme.primaryContainer,
+                ),
+                child: Icon(
+                  Icons.flutter_dash,
+                  size: 48,
+                  color: colorScheme.onPrimaryContainer,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // App name
+              Text(
+                packageInfo?.appName ?? localizations.appTitle,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Version
+              Text(
+                '${localizations.version}: ${packageInfo?.version ?? '1.0.0'}',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 4),
+
+              // Build date
+              Text(
+                '${localizations.buildDate}: $buildDate',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
         ),
       );
+}
 
-  Widget _buildAppInfo(AppLocalizations localizations, ThemeData theme) =>
-      Column(
+/// Section title widget with accent bar.
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({
+    required this.title,
+    required this.colorScheme,
+  });
+
+  final String title;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Row(
         children: [
-          Text(
-            _packageInfo?.appName ?? localizations.appTitle,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+          Container(
+            width: 4,
+            height: 18,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(width: 8),
           Text(
-            '${localizations.version}: ${_packageInfo?.version ?? '1.0.0'}',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${localizations.buildDate}: $_buildDate',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ],
       );
+}
 
-  Widget _buildIcpInfo(ThemeData theme, AppLocalizations localizations) =>
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            InkWell(
-              onTap: _launchBeianUrl,
-              borderRadius: BorderRadius.circular(8),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.language,
-                      size: 16,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      localizations.icpNumber,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+/// Settings card with rounded corners and shadow.
+class _SettingsCard extends StatelessWidget {
+  const _SettingsCard({
+    required this.colorScheme,
+    required this.children,
+  });
+
+  final ColorScheme colorScheme;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
             ),
           ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: children,
+        ),
+      );
+}
+
+/// Settings divider widget.
+class _SettingsDivider extends StatelessWidget {
+  const _SettingsDivider({
+    required this.colorScheme,
+  });
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 60),
+        child: Divider(
+          height: 1,
+          color: colorScheme.surfaceContainerHighest,
+        ),
+      );
+}
+
+/// ICP info widget.
+class _IcpInfo extends StatelessWidget {
+  const _IcpInfo({
+    required this.theme,
+    required this.localizations,
+    required this.onTap,
+  });
+
+  final ThemeData theme;
+  final AppLocalizations localizations;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.language,
+                size: 16,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                localizations.icpNumber,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

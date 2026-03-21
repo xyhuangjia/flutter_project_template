@@ -1,4 +1,4 @@
-/// Change password screen for updating user password.
+/// Change password screen with Chinese app style design.
 library;
 
 import 'dart:async';
@@ -114,100 +114,94 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
+      backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
         title: Text(localizations.changePassword),
       ),
       body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              localizations.passwordRequirements,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            // Requirements card
+            _SectionTitle(
+              title: localizations.passwordRequirements,
+              colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _buildRequirement(
-              localizations.passwordMinLengthReq,
-              _newPasswordController.text.length >= 8,
-              colorScheme,
-            ),
-            const SizedBox(height: 8),
-            _buildRequirement(
-              localizations.passwordComplexityReq,
-              _isPasswordValid(_newPasswordController.text),
-              colorScheme,
+            _SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                _RequirementTile(
+                  text: localizations.passwordMinLengthReq,
+                  isMet: _newPasswordController.text.length >= 8,
+                  colorScheme: colorScheme,
+                ),
+                _SettingsDivider(colorScheme: colorScheme),
+                _RequirementTile(
+                  text: localizations.passwordComplexityReq,
+                  isMet: _isPasswordValid(_newPasswordController.text),
+                  colorScheme: colorScheme,
+                ),
+              ],
             ),
             const SizedBox(height: 24),
-            // Current password
-            TextField(
-              controller: _currentPasswordController,
-              obscureText: _obscureCurrentPassword,
-              decoration: InputDecoration(
-                labelText: localizations.currentPassword,
-                prefixIcon: const Icon(Icons.lock_outline),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureCurrentPassword
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureCurrentPassword = !_obscureCurrentPassword;
-                    });
-                  },
-                ),
-              ),
+
+            // Form card
+            _SectionTitle(
+              title: localizations.newPassword,
+              colorScheme: colorScheme,
             ),
-            const SizedBox(height: 16),
-            // New password
-            TextField(
-              controller: _newPasswordController,
-              obscureText: _obscureNewPassword,
-              onChanged: (_) => setState(() {}),
-              decoration: InputDecoration(
-                labelText: localizations.newPassword,
-                prefixIcon: const Icon(Icons.lock),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureNewPassword
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureNewPassword = !_obscureNewPassword;
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Confirm password
-            TextField(
-              controller: _confirmPasswordController,
-              obscureText: _obscureConfirmPassword,
-              decoration: InputDecoration(
-                labelText: localizations.confirmPassword,
-                prefixIcon: const Icon(Icons.lock),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureConfirmPassword
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureConfirmPassword = !_obscureConfirmPassword;
-                    });
-                  },
+            const SizedBox(height: 12),
+            _SettingsCard(
+              colorScheme: colorScheme,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    // Current password
+                    _PasswordField(
+                      controller: _currentPasswordController,
+                      labelText: localizations.currentPassword,
+                      obscureText: _obscureCurrentPassword,
+                      onToggle: () {
+                        setState(() {
+                          _obscureCurrentPassword = !_obscureCurrentPassword;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // New password
+                    _PasswordField(
+                      controller: _newPasswordController,
+                      labelText: localizations.newPassword,
+                      obscureText: _obscureNewPassword,
+                      onChanged: (_) => setState(() {}),
+                      onToggle: () {
+                        setState(() {
+                          _obscureNewPassword = !_obscureNewPassword;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // Confirm password
+                    _PasswordField(
+                      controller: _confirmPasswordController,
+                      labelText: localizations.confirmPassword,
+                      obscureText: _obscureConfirmPassword,
+                      onToggle: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
             const SizedBox(height: 32),
+
             // Submit button
             SizedBox(
               width: double.infinity,
@@ -232,27 +226,167 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       ),
     );
   }
+}
 
-  Widget _buildRequirement(
-    String text,
-    bool isMet,
-    ColorScheme colorScheme,
-  ) =>
-      Row(
+/// Section title widget with accent bar.
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({
+    required this.title,
+    required this.colorScheme,
+  });
+
+  final String title;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Row(
         children: [
-          Icon(
-            isMet ? Icons.check_circle : Icons.circle_outlined,
-            size: 20,
-            color: isMet ? colorScheme.primary : colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(width: 12),
-          Text(
-            text,
-            style: TextStyle(
-              color:
-                  isMet ? colorScheme.primary : colorScheme.onSurfaceVariant,
+          Container(
+            width: 4,
+            height: 18,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(2),
             ),
           ),
+          const SizedBox(width: 8),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ],
+      );
+}
+
+/// Settings card with rounded corners and shadow.
+class _SettingsCard extends StatelessWidget {
+  const _SettingsCard({
+    required this.colorScheme,
+    this.children,
+    this.child,
+  });
+
+  final ColorScheme colorScheme;
+  final List<Widget>? children;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.shadow.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: child ?? Column(children: children ?? []),
+      );
+}
+
+/// Requirement tile widget.
+class _RequirementTile extends StatelessWidget {
+  const _RequirementTile({
+    required this.text,
+    required this.isMet,
+    required this.colorScheme,
+  });
+
+  final String text;
+  final bool isMet;
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: isMet
+                    ? colorScheme.primaryContainer
+                    : colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                isMet ? Icons.check : Icons.circle_outlined,
+                size: 18,
+                color:
+                    isMet ? colorScheme.primary : colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: isMet
+                          ? colorScheme.primary
+                          : colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+/// Settings divider widget.
+class _SettingsDivider extends StatelessWidget {
+  const _SettingsDivider({
+    required this.colorScheme,
+  });
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 60),
+        child: Divider(
+          height: 1,
+          color: colorScheme.surfaceContainerHighest,
+        ),
+      );
+}
+
+/// Password field widget.
+class _PasswordField extends StatelessWidget {
+  const _PasswordField({
+    required this.controller,
+    required this.labelText,
+    required this.obscureText,
+    required this.onToggle,
+    this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final String labelText;
+  final bool obscureText;
+  final VoidCallback onToggle;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) => TextField(
+        controller: controller,
+        obscureText: obscureText,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          labelText: labelText,
+          prefixIcon: const Icon(Icons.lock_outline),
+          suffixIcon: IconButton(
+            icon: Icon(
+              obscureText
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined,
+            ),
+            onPressed: onToggle,
+          ),
+        ),
       );
 }

@@ -1715,5 +1715,65 @@
   "operationFailed": "操作失败，请重试。",
   "@operationFailed": {
     "description": "Operation failed message"
+  },
+
+  "modulesIntro": "可用模块",
+  "@modulesIntro": {
+    "description": "Modules introduction section title"
+  },
+
+  "moduleAuthTitle": "认证模块",
+  "@moduleAuthTitle": {
+    "description": "Auth module title"
+  },
+  "moduleAuthDescription": "完整的认证流程，支持社交登录，包括登录、注册和账户管理功能。",
+  "@moduleAuthDescription": {
+    "description": "Auth module description"
+  },
+
+  "moduleChatTitle": "AI 聊天模块",
+  "@moduleChatTitle": {
+    "description": "Chat module title"
+  },
+  "moduleChatDescription": "AI 驱动的聊天模块，集成 OpenAI 和 Claude，支持对话历史和多模型配置。",
+  "@moduleChatDescription": {
+    "description": "Chat module description"
+  },
+
+  "moduleSettingsTitle": "设置模块",
+  "@moduleSettingsTitle": {
+    "description": "Settings module title"
+  },
+  "moduleSettingsDescription": "完善的设置管理，包括主题、语言、通知和开发者选项。",
+  "@moduleSettingsDescription": {
+    "description": "Settings module description"
+  },
+
+  "modulePrivacyTitle": "隐私模块",
+  "@modulePrivacyTitle": {
+    "description": "Privacy module title"
+  },
+  "modulePrivacyDescription": "隐私和安全管理，支持协议追踪、权限控制和账号注销功能。",
+  "@modulePrivacyDescription": {
+    "description": "Privacy module description"
+  },
+
+  "moduleWebViewTitle": "网页浏览模块",
+  "@moduleWebViewTitle": {
+    "description": "WebView module title"
+  },
+  "moduleWebViewDescription": "功能完整的 WebView 组件，支持 JavaScript 桥接、自定义导航和文件下载。",
+  "@moduleWebViewDescription": {
+    "description": "WebView module description"
+  },
+
+  "moduleMore": "更多",
+  "@moduleMore": {
+    "description": "More modules placeholder"
+  },
+
+  "searchHint": "搜索",
+  "@searchHint": {
+    "description": "Search hint text"
   }
 }
