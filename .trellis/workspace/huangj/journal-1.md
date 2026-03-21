@@ -590,3 +590,49 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 14: 更新首页和文档
+
+**Date**: 2026-03-21
+**Task**: 更新首页和文档
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| Feature | Description |
+|---------|-------------|
+| UI | 首页添加快速访问网格（6 个功能入口）|
+| UI | 添加功能卡片（Authentication、Profile、Chat、Settings、Privacy、WebView）|
+| Documentation | 完善英文 README（Profile、Home、功能模块说明）|
+| Documentation | 完善中文 README（用户资料、首页、功能模块说明）|
+| Documentation | 更新项目结构说明|
+| Task Management | 将 Chat 模块任务状态调整为 pending|
+
+**Updated Files**:
+- `lib/features/home/presentation/screens/home_screen.dart`
+- `README.md`
+- `README-CN.md`
+- `.trellis/tasks/03-20-chat-module-enhancement/task.json`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `3514046` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
