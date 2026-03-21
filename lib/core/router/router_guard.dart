@@ -98,21 +98,21 @@ abstract final class RouterGuard {
 
   /// Checks if the user has accepted privacy consent.
   ///
-  /// Returns true if:
-  /// - User has explicitly consented
-  /// - Privacy state is still loading (to avoid premature redirect)
+  /// Returns true only if:
+  /// - Privacy state is loaded and user has consented
   ///
-  /// Returns false only if privacy state is loaded and user has not consented.
+  /// Returns false if:
+  /// - Privacy state is still loading
+  /// - User has not consented
   static bool _checkPrivacyConsent() {
     if (_globalContainer == null) {
       return false;
     }
     try {
       final privacyState = _globalContainer!.read(privacyNotifierProvider);
-      // If still loading, allow navigation to proceed
-      // The splash screen or target page will handle the redirect when state is ready
+      // If still loading, return false to prevent premature navigation
       if (privacyState.isLoading) {
-        return true;
+        return false;
       }
       return privacyState.valueOrNull?.hasConsented ?? false;
     } on Exception {
