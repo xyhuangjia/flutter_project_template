@@ -320,6 +320,86 @@ class _FeatureList extends StatelessWidget {
 class _QuickAccessGrid extends StatelessWidget {
   const _QuickAccessGrid({super.key});
 
+  static const _FeatureItem _auth = _FeatureItem(
+    icon: Icons.login,
+    title: 'Authentication',
+    description: 'Login, register, and manage your account',
+    route: '/login',
+  );
+
+  static const _FeatureItem _profile = _FeatureItem(
+    icon: Icons.person,
+    title: 'Profile',
+    description: 'View and manage your profile',
+    route: '/profile',
+  );
+
+  static const _FeatureItem _chat = _FeatureItem(
+    icon: Icons.chat_bubble,
+    title: 'AI Chat',
+    description: 'Chat with AI assistant',
+    route: '/chat',
+  );
+
+  static const _FeatureItem _settings = _FeatureItem(
+    icon: Icons.settings,
+    title: 'Settings',
+    description: 'Configure app preferences',
+    route: '/settings',
+  );
+
+  static const _FeatureItem _privacy = _FeatureItem(
+    icon: Icons.privacy_tip,
+    title: 'Privacy',
+    description: 'Manage privacy settings',
+    route: '/privacy/settings',
+  );
+
+  static const _FeatureItem _webview = _FeatureItem(
+    icon: Icons.web,
+    title: 'WebView',
+    description: 'Browse web content',
+    route: '/webview',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const _QuickAccessCard(item: _auth),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _profile),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _chat),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _settings),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _privacy),
+        const SizedBox(height: 12),
+        const _QuickAccessCard(item: _webview),
+      ],
+    );
+  }
+}
+
+/// Feature item data class.
+class _FeatureItem {
+  const _FeatureItem({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.route,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+  final String route;
+}
+
+/// Quick access card for a feature.
+class _QuickAccessCard extends StatelessWidget {
   const _QuickAccessCard({
     required this.item,
     super.key,
