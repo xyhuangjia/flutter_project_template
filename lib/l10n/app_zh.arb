@@ -486,6 +486,26 @@
     "description": "Default WebView title"
   },
 
+  "webViewLoading": "加载中...",
+  "@webViewLoading": {
+    "description": "WebView loading text"
+  },
+
+  "webViewError": "页面加载失败",
+  "@webViewError": {
+    "description": "WebView error message"
+  },
+
+  "webViewRefresh": "刷新",
+  "@webViewRefresh": {
+    "description": "WebView refresh button"
+  },
+
+  "webViewForward": "前进",
+  "@webViewForward": {
+    "description": "WebView forward button tooltip"
+  },
+
   "webViewClearCache": "清除缓存",
   "@webViewClearCache": {
     "description": "Clear WebView cache"
@@ -504,6 +524,16 @@
   "webViewDownloadComplete": "下载完成",
   "@webViewDownloadComplete": {
     "description": "Download complete message"
+  },
+
+  "webViewDownloadFailed": "下载失败",
+  "@webViewDownloadFailed": {
+    "description": "Download failed message"
+  },
+
+  "webViewFileSaved": "文件已保存",
+  "@webViewFileSaved": {
+    "description": "File saved message"
   },
 
   "webViewOpenInBrowser": "在浏览器中打开",
@@ -952,11 +982,6 @@
     "description": "Copy menu item"
   },
 
-  "delete": "删除",
-  "@delete": {
-    "description": "Delete menu item"
-  },
-
   "messageCopied": "消息已复制",
   "@messageCopied": {
     "description": "Message copied snackbar"
@@ -987,7 +1012,6 @@
     "description": "Type a message hint"
   },
 
-  "phoneNumber": "手机号",
   "forgotPasswordTitle": "忘记密码",
   "@forgotPasswordTitle": {
     "description": "Forgot password screen title"
@@ -1016,6 +1040,8 @@
   "enterValidPhoneNumber": "请输入有效的手机号",
   "@enterValidPhoneNumber": {
     "description": "Valid phone number validation message"
+  },
+
   "enterPhone": "请输入手机号码",
   "@enterPhone": {
     "description": "Enter phone validation message"
@@ -1031,9 +1057,9 @@
     "description": "Send verification code button"
   },
 
-  "enterVerificationCode": "输入验证码",
+  "enterVerificationCode": "请输入验证码",
   "@enterVerificationCode": {
-    "description": "Enter verification code title"
+    "description": "Enter verification code validation message"
   },
 
   "verificationCode": "验证码",
@@ -1041,7 +1067,16 @@
     "description": "Verification code label"
   },
 
-  "verificationCodeSent": "验证码已发送",
+  "enterVerificationCodeTitle": "输入验证码",
+  "@enterVerificationCodeTitle": {
+    "description": "Enter verification code title"
+  },
+
+  "verificationCodeLabel": "验证码",
+  "@verificationCodeLabel": {
+    "description": "Verification code label"
+  },
+
   "verificationCodeSent": "验证码已发送到您的账号",
   "@verificationCodeSent": {
     "description": "Verification code sent message"
@@ -1060,7 +1095,7 @@
     "description": "Send verification code button"
   },
 
-  "resendCode": "重新获取",
+  "resendCode": "重新发送",
   "@resendCode": {
     "description": "Resend verification code button"
   },
@@ -1068,17 +1103,17 @@
   "resendIn": "{seconds}秒后重试",
   "@resendIn": {
     "description": "Resend countdown message",
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+
   "codeSentTo": "验证码已发送至：{account}",
   "@codeSentTo": {
     "description": "Code sent to account message",
     "placeholders": {
       "account": {}
     }
-  },
-
-  "resendCode": "重新发送",
-  "@resendCode": {
-    "description": "Resend code button"
   },
 
   "resendCodeIn": "{seconds}秒后可重新发送",
@@ -1107,6 +1142,16 @@
   "chooseAvatar": "选择头像",
   "@chooseAvatar": {
     "description": "Choose Avatar button"
+  },
+
+  "takePhoto": "拍照",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+
+  "chooseFromGallery": "从相册选择",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
   },
 
   "nickname": "昵称",
@@ -1175,6 +1220,8 @@
   "passwordMinLength8": "密码至少需要8个字符",
   "@passwordMinLength8": {
     "description": "Password min 8 characters validation message"
+  },
+
   "verify": "验证",
   "@verify": {
     "description": "Verify button"

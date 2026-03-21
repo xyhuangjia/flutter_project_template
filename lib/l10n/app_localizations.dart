@@ -1352,25 +1352,6 @@ abstract class AppLocalizations {
   /// **'Please enter verification code'**
   String get enterVerificationCode;
 
-  /// Verification code sent message
-  ///
-  /// In en, this message translates to:
-  /// **'Verification code sent'**
-  String get verificationCodeSent;
-
-  /// Verification code sent to target message
-  ///
-  /// In en, this message translates to:
-  /// **'Code sent to {target}'**
-  String verificationCodeSentTo(Object target);
-
-  /// Send verification code button
-  ///
-  /// In en, this message translates to:
-  /// **'Send Code'**
-  String get sendCode;
-
-  /// Resend verification code button
   /// Enter phone validation message
   ///
   /// In en, this message translates to:
@@ -1393,13 +1374,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Enter Verification Code'**
-  String get enterVerificationCode;
+  String get enterVerificationCodeTitle;
 
   /// Verification code label
   ///
   /// In en, this message translates to:
   /// **'Verification Code'**
-  String get verificationCode;
+  String get verificationCodeLabel;
 
   /// Verification code sent message
   ///
@@ -1407,13 +1388,19 @@ abstract class AppLocalizations {
   /// **'We\'ve sent a verification code to your account'**
   String get verificationCodeSent;
 
-  /// Code sent to account message
+  /// Verification code sent to target message
   ///
   /// In en, this message translates to:
-  /// **'Code sent to: {account}'**
-  String codeSentTo(Object account);
+  /// **'Code sent to {target}'**
+  String verificationCodeSentTo(Object target);
 
-  /// Resend code button
+  /// Send verification code button
+  ///
+  /// In en, this message translates to:
+  /// **'Send Code'**
+  String get sendCode;
+
+  /// Resend verification code button
   ///
   /// In en, this message translates to:
   /// **'Resend Code'**
@@ -1425,7 +1412,19 @@ abstract class AppLocalizations {
   /// **'Resend in {seconds}s'**
   String resendIn(Object seconds);
 
-  /// Verification code expired message
+  /// Code sent to account message
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent to: {account}'**
+  String codeSentTo(Object account);
+
+  /// Resend code countdown
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code in {seconds}s'**
+  String resendCodeIn(Object seconds);
+
+  /// Verification code expired error
   ///
   /// In en, this message translates to:
   /// **'Verification code has expired'**
@@ -1538,11 +1537,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password must be at least 8 characters'**
   String get passwordMinLength8;
-  /// Resend code countdown
-  ///
-  /// In en, this message translates to:
-  /// **'Resend code in {seconds}s'**
-  String resendCodeIn(Object seconds);
 
   /// Verify button
   ///
@@ -1621,12 +1615,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid verification code'**
   String get invalidVerificationCode;
-
-  /// Verification code expired error
-  ///
-  /// In en, this message translates to:
-  /// **'Verification code has expired'**
-  String get verificationCodeExpired;
 
   /// Enter verification code validation
   ///

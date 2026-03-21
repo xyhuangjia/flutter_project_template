@@ -57,8 +57,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   Future<void> _handleSendCode() async {
-    final success =
-        await ref.read(forgotPasswordNotifierProvider.notifier).sendVerificationCode();
+    final success = await ref
+        .read(forgotPasswordNotifierProvider.notifier)
+        .sendVerificationCode();
     if (success && mounted) {
       _startCountdown();
     }
@@ -129,7 +130,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 localizations: localizations,
               ),
               const SizedBox(height: 32),
-              _buildStepContent(context, state, localizations, theme, colorScheme),
+              _buildStepContent(
+                  context, state, localizations, theme, colorScheme),
               const SizedBox(height: 24),
             ],
           ),
@@ -157,7 +159,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             ref.read(forgotPasswordNotifierProvider.notifier).setAccount(value);
           },
           onVerificationTypeChanged: (type) {
-            ref.read(forgotPasswordNotifierProvider.notifier).switchVerificationType(type);
+            ref
+                .read(forgotPasswordNotifierProvider.notifier)
+                .switchVerificationType(type);
             _accountController.clear();
           },
           onSendCode: _handleSendCode,
@@ -172,7 +176,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           theme: theme,
           colorScheme: colorScheme,
           onCodeChanged: (value) {
-            ref.read(forgotPasswordNotifierProvider.notifier).setVerificationCode(value);
+            ref
+                .read(forgotPasswordNotifierProvider.notifier)
+                .setVerificationCode(value);
           },
           onVerify: _handleVerifyCode,
           onResendCode: () async {
@@ -192,10 +198,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           obscurePassword: _obscurePassword,
           obscureConfirmPassword: _obscureConfirmPassword,
           onPasswordChanged: (value) {
-            ref.read(forgotPasswordNotifierProvider.notifier).setNewPassword(value);
+            ref
+                .read(forgotPasswordNotifierProvider.notifier)
+                .setNewPassword(value);
           },
           onConfirmPasswordChanged: (value) {
-            ref.read(forgotPasswordNotifierProvider.notifier).setConfirmPassword(value);
+            ref
+                .read(forgotPasswordNotifierProvider.notifier)
+                .setConfirmPassword(value);
           },
           onTogglePassword: () {
             setState(() => _obscurePassword = !_obscurePassword);
@@ -342,7 +352,8 @@ class _EnterAccountForm extends StatelessWidget {
                   label: localizations.email,
                   icon: Icons.email_outlined,
                   isSelected: state.verificationType == VerificationType.email,
-                  onTap: () => onVerificationTypeChanged(VerificationType.email),
+                  onTap: () =>
+                      onVerificationTypeChanged(VerificationType.email),
                 ),
               ),
               Expanded(
@@ -498,7 +509,8 @@ class _EnterCodeForm extends StatelessWidget {
             child: Text(
               canResend
                   ? localizations.resendCode
-                  : localizations.resendCodeIn('${60 - (DateTime.now().second % 60)}'),
+                  : localizations
+                      .resendCodeIn('${60 - (DateTime.now().second % 60)}'),
               style: TextStyle(
                 color: canResend ? colorScheme.primary : colorScheme.outline,
               ),

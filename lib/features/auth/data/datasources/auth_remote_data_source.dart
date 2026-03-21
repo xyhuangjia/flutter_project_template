@@ -254,8 +254,8 @@ class AuthRemoteDataSource {
     }
 
     // Generate 6-digit code
-    final code = (100000 + DateTime.now().millisecondsSinceEpoch % 900000)
-        .toString();
+    final code =
+        (100000 + DateTime.now().millisecondsSinceEpoch % 900000).toString();
     _VerificationCodeStorage.store(phoneNumber, code);
 
     // In real implementation, this would send SMS
@@ -275,8 +275,8 @@ class AuthRemoteDataSource {
     }
 
     // Generate 6-digit code
-    final code = (100000 + DateTime.now().millisecondsSinceEpoch % 900000)
-        .toString();
+    final code =
+        (100000 + DateTime.now().millisecondsSinceEpoch % 900000).toString();
     _VerificationCodeStorage.store(email, code);
 
     // In real implementation, this would send email

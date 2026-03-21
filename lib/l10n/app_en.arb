@@ -1052,7 +1052,6 @@
     "description": "Enter verification code validation message"
   },
 
-  "verificationCodeSent": "Verification code sent",
   "enterPhone": "Please enter your phone number",
   "@enterPhone": {
     "description": "Enter phone validation message"
@@ -1068,13 +1067,13 @@
     "description": "Send verification code button"
   },
 
-  "enterVerificationCode": "Enter Verification Code",
-  "@enterVerificationCode": {
+  "enterVerificationCodeTitle": "Enter Verification Code",
+  "@enterVerificationCodeTitle": {
     "description": "Enter verification code title"
   },
 
-  "verificationCode": "Verification Code",
-  "@verificationCode": {
+  "verificationCodeLabel": "Verification Code",
+  "@verificationCodeLabel": {
     "description": "Verification code label"
   },
 
@@ -1104,17 +1103,17 @@
   "resendIn": "Resend in {seconds}s",
   "@resendIn": {
     "description": "Resend countdown message",
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+
   "codeSentTo": "Code sent to: {account}",
   "@codeSentTo": {
     "description": "Code sent to account message",
     "placeholders": {
       "account": {}
     }
-  },
-
-  "resendCode": "Resend Code",
-  "@resendCode": {
-    "description": "Resend code button"
   },
 
   "resendCodeIn": "Resend code in {seconds}s",
@@ -1221,6 +1220,8 @@
   "passwordMinLength8": "Password must be at least 8 characters",
   "@passwordMinLength8": {
     "description": "Password min 8 characters validation message"
+  },
+
   "verify": "Verify",
   "@verify": {
     "description": "Verify button"

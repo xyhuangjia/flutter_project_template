@@ -636,6 +636,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get typeMessage => 'Type a message...';
 
   @override
+  String get forgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter your email or phone number to reset your password';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
   String get phoneNumber => 'Phone Number';
 
   @override
@@ -651,7 +661,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterVerificationCode => 'Please enter verification code';
 
   @override
-  String get verificationCodeSent => 'Verification code sent';
+  String get enterPhone => 'Please enter your phone number';
+
+  @override
+  String get enterValidPhone => 'Please enter a valid phone number';
+
+  @override
+  String get sendVerificationCode => 'Send Verification Code';
+
+  @override
+  String get enterVerificationCodeTitle => 'Enter Verification Code';
+
+  @override
+  String get verificationCodeLabel => 'Verification Code';
+
+  @override
+  String get verificationCodeSent =>
+      'We\'ve sent a verification code to your account';
 
   @override
   String verificationCodeSentTo(Object target) {
@@ -667,6 +693,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String resendIn(Object seconds) {
     return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String codeSentTo(Object account) {
+    return 'Code sent to: $account';
+  }
+
+  @override
+  String resendCodeIn(Object seconds) {
+    return 'Resend code in ${seconds}s';
   }
 
   @override
@@ -729,49 +765,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordMinLength8 => 'Password must be at least 8 characters';
-  String get forgotPasswordTitle => 'Forgot Password';
-
-  @override
-  String get forgotPasswordSubtitle =>
-      'Enter your email or phone number to reset your password';
-
-  @override
-  String get phone => 'Phone';
-
-  @override
-  String get phoneNumber => 'Phone Number';
-
-  @override
-  String get enterPhone => 'Please enter your phone number';
-
-  @override
-  String get enterValidPhone => 'Please enter a valid phone number';
-
-  @override
-  String get sendVerificationCode => 'Send Verification Code';
-
-  @override
-  String get enterVerificationCode => 'Enter Verification Code';
-
-  @override
-  String get verificationCode => 'Verification Code';
-
-  @override
-  String get verificationCodeSent =>
-      'We\'ve sent a verification code to your account';
-
-  @override
-  String codeSentTo(Object account) {
-    return 'Code sent to: $account';
-  }
-
-  @override
-  String get resendCode => 'Resend Code';
-
-  @override
-  String resendCodeIn(Object seconds) {
-    return 'Resend code in ${seconds}s';
-  }
 
   @override
   String get verify => 'Verify';
@@ -812,9 +805,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidVerificationCode => 'Invalid verification code';
-
-  @override
-  String get verificationCodeExpired => 'Verification code has expired';
 
   @override
   String get enterVerificationCodeHint => 'Please enter verification code';

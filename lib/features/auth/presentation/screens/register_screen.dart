@@ -336,8 +336,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       obscurePassword: _obscureConfirmPassword,
                       onToggleObscure: () {
                         setState(
-                          () =>
-                              _obscureConfirmPassword = !_obscureConfirmPassword,
+                          () => _obscureConfirmPassword =
+                              !_obscureConfirmPassword,
                         );
                       },
                       localizations: localizations,

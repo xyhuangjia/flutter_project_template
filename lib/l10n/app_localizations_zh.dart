@@ -300,16 +300,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get webViewTitle => '网页';
 
   @override
-  String get webViewLoading => 'Loading...';
+  String get webViewLoading => '加载中...';
 
   @override
-  String get webViewError => 'Failed to load page';
+  String get webViewError => '页面加载失败';
 
   @override
-  String get webViewRefresh => 'Refresh';
+  String get webViewRefresh => '刷新';
 
   @override
-  String get webViewForward => 'Forward';
+  String get webViewForward => '前进';
 
   @override
   String get webViewClearCache => '清除缓存';
@@ -324,10 +324,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get webViewDownloadComplete => '下载完成';
 
   @override
-  String get webViewDownloadFailed => 'Download failed';
+  String get webViewDownloadFailed => '下载失败';
 
   @override
-  String get webViewFileSaved => 'File saved';
+  String get webViewFileSaved => '文件已保存';
 
   @override
   String get webViewOpenInBrowser => '在浏览器中打开';
@@ -622,7 +622,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get typeMessage => '输入消息...';
 
   @override
-  String get phoneNumber => '手机号';
+  String get forgotPasswordTitle => '忘记密码';
+
+  @override
+  String get forgotPasswordSubtitle => '输入您的邮箱或手机号以重置密码';
+
+  @override
+  String get phone => '手机';
+
+  @override
+  String get phoneNumber => '手机号码';
 
   @override
   String get enterPhoneNumber => '请输入手机号';
@@ -634,10 +643,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get verificationCode => '验证码';
 
   @override
-  String get enterVerificationCode => 'Please enter verification code';
+  String get enterVerificationCode => '请输入验证码';
 
   @override
-  String get verificationCodeSent => '验证码已发送';
+  String get enterPhone => '请输入手机号码';
+
+  @override
+  String get enterValidPhone => '请输入有效的手机号码';
+
+  @override
+  String get sendVerificationCode => '发送验证码';
+
+  @override
+  String get enterVerificationCodeTitle => '输入验证码';
+
+  @override
+  String get verificationCodeLabel => '验证码';
+
+  @override
+  String get verificationCodeSent => '验证码已发送到您的账号';
 
   @override
   String verificationCodeSentTo(Object target) {
@@ -648,11 +672,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get sendCode => '获取验证码';
 
   @override
-  String get resendCode => '重新获取';
+  String get resendCode => '重新发送';
 
   @override
   String resendIn(Object seconds) {
     return '$seconds秒后重试';
+  }
+
+  @override
+  String codeSentTo(Object account) {
+    return '验证码已发送至：$account';
+  }
+
+  @override
+  String resendCodeIn(Object seconds) {
+    return '$seconds秒后可重新发送';
   }
 
   @override
@@ -668,10 +702,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get chooseAvatar => '选择头像';
 
   @override
-  String get takePhoto => 'Take Photo';
+  String get takePhoto => '拍照';
 
   @override
-  String get chooseFromGallery => 'Choose from Gallery';
+  String get chooseFromGallery => '从相册选择';
 
   @override
   String get nickname => '昵称';
@@ -713,47 +747,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get passwordMinLength8 => '密码至少需要8个字符';
-  String get forgotPasswordTitle => '忘记密码';
-
-  @override
-  String get forgotPasswordSubtitle => '输入您的邮箱或手机号以重置密码';
-
-  @override
-  String get phone => '手机';
-
-  @override
-  String get phoneNumber => '手机号码';
-
-  @override
-  String get enterPhone => '请输入手机号码';
-
-  @override
-  String get enterValidPhone => '请输入有效的手机号码';
-
-  @override
-  String get sendVerificationCode => '发送验证码';
-
-  @override
-  String get enterVerificationCode => '输入验证码';
-
-  @override
-  String get verificationCode => '验证码';
-
-  @override
-  String get verificationCodeSent => '验证码已发送到您的账号';
-
-  @override
-  String codeSentTo(Object account) {
-    return '验证码已发送至：$account';
-  }
-
-  @override
-  String get resendCode => '重新发送';
-
-  @override
-  String resendCodeIn(Object seconds) {
-    return '$seconds秒后可重新发送';
-  }
 
   @override
   String get verify => '验证';
@@ -793,9 +786,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get invalidVerificationCode => '验证码无效';
-
-  @override
-  String get verificationCodeExpired => '验证码已过期';
 
   @override
   String get enterVerificationCodeHint => '请输入验证码';
