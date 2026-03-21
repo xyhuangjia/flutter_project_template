@@ -381,3 +381,46 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 9: 添加全局键盘关闭功能和优化忘记密码页面
+
+**Date**: 2026-03-21
+**Task**: 添加全局键盘关闭功能和优化忘记密码页面
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+| 组件 | 描述 |
+|------|------|
+| KeyboardDismissWrapper | 全局键盘关闭包装器，点击空白处自动关闭键盘 |
+| KeyboardDismissController | 键盘关闭控制器，支持代码触发关闭 |
+| MyApp 重构 | 提取 `_buildMaterialApp` 方法，减少代码重复 |
+| 忘记密码页面 | 标题移到 AppBar，简化 HeaderSection |
+
+**技术细节**:
+- 使用 `GestureDetector` 包装整个应用
+- 支持在滚动列表中正确处理键盘关闭
+- 通过 `FocusScope.of(context).unfocus()` 实现键盘关闭
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `46e9808` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
