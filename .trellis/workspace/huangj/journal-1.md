@@ -311,3 +311,73 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 8: Trellis 工作流系统入职培训
+
+**Date**: 2026-03-21
+**Task**: Trellis 工作流系统入职培训
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## 会话类型
+入职培训
+
+## 内容概要
+
+### Part 1: 核心概念
+- AI 辅助开发的三大挑战：无记忆、通用知识、上下文有限
+- 解决方案：workspace/ 记忆系统、spec/ 项目知识、check-* 命令
+
+### Part 2: 命令深度解析
+- `/trellis:start` - 恢复 AI 记忆
+- `/trellis:before-*-dev` - 注入专业知识
+- `/trellis:check-*` - 对抗上下文偏离
+- `/trellis:finish-work` - 整体预提交审查
+- `/trellis:record-session` - 持久化记忆
+
+### Part 3: 实际工作流示例
+- Bug 修复会话 (8步)
+- 规划会话 (4步)
+- 代码审查修复 (6步)
+- 大型重构 (5步)
+- 调试会话 (6步)
+
+### Part 4: 项目指南状态
+- Frontend 指南：✅ 已完善 (8文件, 6202行)
+- Backend 指南：⏸️ N/A (纯前端项目)
+- Thinking Guides：✅ 已配置
+
+## 任务操作
+- 归档: 03-21-forgot-password → archive/2026-03/
+- 归档: 03-21-user-registration → archive/2026-03/
+
+## 关键规则
+1. AI 永不提交 - 人类验证是最后防线
+2. 编码前先看指南
+3. 编码后检查
+4. 记录一切
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `dcc217b` | (see git log) |
+| `20d26af` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete

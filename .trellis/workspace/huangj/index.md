@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 7
+- **Total Sessions**: 8
 - **Last Active**: 2026-03-21
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~313 | Active |
+| `journal-1.md` | ~383 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits |
 |---|------|-------|---------|
+| 8 | 2026-03-21 | Trellis 工作流系统入职培训 | `dcc217b`, `20d26af` |
 | 7 | 2026-03-21 | 隐私合规模块实现 | `aca4c17` |
 | 6 | 2026-03-19 | 环境配置切换模块 | `0de7e20` |
 | 5 | 2026-03-19 | 添加登录模块和设置模块 | `4753f77`, `ea2090b` |
