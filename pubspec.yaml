@@ -99,6 +99,9 @@ dev_dependencies:
   change_app_package_name: ^1.2.0
   intl_utils: ^2.8.0
 
+  # Testing
+  mocktail: ^1.0.4
+
 flutter:
   uses-material-design: true
   generate: true
