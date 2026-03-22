@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/features/webview/data/datasources/webview_cookie_data_source.dart';
 import 'package:flutter_project_template/features/webview/data/datasources/webview_file_data_source.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_project_template/features/webview/domain/entities/webvie
 import 'package:flutter_project_template/features/webview/domain/entities/webview_state.dart';
 import 'package:flutter_project_template/features/webview/domain/repositories/webview_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // ignore: unused_import
@@ -287,6 +289,27 @@ class WebViewNotifier extends _$WebViewNotifier {
 
   /// Gets the current config.
   WebViewConfig? get config => _config;
+
+  /// Opens the current URL in an external browser.
+  Future<void> openInBrowser() async {
+    final url = state.currentUrl;
+    if (url == null || url.isEmpty) return;
+
+    final uri = Uri.tryParse(url);
+    if (uri == null) return;
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  /// Copies the current URL to clipboard.
+  Future<void> copyCurrentUrl() async {
+    final url = state.currentUrl;
+    if (url == null || url.isEmpty) return;
+
+    await Clipboard.setData(ClipboardData(text: url));
+  }
 }
 
 /// Provider for WebView configuration.

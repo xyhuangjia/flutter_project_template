@@ -7,7 +7,6 @@ import 'package:flutter_project_template/features/webview/domain/entities/webvie
 import 'package:flutter_project_template/features/webview/presentation/providers/webview_provider.dart';
 import 'package:flutter_project_template/features/webview/presentation/widgets/webview_error_widget.dart';
 import 'package:flutter_project_template/features/webview/presentation/widgets/webview_loading_indicator.dart';
-import 'package:flutter_project_template/features/webview/presentation/widgets/webview_navigation_controls.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -78,6 +77,22 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
+              leading: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.of(context).maybePop(),
+                    tooltip: localizations.back,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                    tooltip: localizations.close,
+                  ),
+                ],
+              ),
+              leadingWidth: 96,
               title: Text(
                 widget.title ??
                     webViewState.pageTitle ??
@@ -85,10 +100,65 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
               ),
               actions: [
                 if (widget.enableNavigationControls)
-                  IconButton(
-                    icon: const Icon(Icons.refresh),
-                    tooltip: localizations.webViewRefresh,
-                    onPressed: () => webViewNotifier.reload(),
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert),
+                    tooltip: localizations.webViewTitle,
+                    onSelected: (value) =>
+                        _handleMenuAction(value, webViewNotifier, webViewState),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'refresh',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.refresh),
+                            const SizedBox(width: 12),
+                            Text(localizations.webViewRefresh),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'forward',
+                        enabled: webViewState.canGoForward,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.arrow_forward),
+                            const SizedBox(width: 12),
+                            Text(localizations.webViewForward),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuDivider(),
+                      PopupMenuItem(
+                        value: 'clearCache',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.cleaning_services),
+                            const SizedBox(width: 12),
+                            Text(localizations.webViewClearCache),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'openInBrowser',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.open_in_browser),
+                            const SizedBox(width: 12),
+                            Text(localizations.webViewOpenInBrowser),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'copyUrl',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.link),
+                            const SizedBox(width: 12),
+                            Text(localizations.webViewCopyUrl),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
               ],
             )
@@ -100,16 +170,31 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
         webViewNotifier,
         controller,
       ),
-      bottomNavigationBar: widget.enableNavigationControls
-          ? WebViewNavigationControls(
-              canGoBack: webViewState.canGoBack,
-              canGoForward: webViewState.canGoForward,
-              onBack: () => webViewNotifier.goBack(),
-              onForward: () => webViewNotifier.goForward(),
-              onRefresh: () => webViewNotifier.reload(),
-            )
-          : null,
     );
+  }
+
+  void _handleMenuAction(
+    String action,
+    WebViewNotifier webViewNotifier,
+    WebViewState webViewState,
+  ) {
+    switch (action) {
+      case 'refresh':
+        webViewNotifier.reload();
+        break;
+      case 'forward':
+        webViewNotifier.goForward();
+        break;
+      case 'clearCache':
+        webViewNotifier.clearCache();
+        break;
+      case 'openInBrowser':
+        webViewNotifier.openInBrowser();
+        break;
+      case 'copyUrl':
+        webViewNotifier.copyCurrentUrl();
+        break;
+    }
   }
 
   Widget _buildBody(
