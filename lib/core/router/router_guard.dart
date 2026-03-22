@@ -112,9 +112,7 @@ abstract final class RouterGuard {
       return false;
     }
     try {
-      return _globalContainer!
-          .read(authNotifierProvider.notifier)
-          .isAuthenticated;
+      return _globalContainer!.read(authProvider.notifier).isAuthenticated;
     } on Exception {
       return false;
     }
@@ -133,12 +131,12 @@ abstract final class RouterGuard {
       return false;
     }
     try {
-      final privacyState = _globalContainer!.read(privacyNotifierProvider);
+      final privacyState = _globalContainer!.read(privacyProvider);
       // If still loading, return false to prevent premature navigation
       if (privacyState.isLoading) {
         return false;
       }
-      return privacyState.valueOrNull?.hasConsented ?? false;
+      return privacyState.value?.hasConsented ?? false;
     } on Exception {
       return false;
     }

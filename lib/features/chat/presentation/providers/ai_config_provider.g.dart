@@ -6,62 +6,147 @@ part of 'ai_config_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$secureStorageHash() => r'3e5177aefc9c0d43d9cb4fdca3bdc2dfcb36f13e';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// Provider for secure storage.
+
+@ProviderFor(secureStorage)
+final secureStorageProvider = SecureStorageProvider._();
 
 /// Provider for secure storage.
-///
-/// Copied from [secureStorage].
-@ProviderFor(secureStorage)
-final secureStorageProvider =
-    AutoDisposeProvider<FlutterSecureStorage>.internal(
-  secureStorage,
-  name: r'secureStorageProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$secureStorageHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SecureStorageRef = AutoDisposeProviderRef<FlutterSecureStorage>;
-String _$availableModelsHash() => r'57eb2a0d3e513c0bd4aa54245ae047f623d4f1c7';
+final class SecureStorageProvider extends $FunctionalProvider<
+    FlutterSecureStorage,
+    FlutterSecureStorage,
+    FlutterSecureStorage> with $Provider<FlutterSecureStorage> {
+  /// Provider for secure storage.
+  SecureStorageProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'secureStorageProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
-/// Provider for available AI models.
-///
-/// Copied from [availableModels].
-@ProviderFor(availableModels)
-final availableModelsProvider = AutoDisposeProvider<List<AIModelInfo>>.internal(
-  availableModels,
-  name: r'availableModelsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$availableModelsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+  @override
+  String debugGetCreateSourceHash() => _$secureStorageHash();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AvailableModelsRef = AutoDisposeProviderRef<List<AIModelInfo>>;
-String _$aIConfigNotifierHash() => r'254966cabbe77140a9b11769ff52b4436a33d177';
+  @$internal
+  @override
+  $ProviderElement<FlutterSecureStorage> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  FlutterSecureStorage create(Ref ref) {
+    return secureStorage(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FlutterSecureStorage value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FlutterSecureStorage>(value),
+    );
+  }
+}
+
+String _$secureStorageHash() => r'39b6a2355a8398a2c25bb6e7dd3111ede1fc9c9b';
 
 /// Provider for AI configuration management.
-///
-/// Copied from [AIConfigNotifier].
-@ProviderFor(AIConfigNotifier)
-final aIConfigNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<AIConfigNotifier, AIConfigState>.internal(
-  AIConfigNotifier.new,
-  name: r'aIConfigNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$aIConfigNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-typedef _$AIConfigNotifier = AutoDisposeAsyncNotifier<AIConfigState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+@ProviderFor(AIConfigNotifier)
+final aIConfigProvider = AIConfigNotifierProvider._();
+
+/// Provider for AI configuration management.
+final class AIConfigNotifierProvider
+    extends $AsyncNotifierProvider<AIConfigNotifier, AIConfigState> {
+  /// Provider for AI configuration management.
+  AIConfigNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'aIConfigProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$aIConfigNotifierHash();
+
+  @$internal
+  @override
+  AIConfigNotifier create() => AIConfigNotifier();
+}
+
+String _$aIConfigNotifierHash() => r'9dffc2acb6310d36910f8e4b6b48c1048408df47';
+
+/// Provider for AI configuration management.
+
+abstract class _$AIConfigNotifier extends $AsyncNotifier<AIConfigState> {
+  FutureOr<AIConfigState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<AIConfigState>, AIConfigState>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<AIConfigState>, AIConfigState>,
+        AsyncValue<AIConfigState>,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}
+
+/// Provider for available AI models.
+
+@ProviderFor(availableModels)
+final availableModelsProvider = AvailableModelsProvider._();
+
+/// Provider for available AI models.
+
+final class AvailableModelsProvider extends $FunctionalProvider<
+    List<AIModelInfo>,
+    List<AIModelInfo>,
+    List<AIModelInfo>> with $Provider<List<AIModelInfo>> {
+  /// Provider for available AI models.
+  AvailableModelsProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'availableModelsProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$availableModelsHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<AIModelInfo>> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<AIModelInfo> create(Ref ref) {
+    return availableModels(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<AIModelInfo> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<AIModelInfo>>(value),
+    );
+  }
+}
+
+String _$availableModelsHash() => r'bdc3a391deee831517a9842d6db60d6171099e39';

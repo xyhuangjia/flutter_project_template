@@ -37,8 +37,8 @@ void main() {
     );
 
     // Wait for initial build
-    await container.read(privacyNotifierProvider.future);
-    privacyNotifier = container.read(privacyNotifierProvider.notifier);
+    await container.read(privacyProvider.future);
+    privacyNotifier = container.read(privacyProvider.notifier);
   });
 
   tearDown(() {
@@ -49,9 +49,9 @@ void main() {
   group('initial state', () {
     test('should start with default state', () async {
       // Assert
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isFalse);
-      expect(state.valueOrNull?.region, MarketRegion.international);
+      final state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isFalse);
+      expect(state.value?.region, MarketRegion.international);
     });
   });
 
@@ -66,8 +66,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isTrue);
+      final state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isTrue);
       expect(fakeRepository.lastSavedConsent, isTrue);
     });
 
@@ -109,10 +109,10 @@ void main() {
       final afterConsent = DateTime.now();
 
       // Assert
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isTrue);
-      expect(state.valueOrNull?.consentedAt, isNotNull);
-      final consentedAt = state.valueOrNull!.consentedAt!;
+      final state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isTrue);
+      expect(state.value?.consentedAt, isNotNull);
+      final consentedAt = state.value!.consentedAt!;
       expect(
           consentedAt.isAtSameMomentAs(beforeConsent) ||
               consentedAt.isAtSameMomentAs(afterConsent) ||
@@ -129,8 +129,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.dataCollectionEnabled, isTrue);
+      final state = container.read(privacyProvider);
+      expect(state.value?.dataCollectionEnabled, isTrue);
       expect(fakeRepository.lastDataCollectionEnabled, isTrue);
     });
 
@@ -140,8 +140,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.dataCollectionEnabled, isFalse);
+      final state = container.read(privacyProvider);
+      expect(state.value?.dataCollectionEnabled, isFalse);
       expect(fakeRepository.lastDataCollectionEnabled, isFalse);
     });
 
@@ -161,8 +161,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.analyticsEnabled, isTrue);
+      final state = container.read(privacyProvider);
+      expect(state.value?.analyticsEnabled, isTrue);
       expect(fakeRepository.lastAnalyticsEnabled, isTrue);
     });
 
@@ -172,8 +172,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.analyticsEnabled, isFalse);
+      final state = container.read(privacyProvider);
+      expect(state.value?.analyticsEnabled, isFalse);
       expect(fakeRepository.lastAnalyticsEnabled, isFalse);
     });
 
@@ -193,8 +193,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.region, MarketRegion.china);
+      final state = container.read(privacyProvider);
+      expect(state.value?.region, MarketRegion.china);
       expect(fakeRepository.lastRegion, MarketRegion.china);
     });
 
@@ -205,8 +205,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.region, MarketRegion.international);
+      final state = container.read(privacyProvider);
+      expect(state.value?.region, MarketRegion.international);
       expect(fakeRepository.lastRegion, MarketRegion.international);
     });
 
@@ -265,8 +265,8 @@ void main() {
       await privacyNotifier.clearPrivacyData();
 
       // Assert
-      final state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isFalse);
+      final state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isFalse);
     });
 
     test('should return false on failure', () async {
@@ -293,10 +293,10 @@ void main() {
       );
 
       // Assert - state should not be loading after completion
-      final state = container.read(privacyNotifierProvider);
+      final state = container.read(privacyProvider);
       expect(state.isLoading, isFalse);
       expect(state.hasValue, isTrue);
-      expect(state.valueOrNull?.hasConsented, isTrue);
+      expect(state.value?.hasConsented, isTrue);
     });
 
     test('should complete updateDataCollection and update state', () async {
@@ -304,10 +304,10 @@ void main() {
       await privacyNotifier.updateDataCollection(false);
 
       // Assert
-      final state = container.read(privacyNotifierProvider);
+      final state = container.read(privacyProvider);
       expect(state.isLoading, isFalse);
       expect(state.hasValue, isTrue);
-      expect(state.valueOrNull?.dataCollectionEnabled, isFalse);
+      expect(state.value?.dataCollectionEnabled, isFalse);
     });
 
     test('should complete updateAnalytics and update state', () async {
@@ -315,10 +315,10 @@ void main() {
       await privacyNotifier.updateAnalytics(false);
 
       // Assert
-      final state = container.read(privacyNotifierProvider);
+      final state = container.read(privacyProvider);
       expect(state.isLoading, isFalse);
       expect(state.hasValue, isTrue);
-      expect(state.valueOrNull?.analyticsEnabled, isFalse);
+      expect(state.value?.analyticsEnabled, isFalse);
     });
 
     test('should complete updateRegion and update state', () async {
@@ -326,18 +326,18 @@ void main() {
       await privacyNotifier.updateRegion(MarketRegion.china);
 
       // Assert
-      final state = container.read(privacyNotifierProvider);
+      final state = container.read(privacyProvider);
       expect(state.isLoading, isFalse);
       expect(state.hasValue, isTrue);
-      expect(state.valueOrNull?.region, MarketRegion.china);
+      expect(state.value?.region, MarketRegion.china);
     });
   });
 
   group('integration tests', () {
     test('should handle complete privacy flow', () async {
       // Arrange - Check initial state
-      var state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isFalse);
+      var state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isFalse);
 
       // Act - User accepts consent
       await privacyNotifier.saveConsent(
@@ -345,26 +345,26 @@ void main() {
         privacyPolicyVersion: '1.0.0',
         termsOfServiceVersion: '1.0.0',
       );
-      state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isTrue);
-      expect(state.valueOrNull?.consentedAt, isNotNull);
+      state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isTrue);
+      expect(state.value?.consentedAt, isNotNull);
 
       // Act - User disables data collection
       await privacyNotifier.updateDataCollection(false);
-      state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.dataCollectionEnabled, isFalse);
+      state = container.read(privacyProvider);
+      expect(state.value?.dataCollectionEnabled, isFalse);
 
       // Act - User changes region
       await privacyNotifier.updateRegion(MarketRegion.china);
-      state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.region, MarketRegion.china);
+      state = container.read(privacyProvider);
+      expect(state.value?.region, MarketRegion.china);
 
       // Act - User clears privacy data
       await privacyNotifier.clearPrivacyData();
-      state = container.read(privacyNotifierProvider);
-      expect(state.valueOrNull?.hasConsented, isFalse);
-      expect(state.valueOrNull?.consentedAt, isNull);
-      expect(state.valueOrNull?.region, MarketRegion.international);
+      state = container.read(privacyProvider);
+      expect(state.value?.hasConsented, isFalse);
+      expect(state.value?.consentedAt, isNull);
+      expect(state.value?.region, MarketRegion.international);
     });
   });
 }

@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeState = ref.watch(homeNotifierProvider);
+    final homeState = ref.watch(homeProvider);
     final greeting = ref.watch(greetingMessageProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -39,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
           colorScheme: colorScheme,
           textTheme: textTheme,
           localizations: localizations,
-          onRefresh: () => ref.read(homeNotifierProvider.notifier).refresh(),
+          onRefresh: () => ref.read(homeProvider.notifier).refresh(),
         ),
         loading: () => Center(
           child: Column(
@@ -56,7 +56,7 @@ class HomeScreen extends ConsumerWidget {
           localizations: localizations,
           colorScheme: colorScheme,
           textTheme: textTheme,
-          onRetry: () => ref.read(homeNotifierProvider.notifier).refresh(),
+          onRetry: () => ref.read(homeProvider.notifier).refresh(),
         ),
       ),
     );

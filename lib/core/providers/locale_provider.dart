@@ -47,7 +47,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   ///
   /// Pass `null` to follow system locale.
   Future<void> setLocale(Locale? locale) async {
-    final prefs = await this.ref.read(sharedPrefsProvider.future);
+    final prefs = await ref.read(sharedPrefsProvider.future);
 
     if (locale == null) {
       await prefs.setString(_localePreferenceKey, 'system');
@@ -55,7 +55,7 @@ class LocaleNotifier extends _$LocaleNotifier {
       await prefs.setString(_localePreferenceKey, locale.languageCode);
     }
 
-    this.ref.state = AsyncData(locale);
+    state = AsyncData(locale);
   }
 
   /// Returns the effective locale.
@@ -63,7 +63,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   /// If the saved locale is null, returns the system locale.
   /// Otherwise returns the saved locale.
   Locale get effectiveLocale {
-    final savedLocale = this.ref.state.value;
+    final savedLocale = state.value;
     if (savedLocale != null) {
       return savedLocale;
     }
@@ -79,7 +79,7 @@ class LocaleNotifier extends _$LocaleNotifier {
 
   /// Toggles between English and Chinese.
   Future<void> toggleLocale() async {
-    final currentLocale = this.ref.state.value;
+    final currentLocale = state.value;
     if (currentLocale?.languageCode == 'zh') {
       await setLocale(const Locale('en'));
     } else {

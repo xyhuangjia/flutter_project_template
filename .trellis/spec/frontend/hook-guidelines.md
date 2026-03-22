@@ -171,7 +171,7 @@ class AsyncProduct extends _$AsyncProduct {
   }
 
   Future<void> updateStock(int quantity) async {
-    final currentProduct = state.valueOrNull;
+    final currentProduct = state.value;
     if (currentProduct == null) return;
 
     state = const AsyncValue.loading();
@@ -222,7 +222,7 @@ class PaginatedProducts extends _$PaginatedProducts {
   }
 
   Future<void> loadMore() async {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null || !current.hasNextPage) return;
 
     state = AsyncValue.data(
@@ -260,7 +260,7 @@ class TodoOperations extends _$TodoOperations {
   }
 
   Future<void> toggleComplete(String todoId) async {
-    final currentTodos = state.valueOrNull;
+    final currentTodos = state.value;
     if (currentTodos == null) return;
 
     // Optimistic update
@@ -333,7 +333,7 @@ CartSummary cartSummary(CartSummaryRef ref) {
     (sum, item) => sum + (item.product.price * item.quantity),
   );
 
-  final applicableCoupon = coupons.valueOrNull?.firstWhere(
+  final applicableCoupon = coupons.value?.firstWhere(
     (c) => c.minPurchase <= subtotal,
     orElse: () => null,
   );
@@ -403,7 +403,7 @@ class ProductFilter extends _$ProductFilter {
 
 @riverpod
 List<Product> filteredProducts(FilteredProductsRef ref) {
-  final products = ref.watch(productListProvider).valueOrNull ?? [];
+  final products = ref.watch(productListProvider).value ?? [];
   final filter = ref.watch(productFilterProvider);
 
   var result = products;

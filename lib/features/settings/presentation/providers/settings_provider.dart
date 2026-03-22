@@ -15,9 +15,8 @@ part 'settings_provider.g.dart';
 
 /// Provider for SettingsLocalDataSource.
 @riverpod
-SettingsLocalDataSource settingsLocalDataSource(
-    SettingsLocalDataSourceRef ref) {
-  final prefs = ref.watch(sharedPrefsProvider).valueOrNull;
+SettingsLocalDataSource settingsLocalDataSource(Ref ref) {
+  final prefs = ref.watch(sharedPrefsProvider).value;
   if (prefs == null) {
     throw StateError('SharedPreferences not initialized');
   }
@@ -26,7 +25,7 @@ SettingsLocalDataSource settingsLocalDataSource(
 
 /// Provider for SettingsRepository.
 @riverpod
-SettingsRepository settingsRepository(SettingsRepositoryRef ref) {
+SettingsRepository settingsRepository(Ref ref) {
   return SettingsRepositoryImpl(
     localDataSource: ref.watch(settingsLocalDataSourceProvider),
   );
@@ -48,11 +47,11 @@ class SettingsNotifier extends _$SettingsNotifier {
       success: (s) => s,
     );
 
-    final currentLocale = ref.read(localeNotifierProvider).valueOrNull;
+    final currentLocale = ref.read(localeProvider).value;
     if (currentLocale?.languageCode != settings.languageCode) {
       final locale =
           settings.languageCode != null ? Locale(settings.languageCode!) : null;
-      await ref.read(localeNotifierProvider.notifier).setLocale(locale);
+      await ref.read(localeProvider.notifier).setLocale(locale);
     }
 
     return settings;
@@ -79,7 +78,7 @@ class SettingsNotifier extends _$SettingsNotifier {
       success: (s) {
         state = AsyncValue.data(s);
         final locale = languageCode != null ? Locale(languageCode) : null;
-        ref.read(localeNotifierProvider.notifier).setLocale(locale);
+        ref.read(localeProvider.notifier).setLocale(locale);
       },
     );
 

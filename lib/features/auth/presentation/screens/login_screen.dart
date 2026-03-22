@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = true);
 
     final success =
-        await ref.read(authNotifierProvider.notifier).loginWithEmail(
+        await ref.read(authProvider.notifier).loginWithEmail(
               email: _emailController.text.trim(),
               password: _passwordController.text,
             );
@@ -69,10 +69,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final authState = ref.watch(authNotifierProvider);
+    final authState = ref.watch(authProvider);
 
     // Show error if any
-    ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
+    ref.listen<AsyncValue<AuthState>>(authProvider, (previous, next) {
       if (next.hasError) {
         DialogUtil.showErrorDialog(context, next.error.toString());
       }
@@ -460,7 +460,7 @@ class _LoginForm extends StatelessWidget {
                 ? null
                 : () => onThirdPartyLogin(
                       () => ref
-                          .read(authNotifierProvider.notifier)
+                          .read(authProvider.notifier)
                           .loginWithWeChat(),
                     ),
             backgroundColor: const Color(0xFF07C160),
@@ -473,7 +473,7 @@ class _LoginForm extends StatelessWidget {
                 ? null
                 : () => onThirdPartyLogin(
                       () => ref
-                          .read(authNotifierProvider.notifier)
+                          .read(authProvider.notifier)
                           .loginWithApple(),
                     ),
             backgroundColor: Colors.black,
@@ -486,7 +486,7 @@ class _LoginForm extends StatelessWidget {
                 ? null
                 : () => onThirdPartyLogin(
                       () => ref
-                          .read(authNotifierProvider.notifier)
+                          .read(authProvider.notifier)
                           .loginWithGoogle(),
                     ),
             backgroundColor: colorScheme.surface,

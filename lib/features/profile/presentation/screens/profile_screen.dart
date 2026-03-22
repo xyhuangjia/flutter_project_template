@@ -98,7 +98,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Future<void> _updateAvatar(String path) async {
-    await ref.read(authNotifierProvider.notifier).updateUserProfile(
+    await ref.read(authProvider.notifier).updateUserProfile(
           avatarUrl: path,
         );
   }
@@ -124,7 +124,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     UserGender? gender,
   }) async {
     final success =
-        await ref.read(authNotifierProvider.notifier).updateUserProfile(
+        await ref.read(authProvider.notifier).updateUserProfile(
               displayName: displayName,
               avatarUrl: avatarUrl,
               phoneNumber: phoneNumber,
@@ -256,7 +256,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final authState = ref.watch(authNotifierProvider);
+    final authState = ref.watch(authProvider);
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceContainerLow,

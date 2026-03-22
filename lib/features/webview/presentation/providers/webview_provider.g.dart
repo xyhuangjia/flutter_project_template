@@ -6,130 +6,321 @@ part of 'webview_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// Provider for WebViewCookieDataSource.
+
+@ProviderFor(webviewCookieDataSource)
+final webviewCookieDataSourceProvider = WebviewCookieDataSourceProvider._();
+
+/// Provider for WebViewCookieDataSource.
+
+final class WebviewCookieDataSourceProvider extends $FunctionalProvider<
+    WebViewCookieDataSource,
+    WebViewCookieDataSource,
+    WebViewCookieDataSource> with $Provider<WebViewCookieDataSource> {
+  /// Provider for WebViewCookieDataSource.
+  WebviewCookieDataSourceProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'webviewCookieDataSourceProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$webviewCookieDataSourceHash();
+
+  @$internal
+  @override
+  $ProviderElement<WebViewCookieDataSource> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  WebViewCookieDataSource create(Ref ref) {
+    return webviewCookieDataSource(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WebViewCookieDataSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WebViewCookieDataSource>(value),
+    );
+  }
+}
+
 String _$webviewCookieDataSourceHash() =>
     r'29f613f4ec140097fcbbe74af70bb065121218aa';
 
-/// Provider for WebViewCookieDataSource.
-///
-/// Copied from [webviewCookieDataSource].
-@ProviderFor(webviewCookieDataSource)
-final webviewCookieDataSourceProvider =
-    AutoDisposeProvider<WebViewCookieDataSource>.internal(
-  webviewCookieDataSource,
-  name: r'webviewCookieDataSourceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webviewCookieDataSourceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+/// Provider for WebViewFileDataSource.
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef WebviewCookieDataSourceRef
-    = AutoDisposeProviderRef<WebViewCookieDataSource>;
+@ProviderFor(webviewFileDataSource)
+final webviewFileDataSourceProvider = WebviewFileDataSourceProvider._();
+
+/// Provider for WebViewFileDataSource.
+
+final class WebviewFileDataSourceProvider extends $FunctionalProvider<
+    WebViewFileDataSource,
+    WebViewFileDataSource,
+    WebViewFileDataSource> with $Provider<WebViewFileDataSource> {
+  /// Provider for WebViewFileDataSource.
+  WebviewFileDataSourceProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'webviewFileDataSourceProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$webviewFileDataSourceHash();
+
+  @$internal
+  @override
+  $ProviderElement<WebViewFileDataSource> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  WebViewFileDataSource create(Ref ref) {
+    return webviewFileDataSource(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WebViewFileDataSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WebViewFileDataSource>(value),
+    );
+  }
+}
+
 String _$webviewFileDataSourceHash() =>
     r'31f653e0d4c66d8022b4faec95dbaf5ef1f6f77f';
 
-/// Provider for WebViewFileDataSource.
-///
-/// Copied from [webviewFileDataSource].
-@ProviderFor(webviewFileDataSource)
-final webviewFileDataSourceProvider =
-    AutoDisposeProvider<WebViewFileDataSource>.internal(
-  webviewFileDataSource,
-  name: r'webviewFileDataSourceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webviewFileDataSourceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef WebviewFileDataSourceRef
-    = AutoDisposeProviderRef<WebViewFileDataSource>;
-String _$webviewLocalStorageDataSourceHash() =>
-    r'df975e228474b202602ece790b814534ee2d8321';
-
 /// Provider for WebViewLocalStorageDataSource.
-///
-/// Copied from [webviewLocalStorageDataSource].
+
 @ProviderFor(webviewLocalStorageDataSource)
 final webviewLocalStorageDataSourceProvider =
-    AutoDisposeProvider<WebViewLocalStorageDataSource>.internal(
-  webviewLocalStorageDataSource,
-  name: r'webviewLocalStorageDataSourceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webviewLocalStorageDataSourceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+    WebviewLocalStorageDataSourceProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef WebviewLocalStorageDataSourceRef
-    = AutoDisposeProviderRef<WebViewLocalStorageDataSource>;
-String _$webviewRepositoryHash() => r'b36393a8642ff803d13f281caa0a531da33f2204';
+/// Provider for WebViewLocalStorageDataSource.
+
+final class WebviewLocalStorageDataSourceProvider extends $FunctionalProvider<
+        WebViewLocalStorageDataSource,
+        WebViewLocalStorageDataSource,
+        WebViewLocalStorageDataSource>
+    with $Provider<WebViewLocalStorageDataSource> {
+  /// Provider for WebViewLocalStorageDataSource.
+  WebviewLocalStorageDataSourceProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'webviewLocalStorageDataSourceProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$webviewLocalStorageDataSourceHash();
+
+  @$internal
+  @override
+  $ProviderElement<WebViewLocalStorageDataSource> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  WebViewLocalStorageDataSource create(Ref ref) {
+    return webviewLocalStorageDataSource(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WebViewLocalStorageDataSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<WebViewLocalStorageDataSource>(value),
+    );
+  }
+}
+
+String _$webviewLocalStorageDataSourceHash() =>
+    r'46929f7298919397e7dcf5894dccdbb9cd6c2fb1';
 
 /// Provider for WebViewRepository.
-///
-/// Copied from [webviewRepository].
-@ProviderFor(webviewRepository)
-final webviewRepositoryProvider =
-    AutoDisposeProvider<WebViewRepository>.internal(
-  webviewRepository,
-  name: r'webviewRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webviewRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef WebviewRepositoryRef = AutoDisposeProviderRef<WebViewRepository>;
+@ProviderFor(webviewRepository)
+final webviewRepositoryProvider = WebviewRepositoryProvider._();
+
+/// Provider for WebViewRepository.
+
+final class WebviewRepositoryProvider extends $FunctionalProvider<
+    WebViewRepository,
+    WebViewRepository,
+    WebViewRepository> with $Provider<WebViewRepository> {
+  /// Provider for WebViewRepository.
+  WebviewRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'webviewRepositoryProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$webviewRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<WebViewRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  WebViewRepository create(Ref ref) {
+    return webviewRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WebViewRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WebViewRepository>(value),
+    );
+  }
+}
+
+String _$webviewRepositoryHash() => r'b36393a8642ff803d13f281caa0a531da33f2204';
+
+/// WebView state notifier provider.
+///
+/// Manages the WebView state and controller.
+
+@ProviderFor(WebViewNotifier)
+final webViewProvider = WebViewNotifierProvider._();
+
+/// WebView state notifier provider.
+///
+/// Manages the WebView state and controller.
+final class WebViewNotifierProvider
+    extends $NotifierProvider<WebViewNotifier, WebViewState> {
+  /// WebView state notifier provider.
+  ///
+  /// Manages the WebView state and controller.
+  WebViewNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'webViewProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$webViewNotifierHash();
+
+  @$internal
+  @override
+  WebViewNotifier create() => WebViewNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WebViewState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WebViewState>(value),
+    );
+  }
+}
+
 String _$webViewNotifierHash() => r'9068c35ea3dd46f68c47c9211cfe05ae80edca9e';
 
 /// WebView state notifier provider.
 ///
 /// Manages the WebView state and controller.
-///
-/// Copied from [WebViewNotifier].
-@ProviderFor(WebViewNotifier)
-final webViewNotifierProvider =
-    AutoDisposeNotifierProvider<WebViewNotifier, WebViewState>.internal(
-  WebViewNotifier.new,
-  name: r'webViewNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webViewNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-typedef _$WebViewNotifier = AutoDisposeNotifier<WebViewState>;
+abstract class _$WebViewNotifier extends $Notifier<WebViewState> {
+  WebViewState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<WebViewState, WebViewState>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<WebViewState, WebViewState>,
+        WebViewState,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}
+
+/// Provider for WebView configuration.
+
+@ProviderFor(WebViewConfigNotifier)
+final webViewConfigProvider = WebViewConfigNotifierProvider._();
+
+/// Provider for WebView configuration.
+final class WebViewConfigNotifierProvider
+    extends $NotifierProvider<WebViewConfigNotifier, WebViewConfig?> {
+  /// Provider for WebView configuration.
+  WebViewConfigNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'webViewConfigProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$webViewConfigNotifierHash();
+
+  @$internal
+  @override
+  WebViewConfigNotifier create() => WebViewConfigNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WebViewConfig? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WebViewConfig?>(value),
+    );
+  }
+}
+
 String _$webViewConfigNotifierHash() =>
     r'25fc40890e83bb28c3766d4d6f6102353a9172c0';
 
 /// Provider for WebView configuration.
-///
-/// Copied from [WebViewConfigNotifier].
-@ProviderFor(WebViewConfigNotifier)
-final webViewConfigNotifierProvider =
-    AutoDisposeNotifierProvider<WebViewConfigNotifier, WebViewConfig?>.internal(
-  WebViewConfigNotifier.new,
-  name: r'webViewConfigNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webViewConfigNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-typedef _$WebViewConfigNotifier = AutoDisposeNotifier<WebViewConfig?>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$WebViewConfigNotifier extends $Notifier<WebViewConfig?> {
+  WebViewConfig? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<WebViewConfig?, WebViewConfig?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<WebViewConfig?, WebViewConfig?>,
+        WebViewConfig?,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}

@@ -178,10 +178,10 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   /// Gets the current user.
-  User? get currentUser => state.valueOrNull?.user;
+  User? get currentUser => state.value?.user;
 
   /// Checks if the user is authenticated.
-  bool get isAuthenticated => state.valueOrNull?.isAuthenticated ?? false;
+  bool get isAuthenticated => state.value?.isAuthenticated ?? false;
 
   /// Sends verification code to phone number.
   Future<bool> sendVerificationCodeToPhone(String phoneNumber) async {

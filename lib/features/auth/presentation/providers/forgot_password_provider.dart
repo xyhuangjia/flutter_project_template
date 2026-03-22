@@ -16,9 +16,7 @@ part 'forgot_password_provider.g.dart';
 
 /// Provider for ForgotPasswordRepository.
 @riverpod
-ForgotPasswordRepository forgotPasswordRepository(
-  ForgotPasswordRepositoryRef ref,
-) {
+ForgotPasswordRepository forgotPasswordRepository(Ref ref) {
   return ForgotPasswordRepositoryImpl();
 }
 
@@ -32,8 +30,8 @@ class ForgotPasswordNotifier extends _$ForgotPasswordNotifier {
   @override
   ForgotPasswordState build() {
     // Determine verification type based on locale
-    final localeAsync = ref.watch(localeNotifierProvider);
-    final isChinese = localeAsync.valueOrNull?.languageCode == 'zh';
+    final localeAsync = ref.watch(localeProvider);
+    final isChinese = localeAsync.value?.languageCode == 'zh';
 
     return ForgotPasswordState(
       verificationType:
@@ -280,8 +278,8 @@ class ForgotPasswordNotifier extends _$ForgotPasswordNotifier {
   /// Resets the entire flow.
   void reset() {
     _cancelResendTimer();
-    final localeAsync = ref.read(localeNotifierProvider);
-    final isChinese = localeAsync.valueOrNull?.languageCode == 'zh';
+    final localeAsync = ref.read(localeProvider);
+    final isChinese = localeAsync.value?.languageCode == 'zh';
 
     state = ForgotPasswordState(
       verificationType:

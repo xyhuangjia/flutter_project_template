@@ -59,7 +59,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
   Future<void> _handleSendCode() async {
     final success = await ref
-        .read(forgotPasswordNotifierProvider.notifier)
+        .read(forgotPasswordProvider.notifier)
         .sendVerificationCode();
     if (success && mounted) {
       _startCountdown();
@@ -67,12 +67,12 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   Future<void> _handleVerifyCode() async {
-    await ref.read(forgotPasswordNotifierProvider.notifier).verifyCode();
+    await ref.read(forgotPasswordProvider.notifier).verifyCode();
   }
 
   Future<void> _handleResetPassword() async {
     final success =
-        await ref.read(forgotPasswordNotifierProvider.notifier).resetPassword();
+        await ref.read(forgotPasswordProvider.notifier).resetPassword();
     if (success && mounted) {
       // Show success for 2 seconds then go back to login
       await Future<void>.delayed(const Duration(seconds: 2));
@@ -87,10 +87,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final state = ref.watch(forgotPasswordNotifierProvider);
+    final state = ref.watch(forgotPasswordProvider);
 
     // Listen for errors
-    ref.listen<ForgotPasswordState>(forgotPasswordNotifierProvider,
+    ref.listen<ForgotPasswordState>(forgotPasswordProvider,
         (previous, next) {
       if (next.errorMessage != null && next.errorMessage!.isNotEmpty) {
         DialogUtil.showErrorDialog(context, next.errorMessage!);
@@ -105,7 +105,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           onPressed: () {
             if (state.step != ForgotPasswordStep.enterAccount &&
                 state.step != ForgotPasswordStep.success) {
-              ref.read(forgotPasswordNotifierProvider.notifier).goBack();
+              ref.read(forgotPasswordProvider.notifier).goBack();
             } else {
               context.pop();
             }
@@ -157,11 +157,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           theme: theme,
           colorScheme: colorScheme,
           onAccountChanged: (value) {
-            ref.read(forgotPasswordNotifierProvider.notifier).setAccount(value);
+            ref.read(forgotPasswordProvider.notifier).setAccount(value);
           },
           onVerificationTypeChanged: (type) {
             ref
-                .read(forgotPasswordNotifierProvider.notifier)
+                .read(forgotPasswordProvider.notifier)
                 .switchVerificationType(type);
             _accountController.clear();
           },
@@ -178,7 +178,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           colorScheme: colorScheme,
           onCodeChanged: (value) {
             ref
-                .read(forgotPasswordNotifierProvider.notifier)
+                .read(forgotPasswordProvider.notifier)
                 .setVerificationCode(value);
           },
           onVerify: _handleVerifyCode,
@@ -200,12 +200,12 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           obscureConfirmPassword: _obscureConfirmPassword,
           onPasswordChanged: (value) {
             ref
-                .read(forgotPasswordNotifierProvider.notifier)
+                .read(forgotPasswordProvider.notifier)
                 .setNewPassword(value);
           },
           onConfirmPasswordChanged: (value) {
             ref
-                .read(forgotPasswordNotifierProvider.notifier)
+                .read(forgotPasswordProvider.notifier)
                 .setConfirmPassword(value);
           },
           onTogglePassword: () {

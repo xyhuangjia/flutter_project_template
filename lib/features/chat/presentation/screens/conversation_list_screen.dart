@@ -40,13 +40,13 @@ class _ConversationListScreenState
   }
 
   void _performSearch(String query) {
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     chatNotifier.search(query.isEmpty ? null : query);
   }
 
   void _clearSearch() {
     _searchController.clear();
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     chatNotifier.clearSearch();
     setState(() {
       _isSearching = false;
@@ -58,7 +58,7 @@ class _ConversationListScreenState
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final conversationsAsync = ref.watch(chatNotifierProvider);
+    final conversationsAsync = ref.watch(chatProvider);
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceContainerLow,
@@ -210,7 +210,7 @@ class _ConversationListScreenState
       context.push('/chat/${conversation.id}');
 
   Future<void> _createNewConversation() async {
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     final localizations = AppLocalizations.of(context)!;
     final id = await chatNotifier.createConversation(localizations.newChat);
     if (mounted) {
@@ -219,7 +219,7 @@ class _ConversationListScreenState
   }
 
   Future<void> _deleteConversation(String conversationId) async {
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     await chatNotifier.deleteConversation(conversationId);
   }
 }

@@ -11,22 +11,22 @@ part of 'locale_provider.dart';
 /// Async SharedPreferences provider for initialization.
 
 @ProviderFor(SharedPrefs)
-const sharedPrefsProvider = SharedPrefsProvider._();
+final sharedPrefsProvider = SharedPrefsProvider._();
 
 /// Async SharedPreferences provider for initialization.
 final class SharedPrefsProvider
     extends $AsyncNotifierProvider<SharedPrefs, SharedPreferences> {
   /// Async SharedPreferences provider for initialization.
-  const SharedPrefsProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'sharedPrefsProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  SharedPrefsProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'sharedPrefsProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$sharedPrefsHash();
@@ -45,18 +45,14 @@ abstract class _$SharedPrefs extends $AsyncNotifier<SharedPreferences> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref =
         this.ref as $Ref<AsyncValue<SharedPreferences>, SharedPreferences>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<SharedPreferences>, SharedPreferences>,
-              AsyncValue<SharedPreferences>,
-              Object?,
-              Object?
-            >;
-    element.handleValue(ref, created);
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<SharedPreferences>, SharedPreferences>,
+        AsyncValue<SharedPreferences>,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
   }
 }
 
@@ -68,7 +64,7 @@ abstract class _$SharedPrefs extends $AsyncNotifier<SharedPreferences> {
 /// - System default (null)
 
 @ProviderFor(LocaleNotifier)
-const localeProvider = LocaleNotifierProvider._();
+final localeProvider = LocaleNotifierProvider._();
 
 /// Locale notifier provider for managing app locale.
 ///
@@ -84,16 +80,16 @@ final class LocaleNotifierProvider
   /// - English (en)
   /// - Chinese (zh)
   /// - System default (null)
-  const LocaleNotifierProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'localeProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  LocaleNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'localeProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$localeNotifierHash();
@@ -103,7 +99,7 @@ final class LocaleNotifierProvider
   LocaleNotifier create() => LocaleNotifier();
 }
 
-String _$localeNotifierHash() => r'68590ac802d9acd5af5725061719261d12b37c08';
+String _$localeNotifierHash() => r'786942a557bfeb85ad0d163e4ea0c62fe4215b7f';
 
 /// Locale notifier provider for managing app locale.
 ///
@@ -117,16 +113,12 @@ abstract class _$LocaleNotifier extends $AsyncNotifier<Locale?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<Locale?>, Locale?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<Locale?>, Locale?>,
-              AsyncValue<Locale?>,
-              Object?,
-              Object?
-            >;
-    element.handleValue(ref, created);
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<Locale?>, Locale?>,
+        AsyncValue<Locale?>,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
   }
 }

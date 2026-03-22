@@ -14,7 +14,7 @@ part 'privacy_provider.g.dart';
 
 /// Privacy local data source provider.
 @riverpod
-PrivacyLocalDataSource privacyLocalDataSource(PrivacyLocalDataSourceRef ref) {
+PrivacyLocalDataSource privacyLocalDataSource(Ref ref) {
   // Use the same sharedPreferencesProvider that is overridden in main.dart
   final prefs = ref.watch(sharedPreferencesProvider);
   return PrivacyLocalDataSource(sharedPreferences: prefs);
@@ -22,13 +22,11 @@ PrivacyLocalDataSource privacyLocalDataSource(PrivacyLocalDataSourceRef ref) {
 
 /// Mock account service provider.
 @riverpod
-AccountServiceMock accountServiceMock(AccountServiceMockRef ref) =>
-    AccountServiceMock();
+AccountServiceMock accountServiceMock(Ref ref) => AccountServiceMock();
 
 /// Privacy repository provider.
 @riverpod
-PrivacyRepository privacyRepository(PrivacyRepositoryRef ref) =>
-    PrivacyRepositoryImpl(
+PrivacyRepository privacyRepository(Ref ref) => PrivacyRepositoryImpl(
       localDataSource: ref.watch(privacyLocalDataSourceProvider),
       accountService: ref.watch(accountServiceMockProvider),
     );

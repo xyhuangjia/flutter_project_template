@@ -25,8 +25,8 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final localeAsync = ref.watch(localeNotifierProvider);
-    final settingsAsync = ref.watch(settingsNotifierProvider);
+    final localeAsync = ref.watch(localeProvider);
+    final settingsAsync = ref.watch(settingsProvider);
 
     return KeyboardDismissWrapper(
       child: localeAsync.when(

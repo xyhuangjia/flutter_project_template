@@ -23,7 +23,7 @@ class DeveloperOptionsScreen extends ConsumerWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final optionsAsync = ref.watch(developerOptionsNotifierProvider);
+    final optionsAsync = ref.watch(developerOptionsProvider);
     final currentEnv = ref.watch(environmentProvider);
 
     return Scaffold(
@@ -207,7 +207,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     value: options.loggingEnabled,
                     onChanged: (value) {
                       ref
-                          .read(developerOptionsNotifierProvider.notifier)
+                          .read(developerOptionsProvider.notifier)
                           .updateLoggingEnabled(value);
                     },
                   ),
@@ -253,7 +253,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     value: options.networkLogEnabled,
                     onChanged: (value) {
                       ref
-                          .read(developerOptionsNotifierProvider.notifier)
+                          .read(developerOptionsProvider.notifier)
                           .updateNetworkLogEnabled(value);
                     },
                   ),
@@ -270,7 +270,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     value: options.performanceMonitorEnabled,
                     onChanged: (value) {
                       ref
-                          .read(developerOptionsNotifierProvider.notifier)
+                          .read(developerOptionsProvider.notifier)
                           .updatePerformanceMonitorEnabled(value);
                     },
                   ),
@@ -287,7 +287,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     value: options.showDebugInfo,
                     onChanged: (value) {
                       ref
-                          .read(developerOptionsNotifierProvider.notifier)
+                          .read(developerOptionsProvider.notifier)
                           .updateShowDebugInfo(value);
                     },
                   ),
@@ -505,7 +505,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop();
               await ref
-                  .read(developerOptionsNotifierProvider.notifier)
+                  .read(developerOptionsProvider.notifier)
                   .updateCustomApiBaseUrl(null);
               if (context.mounted) {
                 DialogUtil.showSuccessDialog(context, loc.saveSuccess);
@@ -519,7 +519,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
               final url = controller.text.trim();
               if (url.isNotEmpty) {
                 await ref
-                    .read(developerOptionsNotifierProvider.notifier)
+                    .read(developerOptionsProvider.notifier)
                     .updateCustomApiBaseUrl(url);
                 if (context.mounted) {
                   DialogUtil.showSuccessDialog(context, loc.saveSuccess);
@@ -555,7 +555,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                 Navigator.of(dialogContext).pop();
                 if (value != null) {
                   ref
-                      .read(developerOptionsNotifierProvider.notifier)
+                      .read(developerOptionsProvider.notifier)
                       .updateLogLevel(value);
                 }
               },
@@ -585,7 +585,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop();
               final success = await ref
-                  .read(developerOptionsNotifierProvider.notifier)
+                  .read(developerOptionsProvider.notifier)
                   .clearCache();
               if (context.mounted) {
                 DialogUtil.showSuccessDialog(
@@ -627,7 +627,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop();
               final success = await ref
-                  .read(developerOptionsNotifierProvider.notifier)
+                  .read(developerOptionsProvider.notifier)
                   .clearDatabase();
               if (context.mounted) {
                 DialogUtil.showSuccessDialog(
@@ -662,7 +662,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop();
               final success = await ref
-                  .read(developerOptionsNotifierProvider.notifier)
+                  .read(developerOptionsProvider.notifier)
                   .resetToDefaults();
               if (context.mounted) {
                 DialogUtil.showSuccessDialog(

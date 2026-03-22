@@ -6,72 +6,170 @@ part of 'developer_options_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$developerOptionsLocalDataSourceHash() =>
-    r'4a071267336b40c7a41ec41e33672c37a6e28f30';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// Provider for DeveloperOptionsLocalDataSource.
+/// Uses GetIt for dependency injection.
+
+@ProviderFor(developerOptionsLocalDataSource)
+final developerOptionsLocalDataSourceProvider =
+    DeveloperOptionsLocalDataSourceProvider._();
 
 /// Provider for DeveloperOptionsLocalDataSource.
 /// Uses GetIt for dependency injection.
-///
-/// Copied from [developerOptionsLocalDataSource].
-@ProviderFor(developerOptionsLocalDataSource)
-final developerOptionsLocalDataSourceProvider =
-    AutoDisposeProvider<DeveloperOptionsLocalDataSource>.internal(
-  developerOptionsLocalDataSource,
-  name: r'developerOptionsLocalDataSourceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$developerOptionsLocalDataSourceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DeveloperOptionsLocalDataSourceRef
-    = AutoDisposeProviderRef<DeveloperOptionsLocalDataSource>;
-String _$developerOptionsRepositoryHash() =>
-    r'e93ec794551583fccab30598368a80e6d61f5406';
+final class DeveloperOptionsLocalDataSourceProvider extends $FunctionalProvider<
+        DeveloperOptionsLocalDataSource,
+        DeveloperOptionsLocalDataSource,
+        DeveloperOptionsLocalDataSource>
+    with $Provider<DeveloperOptionsLocalDataSource> {
+  /// Provider for DeveloperOptionsLocalDataSource.
+  /// Uses GetIt for dependency injection.
+  DeveloperOptionsLocalDataSourceProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'developerOptionsLocalDataSourceProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$developerOptionsLocalDataSourceHash();
+
+  @$internal
+  @override
+  $ProviderElement<DeveloperOptionsLocalDataSource> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  DeveloperOptionsLocalDataSource create(Ref ref) {
+    return developerOptionsLocalDataSource(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DeveloperOptionsLocalDataSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<DeveloperOptionsLocalDataSource>(value),
+    );
+  }
+}
+
+String _$developerOptionsLocalDataSourceHash() =>
+    r'2bb327914100f8a4290e56ca0801e140963751ba';
 
 /// Provider for DeveloperOptionsRepository.
 /// Uses GetIt for dependency injection.
-///
-/// Copied from [developerOptionsRepository].
+
 @ProviderFor(developerOptionsRepository)
 final developerOptionsRepositoryProvider =
-    AutoDisposeProvider<DeveloperOptionsRepository>.internal(
-  developerOptionsRepository,
-  name: r'developerOptionsRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$developerOptionsRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+    DeveloperOptionsRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DeveloperOptionsRepositoryRef
-    = AutoDisposeProviderRef<DeveloperOptionsRepository>;
-String _$developerOptionsNotifierHash() =>
-    r'26aa880042af2f4df8d4e46475f31d559429cc8b';
+/// Provider for DeveloperOptionsRepository.
+/// Uses GetIt for dependency injection.
+
+final class DeveloperOptionsRepositoryProvider extends $FunctionalProvider<
+    DeveloperOptionsRepository,
+    DeveloperOptionsRepository,
+    DeveloperOptionsRepository> with $Provider<DeveloperOptionsRepository> {
+  /// Provider for DeveloperOptionsRepository.
+  /// Uses GetIt for dependency injection.
+  DeveloperOptionsRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'developerOptionsRepositoryProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$developerOptionsRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<DeveloperOptionsRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  DeveloperOptionsRepository create(Ref ref) {
+    return developerOptionsRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DeveloperOptionsRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DeveloperOptionsRepository>(value),
+    );
+  }
+}
+
+String _$developerOptionsRepositoryHash() =>
+    r'd849a76628b402c9c57aae9b67608ed23dbd79c8';
 
 /// Developer options notifier provider.
 ///
 /// Manages the developer options state.
-///
-/// Copied from [DeveloperOptionsNotifier].
-@ProviderFor(DeveloperOptionsNotifier)
-final developerOptionsNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    DeveloperOptionsNotifier, DeveloperOptions>.internal(
-  DeveloperOptionsNotifier.new,
-  name: r'developerOptionsNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$developerOptionsNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-typedef _$DeveloperOptionsNotifier = AutoDisposeAsyncNotifier<DeveloperOptions>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+@ProviderFor(DeveloperOptionsNotifier)
+final developerOptionsProvider = DeveloperOptionsNotifierProvider._();
+
+/// Developer options notifier provider.
+///
+/// Manages the developer options state.
+final class DeveloperOptionsNotifierProvider
+    extends $AsyncNotifierProvider<DeveloperOptionsNotifier, DeveloperOptions> {
+  /// Developer options notifier provider.
+  ///
+  /// Manages the developer options state.
+  DeveloperOptionsNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'developerOptionsProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$developerOptionsNotifierHash();
+
+  @$internal
+  @override
+  DeveloperOptionsNotifier create() => DeveloperOptionsNotifier();
+}
+
+String _$developerOptionsNotifierHash() =>
+    r'4b509acf3904bb3f65f11cb6d08b72723644e615';
+
+/// Developer options notifier provider.
+///
+/// Manages the developer options state.
+
+abstract class _$DeveloperOptionsNotifier
+    extends $AsyncNotifier<DeveloperOptions> {
+  FutureOr<DeveloperOptions> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<DeveloperOptions>, DeveloperOptions>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<DeveloperOptions>, DeveloperOptions>,
+        AsyncValue<DeveloperOptions>,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}

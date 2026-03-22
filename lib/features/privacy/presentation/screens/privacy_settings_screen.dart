@@ -23,7 +23,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context)!;
-    final privacyState = ref.watch(privacyNotifierProvider);
+    final privacyState = ref.watch(privacyProvider);
     final regionConfig = ref.watch(regionConfigProvider);
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -130,7 +130,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
                   value: state.dataCollectionEnabled,
                   onChanged: (value) {
                     ref
-                        .read(privacyNotifierProvider.notifier)
+                        .read(privacyProvider.notifier)
                         .updateDataCollection(value);
                   },
                 ),
@@ -147,7 +147,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
                   value: state.analyticsEnabled,
                   onChanged: (value) {
                     ref
-                        .read(privacyNotifierProvider.notifier)
+                        .read(privacyProvider.notifier)
                         .updateAnalytics(value);
                   },
                 ),
@@ -335,7 +335,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
                     onChanged: (value) {
                       if (value != null) {
                         ref
-                            .read(privacyNotifierProvider.notifier)
+                            .read(privacyProvider.notifier)
                             .updateRegion(value);
                         Navigator.of(sheetContext).pop();
                       }
@@ -355,7 +355,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
                       : null,
                   onTap: () {
                     ref
-                        .read(privacyNotifierProvider.notifier)
+                        .read(privacyProvider.notifier)
                         .updateRegion(region);
                     Navigator.of(sheetContext).pop();
                   },

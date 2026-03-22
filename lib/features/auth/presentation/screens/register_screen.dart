@@ -106,10 +106,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     final success = _regionType == RegionType.china
         ? await ref
-            .read(authNotifierProvider.notifier)
+            .read(authProvider.notifier)
             .sendVerificationCodeToPhone(account)
         : await ref
-            .read(authNotifierProvider.notifier)
+            .read(authProvider.notifier)
             .sendVerificationCodeToEmail(account);
 
     setState(() => _isSendingCode = false);
@@ -152,11 +152,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _isVerifyingCode = true);
 
     final success = _regionType == RegionType.china
-        ? await ref.read(authNotifierProvider.notifier).verifyPhoneCode(
+        ? await ref.read(authProvider.notifier).verifyPhoneCode(
               phoneNumber: account,
               code: code,
             )
-        : await ref.read(authNotifierProvider.notifier).verifyEmailCode(
+        : await ref.read(authProvider.notifier).verifyEmailCode(
               email: account,
               code: code,
             );
@@ -194,13 +194,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final code = _verificationCodeController.text.trim();
 
     final success = _regionType == RegionType.china
-        ? await ref.read(authNotifierProvider.notifier).registerWithPhone(
+        ? await ref.read(authProvider.notifier).registerWithPhone(
               phoneNumber: account,
               username: account,
               password: password,
               verificationCode: code,
             )
-        : await ref.read(authNotifierProvider.notifier).registerWithEmail(
+        : await ref.read(authProvider.notifier).registerWithEmail(
               email: account,
               username: account,
               password: password,
@@ -224,7 +224,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   /// Handles logout for already logged in users.
   Future<void> _handleLogout() async {
-    final success = await ref.read(authNotifierProvider.notifier).logout();
+    final success = await ref.read(authProvider.notifier).logout();
     if (success && mounted) {
       // User is now logged out, the widget will rebuild automatically
     }
@@ -234,17 +234,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final authState = ref.watch(authNotifierProvider);
+    final authState = ref.watch(authProvider);
 
     // Show error if any
-    ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
+    ref.listen<AsyncValue<AuthState>>(authProvider, (previous, next) {
       if (next.hasError) {
         _showError(next.error.toString());
       }
     });
 
     // If user is already logged in, show a dialog to logout first
-    final isAuthenticated = authState.valueOrNull?.isAuthenticated ?? false;
+    final isAuthenticated = authState.value?.isAuthenticated ?? false;
 
     return Scaffold(
       appBar: AppBar(title: Text(localizations.register)),

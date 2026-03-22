@@ -10,8 +10,8 @@ part 'region_provider.g.dart';
 
 /// Region config provider.
 @riverpod
-RegionConfig regionConfig(RegionConfigRef ref) {
-  final privacyState = ref.watch(privacyNotifierProvider);
+RegionConfig regionConfig(Ref ref) {
+  final privacyState = ref.watch(privacyProvider);
 
   return privacyState.when(
     data: (state) => RegionConfig.forRegion(state.region),
@@ -25,7 +25,7 @@ RegionConfig regionConfig(RegionConfigRef ref) {
 class RegionNotifier extends _$RegionNotifier {
   @override
   Future<MarketRegion> build() async {
-    final privacyState = ref.watch(privacyNotifierProvider);
+    final privacyState = ref.watch(privacyProvider);
 
     return privacyState.when(
       data: (state) => state.region,
@@ -37,7 +37,7 @@ class RegionNotifier extends _$RegionNotifier {
   /// Sets the market region.
   Future<bool> setRegion(MarketRegion region) async {
     final success =
-        await ref.read(privacyNotifierProvider.notifier).updateRegion(region);
+        await ref.read(privacyProvider.notifier).updateRegion(region);
 
     if (success) {
       state = AsyncValue.data(region);

@@ -23,14 +23,14 @@ part 'chat_provider.g.dart';
 
 /// Provider for chat local data source.
 @riverpod
-ChatLocalDataSource chatLocalDataSource(ChatLocalDataSourceRef ref) {
+ChatLocalDataSource chatLocalDataSource(Ref ref) {
   final database = ref.watch(databaseProvider);
   return ChatLocalDataSourceImpl(database);
 }
 
 /// Provider for AI services registry.
 @riverpod
-Map<String, AIService> aiServices(AiServicesRef ref) {
+Map<String, AIService> aiServices(Ref ref) {
   final services = <String, AIService>{
     'openai': OpenAIService(),
     'claude': ClaudeService(),
@@ -154,7 +154,7 @@ class ChatNotifier extends _$ChatNotifier {
     await localDataSource.updateConversationTitle(id, newTitle);
 
     // Update local state
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState != null) {
       final updated = currentState.conversations.map((c) {
         if (c.id == id) {
@@ -180,7 +180,7 @@ class ChatNotifier extends _$ChatNotifier {
     await localDataSource.deleteConversation(conversationId);
 
     // Update local state
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState != null) {
       final updated = currentState.conversations
           .where((c) => c.id != conversationId)
@@ -241,7 +241,7 @@ class ChatNotifier extends _$ChatNotifier {
     );
 
     // Get AI config
-    final aiConfigState = ref.read(aIConfigNotifierProvider).valueOrNull;
+    final aiConfigState = ref.read(aIConfigProvider).value;
     final aiConfigEntity = aiConfigState?.defaultConfig;
     if (aiConfigEntity == null) {
       yield ChatAIResponseError(
@@ -258,7 +258,8 @@ class ChatNotifier extends _$ChatNotifier {
 
     // Get secure storage for API key
     final secureStorage = ref.read(secureStorageProvider);
-    final apiKey = await secureStorage.read(key: 'ai_api_key_${aiConfigEntity.id}');
+    final apiKey =
+        await secureStorage.read(key: 'ai_api_key_${aiConfigEntity.id}');
     if (apiKey == null) {
       yield ChatAIResponseError(
           'API key not found. Please reconfigure the AI model.');
@@ -308,7 +309,8 @@ class ChatNotifier extends _$ChatNotifier {
     }
 
     if (service == null) {
-      yield ChatAIResponseError('Unknown AI provider: ${aiConfigEntity.provider}');
+      yield ChatAIResponseError(
+          'Unknown AI provider: ${aiConfigEntity.provider}');
       return;
     }
 
@@ -377,7 +379,7 @@ class ChatNotifier extends _$ChatNotifier {
 
   /// Searches conversations.
   void search(String? query) {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
     state = AsyncValue.data(
@@ -393,7 +395,7 @@ class ChatNotifier extends _$ChatNotifier {
 
   /// Gets a specific conversation by ID.
   domain.ChatConversation? getConversation(String conversationId) {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return null;
 
     return currentState.conversations
@@ -507,7 +509,7 @@ class StreamingMessage extends _$StreamingMessage {
 /// Provider for messages of a specific conversation.
 @riverpod
 Stream<List<domain.ChatMessage>> conversationMessages(
-  ConversationMessagesRef ref,
+  Ref ref,
   String conversationId,
 ) {
   final localDataSource = ref.watch(chatLocalDataSourceProvider);

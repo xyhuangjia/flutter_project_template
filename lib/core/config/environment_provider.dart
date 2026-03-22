@@ -12,7 +12,7 @@ part 'environment_provider.g.dart';
 
 /// SharedPreferences provider.
 @Riverpod(keepAlive: true)
-SharedPreferences sharedPreferences(SharedPreferencesRef ref) {
+SharedPreferences sharedPreferences(Ref ref) {
   throw UnimplementedError('sharedPreferencesProvider must be overridden');
 }
 
@@ -98,9 +98,7 @@ class EnvironmentLocalDataSource {
 
 /// Environment local data source provider.
 @Riverpod(keepAlive: true)
-EnvironmentLocalDataSource environmentLocalDataSource(
-  EnvironmentLocalDataSourceRef ref,
-) {
+EnvironmentLocalDataSource environmentLocalDataSource(Ref ref) {
   final sharedPreferences = ref.watch(sharedPreferencesProvider);
   return EnvironmentLocalDataSource(sharedPreferences: sharedPreferences);
 }
@@ -187,4 +185,4 @@ class Environment extends _$Environment {
 ///
 /// Developer options are only shown in debug mode.
 @riverpod
-bool showDeveloperOptions(ShowDeveloperOptionsRef ref) => kDebugMode;
+bool showDeveloperOptions(Ref ref) => kDebugMode;

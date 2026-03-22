@@ -649,7 +649,7 @@ class AsyncUserProfile extends _$AsyncUserProfile {
 
   Future<void> updateProfile(UserProfile profile) async {
     // Preserve previous data while loading
-    final previous = state.valueOrNull;
+    final previous = state.value;
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -689,7 +689,7 @@ class ProductList extends _$ProductList {
 
   Future<void> deleteProduct(String id) async {
     // Optimistic update
-    final previous = state.valueOrNull ?? [];
+    final previous = state.value ?? [];
 
     state = AsyncValue.data(
       previous.where((p) => p.id != id).toList(),

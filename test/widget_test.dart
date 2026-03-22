@@ -21,8 +21,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            homeNotifierProvider.overrideWith(MockHomeNotifier.new),
-            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
+            homeProvider.overrideWith(() => MockHomeNotifier()),
+            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
+            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -62,8 +62,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            homeNotifierProvider.overrideWith(MockHomeNotifier.new),
-            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
+            homeProvider.overrideWith(() => MockHomeNotifier()),
+            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -80,8 +80,7 @@ void main() {
   });
 }
 
-class MockHomeNotifier extends AutoDisposeAsyncNotifier<HomeEntity>
-    implements HomeNotifier {
+class MockHomeNotifier extends HomeNotifier {
   @override
   Future<HomeEntity> build() async => const HomeEntity(
         title: 'Test App',
@@ -96,8 +95,7 @@ class MockHomeNotifier extends AutoDisposeAsyncNotifier<HomeEntity>
   Future<void> refresh() async {}
 }
 
-class MockSharedPrefs extends AutoDisposeAsyncNotifier<SharedPreferences>
-    implements SharedPrefs {
+class MockSharedPrefs extends SharedPrefs {
   @override
   Future<SharedPreferences> build() async => SharedPreferences.getInstance();
 }

@@ -59,7 +59,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final conversation = ref.watch(chatNotifierProvider).when(
+    final conversation = ref.watch(chatProvider).when(
           data: (state) => state.conversations
               .where((c) => c.id == widget.conversationId)
               .firstOrNull,
@@ -67,11 +67,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           error: (_, __) => null,
         );
     final isTyping = ref.watch(isTypingProvider);
-    final aiConfig =
-        ref.watch(aIConfigNotifierProvider).valueOrNull?.defaultConfig;
+    final aiConfig = ref.watch(aIConfigProvider).value?.defaultConfig;
 
     // Get selected model for this conversation
-    final selectedModel = ref.watch(selectedModelProvider(widget.conversationId));
+    final selectedModel =
+        ref.watch(selectedModelProvider(widget.conversationId));
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
@@ -93,7 +93,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         actions: [
           // Model selector (only if config has multiple models)
           if (aiConfig != null && aiConfig.models.length > 1)
-            _buildModelSelectorButton(aiConfig, selectedModel, colorScheme, localizations),
+            _buildModelSelectorButton(
+                aiConfig, selectedModel, colorScheme, localizations),
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () => _showOptionsMenu(context),
@@ -121,7 +122,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   String _getSubtitle(AIConfigEntity config, String? selectedModel) {
-    final modelName = _getModelDisplayName(config, selectedModel ?? config.currentModel);
+    final modelName =
+        _getModelDisplayName(config, selectedModel ?? config.currentModel);
     return '${config.name} • $modelName';
   }
 
@@ -153,7 +155,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       tooltip: localizations.switchModel,
       initialValue: selectedModel ?? config.currentModel,
       onSelected: (modelId) {
-        ref.read(selectedModelProvider(widget.conversationId).notifier)
+        ref
+            .read(selectedModelProvider(widget.conversationId).notifier)
             .setModel(modelId);
       },
       itemBuilder: (context) {
@@ -328,21 +331,21 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   Future<void> _sendMessage(String text) async {
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     final isTypingNotifier = ref.read(isTypingProvider.notifier);
-    final selectedModel = ref.read(selectedModelProvider(widget.conversationId));
+    final selectedModel =
+        ref.read(selectedModelProvider(widget.conversationId));
 
     isTypingNotifier.setTyping(true);
     _streamingContent = '';
     _streamingMessageId = null;
 
     try {
-      await for (final event
-          in chatNotifier.sendMessageStream(
-            widget.conversationId,
-            text,
-            selectedModel: selectedModel,
-          )) {
+      await for (final event in chatNotifier.sendMessageStream(
+        widget.conversationId,
+        text,
+        selectedModel: selectedModel,
+      )) {
         if (event is ChatUserMessageCreated) {
           // User message created, scroll to bottom
           _scrollToBottom();
@@ -417,7 +420,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   Future<void> _exportConversation() async {
     final localizations = AppLocalizations.of(context)!;
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
 
     try {
       final markdown =
@@ -434,7 +437,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   Future<void> _deleteConversation() async {
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     await chatNotifier.deleteConversation(widget.conversationId);
     if (mounted) {
       context.pop();
@@ -499,7 +502,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   /// Deletes a message.
   Future<void> _deleteMessage(BuildContext context, String messageId) async {
     final localizations = AppLocalizations.of(context)!;
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     await chatNotifier.deleteMessage(messageId);
     if (mounted) {
       DialogUtil.showSuccessDialog(context, localizations.messageDeleted);
@@ -509,7 +512,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   /// Renames the conversation.
   Future<void> _renameConversation(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
-    final chatNotifier = ref.read(chatNotifierProvider.notifier);
+    final chatNotifier = ref.read(chatProvider.notifier);
     final conversation = chatNotifier.getConversation(widget.conversationId);
     if (conversation == null) return;
 
@@ -547,7 +550,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         newTitle != conversation.title) {
       await chatNotifier.renameConversation(widget.conversationId, newTitle);
       if (mounted) {
-        DialogUtil.showSuccessDialog(context, localizations.conversationRenamed);
+        DialogUtil.showSuccessDialog(
+            context, localizations.conversationRenamed);
       }
     }
   }

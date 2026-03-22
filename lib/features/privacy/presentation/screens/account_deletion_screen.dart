@@ -107,15 +107,15 @@ class _AccountDeletionScreenState extends ConsumerState<AccountDeletionScreen> {
 
     try {
       final success = await ref
-          .read(privacyNotifierProvider.notifier)
+          .read(privacyProvider.notifier)
           .deleteAccount(_passwordController.text);
 
       if (!mounted) return;
 
       if (success) {
         await Future.wait([
-          ref.read(authNotifierProvider.notifier).logout(),
-          ref.read(privacyNotifierProvider.notifier).clearPrivacyData(),
+          ref.read(authProvider.notifier).logout(),
+          ref.read(privacyProvider.notifier).clearPrivacyData(),
         ]);
 
         _showSnackBar(AppLocalizations.of(context)!.accountDeletedSuccess);

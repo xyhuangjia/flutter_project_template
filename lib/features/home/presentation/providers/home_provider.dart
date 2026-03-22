@@ -32,7 +32,7 @@ class HomeNotifier extends _$HomeNotifier {
 
   /// Updates the user name.
   Future<void> updateUserName(String name) async {
-    final current = state.valueOrNull;
+    final current = state.value;
     if (current == null) return;
 
     state = const AsyncValue.loading();

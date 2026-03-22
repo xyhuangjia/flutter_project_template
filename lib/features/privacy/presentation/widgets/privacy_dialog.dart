@@ -24,7 +24,7 @@ class PrivacyConsentDialog extends ConsumerWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final regionConfig = ref.watch(regionConfigProvider);
-    final privacyState = ref.watch(privacyNotifierProvider);
+    final privacyState = ref.watch(privacyProvider);
 
     return PopScope(
       canPop: false,
@@ -207,7 +207,7 @@ class _Actions extends StatelessWidget {
                   ? null
                   : () async {
                       final success = await ref
-                          .read(privacyNotifierProvider.notifier)
+                          .read(privacyProvider.notifier)
                           .saveConsent(hasConsented: true);
 
                       if (success && context.mounted) {

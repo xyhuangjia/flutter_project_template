@@ -20,38 +20,33 @@ part 'get_it_providers.g.dart';
 
 /// Provides the DioClient singleton from GetIt.
 @Riverpod(keepAlive: true)
-DioClient dioClient(DioClientRef ref) => getIt<DioClient>();
+DioClient dioClient(Ref ref) => getIt<DioClient>();
 
 /// Provides the AppDatabase singleton from GetIt.
 @Riverpod(keepAlive: true)
-AppDatabase appDatabase(AppDatabaseRef ref) => getIt<AppDatabase>();
+AppDatabase appDatabase(Ref ref) => getIt<AppDatabase>();
 
 /// Provides the AuthRepository from GetIt.
 @Riverpod(keepAlive: true)
-AuthRepository authRepository(AuthRepositoryRef ref) => getIt<AuthRepository>();
+AuthRepository authRepository(Ref ref) => getIt<AuthRepository>();
 
 /// Provides the HomeRepository from GetIt.
 @Riverpod(keepAlive: true)
-HomeRepository homeRepository(HomeRepositoryRef ref) => getIt<HomeRepository>();
+HomeRepository homeRepository(Ref ref) => getIt<HomeRepository>();
 
 /// Provides the SettingsRepository from GetIt.
 @Riverpod(keepAlive: true)
-SettingsRepository settingsRepository(SettingsRepositoryRef ref) =>
-    getIt<SettingsRepository>();
+SettingsRepository settingsRepository(Ref ref) => getIt<SettingsRepository>();
 
 /// Provides the DeveloperOptionsRepository from GetIt.
 @Riverpod(keepAlive: true)
-DeveloperOptionsRepository developerOptionsRepository(
-  DeveloperOptionsRepositoryRef ref,
-) =>
+DeveloperOptionsRepository developerOptionsRepository(Ref ref) =>
     getIt<DeveloperOptionsRepository>();
 
 /// Provides the PrivacyRepository from GetIt.
 @Riverpod(keepAlive: true)
-PrivacyRepository privacyRepository(PrivacyRepositoryRef ref) =>
-    getIt<PrivacyRepository>();
+PrivacyRepository privacyRepository(Ref ref) => getIt<PrivacyRepository>();
 
 /// Provides the WebViewRepository from GetIt.
 @Riverpod(keepAlive: true)
-WebViewRepository webviewRepository(WebviewRepositoryRef ref) =>
-    getIt<WebViewRepository>();
+WebViewRepository webviewRepository(Ref ref) => getIt<WebViewRepository>();

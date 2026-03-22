@@ -46,8 +46,8 @@ void main() {
     );
 
     // Wait for initial build
-    await container.read(authNotifierProvider.future);
-    authNotifier = container.read(authNotifierProvider.notifier);
+    await container.read(authProvider.future);
+    authNotifier = container.read(authProvider.notifier);
   });
 
   tearDown(() {
@@ -58,8 +58,8 @@ void main() {
   group('initial state', () {
     test('should start with unauthenticated state', () async {
       // Assert
-      final state = container.read(authNotifierProvider);
-      expect(state.valueOrNull?.isAuthenticated, isFalse);
+      final state = container.read(authProvider);
+      expect(state.value?.isAuthenticated, isFalse);
     });
   });
 
@@ -76,9 +76,9 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(authNotifierProvider);
-      expect(state.valueOrNull?.isAuthenticated, isTrue);
-      expect(state.valueOrNull?.user, equals(tUser));
+      final state = container.read(authProvider);
+      expect(state.value?.isAuthenticated, isTrue);
+      expect(state.value?.user, equals(tUser));
     });
 
     test('should return false and set error state on failure', () async {
@@ -95,7 +95,7 @@ void main() {
 
       // Assert
       expect(success, isFalse);
-      final state = container.read(authNotifierProvider);
+      final state = container.read(authProvider);
       expect(state.hasError, isTrue);
     });
 
@@ -129,8 +129,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(authNotifierProvider);
-      expect(state.valueOrNull?.isAuthenticated, isTrue);
+      final state = container.read(authProvider);
+      expect(state.value?.isAuthenticated, isTrue);
     });
 
     test('should call repository with correct parameters', () async {
@@ -201,8 +201,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(authNotifierProvider);
-      expect(state.valueOrNull?.isAuthenticated, isTrue);
+      final state = container.read(authProvider);
+      expect(state.value?.isAuthenticated, isTrue);
     });
 
     test('should return false on failure', () async {
@@ -237,8 +237,8 @@ void main() {
 
       // Assert
       expect(success, isTrue);
-      final state = container.read(authNotifierProvider);
-      expect(state.valueOrNull?.isAuthenticated, isFalse);
+      final state = container.read(authProvider);
+      expect(state.value?.isAuthenticated, isFalse);
     });
 
     test('should call repository logout', () async {
@@ -343,10 +343,10 @@ void main() {
       );
 
       // Assert - state should not be loading after completion
-      final state = container.read(authNotifierProvider);
+      final state = container.read(authProvider);
       expect(state.isLoading, isFalse);
       expect(state.hasValue, isTrue);
-      expect(state.valueOrNull?.isAuthenticated, isTrue);
+      expect(state.value?.isAuthenticated, isTrue);
     });
   });
 }

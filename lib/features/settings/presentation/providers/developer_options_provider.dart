@@ -14,7 +14,7 @@ part 'developer_options_provider.g.dart';
 /// Uses GetIt for dependency injection.
 @riverpod
 DeveloperOptionsLocalDataSource developerOptionsLocalDataSource(
-  DeveloperOptionsLocalDataSourceRef ref,
+  Ref ref,
 ) {
   return getIt<DeveloperOptionsLocalDataSource>();
 }
@@ -23,7 +23,7 @@ DeveloperOptionsLocalDataSource developerOptionsLocalDataSource(
 /// Uses GetIt for dependency injection.
 @riverpod
 DeveloperOptionsRepository developerOptionsRepository(
-  DeveloperOptionsRepositoryRef ref,
+  Ref ref,
 ) {
   return getIt<DeveloperOptionsRepository>();
 }
@@ -47,7 +47,7 @@ class DeveloperOptionsNotifier extends _$DeveloperOptionsNotifier {
 
   /// Updates the custom API base URL.
   Future<bool> updateCustomApiBaseUrl(String? url) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final updated = current.copyWith(
       customApiBaseUrl: url,
       clearCustomApiBaseUrl: url == null,
@@ -57,42 +57,42 @@ class DeveloperOptionsNotifier extends _$DeveloperOptionsNotifier {
 
   /// Updates the log level.
   Future<bool> updateLogLevel(LogLevel level) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final updated = current.copyWith(logLevel: level);
     return _saveOptions(updated);
   }
 
   /// Updates the logging enabled flag.
   Future<bool> updateLoggingEnabled(bool enabled) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final updated = current.copyWith(loggingEnabled: enabled);
     return _saveOptions(updated);
   }
 
   /// Updates the network log enabled flag.
   Future<bool> updateNetworkLogEnabled(bool enabled) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final updated = current.copyWith(networkLogEnabled: enabled);
     return _saveOptions(updated);
   }
 
   /// Updates the performance monitor enabled flag.
   Future<bool> updatePerformanceMonitorEnabled(bool enabled) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final updated = current.copyWith(performanceMonitorEnabled: enabled);
     return _saveOptions(updated);
   }
 
   /// Updates the show debug info flag.
   Future<bool> updateShowDebugInfo(bool show) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final updated = current.copyWith(showDebugInfo: show);
     return _saveOptions(updated);
   }
 
   /// Updates an experimental feature flag.
   Future<bool> updateExperimentalFeature(String key, bool enabled) async {
-    final current = state.valueOrNull ?? DeveloperOptions.defaults;
+    final current = state.value ?? DeveloperOptions.defaults;
     final features = Map<String, bool>.from(current.experimentalFeatures);
     features[key] = enabled;
     final updated = current.copyWith(experimentalFeatures: features);

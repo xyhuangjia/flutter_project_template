@@ -6,48 +6,117 @@ part of 'forgot_password_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$forgotPasswordRepositoryHash() =>
-    r'd425cb74206c16014eee19cff011c91cd3456bb4';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// Provider for ForgotPasswordRepository.
+
+@ProviderFor(forgotPasswordRepository)
+final forgotPasswordRepositoryProvider = ForgotPasswordRepositoryProvider._();
 
 /// Provider for ForgotPasswordRepository.
-///
-/// Copied from [forgotPasswordRepository].
-@ProviderFor(forgotPasswordRepository)
-final forgotPasswordRepositoryProvider =
-    AutoDisposeProvider<ForgotPasswordRepository>.internal(
-  forgotPasswordRepository,
-  name: r'forgotPasswordRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$forgotPasswordRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ForgotPasswordRepositoryRef
-    = AutoDisposeProviderRef<ForgotPasswordRepository>;
-String _$forgotPasswordNotifierHash() =>
-    r'f95a9c07865053c3b868e8d6f8531222159c8ce4';
+final class ForgotPasswordRepositoryProvider extends $FunctionalProvider<
+    ForgotPasswordRepository,
+    ForgotPasswordRepository,
+    ForgotPasswordRepository> with $Provider<ForgotPasswordRepository> {
+  /// Provider for ForgotPasswordRepository.
+  ForgotPasswordRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'forgotPasswordRepositoryProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$forgotPasswordRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ForgotPasswordRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ForgotPasswordRepository create(Ref ref) {
+    return forgotPasswordRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ForgotPasswordRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ForgotPasswordRepository>(value),
+    );
+  }
+}
+
+String _$forgotPasswordRepositoryHash() =>
+    r'7e76612a66e344480ba0ef3f707d71f3cfb4909e';
 
 /// Forgot password state notifier provider.
 ///
 /// Manages the forgot password flow state.
-///
-/// Copied from [ForgotPasswordNotifier].
-@ProviderFor(ForgotPasswordNotifier)
-final forgotPasswordNotifierProvider = AutoDisposeNotifierProvider<
-    ForgotPasswordNotifier, ForgotPasswordState>.internal(
-  ForgotPasswordNotifier.new,
-  name: r'forgotPasswordNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$forgotPasswordNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-typedef _$ForgotPasswordNotifier = AutoDisposeNotifier<ForgotPasswordState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+@ProviderFor(ForgotPasswordNotifier)
+final forgotPasswordProvider = ForgotPasswordNotifierProvider._();
+
+/// Forgot password state notifier provider.
+///
+/// Manages the forgot password flow state.
+final class ForgotPasswordNotifierProvider
+    extends $NotifierProvider<ForgotPasswordNotifier, ForgotPasswordState> {
+  /// Forgot password state notifier provider.
+  ///
+  /// Manages the forgot password flow state.
+  ForgotPasswordNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'forgotPasswordProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$forgotPasswordNotifierHash();
+
+  @$internal
+  @override
+  ForgotPasswordNotifier create() => ForgotPasswordNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ForgotPasswordState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ForgotPasswordState>(value),
+    );
+  }
+}
+
+String _$forgotPasswordNotifierHash() =>
+    r'7e044ed22c313f822b9e67a7ddc94f2bf8141221';
+
+/// Forgot password state notifier provider.
+///
+/// Manages the forgot password flow state.
+
+abstract class _$ForgotPasswordNotifier extends $Notifier<ForgotPasswordState> {
+  ForgotPasswordState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<ForgotPasswordState, ForgotPasswordState>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<ForgotPasswordState, ForgotPasswordState>,
+        ForgotPasswordState,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}

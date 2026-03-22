@@ -64,10 +64,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   Future<void> _initializeApp() async {
     // Wait for privacy state to load
-    await ref.read(privacyNotifierProvider.future);
+    await ref.read(privacyProvider.future);
 
     // Wait for auth state to load
-    await ref.read(authNotifierProvider.future);
+    await ref.read(authProvider.future);
 
     // Small delay for smooth transition
     await Future<void>.delayed(const Duration(milliseconds: 800));
@@ -79,7 +79,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   void _navigateOrShowDialog() {
     // Get the already-loaded privacy state
-    final privacyState = ref.read(privacyNotifierProvider).valueOrNull;
+    final privacyState = ref.read(privacyProvider).value;
     final hasConsented = privacyState?.hasConsented ?? false;
 
     talker.log(
@@ -112,8 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   void _navigateToNextScreen() {
-    final isAuthenticated =
-        ref.read(authNotifierProvider.notifier).isAuthenticated;
+    final isAuthenticated = ref.read(authProvider.notifier).isAuthenticated;
 
     talker.log(
       '[启动页] 导航决策: 已认证=$isAuthenticated',

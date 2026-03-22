@@ -6,8 +6,8 @@ part of 'privacy_consent.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PrivacyConsentImpl _$$PrivacyConsentImplFromJson(Map<String, dynamic> json) =>
-    _$PrivacyConsentImpl(
+_PrivacyConsent _$PrivacyConsentFromJson(Map<String, dynamic> json) =>
+    _PrivacyConsent(
       hasConsented: json['hasConsented'] as bool,
       consentedAt: json['consentedAt'] == null
           ? null
@@ -16,8 +16,7 @@ _$PrivacyConsentImpl _$$PrivacyConsentImplFromJson(Map<String, dynamic> json) =>
       region: json['region'] as String? ?? 'CN',
     );
 
-Map<String, dynamic> _$$PrivacyConsentImplToJson(
-        _$PrivacyConsentImpl instance) =>
+Map<String, dynamic> _$PrivacyConsentToJson(_PrivacyConsent instance) =>
     <String, dynamic>{
       'hasConsented': instance.hasConsented,
       'consentedAt': instance.consentedAt?.toIso8601String(),

@@ -113,7 +113,7 @@ class AIConfigEntity {
 
 /// Provider for secure storage.
 @riverpod
-FlutterSecureStorage secureStorage(SecureStorageRef ref) {
+FlutterSecureStorage secureStorage(Ref ref) {
   return const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
@@ -183,14 +183,15 @@ class AIConfigNotifier extends _$AIConfigNotifier {
     String? baseUrl,
     String apiFormat = 'openai',
   }) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return null;
 
     state = AsyncValue.data(currentState.copyWith(isLoading: true));
 
     try {
       // Validate API key first
-      final isValid = await _validateApiKey(provider, apiKey, baseUrl: baseUrl, apiFormat: apiFormat);
+      final isValid = await _validateApiKey(provider, apiKey,
+          baseUrl: baseUrl, apiFormat: apiFormat);
       if (!isValid) {
         state = AsyncValue.data(currentState.copyWith(
           error: 'Invalid API key',
@@ -243,7 +244,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
   /// Updates an existing configuration.
   Future<void> updateConfig(AIConfigEntity config) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
     state = AsyncValue.data(currentState.copyWith(isLoading: true));
@@ -281,7 +282,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
   /// Deletes a configuration.
   Future<void> deleteConfig(String id) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
     state = AsyncValue.data(currentState.copyWith(isLoading: true));
@@ -314,10 +315,11 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
   /// Adds a model to a configuration.
   Future<void> addModelToConfig(String configId, String modelId) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
-    final config = currentState.configs.where((c) => c.id == configId).firstOrNull;
+    final config =
+        currentState.configs.where((c) => c.id == configId).firstOrNull;
     if (config == null) return;
 
     if (config.models.contains(modelId)) return; // Already exists
@@ -328,10 +330,11 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
   /// Removes a model from a configuration.
   Future<void> removeModelFromConfig(String configId, String modelId) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
-    final config = currentState.configs.where((c) => c.id == configId).firstOrNull;
+    final config =
+        currentState.configs.where((c) => c.id == configId).firstOrNull;
     if (config == null) return;
 
     if (config.models.length <= 1) return; // Must have at least one model
@@ -349,10 +352,11 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
   /// Sets the default model for a configuration.
   Future<void> setDefaultModel(String configId, String modelId) async {
-    final currentState = state.valueOrNull;
+    final currentState = state.value;
     if (currentState == null) return;
 
-    final config = currentState.configs.where((c) => c.id == configId).firstOrNull;
+    final config =
+        currentState.configs.where((c) => c.id == configId).firstOrNull;
     if (config == null) return;
 
     if (!config.models.contains(modelId)) return;
@@ -382,9 +386,8 @@ class AIConfigNotifier extends _$AIConfigNotifier {
         if (baseUrl == null) return false;
         service = UniversalAIService(
           baseUrl: baseUrl,
-          apiFormat: apiFormat == 'claude'
-              ? APIFormat.claude
-              : APIFormat.openai,
+          apiFormat:
+              apiFormat == 'claude' ? APIFormat.claude : APIFormat.openai,
         );
       default:
         return false;
@@ -430,7 +433,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
 /// Provider for available AI models.
 @riverpod
-List<AIModelInfo> availableModels(AvailableModelsRef ref) {
+List<AIModelInfo> availableModels(Ref ref) {
   return [
     AIModelInfo(
       provider: 'openai',

@@ -32,9 +32,9 @@ class SettingsScreen extends ConsumerWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final settingsAsync = ref.watch(settingsNotifierProvider);
-    final authState = ref.watch(authNotifierProvider);
-    final localeAsync = ref.watch(localeNotifierProvider);
+    final settingsAsync = ref.watch(settingsProvider);
+    final authState = ref.watch(authProvider);
+    final localeAsync = ref.watch(localeProvider);
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceContainerLow,
@@ -47,8 +47,8 @@ class SettingsScreen extends ConsumerWidget {
           theme: theme,
           colorScheme: colorScheme,
           settings: settings,
-          isAuthenticated: authState.valueOrNull?.isAuthenticated ?? false,
-          currentLanguageCode: localeAsync.valueOrNull?.languageCode,
+          isAuthenticated: authState.value?.isAuthenticated ?? false,
+          currentLanguageCode: localeAsync.value?.languageCode,
           showDeveloperOptions: ref.watch(showDeveloperOptionsProvider),
           ref: ref,
         ),
@@ -168,18 +168,14 @@ class _SettingsContent extends StatelessWidget {
                 ThemeSelector(
                   currentTheme: settings.themeMode,
                   onThemeChanged: (mode) {
-                    ref
-                        .read(settingsNotifierProvider.notifier)
-                        .updateThemeMode(mode);
+                    ref.read(settingsProvider.notifier).updateThemeMode(mode);
                   },
                 ),
                 SettingsDivider(colorScheme: colorScheme),
                 LanguageSelector(
                   currentLanguage: currentLanguageCode,
                   onLanguageChanged: (code) {
-                    ref
-                        .read(settingsNotifierProvider.notifier)
-                        .updateLanguage(code);
+                    ref.read(settingsProvider.notifier).updateLanguage(code);
                   },
                   languages: [
                     LanguageOption(
@@ -203,7 +199,7 @@ class _SettingsContent extends StatelessWidget {
                     value: settings.isElderlyMode,
                     onChanged: (value) {
                       ref
-                          .read(settingsNotifierProvider.notifier)
+                          .read(settingsProvider.notifier)
                           .updateAccessibilityMode(
                             value
                                 ? AccessibilityMode.elderly
@@ -223,7 +219,7 @@ class _SettingsContent extends StatelessWidget {
                     value: settings.notificationsEnabled,
                     onChanged: (value) {
                       ref
-                          .read(settingsNotifierProvider.notifier)
+                          .read(settingsProvider.notifier)
                           .updateNotifications(enabled: value);
                     },
                   ),
@@ -256,9 +252,8 @@ class _SettingsContent extends StatelessWidget {
                       );
                       if (!confirmed || !context.mounted) return;
 
-                      final success = await ref
-                          .read(authNotifierProvider.notifier)
-                          .logout();
+                      final success =
+                          await ref.read(authProvider.notifier).logout();
                       if (success && context.mounted) {
                         await DialogUtil.showSuccessDialog(
                           context,

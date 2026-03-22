@@ -5,7 +5,7 @@ part 'privacy_consent.g.dart';
 
 /// Privacy consent record.
 @freezed
-class PrivacyConsent with _$PrivacyConsent {
+sealed class PrivacyConsent with _$PrivacyConsent {
   const factory PrivacyConsent({
     /// Whether consent has been given.
     required bool hasConsented,

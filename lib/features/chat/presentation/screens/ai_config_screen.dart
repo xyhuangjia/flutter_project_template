@@ -17,7 +17,7 @@ class AIConfigScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final configsAsync = ref.watch(aIConfigNotifierProvider);
+    final configsAsync = ref.watch(aIConfigProvider);
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceContainerLow,
@@ -286,7 +286,7 @@ class AIConfigScreen extends ConsumerWidget {
   }
 
   Future<void> _setDefault(WidgetRef ref, String configId) async {
-    await ref.read(aIConfigNotifierProvider.notifier).setDefault(configId);
+    await ref.read(aIConfigProvider.notifier).setDefault(configId);
   }
 
   void _showAddConfigDialog(
@@ -326,7 +326,7 @@ class AIConfigScreen extends ConsumerWidget {
             onPressed: () async {
               Navigator.pop(dialogContext);
               await ref
-                  .read(aIConfigNotifierProvider.notifier)
+                  .read(aIConfigProvider.notifier)
                   .deleteConfig(config.id);
             },
             style: FilledButton.styleFrom(
@@ -896,7 +896,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
       final defaultModel = _isCustomProvider ? customModel : _defaultModel;
 
       final config =
-          await ref.read(aIConfigNotifierProvider.notifier).addConfig(
+          await ref.read(aIConfigProvider.notifier).addConfig(
                 name: name,
                 provider: _selectedProvider,
                 models: models,

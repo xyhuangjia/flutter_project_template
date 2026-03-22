@@ -6,560 +6,493 @@ part of 'chat_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chatLocalDataSourceHash() =>
-    r'68ca93a59aa14902268932496c43cc395dc9b82a';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// Provider for chat local data source.
+
+@ProviderFor(chatLocalDataSource)
+final chatLocalDataSourceProvider = ChatLocalDataSourceProvider._();
 
 /// Provider for chat local data source.
-///
-/// Copied from [chatLocalDataSource].
-@ProviderFor(chatLocalDataSource)
-final chatLocalDataSourceProvider =
-    AutoDisposeProvider<ChatLocalDataSource>.internal(
-  chatLocalDataSource,
-  name: r'chatLocalDataSourceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$chatLocalDataSourceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ChatLocalDataSourceRef = AutoDisposeProviderRef<ChatLocalDataSource>;
-String _$aiServicesHash() => r'0b37c33fbec8d37b77fe8953971624678c0c5848';
-
-/// Provider for AI services registry.
-///
-/// Copied from [aiServices].
-@ProviderFor(aiServices)
-final aiServicesProvider = AutoDisposeProvider<Map<String, AIService>>.internal(
-  aiServices,
-  name: r'aiServicesProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$aiServicesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AiServicesRef = AutoDisposeProviderRef<Map<String, AIService>>;
-String _$conversationMessagesHash() =>
-    r'73449c3ade6abde7dab587820e517e584d819c4a';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// Provider for messages of a specific conversation.
-///
-/// Copied from [conversationMessages].
-@ProviderFor(conversationMessages)
-const conversationMessagesProvider = ConversationMessagesFamily();
-
-/// Provider for messages of a specific conversation.
-///
-/// Copied from [conversationMessages].
-class ConversationMessagesFamily
-    extends Family<AsyncValue<List<domain.ChatMessage>>> {
-  /// Provider for messages of a specific conversation.
-  ///
-  /// Copied from [conversationMessages].
-  const ConversationMessagesFamily();
-
-  /// Provider for messages of a specific conversation.
-  ///
-  /// Copied from [conversationMessages].
-  ConversationMessagesProvider call(
-    String conversationId,
-  ) {
-    return ConversationMessagesProvider(
-      conversationId,
-    );
-  }
-
-  @override
-  ConversationMessagesProvider getProviderOverride(
-    covariant ConversationMessagesProvider provider,
-  ) {
-    return call(
-      provider.conversationId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'conversationMessagesProvider';
-}
-
-/// Provider for messages of a specific conversation.
-///
-/// Copied from [conversationMessages].
-class ConversationMessagesProvider
-    extends AutoDisposeStreamProvider<List<domain.ChatMessage>> {
-  /// Provider for messages of a specific conversation.
-  ///
-  /// Copied from [conversationMessages].
-  ConversationMessagesProvider(
-    String conversationId,
-  ) : this._internal(
-          (ref) => conversationMessages(
-            ref as ConversationMessagesRef,
-            conversationId,
-          ),
-          from: conversationMessagesProvider,
-          name: r'conversationMessagesProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$conversationMessagesHash,
-          dependencies: ConversationMessagesFamily._dependencies,
-          allTransitiveDependencies:
-              ConversationMessagesFamily._allTransitiveDependencies,
-          conversationId: conversationId,
+final class ChatLocalDataSourceProvider extends $FunctionalProvider<
+    ChatLocalDataSource,
+    ChatLocalDataSource,
+    ChatLocalDataSource> with $Provider<ChatLocalDataSource> {
+  /// Provider for chat local data source.
+  ChatLocalDataSourceProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'chatLocalDataSourceProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
         );
 
-  ConversationMessagesProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.conversationId,
-  }) : super.internal();
+  @override
+  String debugGetCreateSourceHash() => _$chatLocalDataSourceHash();
 
-  final String conversationId;
+  @$internal
+  @override
+  $ProviderElement<ChatLocalDataSource> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  Override overrideWith(
-    Stream<List<domain.ChatMessage>> Function(ConversationMessagesRef provider)
-        create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: ConversationMessagesProvider._internal(
-        (ref) => create(ref as ConversationMessagesRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        conversationId: conversationId,
-      ),
-    );
+  ChatLocalDataSource create(Ref ref) {
+    return chatLocalDataSource(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ChatLocalDataSource value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ChatLocalDataSource>(value),
+    );
+  }
+}
+
+String _$chatLocalDataSourceHash() =>
+    r'c9f1e2563ea6e753c023161bf60bf458c0f35ffd';
+
+/// Provider for AI services registry.
+
+@ProviderFor(aiServices)
+final aiServicesProvider = AiServicesProvider._();
+
+/// Provider for AI services registry.
+
+final class AiServicesProvider extends $FunctionalProvider<
+    Map<String, AIService>,
+    Map<String, AIService>,
+    Map<String, AIService>> with $Provider<Map<String, AIService>> {
+  /// Provider for AI services registry.
+  AiServicesProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'aiServicesProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
   @override
-  AutoDisposeStreamProviderElement<List<domain.ChatMessage>> createElement() {
-    return _ConversationMessagesProviderElement(this);
+  String debugGetCreateSourceHash() => _$aiServicesHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<String, AIService>> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Map<String, AIService> create(Ref ref) {
+    return aiServices(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, AIService> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, AIService>>(value),
+    );
+  }
+}
+
+String _$aiServicesHash() => r'10e1972a4420561e3ebd0b9b3c886a00a1fcc420';
+
+/// Provider for managing chat conversations.
+
+@ProviderFor(ChatNotifier)
+final chatProvider = ChatNotifierProvider._();
+
+/// Provider for managing chat conversations.
+final class ChatNotifierProvider
+    extends $AsyncNotifierProvider<ChatNotifier, ChatState> {
+  /// Provider for managing chat conversations.
+  ChatNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'chatProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$chatNotifierHash();
+
+  @$internal
+  @override
+  ChatNotifier create() => ChatNotifier();
+}
+
+String _$chatNotifierHash() => r'd0ed4efa8d42750c1fe57bb56a36fd91e74d313a';
+
+/// Provider for managing chat conversations.
+
+abstract class _$ChatNotifier extends $AsyncNotifier<ChatState> {
+  FutureOr<ChatState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<ChatState>, ChatState>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<ChatState>, ChatState>,
+        AsyncValue<ChatState>,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}
+
+/// Provider for checking if AI is typing.
+
+@ProviderFor(IsTyping)
+final isTypingProvider = IsTypingProvider._();
+
+/// Provider for checking if AI is typing.
+final class IsTypingProvider extends $NotifierProvider<IsTyping, bool> {
+  /// Provider for checking if AI is typing.
+  IsTypingProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'isTypingProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$isTypingHash();
+
+  @$internal
+  @override
+  IsTyping create() => IsTyping();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$isTypingHash() => r'80a930a55d0261d9781eb7bf2e3e664df378289d';
+
+/// Provider for checking if AI is typing.
+
+abstract class _$IsTyping extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    element.handleCreate(ref, build);
+  }
+}
+
+/// Provider for streaming message content.
+
+@ProviderFor(StreamingMessage)
+final streamingMessageProvider = StreamingMessageFamily._();
+
+/// Provider for streaming message content.
+final class StreamingMessageProvider
+    extends $NotifierProvider<StreamingMessage, String> {
+  /// Provider for streaming message content.
+  StreamingMessageProvider._(
+      {required StreamingMessageFamily super.from,
+      required String super.argument})
+      : super(
+          retry: null,
+          name: r'streamingMessageProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$streamingMessageHash();
+
+  @override
+  String toString() {
+    return r'streamingMessageProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  StreamingMessage create() => StreamingMessage();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String>(value),
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ConversationMessagesProvider &&
-        other.conversationId == conversationId;
+    return other is StreamingMessageProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, conversationId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin ConversationMessagesRef
-    on AutoDisposeStreamProviderRef<List<domain.ChatMessage>> {
-  /// The parameter `conversationId` of this provider.
-  String get conversationId;
-}
-
-class _ConversationMessagesProviderElement
-    extends AutoDisposeStreamProviderElement<List<domain.ChatMessage>>
-    with ConversationMessagesRef {
-  _ConversationMessagesProviderElement(super.provider);
-
-  @override
-  String get conversationId =>
-      (origin as ConversationMessagesProvider).conversationId;
-}
-
-String _$chatNotifierHash() => r'75acd08f186575f9abf4ae2347d25ceae8efa083';
-
-/// Provider for managing chat conversations.
-///
-/// Copied from [ChatNotifier].
-@ProviderFor(ChatNotifier)
-final chatNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<ChatNotifier, ChatState>.internal(
-  ChatNotifier.new,
-  name: r'chatNotifierProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$chatNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ChatNotifier = AutoDisposeAsyncNotifier<ChatState>;
-String _$isTypingHash() => r'80a930a55d0261d9781eb7bf2e3e664df378289d';
-
-/// Provider for checking if AI is typing.
-///
-/// Copied from [IsTyping].
-@ProviderFor(IsTyping)
-final isTypingProvider = AutoDisposeNotifierProvider<IsTyping, bool>.internal(
-  IsTyping.new,
-  name: r'isTypingProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$isTypingHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$IsTyping = AutoDisposeNotifier<bool>;
 String _$streamingMessageHash() => r'03f46eac658a965d3a64b05ce0b1740f81706a5f';
 
-abstract class _$StreamingMessage extends BuildlessAutoDisposeNotifier<String> {
-  late final String messageId;
+/// Provider for streaming message content.
+
+final class StreamingMessageFamily extends $Family
+    with
+        $ClassFamilyOverride<StreamingMessage, String, String, String, String> {
+  StreamingMessageFamily._()
+      : super(
+          retry: null,
+          name: r'streamingMessageProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
+
+  /// Provider for streaming message content.
+
+  StreamingMessageProvider call(
+    String messageId,
+  ) =>
+      StreamingMessageProvider._(argument: messageId, from: this);
+
+  @override
+  String toString() => r'streamingMessageProvider';
+}
+
+/// Provider for streaming message content.
+
+abstract class _$StreamingMessage extends $Notifier<String> {
+  late final _$args = ref.$arg as String;
+  String get messageId => _$args;
 
   String build(
     String messageId,
   );
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<String, String>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<String, String>, String, Object?, Object?>;
+    element.handleCreate(
+        ref,
+        () => build(
+              _$args,
+            ));
+  }
 }
 
-/// Provider for streaming message content.
-///
-/// Copied from [StreamingMessage].
-@ProviderFor(StreamingMessage)
-const streamingMessageProvider = StreamingMessageFamily();
+/// Provider for messages of a specific conversation.
 
-/// Provider for streaming message content.
-///
-/// Copied from [StreamingMessage].
-class StreamingMessageFamily extends Family<String> {
-  /// Provider for streaming message content.
-  ///
-  /// Copied from [StreamingMessage].
-  const StreamingMessageFamily();
+@ProviderFor(conversationMessages)
+final conversationMessagesProvider = ConversationMessagesFamily._();
 
-  /// Provider for streaming message content.
-  ///
-  /// Copied from [StreamingMessage].
-  StreamingMessageProvider call(
-    String messageId,
-  ) {
-    return StreamingMessageProvider(
-      messageId,
-    );
-  }
+/// Provider for messages of a specific conversation.
 
-  @override
-  StreamingMessageProvider getProviderOverride(
-    covariant StreamingMessageProvider provider,
-  ) {
-    return call(
-      provider.messageId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'streamingMessageProvider';
-}
-
-/// Provider for streaming message content.
-///
-/// Copied from [StreamingMessage].
-class StreamingMessageProvider
-    extends AutoDisposeNotifierProviderImpl<StreamingMessage, String> {
-  /// Provider for streaming message content.
-  ///
-  /// Copied from [StreamingMessage].
-  StreamingMessageProvider(
-    String messageId,
-  ) : this._internal(
-          () => StreamingMessage()..messageId = messageId,
-          from: streamingMessageProvider,
-          name: r'streamingMessageProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$streamingMessageHash,
-          dependencies: StreamingMessageFamily._dependencies,
-          allTransitiveDependencies:
-              StreamingMessageFamily._allTransitiveDependencies,
-          messageId: messageId,
+final class ConversationMessagesProvider extends $FunctionalProvider<
+        AsyncValue<List<domain.ChatMessage>>,
+        List<domain.ChatMessage>,
+        Stream<List<domain.ChatMessage>>>
+    with
+        $FutureModifier<List<domain.ChatMessage>>,
+        $StreamProvider<List<domain.ChatMessage>> {
+  /// Provider for messages of a specific conversation.
+  ConversationMessagesProvider._(
+      {required ConversationMessagesFamily super.from,
+      required String super.argument})
+      : super(
+          retry: null,
+          name: r'conversationMessagesProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
         );
 
-  StreamingMessageProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.messageId,
-  }) : super.internal();
-
-  final String messageId;
+  @override
+  String debugGetCreateSourceHash() => _$conversationMessagesHash();
 
   @override
-  String runNotifierBuild(
-    covariant StreamingMessage notifier,
-  ) {
-    return notifier.build(
-      messageId,
-    );
+  String toString() {
+    return r'conversationMessagesProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  Override overrideWith(StreamingMessage Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: StreamingMessageProvider._internal(
-        () => create()..messageId = messageId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        messageId: messageId,
-      ),
-    );
-  }
+  $StreamProviderElement<List<domain.ChatMessage>> $createElement(
+          $ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
 
   @override
-  AutoDisposeNotifierProviderElement<StreamingMessage, String> createElement() {
-    return _StreamingMessageProviderElement(this);
+  Stream<List<domain.ChatMessage>> create(Ref ref) {
+    final argument = this.argument as String;
+    return conversationMessages(
+      ref,
+      argument,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is StreamingMessageProvider && other.messageId == messageId;
+    return other is ConversationMessagesProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, messageId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin StreamingMessageRef on AutoDisposeNotifierProviderRef<String> {
-  /// The parameter `messageId` of this provider.
-  String get messageId;
-}
+String _$conversationMessagesHash() =>
+    r'bbe4d0ed72e04d6b28cc5165ae6ec57b1ce9d55f';
 
-class _StreamingMessageProviderElement
-    extends AutoDisposeNotifierProviderElement<StreamingMessage, String>
-    with StreamingMessageRef {
-  _StreamingMessageProviderElement(super.provider);
+/// Provider for messages of a specific conversation.
+
+final class ConversationMessagesFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<List<domain.ChatMessage>>, String> {
+  ConversationMessagesFamily._()
+      : super(
+          retry: null,
+          name: r'conversationMessagesProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
+
+  /// Provider for messages of a specific conversation.
+
+  ConversationMessagesProvider call(
+    String conversationId,
+  ) =>
+      ConversationMessagesProvider._(argument: conversationId, from: this);
 
   @override
-  String get messageId => (origin as StreamingMessageProvider).messageId;
+  String toString() => r'conversationMessagesProvider';
+}
+
+/// Provider for selected model in a conversation.
+
+@ProviderFor(SelectedModel)
+final selectedModelProvider = SelectedModelFamily._();
+
+/// Provider for selected model in a conversation.
+final class SelectedModelProvider
+    extends $NotifierProvider<SelectedModel, String?> {
+  /// Provider for selected model in a conversation.
+  SelectedModelProvider._(
+      {required SelectedModelFamily super.from, required String super.argument})
+      : super(
+          retry: null,
+          name: r'selectedModelProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$selectedModelHash();
+
+  @override
+  String toString() {
+    return r'selectedModelProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  SelectedModel create() => SelectedModel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SelectedModelProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$selectedModelHash() => r'0350239a67555a244040fa2972875d337e0c7a6f';
 
-abstract class _$SelectedModel extends BuildlessAutoDisposeNotifier<String?> {
-  late final String conversationId;
+/// Provider for selected model in a conversation.
+
+final class SelectedModelFamily extends $Family
+    with
+        $ClassFamilyOverride<SelectedModel, String?, String?, String?, String> {
+  SelectedModelFamily._()
+      : super(
+          retry: null,
+          name: r'selectedModelProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
+
+  /// Provider for selected model in a conversation.
+
+  SelectedModelProvider call(
+    String conversationId,
+  ) =>
+      SelectedModelProvider._(argument: conversationId, from: this);
+
+  @override
+  String toString() => r'selectedModelProvider';
+}
+
+/// Provider for selected model in a conversation.
+
+abstract class _$SelectedModel extends $Notifier<String?> {
+  late final _$args = ref.$arg as String;
+  String get conversationId => _$args;
 
   String? build(
     String conversationId,
   );
-}
-
-/// Provider for selected model in a conversation.
-///
-/// Copied from [SelectedModel].
-@ProviderFor(SelectedModel)
-const selectedModelProvider = SelectedModelFamily();
-
-/// Provider for selected model in a conversation.
-///
-/// Copied from [SelectedModel].
-class SelectedModelFamily extends Family<String?> {
-  /// Provider for selected model in a conversation.
-  ///
-  /// Copied from [SelectedModel].
-  const SelectedModelFamily();
-
-  /// Provider for selected model in a conversation.
-  ///
-  /// Copied from [SelectedModel].
-  SelectedModelProvider call(
-    String conversationId,
-  ) {
-    return SelectedModelProvider(
-      conversationId,
-    );
-  }
-
+  @$mustCallSuper
   @override
-  SelectedModelProvider getProviderOverride(
-    covariant SelectedModelProvider provider,
-  ) {
-    return call(
-      provider.conversationId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'selectedModelProvider';
-}
-
-/// Provider for selected model in a conversation.
-///
-/// Copied from [SelectedModel].
-class SelectedModelProvider
-    extends AutoDisposeNotifierProviderImpl<SelectedModel, String?> {
-  /// Provider for selected model in a conversation.
-  ///
-  /// Copied from [SelectedModel].
-  SelectedModelProvider(
-    String conversationId,
-  ) : this._internal(
-          () => SelectedModel()..conversationId = conversationId,
-          from: selectedModelProvider,
-          name: r'selectedModelProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$selectedModelHash,
-          dependencies: SelectedModelFamily._dependencies,
-          allTransitiveDependencies:
-              SelectedModelFamily._allTransitiveDependencies,
-          conversationId: conversationId,
-        );
-
-  SelectedModelProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.conversationId,
-  }) : super.internal();
-
-  final String conversationId;
-
-  @override
-  String? runNotifierBuild(
-    covariant SelectedModel notifier,
-  ) {
-    return notifier.build(
-      conversationId,
-    );
-  }
-
-  @override
-  Override overrideWith(SelectedModel Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: SelectedModelProvider._internal(
-        () => create()..conversationId = conversationId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        conversationId: conversationId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<SelectedModel, String?> createElement() {
-    return _SelectedModelProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is SelectedModelProvider &&
-        other.conversationId == conversationId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, conversationId.hashCode);
-
-    return _SystemHash.finish(hash);
+  void runBuild() {
+    final ref = this.ref as $Ref<String?, String?>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<String?, String?>, String?, Object?, Object?>;
+    element.handleCreate(
+        ref,
+        () => build(
+              _$args,
+            ));
   }
 }
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SelectedModelRef on AutoDisposeNotifierProviderRef<String?> {
-  /// The parameter `conversationId` of this provider.
-  String get conversationId;
-}
-
-class _SelectedModelProviderElement
-    extends AutoDisposeNotifierProviderElement<SelectedModel, String?>
-    with SelectedModelRef {
-  _SelectedModelProviderElement(super.provider);
-
-  @override
-  String get conversationId => (origin as SelectedModelProvider).conversationId;
-}
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

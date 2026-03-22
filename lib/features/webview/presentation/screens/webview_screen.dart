@@ -66,15 +66,15 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(webViewNotifierProvider.notifier).initialize(widget.config);
+      ref.read(webViewProvider.notifier).initialize(widget.config);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final webViewState = ref.watch(webViewNotifierProvider);
-    final webViewNotifier = ref.read(webViewNotifierProvider.notifier);
+    final webViewState = ref.watch(webViewProvider);
+    final webViewNotifier = ref.read(webViewProvider.notifier);
     final controller = webViewNotifier.controller;
 
     return Scaffold(

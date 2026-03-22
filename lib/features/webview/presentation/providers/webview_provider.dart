@@ -29,13 +29,12 @@ WebViewCookieDataSource webviewCookieDataSource(Ref ref) =>
 
 /// Provider for WebViewFileDataSource.
 @riverpod
-WebViewFileDataSource webviewFileDataSource(Ref ref) =>
-    WebViewFileDataSource();
+WebViewFileDataSource webviewFileDataSource(Ref ref) => WebViewFileDataSource();
 
 /// Provider for WebViewLocalStorageDataSource.
 @riverpod
 WebViewLocalStorageDataSource webviewLocalStorageDataSource(Ref ref) {
-  final prefs = ref.watch(sharedPrefsProvider).valueOrNull;
+  final prefs = ref.watch(sharedPrefsProvider).value;
   if (prefs == null) {
     throw StateError('SharedPreferences not initialized');
   }
