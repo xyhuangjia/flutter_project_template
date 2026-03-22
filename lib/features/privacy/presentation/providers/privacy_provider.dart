@@ -44,15 +44,15 @@ class PrivacyNotifier extends _$PrivacyNotifier {
     final repository = ref.read(privacyRepositoryProvider);
     final result = await repository.getPrivacyState();
 
-    talker.log('[PrivacyNotifier] build() called');
+    talker.log('[隐私状态] build() 已调用');
     return result.when(
       failure: (_) {
-        talker.log('[PrivacyNotifier] build() failed, returning default state');
+        talker.log('[隐私状态] build() 失败，返回默认状态');
         return PrivacyState.defaultState;
       },
       success: (state) {
         talker.log(
-          '[PrivacyNotifier] build() success, hasConsented: ${state.hasConsented}',
+          '[隐私状态] build() 成功，已同意隐私政策: ${state.hasConsented}',
         );
         return state;
       },
@@ -66,7 +66,7 @@ class PrivacyNotifier extends _$PrivacyNotifier {
     String? termsOfServiceVersion,
   }) async {
     talker.log(
-      '[PrivacyNotifier] saveConsent() called, hasConsented: $hasConsented',
+      '[隐私状态] saveConsent() 已调用，已同意: $hasConsented',
     );
     final repository = ref.read(privacyRepositoryProvider);
     final result = await repository.saveConsent(
@@ -77,11 +77,11 @@ class PrivacyNotifier extends _$PrivacyNotifier {
 
     result.when(
       failure: (f) {
-        talker.error('[PrivacyNotifier] saveConsent() failed: ${f.message}');
+        talker.error('[隐私状态] saveConsent() 失败: ${f.message}');
       },
       success: (newState) {
         talker.log(
-          '[PrivacyNotifier] saveConsent() success, new hasConsented: ${newState.hasConsented}',
+          '[隐私状态] saveConsent() 成功，新的已同意状态: ${newState.hasConsented}',
         );
         state = AsyncValue.data(newState);
       },

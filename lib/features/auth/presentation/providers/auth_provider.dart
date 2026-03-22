@@ -48,21 +48,21 @@ class AuthNotifier extends _$AuthNotifier {
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.getCurrentUser();
 
-    talker.log('[AuthNotifier] build() called');
+    talker.log('[认证状态] build() 已调用');
     return result.when(
       failure: (_) {
-        talker.log('[AuthNotifier] build() failed, returning unauthenticated');
+        talker.log('[认证状态] build() 失败，返回未认证状态');
         return const AuthState.unauthenticated();
       },
       success: (user) {
         if (user != null) {
           final token = ref.read(authLocalDataSourceProvider).getToken();
           talker.log(
-            '[AuthNotifier] build() success, user: ${user.username}',
+            '[认证状态] build() 成功，用户: ${user.username}',
           );
           return AuthState.authenticated(user: user, token: token ?? '');
         }
-        talker.log('[AuthNotifier] build() no user, returning unauthenticated');
+        talker.log('[认证状态] build() 无用户，返回未认证状态');
         return const AuthState.unauthenticated();
       },
     );
@@ -73,7 +73,7 @@ class AuthNotifier extends _$AuthNotifier {
     required String email,
     required String password,
   }) async {
-    talker.log('[AuthNotifier] loginWithEmail() called for: $email');
+    talker.log('[认证状态] loginWithEmail() 已调用: $email');
     state = const AsyncValue.loading();
 
     final repository = ref.read(authRepositoryProvider);
@@ -84,11 +84,11 @@ class AuthNotifier extends _$AuthNotifier {
 
     state = result.when(
       failure: (f) {
-        talker.error('[AuthNotifier] loginWithEmail() failed: ${f.message}');
+        talker.error('[认证状态] loginWithEmail() 失败: ${f.message}');
         return AsyncValue.error(f, StackTrace.current);
       },
       success: (user) {
-        talker.log('[AuthNotifier] loginWithEmail() success: ${user.username}');
+        talker.log('[认证状态] loginWithEmail() 成功: ${user.username}');
         return AsyncValue.data(
           AuthState.authenticated(
             user: user,
@@ -115,7 +115,8 @@ class AuthNotifier extends _$AuthNotifier {
     );
 
     state = result.when<AsyncValue<AuthState>>(
-      failure: (Failure f) => AsyncValue<AuthState>.error(f, StackTrace.current),
+      failure: (Failure f) =>
+          AsyncValue<AuthState>.error(f, StackTrace.current),
       success: (User user) => AsyncValue<AuthState>.data(
         AuthState.authenticated(
           user: user,
@@ -150,24 +151,24 @@ class AuthNotifier extends _$AuthNotifier {
   }) async =>
       _performLogin(
         () => ref.read(authRepositoryProvider).register(
-          email: email,
-          username: username,
-          password: password,
-        ),
+              email: email,
+              username: username,
+              password: password,
+            ),
       );
 
   /// Logs out the current user.
   Future<bool> logout() async {
-    talker.log('[AuthNotifier] logout() called');
+    talker.log('[认证状态] logout() 已调用');
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.logout();
 
     result.when<void>(
       failure: (f) {
-        talker.error('[AuthNotifier] logout() failed: ${f.message}');
+        talker.error('[认证状态] logout() 失败: ${f.message}');
       },
       success: (_) {
-        talker.log('[AuthNotifier] logout() success');
+        talker.log('[认证状态] logout() 成功');
         state = const AsyncValue.data(AuthState.unauthenticated());
       },
     );
@@ -247,12 +248,12 @@ class AuthNotifier extends _$AuthNotifier {
   }) async =>
       _performLogin(
         () => ref.read(authRepositoryProvider).registerWithPhone(
-          phoneNumber: phoneNumber,
-          username: username,
-          password: password,
-          verificationCode: verificationCode,
-          avatarUrl: avatarUrl,
-        ),
+              phoneNumber: phoneNumber,
+              username: username,
+              password: password,
+              verificationCode: verificationCode,
+              avatarUrl: avatarUrl,
+            ),
       );
 
   /// Registers with email verification.
@@ -265,12 +266,12 @@ class AuthNotifier extends _$AuthNotifier {
   }) async =>
       _performLogin(
         () => ref.read(authRepositoryProvider).registerWithEmail(
-          email: email,
-          username: username,
-          password: password,
-          verificationCode: verificationCode,
-          avatarUrl: avatarUrl,
-        ),
+              email: email,
+              username: username,
+              password: password,
+              verificationCode: verificationCode,
+              avatarUrl: avatarUrl,
+            ),
       );
 
   /// Updates user profile.
@@ -309,7 +310,8 @@ class AuthNotifier extends _$AuthNotifier {
     final result = await loginAction();
 
     state = result.when<AsyncValue<AuthState>>(
-      failure: (Failure f) => AsyncValue<AuthState>.error(f, StackTrace.current),
+      failure: (Failure f) =>
+          AsyncValue<AuthState>.error(f, StackTrace.current),
       success: (User user) => AsyncValue<AuthState>.data(
         AuthState.authenticated(
           user: user,

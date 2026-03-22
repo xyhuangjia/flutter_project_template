@@ -25,7 +25,7 @@ class PrivacyLocalDataSource {
   PrivacyConsentDto? getPrivacyConsent() {
     final jsonString = _sharedPreferences.getString(_privacyConsentKey);
     talker.log(
-      '[PrivacyLocalDataSource] getPrivacyConsent: ${jsonString != null ? "found" : "null"}',
+      '[隐私数据源] 获取隐私同意: ${jsonString != null ? "已找到" : "未找到"}',
     );
     if (jsonString == null) {
       return null;
@@ -35,12 +35,11 @@ class PrivacyLocalDataSource {
         jsonDecode(jsonString) as Map<String, dynamic>,
       );
       talker.log(
-        '[PrivacyLocalDataSource] getPrivacyConsent hasConsented: ${dto.hasConsented}',
+        '[隐私数据源] 获取隐私同意 - 已同意: ${dto.hasConsented}',
       );
       return dto;
     } catch (e) {
-      talker
-          .error('[PrivacyLocalDataSource] getPrivacyConsent parse error: $e');
+      talker.error('[隐私数据源] 获取隐私同意 - 解析错误: $e');
       return null;
     }
   }
@@ -49,15 +48,15 @@ class PrivacyLocalDataSource {
   Future<void> savePrivacyConsent(PrivacyConsentDto consent) async {
     final jsonString = jsonEncode(consent.toJson());
     talker.log(
-      '[PrivacyLocalDataSource] savePrivacyConsent: hasConsented=${consent.hasConsented}',
+      '[隐私数据源] 保存隐私同意: 已同意=${consent.hasConsented}',
     );
     await _sharedPreferences.setString(_privacyConsentKey, jsonString);
-    talker.log('[PrivacyLocalDataSource] savePrivacyConsent: saved');
+    talker.log('[隐私数据源] 保存隐私同意: 已保存');
 
     // Verify save
     final saved = _sharedPreferences.getString(_privacyConsentKey);
     talker.log(
-      '[PrivacyLocalDataSource] savePrivacyConsent verify: ${saved != null ? "OK" : "FAILED"}',
+      '[隐私数据源] 保存隐私同意 - 验证: ${saved != null ? "成功" : "失败"}',
     );
   }
 

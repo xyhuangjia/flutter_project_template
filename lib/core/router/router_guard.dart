@@ -63,15 +63,29 @@ abstract final class RouterGuard {
     final requiresConsent = !noConsentRequiredRoutes.contains(currentPath);
 
     talker.log(
-      '[RouterGuard] redirect: path=$currentPath, '
-      'isAuthenticated=$isAuthenticated, hasConsent=$hasConsent',
+      '[路由守卫] 重定向: 路径=$currentPath, '
+      '已认证=$isAuthenticated, 已同意隐私=$hasConsent',
     );
 
     // First check: Privacy consent (must be accepted before any other screen)
-    // If user hasn't consented, redirect to splash screen which will show the dialog
+    // If user hasn't consented, redirect to splash screen which will show dialog
     if (!hasConsent && requiresConsent) {
-      talker.log('[RouterGuard] Redirecting to splash for privacy consent');
+      talker.log('[路由守卫] 重定向到启动页以显示隐私同意');
       return Routes.splash;
+    }
+
+    // Second check: Authentication
+    if (!isAuthenticated && !isPublicRoute) {
+      talker.log('[路由守卫] 重定向到登录页');
+      return Routes.login;
+    }
+
+    // If authenticated user tries to access login/register:
+    // - Redirect away from login page
+    // - Allow access to register page (user might want to register new account)
+    if (isAuthenticated && currentPath == Routes.login) {
+      talker.log('[路由守卫] 已认证用户在登录页，重定向到首页');
+      return Routes.home;
     }
 
     // Second check: Authentication

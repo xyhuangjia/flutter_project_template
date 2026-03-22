@@ -83,7 +83,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final hasConsented = privacyState?.hasConsented ?? false;
 
     talker.log(
-      '[SplashScreen] _navigateOrShowDialog: hasConsented=$hasConsented',
+      '[启动页] 导航决策: 已同意隐私政策=$hasConsented',
     );
 
     // Check privacy consent first
@@ -116,16 +116,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ref.read(authNotifierProvider.notifier).isAuthenticated;
 
     talker.log(
-      '[SplashScreen] _navigateToNextScreen: isAuthenticated=$isAuthenticated',
+      '[启动页] 导航决策: 已认证=$isAuthenticated',
     );
 
     if (!isAuthenticated) {
-      talker.log('[SplashScreen] Navigating to login');
+      talker.log('[启动页] 导航到登录页');
       context.go(Routes.login);
       return;
     }
 
-    talker.log('[SplashScreen] Navigating to home');
+    talker.log('[启动页] 导航到首页');
     context.go(Routes.home);
   }
 

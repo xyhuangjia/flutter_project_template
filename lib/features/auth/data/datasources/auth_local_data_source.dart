@@ -45,14 +45,14 @@ class AuthLocalDataSource {
   /// Saves the authentication token.
   Future<void> saveToken(String token) async {
     await _sharedPreferences.setString(_tokenKey, token);
-    talker.log('[AuthLocalDataSource] Token saved');
+    talker.log('[认证数据源] Token 已保存');
   }
 
   /// Gets the stored authentication token.
   String? getToken() {
     final token = _sharedPreferences.getString(_tokenKey);
     talker.log(
-      '[AuthLocalDataSource] getToken: ${token != null ? "found" : "null"}',
+      '[认证数据源] 获取Token: ${token != null ? "已找到" : "未找到"}',
     );
     return token;
   }
@@ -79,40 +79,40 @@ class AuthLocalDataSource {
         _sharedPreferences.setString(_phoneNumberKey, phoneNumber),
       if (gender != null) _sharedPreferences.setString(_genderKey, gender.name),
     ]);
-    talker.log('[AuthLocalDataSource] User data saved: $username');
+    talker.log('[认证数据源] 用户数据已保存: $username');
   }
 
-  /// Gets the stored user ID.
+  /// Gets stored user ID.
   String? getUserId() {
     return _sharedPreferences.getString(_userIdKey);
   }
 
-  /// Gets the stored user email.
+  /// Gets stored user email.
   String? getUserEmail() {
     return _sharedPreferences.getString(_userEmailKey);
   }
 
-  /// Gets the stored username.
+  /// Gets stored username.
   String? getUsername() {
     return _sharedPreferences.getString(_usernameKey);
   }
 
-  /// Gets the stored display name.
+  /// Gets stored display name.
   String? getDisplayName() {
     return _sharedPreferences.getString(_displayNameKey);
   }
 
-  /// Gets the stored avatar URL.
+  /// Gets stored avatar URL.
   String? getAvatarUrl() {
     return _sharedPreferences.getString(_avatarUrlKey);
   }
 
-  /// Gets the stored phone number.
+  /// Gets stored phone number.
   String? getPhoneNumber() {
     return _sharedPreferences.getString(_phoneNumberKey);
   }
 
-  /// Gets the stored gender.
+  /// Gets stored gender.
   UserGender? getGender() {
     final genderStr = _sharedPreferences.getString(_genderKey);
     if (genderStr == null) return null;
@@ -136,7 +136,7 @@ class AuthLocalDataSource {
       _sharedPreferences.remove(_phoneNumberKey),
       _sharedPreferences.remove(_genderKey),
     ]);
-    talker.log('[AuthLocalDataSource] Auth data cleared');
+    talker.log('[认证数据源] 认证数据已清除');
   }
 
   /// Checks if user is authenticated (has token).
