@@ -17,6 +17,7 @@ import 'package:flutter_project_template/features/settings/presentation/widgets/
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -160,7 +161,7 @@ class _SettingsContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Preferences section
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 ThemeSelector(
@@ -171,7 +172,7 @@ class _SettingsContent extends StatelessWidget {
                         .updateThemeMode(mode);
                   },
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 LanguageSelector(
                   currentLanguage: currentLanguageCode,
                   onLanguageChanged: (code) {
@@ -184,12 +185,12 @@ class _SettingsContent extends StatelessWidget {
                     LanguageOption(code: 'zh', name: '中文'),
                   ],
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.notifications,
                   icon: Icons.notifications_outlined,
-                  iconColor: const Color(0xFFEC4899),
-                  iconBgColor: const Color(0xFFFDF2F8),
+                  iconColor: AppIconColors.notificationColor,
+                  iconBgColor: AppIconColors.notificationBgColor,
                   trailing: Switch(
                     value: settings.notificationsEnabled,
                     onChanged: (value) {
@@ -205,19 +206,19 @@ class _SettingsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // AI section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.aiAssistant,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.aiConfiguration,
                   icon: Icons.smart_toy_outlined,
-                  iconColor: const Color(0xFF8B5CF6),
-                  iconBgColor: const Color(0xFFF5F3FF),
+                  iconColor: AppIconColors.aiColor,
+                  iconBgColor: AppIconColors.aiBgColor,
                   onTap: () {
                     context.push('/settings/ai-config');
                   },
@@ -228,12 +229,12 @@ class _SettingsContent extends StatelessWidget {
             // Security section (only if authenticated)
             if (isAuthenticated) ...[
               const SizedBox(height: 16),
-              _SectionTitle(
+              SectionTitle(
                 title: localizations.security,
                 colorScheme: colorScheme,
               ),
               const SizedBox(height: 12),
-              _SettingsCard(
+              SettingsCard(
                 colorScheme: colorScheme,
                 children: [
                   SettingsTile(
@@ -260,29 +261,29 @@ class _SettingsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // About section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.about,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.aboutApp,
                   icon: Icons.info_outline,
-                  iconColor: const Color(0xFF0EA5E9),
-                  iconBgColor: const Color(0xFFF0F9FF),
+                  iconColor: AppIconColors.infoColor,
+                  iconBgColor: AppIconColors.infoBgColor,
                   onTap: () {
                     context.push('/about');
                   },
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.privacySettings,
                   icon: Icons.privacy_tip_outlined,
-                  iconColor: const Color(0xFF14B8A6),
-                  iconBgColor: const Color(0xFFF0FDFA),
+                  iconColor: AppIconColors.privacyColor,
+                  iconBgColor: AppIconColors.privacyBgColor,
                   onTap: () {
                     context.push('/privacy/settings');
                   },
@@ -293,20 +294,20 @@ class _SettingsContent extends StatelessWidget {
             // Developer options section (only in debug mode)
             if (showDeveloperOptions) ...[
               const SizedBox(height: 16),
-              _SectionTitle(
+              SectionTitle(
                 title: localizations.developerOptions,
                 colorScheme: colorScheme,
               ),
               const SizedBox(height: 12),
-              _SettingsCard(
+              SettingsCard(
                 colorScheme: colorScheme,
                 children: [
                   SettingsTile(
                     title: localizations.developerOptions,
                     subtitle: localizations.currentEnvironment,
                     icon: Icons.developer_mode,
-                    iconColor: const Color(0xFF64748B),
-                    iconBgColor: const Color(0xFFF1F5F9),
+                    iconColor: AppIconColors.developerColor,
+                    iconBgColor: AppIconColors.developerBgColor,
                     onTap: () {
                       context.push('/settings/developer-options');
                     },
@@ -318,86 +319,6 @@ class _SettingsContent extends StatelessWidget {
             // Bottom padding for safe area
             const SizedBox(height: 32),
           ],
-        ),
-      );
-}
-
-/// Section title widget with accent bar.
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.title,
-    required this.colorScheme,
-  });
-
-  final String title;
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          Container(
-            width: 4,
-            height: 18,
-            decoration: BoxDecoration(
-              color: colorScheme.primary,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        ],
-      );
-}
-
-/// Settings card with rounded corners and shadow.
-class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({
-    required this.colorScheme,
-    required this.children,
-  });
-
-  final ColorScheme colorScheme;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-      );
-}
-
-/// Settings divider widget.
-class _SettingsDivider extends StatelessWidget {
-  const _SettingsDivider({
-    required this.colorScheme,
-  });
-
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 60),
-        child: Divider(
-          height: 1,
-          color: colorScheme.surfaceContainerHighest,
         ),
       );
 }

@@ -2,10 +2,12 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/typing_indicator.dart';
-import 'package:flutter_project_template/features/chat/utils/chat_colors.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Message bubble widget displaying a single chat message.
 class MessageBubble extends StatelessWidget {
@@ -29,7 +31,7 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
 
     final child = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -57,7 +59,7 @@ class MessageBubble extends StatelessWidget {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: _getBubbleColor(isDark),
+                    color: _getBubbleColor(colorScheme),
                     borderRadius: _getBorderRadius(),
                   ),
                   child: Column(
@@ -66,14 +68,7 @@ class MessageBubble extends StatelessWidget {
                       if (message.content.isEmpty && message.isFromAI)
                         const TypingIndicator()
                       else
-                        Text(
-                          message.content,
-                          style: TextStyle(
-                            color: _getTextColor(isDark),
-                            fontSize: 15,
-                            height: 1.4,
-                          ),
-                        ),
+                        _buildMessageContent(context, colorScheme),
                     ],
                   ),
                 ),
@@ -86,12 +81,12 @@ class MessageBubble extends StatelessWidget {
                         _formatTime(message.timestamp),
                         style: TextStyle(
                           fontSize: 11,
-                          color: theme.textTheme.bodySmall?.color,
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
                       if (!message.isFromAI) ...[
                         const SizedBox(width: 4),
-                        _buildStatusIcon(),
+                        _buildStatusIcon(colorScheme),
                       ],
                     ],
                   ),
@@ -101,7 +96,7 @@ class MessageBubble extends StatelessWidget {
           ),
           if (!message.isFromAI) ...[
             const SizedBox(width: 8),
-            _buildUserAvatar(),
+            _buildUserAvatar(colorScheme),
           ],
         ],
       ),
@@ -112,11 +107,88 @@ class MessageBubble extends StatelessWidget {
         : child;
   }
 
+  /// Builds the message content with Markdown support for AI messages.
+  Widget _buildMessageContent(BuildContext context, ColorScheme colorScheme) {
+    if (message.isFromAI) {
+      return MarkdownBody(
+        data: message.content,
+        selectable: true,
+        onTapLink: (text, href, title) {
+          if (href != null) {
+            _launchUrl(href);
+          }
+        },
+        styleSheet: MarkdownStyleSheet(
+          p: TextStyle(
+            color: colorScheme.onSurface,
+            fontSize: 15,
+            height: 1.4,
+          ),
+          code: TextStyle(
+            color: colorScheme.primary,
+            backgroundColor: colorScheme.surfaceContainerHighest,
+            fontSize: 14,
+          ),
+          codeblockDecoration: BoxDecoration(
+            color: colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          codeblockPadding: const EdgeInsets.all(12),
+          blockquote: TextStyle(
+            color: colorScheme.onSurfaceVariant,
+            fontSize: 15,
+          ),
+          blockquoteDecoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                color: colorScheme.primary,
+                width: 4,
+              ),
+            ),
+          ),
+          blockquotePadding: const EdgeInsets.only(left: 12),
+          listBullet: TextStyle(
+            color: colorScheme.onSurface,
+            fontSize: 15,
+          ),
+          tableHead: TextStyle(
+            color: colorScheme.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
+          tableBody: TextStyle(
+            color: colorScheme.onSurface,
+          ),
+          a: TextStyle(
+            color: colorScheme.primary,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      );
+    }
+
+    // User messages use plain text
+    return Text(
+      message.content,
+      style: TextStyle(
+        color: _getTextColor(colorScheme),
+        fontSize: 15,
+        height: 1.4,
+      ),
+    );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   Widget _buildAIAvatar() => Container(
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: ChatColors.aiAvatarAccent,
+          color: AppIconColors.aiColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: const Icon(
@@ -126,29 +198,26 @@ class MessageBubble extends StatelessWidget {
         ),
       );
 
-  Widget _buildUserAvatar() => Container(
+  Widget _buildUserAvatar(ColorScheme colorScheme) => Container(
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: ChatColors.userAvatarAccent,
+          color: colorScheme.primary,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.person_outline,
           size: 18,
-          color: Colors.white,
+          color: colorScheme.onPrimary,
         ),
       );
 
-  Color _getBubbleColor(bool isDark) => message.isFromAI
-      ? (isDark ? ChatColors.aiMessageDark : ChatColors.aiMessageLight)
-      : (isDark ? ChatColors.userMessageDark : ChatColors.userMessageLight);
+  Color _getBubbleColor(ColorScheme colorScheme) => message.isFromAI
+      ? colorScheme.surfaceContainerHighest
+      : colorScheme.primary;
 
-  Color _getTextColor(bool isDark) => message.isFromAI
-      ? (isDark ? ChatColors.aiMessageTextDark : ChatColors.aiMessageTextLight)
-      : (isDark
-          ? ChatColors.userMessageTextDark
-          : ChatColors.userMessageTextLight);
+  Color _getTextColor(ColorScheme colorScheme) =>
+      message.isFromAI ? colorScheme.onSurface : colorScheme.onPrimary;
 
   BorderRadius _getBorderRadius() => message.isFromAI
       ? const BorderRadius.only(
@@ -164,31 +233,31 @@ class MessageBubble extends StatelessWidget {
           bottomRight: Radius.circular(16),
         );
 
-  Widget _buildStatusIcon() {
+  Widget _buildStatusIcon(ColorScheme colorScheme) {
     switch (message.status) {
       case MessageStatus.sending:
         return Icon(
           Icons.access_time,
           size: 12,
-          color: Colors.grey.shade400,
+          color: colorScheme.onSurfaceVariant,
         );
       case MessageStatus.sent:
-        return const Icon(
+        return Icon(
           Icons.check,
           size: 12,
-          color: ChatColors.sentIndicator,
+          color: colorScheme.primary,
         );
       case MessageStatus.read:
-        return const Icon(
+        return Icon(
           Icons.done_all,
           size: 12,
-          color: ChatColors.sentIndicator,
+          color: colorScheme.primary,
         );
       case MessageStatus.error:
-        return const Icon(
+        return Icon(
           Icons.error_outline,
           size: 12,
-          color: ChatColors.errorAccent,
+          color: colorScheme.error,
         );
     }
   }

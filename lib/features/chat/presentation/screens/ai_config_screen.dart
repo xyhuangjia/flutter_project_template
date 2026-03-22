@@ -4,8 +4,8 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 /// AI configuration screen.
 class AIConfigScreen extends ConsumerWidget {
@@ -15,50 +15,31 @@ class AIConfigScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localizations = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
     final configsAsync = ref.watch(aIConfigNotifierProvider);
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+      backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
-        title: Text(
-          localizations.aiConfiguration,
-          style: TextStyle(
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-        ),
-        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-          onPressed: context.pop,
-        ),
+        title: Text(localizations.aiConfiguration),
       ),
       body: configsAsync.when(
         data: (state) => _buildContent(
           context,
           ref,
           localizations,
-          isDark,
+          colorScheme,
           state.configs,
           state.defaultConfig,
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
-          child: Text(
-            '${localizations.error}: $error',
-            style: TextStyle(color: isDark ? Colors.white : Colors.black),
-          ),
+          child: Text('${localizations.error}: $error'),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            _showAddConfigDialog(context, ref, localizations, isDark),
-        backgroundColor: const Color(0xFF8B5CF6),
+        onPressed: () => _showAddConfigDialog(context, ref, localizations),
+        backgroundColor: AppIconColors.aiColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -68,12 +49,12 @@ class AIConfigScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocalizations localizations,
-    bool isDark,
+    ColorScheme colorScheme,
     List<AIConfigEntity> configs,
     AIConfigEntity? defaultConfig,
   ) {
     if (configs.isEmpty) {
-      return _buildEmptyState(context, localizations, isDark);
+      return _buildEmptyState(context, localizations, colorScheme);
     }
 
     return ListView.builder(
@@ -82,13 +63,16 @@ class AIConfigScreen extends ConsumerWidget {
       itemBuilder: (context, index) {
         final config = configs[index];
         final isDefault = config.id == defaultConfig?.id;
-        return _buildConfigCard(
-          context,
-          ref,
-          localizations,
-          isDark,
-          config,
-          isDefault,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: _buildConfigCard(
+            context,
+            ref,
+            localizations,
+            colorScheme,
+            config,
+            isDefault,
+          ),
         );
       },
     );
@@ -97,7 +81,7 @@ class AIConfigScreen extends ConsumerWidget {
   Widget _buildEmptyState(
     BuildContext context,
     AppLocalizations localizations,
-    bool isDark,
+    ColorScheme colorScheme,
   ) {
     return Center(
       child: Column(
@@ -107,13 +91,13 @@ class AIConfigScreen extends ConsumerWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+              color: AppIconColors.aiBgColor,
               borderRadius: BorderRadius.circular(40),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.smart_toy_outlined,
               size: 40,
-              color: Color(0xFF8B5CF6),
+              color: AppIconColors.aiColor,
             ),
           ),
           const SizedBox(height: 16),
@@ -122,7 +106,7 @@ class AIConfigScreen extends ConsumerWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: isDark ? Colors.white : const Color(0xFF1E293B),
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
@@ -130,7 +114,7 @@ class AIConfigScreen extends ConsumerWidget {
             localizations.addAIConfigHint,
             style: TextStyle(
               fontSize: 14,
-              color: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+              color: colorScheme.onSurfaceVariant,
             ),
             textAlign: TextAlign.center,
           ),
@@ -143,34 +127,35 @@ class AIConfigScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocalizations localizations,
-    bool isDark,
+    ColorScheme colorScheme,
     AIConfigEntity config,
     bool isDefault,
   ) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E293B) : Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: isDefault
-            ? Border.all(color: const Color(0xFF8B5CF6), width: 2)
-            : null,
-      ),
+    return SettingsCard(
+      colorScheme: colorScheme,
       child: Column(
         children: [
           // Header
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
+              color: AppIconColors.aiColor.withValues(alpha: 0.1),
               borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
+                  const BorderRadius.vertical(top: Radius.circular(16)),
             ),
             child: Row(
               children: [
-                Icon(
-                  _getProviderIcon(config.provider),
-                  color: const Color(0xFF8B5CF6),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppIconColors.aiBgColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    _getProviderIcon(config.provider),
+                    size: 22,
+                    color: AppIconColors.aiColor,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -182,17 +167,14 @@ class AIConfigScreen extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color:
-                              isDark ? Colors.white : const Color(0xFF1E293B),
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       Text(
                         _getModelDisplayName(config.provider, config.model),
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark
-                              ? const Color(0xFF64748B)
-                              : const Color(0xFF94A3B8),
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -203,7 +185,7 @@ class AIConfigScreen extends ConsumerWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF8B5CF6),
+                      color: AppIconColors.aiColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -230,7 +212,7 @@ class AIConfigScreen extends ConsumerWidget {
                     icon: const Icon(Icons.star_outline, size: 18),
                     label: Text(localizations.setAsDefault),
                     style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF8B5CF6),
+                      foregroundColor: AppIconColors.aiColor,
                     ),
                   ),
                 TextButton.icon(
@@ -238,18 +220,17 @@ class AIConfigScreen extends ConsumerWidget {
                     context,
                     ref,
                     localizations,
-                    isDark,
                     config,
                   ),
                   icon: Icon(
                     Icons.delete_outline,
                     size: 18,
-                    color: isDark ? Colors.red.shade300 : Colors.red,
+                    color: colorScheme.error,
                   ),
                   label: Text(
                     localizations.delete,
                     style: TextStyle(
-                      color: isDark ? Colors.red.shade300 : Colors.red,
+                      color: colorScheme.error,
                     ),
                   ),
                 ),
@@ -295,18 +276,15 @@ class AIConfigScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocalizations localizations,
-    bool isDark,
   ) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (context) => _AddConfigSheet(
         localizations: localizations,
-        isDark: isDark,
       ),
     );
   }
@@ -315,35 +293,17 @@ class AIConfigScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppLocalizations localizations,
-    bool isDark,
     AIConfigEntity config,
   ) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
-        title: Text(
-          localizations.deleteConfig,
-          style: TextStyle(
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-        ),
-        content: Text(
-          localizations.deleteConfigConfirm(config.name),
-          style: TextStyle(
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-        ),
+        title: Text(localizations.deleteConfig),
+        content: Text(localizations.deleteConfigConfirm(config.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: Text(
-              localizations.cancel,
-              style: TextStyle(
-                color:
-                    isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
-              ),
-            ),
+            child: Text(localizations.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -353,7 +313,7 @@ class AIConfigScreen extends ConsumerWidget {
                   .deleteConfig(config.id);
             },
             style: FilledButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).colorScheme.error,
             ),
             child: Text(localizations.delete),
           ),
@@ -368,11 +328,9 @@ class _AddConfigSheet extends ConsumerStatefulWidget {
   /// Creates the add config sheet.
   const _AddConfigSheet({
     required this.localizations,
-    required this.isDark,
   });
 
   final AppLocalizations localizations;
-  final bool isDark;
 
   @override
   ConsumerState<_AddConfigSheet> createState() => _AddConfigSheetState();
@@ -396,6 +354,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final models = ref.watch(availableModelsProvider);
     final selectedProviderInfo = models.firstWhere(
       (m) => m.provider == _selectedProvider,
@@ -420,9 +379,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: widget.isDark
-                      ? const Color(0xFF334155)
-                      : Colors.grey.shade300,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -434,7 +391,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: widget.isDark ? Colors.white : const Color(0xFF1E293B),
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 24),
@@ -444,13 +401,11 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: widget.isDark
-                    ? const Color(0xFF94A3B8)
-                    : const Color(0xFF64748B),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
-            _buildProviderSelector(models),
+            _buildProviderSelector(models, colorScheme),
             const SizedBox(height: 16),
             // Model selection
             Text(
@@ -458,13 +413,11 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: widget.isDark
-                    ? const Color(0xFF94A3B8)
-                    : const Color(0xFF64748B),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
-            _buildModelSelector(selectedProviderInfo),
+            _buildModelSelector(selectedProviderInfo, colorScheme),
             const SizedBox(height: 16),
             // Name input
             Text(
@@ -472,9 +425,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: widget.isDark
-                    ? const Color(0xFF94A3B8)
-                    : const Color(0xFF64748B),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
@@ -482,22 +433,12 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               controller: _nameController,
               decoration: InputDecoration(
                 hintText: widget.localizations.configNameHint,
-                hintStyle: TextStyle(
-                  color: widget.isDark
-                      ? const Color(0xFF64748B)
-                      : const Color(0xFF94A3B8),
-                ),
                 filled: true,
-                fillColor: widget.isDark
-                    ? const Color(0xFF0F172A)
-                    : Colors.grey.shade100,
+                fillColor: colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
-              ),
-              style: TextStyle(
-                color: widget.isDark ? Colors.white : const Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 16),
@@ -507,9 +448,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: widget.isDark
-                    ? const Color(0xFF94A3B8)
-                    : const Color(0xFF64748B),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
@@ -518,15 +457,8 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               obscureText: _obscureApiKey,
               decoration: InputDecoration(
                 hintText: widget.localizations.apiKeyHint,
-                hintStyle: TextStyle(
-                  color: widget.isDark
-                      ? const Color(0xFF64748B)
-                      : const Color(0xFF94A3B8),
-                ),
                 filled: true,
-                fillColor: widget.isDark
-                    ? const Color(0xFF0F172A)
-                    : Colors.grey.shade100,
+                fillColor: colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
@@ -534,9 +466,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscureApiKey ? Icons.visibility_off : Icons.visibility,
-                    color: widget.isDark
-                        ? const Color(0xFF64748B)
-                        : const Color(0xFF94A3B8),
+                    color: colorScheme.onSurfaceVariant,
                   ),
                   onPressed: () {
                     setState(() {
@@ -544,9 +474,6 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                     });
                   },
                 ),
-              ),
-              style: TextStyle(
-                color: widget.isDark ? Colors.white : const Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 8),
@@ -557,9 +484,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                   : widget.localizations.claudeKeyHelp,
               style: TextStyle(
                 fontSize: 12,
-                color: widget.isDark
-                    ? const Color(0xFF64748B)
-                    : const Color(0xFF94A3B8),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             // Error message
@@ -568,19 +493,19 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.red.shade50,
+                  color: colorScheme.errorContainer,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
                   children: [
                     Icon(Icons.error_outline,
-                        color: Colors.red.shade700, size: 20),
+                        color: colorScheme.error, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _error!,
                         style:
-                            TextStyle(color: Colors.red.shade700, fontSize: 14),
+                            TextStyle(color: colorScheme.error, fontSize: 14),
                       ),
                     ),
                   ],
@@ -595,7 +520,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               child: FilledButton(
                 onPressed: _isLoading ? null : _saveConfig,
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B5CF6),
+                  backgroundColor: AppIconColors.aiColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -618,7 +543,8 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
     );
   }
 
-  Widget _buildProviderSelector(List<AIModelInfo> models) {
+  Widget _buildProviderSelector(
+      List<AIModelInfo> models, ColorScheme colorScheme) {
     return Wrap(
       spacing: 8,
       children: models.map((provider) {
@@ -634,39 +560,32 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
               });
             }
           },
-          selectedColor: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
-          backgroundColor:
-              widget.isDark ? const Color(0xFF0F172A) : Colors.grey.shade100,
+          selectedColor: AppIconColors.aiColor.withValues(alpha: 0.2),
+          backgroundColor: colorScheme.surfaceContainerHighest,
           labelStyle: TextStyle(
-            color: isSelected
-                ? const Color(0xFF8B5CF6)
-                : (widget.isDark ? Colors.white : const Color(0xFF1E293B)),
+            color: isSelected ? AppIconColors.aiColor : colorScheme.onSurface,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
           ),
           side: BorderSide(
-            color: isSelected
-                ? const Color(0xFF8B5CF6)
-                : (widget.isDark
-                    ? const Color(0xFF334155)
-                    : Colors.grey.shade300),
+            color: isSelected ? AppIconColors.aiColor : colorScheme.outline,
           ),
         );
       }).toList(),
     );
   }
 
-  Widget _buildModelSelector(AIModelInfo providerInfo) {
+  Widget _buildModelSelector(
+      AIModelInfo providerInfo, ColorScheme colorScheme) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: widget.isDark ? const Color(0xFF0F172A) : Colors.grey.shade100,
+        color: colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(8),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: _selectedModel,
           isExpanded: true,
-          dropdownColor: widget.isDark ? const Color(0xFF1E293B) : Colors.white,
           items: providerInfo.models.map((model) {
             return DropdownMenuItem(
               value: model.id,
@@ -677,9 +596,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                   Text(
                     model.name,
                     style: TextStyle(
-                      color: widget.isDark
-                          ? Colors.white
-                          : const Color(0xFF1E293B),
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   if (model.description != null)
@@ -687,9 +604,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                       model.description!,
                       style: TextStyle(
                         fontSize: 12,
-                        color: widget.isDark
-                            ? const Color(0xFF64748B)
-                            : const Color(0xFF94A3B8),
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                 ],
@@ -743,7 +658,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(widget.localizations.configSaved),
-              backgroundColor: const Color(0xFF8B5CF6),
+              backgroundColor: AppIconColors.aiColor,
               behavior: SnackBarBehavior.floating,
             ),
           );

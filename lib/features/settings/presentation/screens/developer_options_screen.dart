@@ -10,6 +10,7 @@ import 'package:flutter_project_template/features/settings/presentation/provider
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Developer options screen widget.
@@ -145,12 +146,12 @@ class _DeveloperOptionsContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Environment section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.environmentSection,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
@@ -160,8 +161,8 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     localizations,
                   ),
                   icon: Icons.cloud_outlined,
-                  iconColor: const Color(0xFF0EA5E9),
-                  iconBgColor: const Color(0xFFF0F9FF),
+                  iconColor: AppIconColors.infoColor,
+                  iconBgColor: AppIconColors.infoBgColor,
                   onTap: () => _showEnvironmentDialog(
                     context,
                     ref,
@@ -169,14 +170,14 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     currentEnv.type,
                   ),
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.customApiUrl,
                   subtitle:
                       options.customApiBaseUrl ?? localizations.useDefault,
                   icon: Icons.dns_outlined,
-                  iconColor: const Color(0xFF8B5CF6),
-                  iconBgColor: const Color(0xFFF5F3FF),
+                  iconColor: AppIconColors.aiColor,
+                  iconBgColor: AppIconColors.aiBgColor,
                   onTap: () => _showApiUrlDialog(
                     context,
                     ref,
@@ -189,19 +190,19 @@ class _DeveloperOptionsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Logging section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.loggingSection,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.enableLogging,
                   icon: Icons.article_outlined,
-                  iconColor: const Color(0xFF14B8A6),
-                  iconBgColor: const Color(0xFFF0FDFA),
+                  iconColor: AppIconColors.loggingColor,
+                  iconBgColor: AppIconColors.loggingBgColor,
                   trailing: Switch(
                     value: options.loggingEnabled,
                     onChanged: (value) {
@@ -212,7 +213,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   ),
                   showChevron: false,
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.logLevel,
                   subtitle: _getLogLevelName(
@@ -220,8 +221,8 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     localizations,
                   ),
                   icon: Icons.filter_list,
-                  iconColor: const Color(0xFFF97316),
-                  iconBgColor: const Color(0xFFFFF7ED),
+                  iconColor: AppIconColors.themeColor,
+                  iconBgColor: AppIconColors.themeBgColor,
                   onTap: () => _showLogLevelDialog(
                     context,
                     ref,
@@ -234,20 +235,20 @@ class _DeveloperOptionsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Debug tools section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.debugTools,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.networkLogging,
                   subtitle: localizations.networkLoggingDescription,
                   icon: Icons.network_check,
-                  iconColor: const Color(0xFF3B82F6),
-                  iconBgColor: const Color(0xFFEBF5FF),
+                  iconColor: AppIconColors.networkColor,
+                  iconBgColor: AppIconColors.networkBgColor,
                   trailing: Switch(
                     value: options.networkLogEnabled,
                     onChanged: (value) {
@@ -258,13 +259,13 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   ),
                   showChevron: false,
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.performanceMonitor,
                   subtitle: localizations.performanceMonitorDescription,
                   icon: Icons.speed,
-                  iconColor: const Color(0xFFEC4899),
-                  iconBgColor: const Color(0xFFFDF2F8),
+                  iconColor: AppIconColors.performanceColor,
+                  iconBgColor: AppIconColors.performanceBgColor,
                   trailing: Switch(
                     value: options.performanceMonitorEnabled,
                     onChanged: (value) {
@@ -275,13 +276,13 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   ),
                   showChevron: false,
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.showDebugInfo,
                   subtitle: localizations.showDebugInfoDescription,
                   icon: Icons.info_outline,
-                  iconColor: const Color(0xFF64748B),
-                  iconBgColor: const Color(0xFFF1F5F9),
+                  iconColor: AppIconColors.developerColor,
+                  iconBgColor: AppIconColors.developerBgColor,
                   trailing: Switch(
                     value: options.showDebugInfo,
                     onChanged: (value) {
@@ -297,23 +298,23 @@ class _DeveloperOptionsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Cache & Data section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.cacheAndData,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.clearCache,
                   subtitle: localizations.clearCacheDescription,
                   icon: Icons.cleaning_services_outlined,
-                  iconColor: const Color(0xFF14B8A6),
-                  iconBgColor: const Color(0xFFF0FDFA),
+                  iconColor: AppIconColors.loggingColor,
+                  iconBgColor: AppIconColors.loggingBgColor,
                   onTap: () => _confirmClearCache(context, ref, localizations),
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.clearDatabase,
                   subtitle: localizations.clearDatabaseDescription,
@@ -333,20 +334,20 @@ class _DeveloperOptionsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // Reset section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.resetOptions,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.resetToDefaults,
                   subtitle: localizations.resetToDefaultsDescription,
                   icon: Icons.restore,
-                  iconColor: const Color(0xFF0EA5E9),
-                  iconBgColor: const Color(0xFFF0F9FF),
+                  iconColor: AppIconColors.infoColor,
+                  iconBgColor: AppIconColors.infoBgColor,
                   onTap: () =>
                       _confirmResetToDefaults(context, ref, localizations),
                 ),
@@ -689,84 +690,4 @@ class _DeveloperOptionsContent extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Section title widget with accent bar.
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.title,
-    required this.colorScheme,
-  });
-
-  final String title;
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          Container(
-            width: 4,
-            height: 18,
-            decoration: BoxDecoration(
-              color: colorScheme.primary,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        ],
-      );
-}
-
-/// Settings card with rounded corners and shadow.
-class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({
-    required this.colorScheme,
-    required this.children,
-  });
-
-  final ColorScheme colorScheme;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-      );
-}
-
-/// Settings divider widget.
-class _SettingsDivider extends StatelessWidget {
-  const _SettingsDivider({
-    required this.colorScheme,
-  });
-
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 60),
-        child: Divider(
-          height: 1,
-          color: colorScheme.surfaceContainerHighest,
-        ),
-      );
 }

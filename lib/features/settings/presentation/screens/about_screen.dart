@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -86,30 +87,30 @@ class _AboutScreenState extends State<AboutScreen> {
             const SizedBox(height: 16),
 
             // Legal section
-            _SectionTitle(
+            SectionTitle(
               title: localizations.legal,
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            _SettingsCard(
+            SettingsCard(
               colorScheme: colorScheme,
               children: [
                 SettingsTile(
                   title: localizations.privacyPolicy,
                   icon: Icons.privacy_tip_outlined,
-                  iconColor: const Color(0xFF14B8A6),
-                  iconBgColor: const Color(0xFFF0FDFA),
+                  iconColor: AppIconColors.privacyColor,
+                  iconBgColor: AppIconColors.privacyBgColor,
                   onTap: () => _navigateToWebView(
                     localizations.privacyPolicy,
                     'https://example.com/privacy',
                   ),
                 ),
-                _SettingsDivider(colorScheme: colorScheme),
+                SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
                   title: localizations.termsOfService,
                   icon: Icons.description_outlined,
-                  iconColor: const Color(0xFF0EA5E9),
-                  iconBgColor: const Color(0xFFF0F9FF),
+                  iconColor: AppIconColors.infoColor,
+                  iconBgColor: AppIconColors.infoBgColor,
                   onTap: () => _navigateToWebView(
                     localizations.termsOfService,
                     'https://example.com/terms',
@@ -211,86 +212,6 @@ class _AppInfoCard extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      );
-}
-
-/// Section title widget with accent bar.
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.title,
-    required this.colorScheme,
-  });
-
-  final String title;
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          Container(
-            width: 4,
-            height: 18,
-            decoration: BoxDecoration(
-              color: colorScheme.primary,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        ],
-      );
-}
-
-/// Settings card with rounded corners and shadow.
-class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({
-    required this.colorScheme,
-    required this.children,
-  });
-
-  final ColorScheme colorScheme;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-      );
-}
-
-/// Settings divider widget.
-class _SettingsDivider extends StatelessWidget {
-  const _SettingsDivider({
-    required this.colorScheme,
-  });
-
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 60),
-        child: Divider(
-          height: 1,
-          color: colorScheme.surfaceContainerHighest,
         ),
       );
 }

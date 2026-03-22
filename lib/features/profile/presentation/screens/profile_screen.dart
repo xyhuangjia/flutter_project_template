@@ -11,6 +11,7 @@ import 'package:flutter_project_template/features/auth/domain/entities/auth_stat
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -391,38 +392,38 @@ class _ProfileContent extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Basic info section
-          _SectionTitle(
+          SectionTitle(
             title: localizations.profile,
             colorScheme: colorScheme,
           ),
           const SizedBox(height: 12),
-          _SettingsCard(
+          SettingsCard(
             colorScheme: colorScheme,
             children: [
               _ProfileTile(
                 title: localizations.nickname,
                 value: user.displayName ?? user.username,
                 icon: Icons.person_outline,
-                iconColor: const Color(0xFF3B82F6),
-                iconBgColor: const Color(0xFFEBF5FF),
+                iconColor: AppIconColors.languageColor,
+                iconBgColor: AppIconColors.languageBgColor,
                 onTap: () => onNicknameTap(user),
               ),
-              _SettingsDivider(colorScheme: colorScheme),
+              SettingsDivider(colorScheme: colorScheme),
               _ProfileTile(
                 title: localizations.phoneNumber,
                 value: user.phoneNumber ?? localizations.unspecified,
                 icon: Icons.phone_outlined,
-                iconColor: const Color(0xFF14B8A6),
-                iconBgColor: const Color(0xFFF0FDFA),
+                iconColor: AppIconColors.phoneColor,
+                iconBgColor: AppIconColors.phoneBgColor,
                 onTap: () => onPhoneTap(user),
               ),
-              _SettingsDivider(colorScheme: colorScheme),
+              SettingsDivider(colorScheme: colorScheme),
               _ProfileTile(
                 title: localizations.gender,
                 value: _getGenderLabel(user.gender, localizations),
                 icon: Icons.wc_outlined,
-                iconColor: const Color(0xFFEC4899),
-                iconBgColor: const Color(0xFFFDF2F8),
+                iconColor: AppIconColors.genderColor,
+                iconBgColor: AppIconColors.genderBgColor,
                 onTap: () => onGenderTap(user),
               ),
             ],
@@ -430,20 +431,20 @@ class _ProfileContent extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Security section
-          _SectionTitle(
+          SectionTitle(
             title: localizations.security,
             colorScheme: colorScheme,
           ),
           const SizedBox(height: 12),
-          _SettingsCard(
+          SettingsCard(
             colorScheme: colorScheme,
             children: [
               _ProfileTile(
                 title: localizations.changePassword,
                 value: '',
                 icon: Icons.lock_outline,
-                iconColor: const Color(0xFFF97316),
-                iconBgColor: const Color(0xFFFFF7ED),
+                iconColor: AppIconColors.passwordColor,
+                iconBgColor: AppIconColors.passwordBgColor,
                 onTap: () => context.push('/profile/change-password'),
               ),
             ],
@@ -603,68 +604,6 @@ class _AvatarCard extends StatelessWidget {
       );
 }
 
-/// Section title widget with accent bar.
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.title,
-    required this.colorScheme,
-  });
-
-  final String title;
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          Container(
-            width: 4,
-            height: 18,
-            decoration: BoxDecoration(
-              color: colorScheme.primary,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        ],
-      );
-}
-
-/// Settings card with rounded corners and shadow.
-class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({
-    required this.colorScheme,
-    required this.children,
-  });
-
-  final ColorScheme colorScheme;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
-      );
-}
-
 /// Profile tile widget.
 class _ProfileTile extends StatelessWidget {
   const _ProfileTile({
@@ -737,22 +676,4 @@ class _ProfileTile extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Settings divider widget.
-class _SettingsDivider extends StatelessWidget {
-  const _SettingsDivider({
-    required this.colorScheme,
-  });
-
-  final ColorScheme colorScheme;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 60),
-        child: Divider(
-          height: 1,
-          color: colorScheme.surfaceContainerHighest,
-        ),
-      );
 }

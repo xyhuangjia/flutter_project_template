@@ -8,6 +8,7 @@ import 'package:flutter_project_template/features/chat/domain/entities/chat_mess
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/conversation_list_item.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,65 +57,39 @@ class _ConversationListScreenState
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
     final conversationsAsync = ref.watch(chatNotifierProvider);
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+      backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
         title: _isSearching
             ? TextField(
                 controller: _searchController,
                 autofocus: true,
-                style: TextStyle(
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
                 decoration: InputDecoration(
                   hintText: localizations.searchConversations,
-                  hintStyle: TextStyle(
-                    color: isDark
-                        ? const Color(0xFF64748B)
-                        : const Color(0xFF94A3B8),
-                  ),
                   border: InputBorder.none,
                 ),
                 onChanged: _performSearch,
                 onSubmitted: _performSearch,
               )
-            : Text(
-                localizations.chats,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
-              ),
-        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
-        elevation: 0,
+            : Text(localizations.chats),
         leading: _isSearching
             ? IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: _clearSearch,
               )
             : null,
         actions: [
           if (_isSearching)
             IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
+              icon: const Icon(Icons.clear),
               onPressed: _clearSearch,
             )
           else
             IconButton(
-              icon: Icon(
-                Icons.search,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
+              icon: const Icon(Icons.search),
               onPressed: _startSearch,
             ),
         ],
@@ -124,51 +99,67 @@ class _ConversationListScreenState
           final conversations = state.filteredConversations;
           if (conversations.isEmpty) {
             if (_searchController.text.isNotEmpty) {
-              return _buildNoSearchResultsState(isDark, localizations);
+              return _buildNoSearchResultsState(colorScheme, localizations);
             }
-            return _buildEmptyState(isDark, localizations);
+            return _buildEmptyState(colorScheme, localizations);
           }
-          return ListView.builder(
-            itemCount: conversations.length,
-            itemBuilder: (context, index) {
-              final conversation = conversations[index];
-              return ConversationListItem(
-                conversation: conversation,
-                onTap: () => _navigateToChat(conversation),
-                onDelete: () => _deleteConversation(conversation.id),
-              );
-            },
-          );
+          return _buildConversationList(conversations);
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(child: Text('Error: $error')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _createNewConversation,
-        backgroundColor: const Color(0xFF2563EB),
+        backgroundColor: AppIconColors.aiColor,
         child: const Icon(Icons.add_comment_rounded, color: Colors.white),
       ),
     );
   }
 
-  Widget _buildEmptyState(bool isDark, AppLocalizations localizations) =>
+  Widget _buildConversationList(List<ChatConversation> conversations) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: conversations.length,
+      itemBuilder: (context, index) {
+        final conversation = conversations[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: ConversationListItem(
+            conversation: conversation,
+            onTap: () => _navigateToChat(conversation),
+            onDelete: () => _deleteConversation(conversation.id),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEmptyState(
+          ColorScheme colorScheme, AppLocalizations localizations) =>
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.chat_bubble_outline_rounded,
-              size: 64,
-              color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: AppIconColors.aiColor.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: Icon(
+                Icons.chat_bubble_outline_rounded,
+                size: 40,
+                color: AppIconColors.aiColor,
+              ),
             ),
             const SizedBox(height: 16),
             Text(
               localizations.noConversationsYet,
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color:
-                    isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -176,8 +167,7 @@ class _ConversationListScreenState
               localizations.startNewChatHint,
               style: TextStyle(
                 fontSize: 14,
-                color:
-                    isDark ? const Color(0xFF475569) : const Color(0xFF94A3B8),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ],
@@ -185,7 +175,7 @@ class _ConversationListScreenState
       );
 
   Widget _buildNoSearchResultsState(
-          bool isDark, AppLocalizations localizations) =>
+          ColorScheme colorScheme, AppLocalizations localizations) =>
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -193,7 +183,7 @@ class _ConversationListScreenState
             Icon(
               Icons.search_off,
               size: 64,
-              color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
             ),
             const SizedBox(height: 16),
             Text(
@@ -201,8 +191,7 @@ class _ConversationListScreenState
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color:
-                    isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
@@ -210,8 +199,7 @@ class _ConversationListScreenState
               localizations.tryDifferentSearch,
               style: TextStyle(
                 fontSize: 14,
-                color:
-                    isDark ? const Color(0xFF475569) : const Color(0xFF94A3B8),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ],

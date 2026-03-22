@@ -3,7 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
-import 'package:flutter_project_template/features/chat/utils/chat_colors.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:intl/intl.dart';
 
 /// Conversation list item for the chat list.
@@ -28,7 +28,7 @@ class ConversationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
 
     return Dismissible(
       key: Key(conversation.id),
@@ -36,81 +36,82 @@ class ConversationListItem extends StatelessWidget {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        color: ChatColors.errorAccent,
-        child: const Icon(
+        decoration: BoxDecoration(
+          color: colorScheme.error,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Icon(
           Icons.delete_outline,
-          color: Colors.white,
+          color: colorScheme.onError,
         ),
       ),
       onDismissed: (_) => onDelete(),
       child: InkWell(
         onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              _buildAvatar(),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            conversation.title,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: conversation.unreadCount > 0
-                                  ? FontWeight.w600
-                                  : FontWeight.w500,
-                              color: isDark
-                                  ? Colors.white
-                                  : const Color(0xFF1E293B),
+        borderRadius: BorderRadius.circular(16),
+        child: SettingsCard(
+          colorScheme: colorScheme,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                _buildAvatar(),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              conversation.title,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: conversation.unreadCount > 0
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
+                                color: colorScheme.onSurface,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        Text(
-                          _formatTime(conversation.updatedAt),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: isDark
-                                ? const Color(0xFF64748B)
-                                : const Color(0xFF94A3B8),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            conversation.lastMessage,
+                          Text(
+                            _formatTime(conversation.updatedAt),
                             style: TextStyle(
-                              fontSize: 14,
-                              color: isDark
-                                  ? const Color(0xFF94A3B8)
-                                  : const Color(0xFF64748B),
+                              fontSize: 12,
+                              color: colorScheme.onSurfaceVariant,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        if (conversation.unreadCount > 0) ...[
-                          const SizedBox(width: 8),
-                          _buildUnreadBadge(),
                         ],
-                      ],
-                    ),
-                  ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              conversation.lastMessage,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (conversation.unreadCount > 0) ...[
+                            const SizedBox(width: 8),
+                            _buildUnreadBadge(),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -121,20 +122,20 @@ class ConversationListItem extends StatelessWidget {
         width: 52,
         height: 52,
         decoration: BoxDecoration(
-          color: ChatColors.aiAvatarAccent.withValues(alpha: 0.15),
+          color: AppIconColors.aiBgColor,
           borderRadius: BorderRadius.circular(26),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.chat_bubble_outline_rounded,
           size: 24,
-          color: ChatColors.aiAvatarAccent,
+          color: AppIconColors.aiColor,
         ),
       );
 
   Widget _buildUnreadBadge() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: ChatColors.aiAvatarAccent,
+          color: AppIconColors.aiColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(

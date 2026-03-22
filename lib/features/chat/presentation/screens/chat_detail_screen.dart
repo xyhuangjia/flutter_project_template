@@ -12,6 +12,7 @@ import 'package:flutter_project_template/features/chat/presentation/widgets/chat
 import 'package:flutter_project_template/features/chat/presentation/widgets/message_bubble.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/typing_indicator.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
@@ -56,7 +57,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
     final conversation = ref.watch(chatNotifierProvider).when(
           data: (state) => state.conversations
               .where((c) => c.id == widget.conversationId)
@@ -69,46 +70,24 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ref.watch(aIConfigNotifierProvider).valueOrNull?.defaultConfig;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              conversation?.title ?? localizations.chat,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
-            ),
+            Text(conversation?.title ?? localizations.chat),
             if (aiConfig != null)
               Text(
                 aiConfig.name,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDark
-                      ? const Color(0xFF64748B)
-                      : const Color(0xFF94A3B8),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
           ],
         ),
-        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-          onPressed: context.pop,
-        ),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: isDark ? Colors.white : const Color(0xFF1E293B),
-            ),
+            icon: const Icon(Icons.more_vert),
             onPressed: () => _showOptionsMenu(context),
           ),
         ],
@@ -119,10 +98,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             child: conversation == null
                 ? const Center(child: CircularProgressIndicator())
                 : _buildMessagesList(
-                    conversation, isDark, localizations, isTyping),
+                    conversation, colorScheme, localizations, isTyping),
           ),
           if (aiConfig == null)
-            _buildNoConfigBanner(context, localizations, isDark),
+            _buildNoConfigBanner(context, localizations, colorScheme),
           ChatInputField(
             onSend: _sendMessage,
             hintText: localizations.typeMessage,
@@ -136,16 +115,16 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   Widget _buildNoConfigBanner(
     BuildContext context,
     AppLocalizations localizations,
-    bool isDark,
+    ColorScheme colorScheme,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
+      color: AppIconColors.aiColor.withValues(alpha: 0.1),
       child: Row(
         children: [
           Icon(
             Icons.info_outline,
-            color: const Color(0xFF8B5CF6),
+            color: AppIconColors.aiColor,
             size: 20,
           ),
           const SizedBox(width: 12),
@@ -154,14 +133,14 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               localizations.noAIConfigMessage,
               style: TextStyle(
                 fontSize: 14,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
+                color: colorScheme.onSurface,
               ),
             ),
           ),
           TextButton(
             onPressed: () => context.push('/settings/ai-config'),
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF8B5CF6),
+              foregroundColor: AppIconColors.aiColor,
             ),
             child: Text(localizations.configureAI),
           ),
@@ -172,14 +151,14 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   Widget _buildMessagesList(
     ChatConversation conversation,
-    bool isDark,
+    ColorScheme colorScheme,
     AppLocalizations localizations,
     bool isTyping,
   ) {
     final messages = conversation.messages;
 
     if (messages.isEmpty && !isTyping) {
-      return _buildEmptyState(isDark, localizations);
+      return _buildEmptyState(colorScheme, localizations);
     }
 
     // Scroll to bottom after build
@@ -232,7 +211,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     );
   }
 
-  Widget _buildEmptyState(bool isDark, AppLocalizations localizations) =>
+  Widget _buildEmptyState(
+          ColorScheme colorScheme, AppLocalizations localizations) =>
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -241,13 +221,13 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
+                color: AppIconColors.aiBgColor,
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.smart_toy_outlined,
                 size: 40,
-                color: Color(0xFF8B5CF6),
+                color: AppIconColors.aiColor,
               ),
             ),
             const SizedBox(height: 16),
@@ -256,7 +236,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -264,8 +244,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               localizations.sendMessageToBegin,
               style: TextStyle(
                 fontSize: 14,
-                color:
-                    isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ],
@@ -316,7 +295,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(event.message),
-                backgroundColor: Colors.red,
+                backgroundColor: Theme.of(context).colorScheme.error,
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -330,12 +309,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   void _showOptionsMenu(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -344,48 +320,24 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(
-                Icons.ios_share,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
-              title: Text(
-                localizations.exportChat,
-                style: TextStyle(
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
-              ),
+              leading: const Icon(Icons.ios_share),
+              title: Text(localizations.exportChat),
               onTap: () {
                 Navigator.pop(context);
                 _exportConversation();
               },
             ),
             ListTile(
-              leading: Icon(
-                Icons.delete_outline,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
-              title: Text(
-                localizations.deleteConversation,
-                style: TextStyle(
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
-              ),
+              leading: const Icon(Icons.delete_outline),
+              title: Text(localizations.deleteConversation),
               onTap: () {
                 Navigator.pop(context);
                 _deleteConversation();
               },
             ),
             ListTile(
-              leading: Icon(
-                Icons.edit_outlined,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
-              title: Text(
-                localizations.rename,
-                style: TextStyle(
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
-              ),
+              leading: const Icon(Icons.edit_outlined),
+              title: Text(localizations.rename),
               onTap: () {
                 Navigator.pop(context);
                 _renameConversation(context);
@@ -409,7 +361,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.chatExported),
-            backgroundColor: const Color(0xFF8B5CF6),
+            backgroundColor: AppIconColors.aiColor,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -419,7 +371,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.exportFailed),
-            backgroundColor: Colors.red,
+            backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -442,12 +394,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     required bool isUserMessage,
   }) {
     final localizations = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = Theme.of(context).colorScheme;
 
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -457,16 +407,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           children: [
             // Copy option
             ListTile(
-              leading: Icon(
-                Icons.copy_outlined,
-                color: isDark ? Colors.white : const Color(0xFF1E293B),
-              ),
-              title: Text(
-                localizations.copy,
-                style: TextStyle(
-                  color: isDark ? Colors.white : const Color(0xFF1E293B),
-                ),
-              ),
+              leading: Icon(Icons.copy_outlined, color: colorScheme.onSurface),
+              title: Text(localizations.copy),
               onTap: () {
                 Navigator.pop(context);
                 _copyMessage(context, message);
@@ -475,15 +417,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             // Delete option (only for user messages or unsent AI messages)
             if (isUserMessage || message.status == MessageStatus.sending)
               ListTile(
-                leading: Icon(
-                  Icons.delete_outline,
-                  color: isDark ? Colors.red : const Color(0xFFE53935),
-                ),
+                leading: Icon(Icons.delete_outline, color: colorScheme.error),
                 title: Text(
                   localizations.delete,
-                  style: TextStyle(
-                    color: isDark ? Colors.red : const Color(0xFFE53935),
-                  ),
+                  style: TextStyle(color: colorScheme.error),
                 ),
                 onTap: () {
                   Navigator.pop(context);
@@ -504,7 +441,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(localizations.messageCopied),
-          backgroundColor: const Color(0xFF8B5CF6),
+          backgroundColor: AppIconColors.aiColor,
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 1),
         ),
@@ -521,7 +458,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(localizations.messageDeleted),
-          backgroundColor: const Color(0xFF8B5CF6),
+          backgroundColor: AppIconColors.aiColor,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -536,18 +473,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     if (conversation == null) return;
 
     final controller = TextEditingController(text: conversation.title);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final newTitle = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
-        title: Text(
-          localizations.renameConversation,
-          style: TextStyle(
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
-        ),
+        title: Text(localizations.renameConversation),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -557,20 +487,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             hintText: localizations.enterNewTitle,
             border: const OutlineInputBorder(),
           ),
-          style: TextStyle(
-            color: isDark ? Colors.white : const Color(0xFF1E293B),
-          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(
-              localizations.cancel,
-              style: TextStyle(
-                color:
-                    isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
-              ),
-            ),
+            child: Text(localizations.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
@@ -588,7 +509,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.conversationRenamed),
-            backgroundColor: const Color(0xFF8B5CF6),
+            backgroundColor: AppIconColors.aiColor,
             behavior: SnackBarBehavior.floating,
           ),
         );
