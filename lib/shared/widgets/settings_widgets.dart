@@ -163,4 +163,32 @@ class AppIconColors {
   /// Password - Orange
   static const Color passwordColor = Color(0xFFF97316);
   static const Color passwordBgColor = Color(0xFFFFF7ED);
+
+  /// Storage/Data - Indigo
+  static const Color storageColor = Color(0xFF6366F1);
+  static const Color storageBgColor = Color(0xFFEEF2FF);
+
+  /// Analytics - Purple
+  static const Color analyticsColor = Color(0xFF8B5CF6);
+  static const Color analyticsBgColor = Color(0xFFF5F3FF);
+
+  /// Camera - Rose
+  static const Color cameraColor = Color(0xFFF43F5E);
+  static const Color cameraBgColor = Color(0xFFFFF1F2);
+
+  /// Photo - Amber
+  static const Color photoColor = Color(0xFFF59E0B);
+  static const Color photoBgColor = Color(0xFFFFFBEB);
+
+  /// Location - Emerald
+  static const Color locationColor = Color(0xFF10B981);
+  static const Color locationBgColor = Color(0xFFECFDF5);
+
+  /// Region/Global - Sky
+  static const Color regionColor = Color(0xFF0EA5E9);
+  static const Color regionBgColor = Color(0xFFF0F9FF);
+
+  /// Delete/Danger - Red
+  static const Color deleteColor = Color(0xFFEF4444);
+  static const Color deleteBgColor = Color(0xFFFEF2F2);
 }

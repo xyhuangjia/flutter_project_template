@@ -226,35 +226,9 @@ class _SettingsContent extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // AI section
-            SectionTitle(
-              title: localizations.aiAssistant,
-              colorScheme: colorScheme,
-            ),
-            const SizedBox(height: 12),
-            SettingsCard(
-              colorScheme: colorScheme,
-              children: [
-                SettingsTile(
-                  title: localizations.aiConfiguration,
-                  icon: Icons.smart_toy_outlined,
-                  iconColor: AppIconColors.aiColor,
-                  iconBgColor: AppIconColors.aiBgColor,
-                  onTap: () {
-                    context.push('/settings/ai-config');
-                  },
-                ),
-              ],
-            ),
-
             // Security section (only if authenticated)
             if (isAuthenticated) ...[
               const SizedBox(height: 16),
-              SectionTitle(
-                title: localizations.security,
-                colorScheme: colorScheme,
-              ),
-              const SizedBox(height: 12),
               SettingsCard(
                 colorScheme: colorScheme,
                 children: [
@@ -282,11 +256,6 @@ class _SettingsContent extends StatelessWidget {
             const SizedBox(height: 16),
 
             // About section
-            SectionTitle(
-              title: localizations.about,
-              colorScheme: colorScheme,
-            ),
-            const SizedBox(height: 12),
             SettingsCard(
               colorScheme: colorScheme,
               children: [
@@ -315,11 +284,6 @@ class _SettingsContent extends StatelessWidget {
             // Developer options section (only in debug mode)
             if (showDeveloperOptions) ...[
               const SizedBox(height: 16),
-              SectionTitle(
-                title: localizations.developerOptions,
-                colorScheme: colorScheme,
-              ),
-              const SizedBox(height: 12),
               SettingsCard(
                 colorScheme: colorScheme,
                 children: [

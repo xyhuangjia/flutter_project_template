@@ -764,6 +764,12 @@ abstract class AppLocalizations {
   /// **'ICP License No. XXXXXXXX-1'**
   String get icpNumber;
 
+  /// DUNS (Data Universal Numbering System) number
+  ///
+  /// In en, this message translates to:
+  /// **'DUNS: XXXXXXXX'**
+  String get dunsNumber;
+
   /// Default WebView title
   ///
   /// In en, this message translates to:

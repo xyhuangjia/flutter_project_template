@@ -345,6 +345,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get icpNumber => 'ICP License No. XXXXXXXX-1';
 
   @override
+  String get dunsNumber => 'DUNS: XXXXXXXX';
+
+  @override
   String get webViewTitle => 'WebView';
 
   @override

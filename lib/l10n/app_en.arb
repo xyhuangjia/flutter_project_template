@@ -550,6 +550,11 @@
     "description": "ICP registration number"
   },
 
+  "dunsNumber": "DUNS: XXXXXXXX",
+  "@dunsNumber": {
+    "description": "DUNS (Data Universal Numbering System) number"
+  },
+
   "webViewTitle": "WebView",
   "@webViewTitle": {
     "description": "Default WebView title"

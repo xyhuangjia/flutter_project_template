@@ -70,65 +70,65 @@ class _AboutScreenState extends State<AboutScreen> {
       appBar: AppBar(
         title: Text(localizations.about),
       ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16),
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // App info card
-            _AppInfoCard(
-              packageInfo: _packageInfo,
-              buildDate: _buildDate,
-              localizations: localizations,
-              theme: theme,
-              colorScheme: colorScheme,
-            ),
-            const SizedBox(height: 16),
+            // Main content - fills available space
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // App info card - full width
+                    _AppInfoCard(
+                      packageInfo: _packageInfo,
+                      buildDate: _buildDate,
+                      localizations: localizations,
+                      theme: theme,
+                      colorScheme: colorScheme,
+                    ),
+                    const SizedBox(height: 16),
 
-            // Legal section
-            SectionTitle(
-              title: localizations.legal,
-              colorScheme: colorScheme,
-            ),
-            const SizedBox(height: 12),
-            SettingsCard(
-              colorScheme: colorScheme,
-              children: [
-                SettingsTile(
-                  title: localizations.privacyPolicy,
-                  icon: Icons.privacy_tip_outlined,
-                  iconColor: AppIconColors.privacyColor,
-                  iconBgColor: AppIconColors.privacyBgColor,
-                  onTap: () => _navigateToWebView(
-                    localizations.privacyPolicy,
-                    'https://example.com/privacy',
-                  ),
+                    // Legal links (no title)
+                    SettingsCard(
+                      colorScheme: colorScheme,
+                      children: [
+                        SettingsTile(
+                          title: localizations.privacyPolicy,
+                          icon: Icons.privacy_tip_outlined,
+                          iconColor: AppIconColors.privacyColor,
+                          iconBgColor: AppIconColors.privacyBgColor,
+                          onTap: () => _navigateToWebView(
+                            localizations.privacyPolicy,
+                            'https://example.com/privacy',
+                          ),
+                        ),
+                        SettingsDivider(colorScheme: colorScheme),
+                        SettingsTile(
+                          title: localizations.termsOfService,
+                          icon: Icons.description_outlined,
+                          iconColor: AppIconColors.infoColor,
+                          iconBgColor: AppIconColors.infoBgColor,
+                          onTap: () => _navigateToWebView(
+                            localizations.termsOfService,
+                            'https://example.com/terms',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                SettingsDivider(colorScheme: colorScheme),
-                SettingsTile(
-                  title: localizations.termsOfService,
-                  icon: Icons.description_outlined,
-                  iconColor: AppIconColors.infoColor,
-                  iconBgColor: AppIconColors.infoBgColor,
-                  onTap: () => _navigateToWebView(
-                    localizations.termsOfService,
-                    'https://example.com/terms',
-                  ),
-                ),
-              ],
+              ),
             ),
 
-            const SizedBox(height: 16),
-
-            // ICP info
-            _IcpInfo(
+            // Footer - fixed at bottom
+            _Footer(
               theme: theme,
               localizations: localizations,
-              onTap: _launchBeianUrl,
+              onBeianTap: _launchBeianUrl,
             ),
-
-            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -136,7 +136,7 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 }
 
-/// App info card with icon and version.
+/// App info card with icon and version - fills width.
 class _AppInfoCard extends StatelessWidget {
   const _AppInfoCard({
     required this.packageInfo,
@@ -153,7 +153,9 @@ class _AppInfoCard extends StatelessWidget {
   final ColorScheme colorScheme;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
+  Widget build(BuildContext context) => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
@@ -165,92 +167,118 @@ class _AppInfoCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [
-              // App icon
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: colorScheme.primaryContainer,
-                ),
-                child: Icon(
-                  Icons.flutter_dash,
-                  size: 48,
-                  color: colorScheme.onPrimaryContainer,
-                ),
+        child: Column(
+          children: [
+            // App icon
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                color: colorScheme.primaryContainer,
               ),
-              const SizedBox(height: 16),
+              child: Icon(
+                Icons.flutter_dash,
+                size: 48,
+                color: colorScheme.onPrimaryContainer,
+              ),
+            ),
+            const SizedBox(height: 16),
 
-              // App name
-              Text(
-                packageInfo?.appName ?? localizations.appTitle,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            // App name
+            Text(
+              packageInfo?.appName ?? localizations.appTitle,
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: 8),
+            ),
+            const SizedBox(height: 8),
 
-              // Version
-              Text(
-                '${localizations.version}: ${packageInfo?.version ?? '1.0.0'}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+            // Version
+            Text(
+              '${localizations.version}: ${packageInfo?.version ?? '1.0.0'}',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
               ),
-              const SizedBox(height: 4),
+            ),
+            const SizedBox(height: 4),
 
-              // Build date
-              Text(
-                '${localizations.buildDate}: $buildDate',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+            // Build date
+            Text(
+              '${localizations.buildDate}: $buildDate',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 }
 
-/// ICP info widget.
-class _IcpInfo extends StatelessWidget {
-  const _IcpInfo({
+/// Footer widget with ICP and D&B info - fixed at bottom.
+class _Footer extends StatelessWidget {
+  const _Footer({
     required this.theme,
     required this.localizations,
-    required this.onTap,
+    required this.onBeianTap,
   });
 
   final ThemeData theme;
   final AppLocalizations localizations;
-  final VoidCallback onTap;
+  final VoidCallback onBeianTap;
 
   @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.language,
-                size: 16,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                localizations.icpNumber,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ICP info
+            InkWell(
+              onTap: onBeianTap,
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.language,
+                      size: 14,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      localizations.icpNumber,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+
+            // D&B info (邓白氏信息)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.verified_user_outlined,
+                  size: 14,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  localizations.dunsNumber,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       );
 }

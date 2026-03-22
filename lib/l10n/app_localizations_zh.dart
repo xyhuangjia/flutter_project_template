@@ -342,6 +342,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get icpNumber => '京ICP备XXXXXXXX号-1';
 
   @override
+  String get dunsNumber => '邓白氏编码：XXXXXXXX';
+
+  @override
   String get webViewTitle => '网页';
 
   @override

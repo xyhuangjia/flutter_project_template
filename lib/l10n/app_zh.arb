@@ -550,6 +550,11 @@
     "description": "ICP registration number"
   },
 
+  "dunsNumber": "邓白氏编码：XXXXXXXX",
+  "@dunsNumber": {
+    "description": "DUNS (Data Universal Numbering System) number"
+  },
+
   "webViewTitle": "网页",
   "@webViewTitle": {
     "description": "Default WebView title"
