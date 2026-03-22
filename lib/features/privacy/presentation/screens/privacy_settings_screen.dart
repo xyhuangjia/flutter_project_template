@@ -46,28 +46,27 @@ class PrivacySettingsScreen extends ConsumerWidget {
     BuildContext context,
     AppLocalizations localizations,
     Object error,
-  ) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.error_outline_rounded,
-              size: 64,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '${localizations.error}: $error',
-              textAlign: TextAlign.center,
-            ),
-          ],
+  ) =>
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.error_outline_rounded,
+                size: 64,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '${localizations.error}: $error',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   Widget _buildContent(
     BuildContext context,
@@ -280,7 +279,8 @@ class PrivacySettingsScreen extends ConsumerWidget {
 
   void _showPermissionGrantedDialog(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    DialogUtil.showSuccessDialog(context, localizations.permissionAlreadyGranted);
+    DialogUtil.showSuccessDialog(
+        context, localizations.permissionAlreadyGranted);
   }
 
   void _showRegionDialog(
@@ -296,84 +296,79 @@ class PrivacySettingsScreen extends ConsumerWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (sheetContext) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Handle bar
-                Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.onSurfaceVariant
-                        .withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle bar
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color:
+                      theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                // Title
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        localizations.selectRegion,
-                        style: theme.textTheme.titleLarge,
-                      ),
-                    ],
-                  ),
+              ),
+              // Title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    Text(
+                      localizations.selectRegion,
+                      style: theme.textTheme.titleLarge,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                // Options
-                ...MarketRegion.values.map((region) {
-                  return ListTile(
-                    leading: Radio<MarketRegion>(
-                      value: region,
-                      groupValue: state.region,
-                      onChanged: (value) {
-                        if (value != null) {
-                          ref
-                              .read(privacyNotifierProvider.notifier)
-                              .updateRegion(value);
-                          Navigator.of(sheetContext).pop();
-                        }
-                      },
-                    ),
-                    title: Text(_getRegionName(localizations, region)),
-                    subtitle: Text(
-                      region == MarketRegion.china
-                          ? 'PIPL 合规'
-                          : 'GDPR Compliant',
-                    ),
-                    trailing: state.region == region
-                        ? Icon(
-                            Icons.check_circle,
-                            color: theme.colorScheme.primary,
-                          )
-                        : null,
-                    onTap: () {
-                      ref
-                          .read(privacyNotifierProvider.notifier)
-                          .updateRegion(region);
-                      Navigator.of(sheetContext).pop();
+              ),
+              const SizedBox(height: 8),
+              // Options
+              ...MarketRegion.values.map((region) {
+                return ListTile(
+                  leading: Radio<MarketRegion>(
+                    value: region,
+                    groupValue: state.region,
+                    onChanged: (value) {
+                      if (value != null) {
+                        ref
+                            .read(privacyNotifierProvider.notifier)
+                            .updateRegion(value);
+                        Navigator.of(sheetContext).pop();
+                      }
                     },
-                  );
-                }),
-              ],
-            ),
+                  ),
+                  title: Text(_getRegionName(localizations, region)),
+                  subtitle: Text(
+                    region == MarketRegion.china ? 'PIPL 合规' : 'GDPR Compliant',
+                  ),
+                  trailing: state.region == region
+                      ? Icon(
+                          Icons.check_circle,
+                          color: theme.colorScheme.primary,
+                        )
+                      : null,
+                  onTap: () {
+                    ref
+                        .read(privacyNotifierProvider.notifier)
+                        .updateRegion(region);
+                    Navigator.of(sheetContext).pop();
+                  },
+                );
+              }),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  String _getRegionName(AppLocalizations localizations, MarketRegion region) {
-    return switch (region) {
-      MarketRegion.china => localizations.regionChina,
-      MarketRegion.international => localizations.regionInternational,
-    };
-  }
+  String _getRegionName(AppLocalizations localizations, MarketRegion region) =>
+      switch (region) {
+        MarketRegion.china => localizations.regionChina,
+        MarketRegion.international => localizations.regionInternational,
+      };
 }

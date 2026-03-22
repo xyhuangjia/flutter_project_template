@@ -65,19 +65,18 @@ class PrivacyState {
     MarketRegion? region,
     bool? dataCollectionEnabled,
     bool? analyticsEnabled,
-  }) {
-    return PrivacyState(
-      hasConsented: hasConsented ?? this.hasConsented,
-      consentedAt: consentedAt ?? this.consentedAt,
-      privacyPolicyVersion: privacyPolicyVersion ?? this.privacyPolicyVersion,
-      termsOfServiceVersion:
-          termsOfServiceVersion ?? this.termsOfServiceVersion,
-      region: region ?? this.region,
-      dataCollectionEnabled:
-          dataCollectionEnabled ?? this.dataCollectionEnabled,
-      analyticsEnabled: analyticsEnabled ?? this.analyticsEnabled,
-    );
-  }
+  }) =>
+      PrivacyState(
+        hasConsented: hasConsented ?? this.hasConsented,
+        consentedAt: consentedAt ?? this.consentedAt,
+        privacyPolicyVersion: privacyPolicyVersion ?? this.privacyPolicyVersion,
+        termsOfServiceVersion:
+            termsOfServiceVersion ?? this.termsOfServiceVersion,
+        region: region ?? this.region,
+        dataCollectionEnabled:
+            dataCollectionEnabled ?? this.dataCollectionEnabled,
+        analyticsEnabled: analyticsEnabled ?? this.analyticsEnabled,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -94,24 +93,21 @@ class PrivacyState {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
-      hasConsented,
-      consentedAt,
-      privacyPolicyVersion,
-      termsOfServiceVersion,
-      region,
-      dataCollectionEnabled,
-      analyticsEnabled,
-    );
-  }
+  int get hashCode => Object.hash(
+        hasConsented,
+        consentedAt,
+        privacyPolicyVersion,
+        termsOfServiceVersion,
+        region,
+        dataCollectionEnabled,
+        analyticsEnabled,
+      );
 
   @override
-  String toString() {
-    return 'PrivacyState(hasConsented: $hasConsented, consentedAt: $consentedAt, '
-        'privacyPolicyVersion: $privacyPolicyVersion, '
-        'termsOfServiceVersion: $termsOfServiceVersion, region: $region, '
-        'dataCollectionEnabled: $dataCollectionEnabled, '
-        'analyticsEnabled: $analyticsEnabled)';
-  }
+  String toString() =>
+      'PrivacyState(hasConsented: $hasConsented, consentedAt: $consentedAt, '
+      'privacyPolicyVersion: $privacyPolicyVersion, '
+      'termsOfServiceVersion: $termsOfServiceVersion, region: $region, '
+      'dataCollectionEnabled: $dataCollectionEnabled, '
+      'analyticsEnabled: $analyticsEnabled)';
 }

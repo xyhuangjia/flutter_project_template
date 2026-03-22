@@ -1,6 +1,41 @@
 import 'package:flutter/material.dart';
 
 class DialogUtil {
+  /// Shows a confirmation dialog with cancel and confirm buttons.
+  /// Returns true if user confirms, false otherwise.
+  static Future<bool> showConfirmDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    String? cancelText,
+    String? confirmText,
+    bool isDestructive = false,
+  }) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(cancelText ?? '取消'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: isDestructive
+                ? FilledButton.styleFrom(
+                    backgroundColor: Theme.of(ctx).colorScheme.error,
+                  )
+                : null,
+            child: Text(confirmText ?? '确认'),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
   static void showMessage(BuildContext context, String? msg) {
     showDialog<void>(
       context: context,

@@ -22,18 +22,16 @@ PrivacyLocalDataSource privacyLocalDataSource(PrivacyLocalDataSourceRef ref) {
 
 /// Mock account service provider.
 @riverpod
-AccountServiceMock accountServiceMock(AccountServiceMockRef ref) {
-  return AccountServiceMock();
-}
+AccountServiceMock accountServiceMock(AccountServiceMockRef ref) =>
+    AccountServiceMock();
 
 /// Privacy repository provider.
 @riverpod
-PrivacyRepository privacyRepository(PrivacyRepositoryRef ref) {
-  return PrivacyRepositoryImpl(
-    localDataSource: ref.watch(privacyLocalDataSourceProvider),
-    accountService: ref.watch(accountServiceMockProvider),
-  );
-}
+PrivacyRepository privacyRepository(PrivacyRepositoryRef ref) =>
+    PrivacyRepositoryImpl(
+      localDataSource: ref.watch(privacyLocalDataSourceProvider),
+      accountService: ref.watch(accountServiceMockProvider),
+    );
 
 /// Privacy state notifier provider.
 ///

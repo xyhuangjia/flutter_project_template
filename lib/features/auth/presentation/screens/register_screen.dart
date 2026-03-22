@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
+import 'package:flutter_project_template/core/utils/validators.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -79,14 +80,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   /// Validates phone number format (Chinese phone).
-  bool _isValidPhone(String phone) {
-    return RegExp(r'^1[3-9]\d{9}$').hasMatch(phone);
-  }
+  bool _isValidPhone(String phone) => Validators.isChinesePhoneValid(phone);
 
   /// Validates email format.
-  bool _isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
-  }
+  bool _isValidEmail(String email) => Validators.isEmailValid(email);
 
   /// Sends verification code.
   Future<void> _sendVerificationCode() async {
@@ -173,7 +170,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     if (success && mounted) {
       final localizations = AppLocalizations.of(context)!;
-      DialogUtil.showSuccessDialog(context, localizations.verificationSuccessful);
+      DialogUtil.showSuccessDialog(
+          context, localizations.verificationSuccessful);
     } else if (mounted) {
       _showError('Verification failed');
     }
@@ -299,54 +297,52 @@ class _AlreadyLoggedInView extends StatelessWidget {
   final VoidCallback onLogout;
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.info_outline,
-              size: 64,
-              color: theme.colorScheme.primary,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'You are already logged in',
-              style: theme.textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'To register a new account, please logout first.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+  Widget build(BuildContext context) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: 64,
+                color: theme.colorScheme.primary,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 32),
-            FilledButton.icon(
-              onPressed: onLogout,
-              icon: const Icon(Icons.logout),
-              label: const Text('Logout'),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 16,
+              const SizedBox(height: 24),
+              Text(
+                'You are already logged in',
+                style: theme.textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'To register a new account, please logout first.',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              FilledButton.icon(
+                onPressed: onLogout,
+                icon: const Icon(Icons.logout),
+                label: const Text('Logout'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () => context.go(Routes.home),
-              child: const Text('Back to Home'),
-            ),
-          ],
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => context.go(Routes.home),
+                child: const Text('Back to Home'),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 /// View containing the registration form.
@@ -398,76 +394,74 @@ class _RegisterFormView extends StatelessWidget {
   final ThemeData theme;
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _HeaderSection(theme: theme, localizations: localizations),
-                  const SizedBox(height: 16),
-                  _RegionIndicator(
-                    regionType: regionType,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 24),
-                  _AccountField(
-                    controller: accountController,
-                    regionType: regionType,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 16),
-                  _VerificationCodeSection(
-                    controller: verificationCodeController,
-                    countdown: countdown,
-                    isSendingCode: isSendingCode,
-                    isVerifyingCode: isVerifyingCode,
-                    isCodeVerified: isCodeVerified,
-                    onSendCode: onSendCode,
-                    onVerifyCode: onVerifyCode,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 16),
-                  _PasswordField(
-                    controller: passwordController,
-                    obscurePassword: obscurePassword,
-                    onToggleObscure: onTogglePassword,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 16),
-                  _ConfirmPasswordField(
-                    controller: confirmPasswordController,
-                    passwordController: passwordController,
-                    obscurePassword: obscureConfirmPassword,
-                    onToggleObscure: onToggleConfirmPassword,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 24),
-                  _RegisterButton(
-                    isLoading: isLoading || authState.isLoading,
-                    onPressed: onRegister,
-                    localizations: localizations,
-                  ),
-                  const SizedBox(height: 24),
-                  _LoginLink(
-                    localizations: localizations,
-                    onLoginTap: () => context.go(Routes.login),
-                  ),
-                ],
+  Widget build(BuildContext context) => SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _HeaderSection(theme: theme, localizations: localizations),
+                    const SizedBox(height: 16),
+                    _RegionIndicator(
+                      regionType: regionType,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 24),
+                    _AccountField(
+                      controller: accountController,
+                      regionType: regionType,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 16),
+                    _VerificationCodeSection(
+                      controller: verificationCodeController,
+                      countdown: countdown,
+                      isSendingCode: isSendingCode,
+                      isVerifyingCode: isVerifyingCode,
+                      isCodeVerified: isCodeVerified,
+                      onSendCode: onSendCode,
+                      onVerifyCode: onVerifyCode,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 16),
+                    _PasswordField(
+                      controller: passwordController,
+                      obscurePassword: obscurePassword,
+                      onToggleObscure: onTogglePassword,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 16),
+                    _ConfirmPasswordField(
+                      controller: confirmPasswordController,
+                      passwordController: passwordController,
+                      obscurePassword: obscureConfirmPassword,
+                      onToggleObscure: onToggleConfirmPassword,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 24),
+                    _RegisterButton(
+                      isLoading: isLoading || authState.isLoading,
+                      onPressed: onRegister,
+                      localizations: localizations,
+                    ),
+                    const SizedBox(height: 24),
+                    _LoginLink(
+                      localizations: localizations,
+                      onLoginTap: () => context.go(Routes.login),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 /// Header section with logo and title.
@@ -478,31 +472,29 @@ class _HeaderSection extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          Icons.person_add_rounded,
-          size: 64,
-          color: theme.colorScheme.primary,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          localizations.createAccount,
-          style: theme.textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) => Column(
+        children: [
+          Icon(
+            Icons.person_add_rounded,
+            size: 64,
+            color: theme.colorScheme.primary,
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          localizations.signUpToGetStarted,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+          const SizedBox(height: 16),
+          Text(
+            localizations.createAccount,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 8),
+          Text(
+            localizations.signUpToGetStarted,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      );
 }
 
 /// Region indicator showing detected region.
@@ -584,11 +576,11 @@ class _AccountField extends StatelessWidget {
               : localizations.enterEmail;
         }
         if (isPhone) {
-          if (!RegExp(r'^1[3-9]\d{9}$').hasMatch(value)) {
+          if (!Validators.isChinesePhoneValid(value)) {
             return localizations.enterValidPhoneNumber;
           }
         } else {
-          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+          if (!Validators.isEmailValid(value)) {
             return localizations.enterValidEmail;
           }
         }
@@ -621,79 +613,77 @@ class _VerificationCodeSection extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: controller,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-                enabled: !isCodeVerified,
-                decoration: InputDecoration(
-                  labelText: localizations.verificationCode,
-                  prefixIcon: const Icon(Icons.verified_outlined),
-                  suffixIcon: isCodeVerified
-                      ? const Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
-                        )
-                      : null,
-                  border: const OutlineInputBorder(),
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  enabled: !isCodeVerified,
+                  decoration: InputDecoration(
+                    labelText: localizations.verificationCode,
+                    prefixIcon: const Icon(Icons.verified_outlined),
+                    suffixIcon: isCodeVerified
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                          )
+                        : null,
+                    border: const OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return localizations.enterVerificationCode;
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return localizations.enterVerificationCode;
-                  }
-                  return null;
-                },
               ),
-            ),
-            const SizedBox(width: 12),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 120,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: countdown > 0 || isSendingCode ? null : onSendCode,
+                  child: isSendingCode
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(
+                          countdown > 0
+                              ? localizations.resendIn(countdown)
+                              : localizations.sendCode,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                ),
+              ),
+            ],
+          ),
+          if (!isCodeVerified) ...[
+            const SizedBox(height: 8),
             SizedBox(
-              width: 120,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: countdown > 0 || isSendingCode ? null : onSendCode,
-                child: isSendingCode
+              height: 40,
+              child: TextButton.icon(
+                onPressed: isVerifyingCode ? null : onVerifyCode,
+                icon: isVerifyingCode
                     ? const SizedBox(
-                        height: 20,
-                        width: 20,
+                        height: 16,
+                        width: 16,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : Text(
-                        countdown > 0
-                            ? localizations.resendIn(countdown)
-                            : localizations.sendCode,
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                    : const Icon(Icons.verified_user_outlined),
+                label: Text(localizations.verifyCode),
               ),
             ),
           ],
-        ),
-        if (!isCodeVerified) ...[
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 40,
-            child: TextButton.icon(
-              onPressed: isVerifyingCode ? null : onVerifyCode,
-              icon: isVerifyingCode
-                  ? const SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.verified_user_outlined),
-              label: Text(localizations.verifyCode),
-            ),
-          ),
         ],
-      ],
-    );
-  }
+      );
 }
 
 /// Password input field.
@@ -711,41 +701,38 @@ class _PasswordField extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscurePassword,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        labelText: localizations.password,
-        prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: IconButton(
-          icon: Icon(
-            obscurePassword
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
+  Widget build(BuildContext context) => TextFormField(
+        controller: controller,
+        obscureText: obscurePassword,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: localizations.password,
+          prefixIcon: const Icon(Icons.lock_outline),
+          suffixIcon: IconButton(
+            icon: Icon(
+              obscurePassword
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined,
+            ),
+            onPressed: onToggleObscure,
           ),
-          onPressed: onToggleObscure,
+          border: const OutlineInputBorder(),
+          helperText: localizations.passwordRequirement,
+          helperMaxLines: 1,
         ),
-        border: const OutlineInputBorder(),
-        helperText: localizations.passwordRequirement,
-        helperMaxLines: 1,
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return localizations.enterPassword;
-        }
-        if (value.length < 8) {
-          return localizations.passwordMinLength8;
-        }
-        if (!RegExp(r'[a-zA-Z]').hasMatch(value) ||
-            !RegExp(r'[0-9]').hasMatch(value)) {
-          return localizations.passwordStrength;
-        }
-        return null;
-      },
-    );
-  }
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return localizations.enterPassword;
+          }
+          if (!Validators.isPasswordMinLengthMet(value)) {
+            return localizations.passwordMinLength8;
+          }
+          if (!Validators.isPasswordComplexityMet(value)) {
+            return localizations.passwordStrength;
+          }
+          return null;
+        },
+      );
 }
 
 /// Confirm password input field.
@@ -765,35 +752,33 @@ class _ConfirmPasswordField extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscurePassword,
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration(
-        labelText: localizations.confirmPassword,
-        prefixIcon: const Icon(Icons.lock_outline),
-        suffixIcon: IconButton(
-          icon: Icon(
-            obscurePassword
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
+  Widget build(BuildContext context) => TextFormField(
+        controller: controller,
+        obscureText: obscurePassword,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          labelText: localizations.confirmPassword,
+          prefixIcon: const Icon(Icons.lock_outline),
+          suffixIcon: IconButton(
+            icon: Icon(
+              obscurePassword
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined,
+            ),
+            onPressed: onToggleObscure,
           ),
-          onPressed: onToggleObscure,
+          border: const OutlineInputBorder(),
         ),
-        border: const OutlineInputBorder(),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return localizations.confirmYourPassword;
-        }
-        if (value != passwordController.text) {
-          return localizations.passwordsDoNotMatch;
-        }
-        return null;
-      },
-    );
-  }
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return localizations.confirmYourPassword;
+          }
+          if (value != passwordController.text) {
+            return localizations.passwordsDoNotMatch;
+          }
+          return null;
+        },
+      );
 }
 
 /// Register button.
@@ -809,24 +794,22 @@ class _RegisterButton extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: isLoading ? null : onPressed,
-      style: FilledButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-      ),
-      child: isLoading
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Colors.white,
-              ),
-            )
-          : Text(localizations.register),
-    );
-  }
+  Widget build(BuildContext context) => FilledButton(
+        onPressed: isLoading ? null : onPressed,
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : Text(localizations.register),
+      );
 }
 
 /// Login link.
@@ -840,18 +823,16 @@ class _LoginLink extends StatelessWidget {
   final VoidCallback onLoginTap;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '${localizations.haveAccount} ',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '${localizations.haveAccount} ',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
-        ),
-        TextButton(onPressed: onLoginTap, child: Text(localizations.login)),
-      ],
-    );
-  }
+          TextButton(onPressed: onLoginTap, child: Text(localizations.login)),
+        ],
+      );
 }

@@ -4,6 +4,7 @@ library;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/core/utils/validators.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/forgot_password_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/forgot_password_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -226,14 +227,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   String _getAppBarTitle(
-      ForgotPasswordStep step, AppLocalizations localizations) {
-    return switch (step) {
-      ForgotPasswordStep.enterAccount => localizations.forgotPasswordTitle,
-      ForgotPasswordStep.enterCode => localizations.enterVerificationCode,
-      ForgotPasswordStep.resetPassword => localizations.setNewPassword,
-      ForgotPasswordStep.success => localizations.passwordResetSuccess,
-    };
-  }
+          ForgotPasswordStep step, AppLocalizations localizations) =>
+      switch (step) {
+        ForgotPasswordStep.enterAccount => localizations.forgotPasswordTitle,
+        ForgotPasswordStep.enterCode => localizations.enterVerificationCode,
+        ForgotPasswordStep.resetPassword => localizations.setNewPassword,
+        ForgotPasswordStep.success => localizations.passwordResetSuccess,
+      };
 }
 
 // ==================== Header Section ====================
@@ -251,53 +251,47 @@ class _HeaderSection extends StatelessWidget {
   final ForgotPasswordStep step;
   final AppLocalizations localizations;
 
-  String get _subtitle {
-    return switch (step) {
-      ForgotPasswordStep.enterAccount => localizations.forgotPasswordSubtitle,
-      ForgotPasswordStep.enterCode => localizations.verificationCodeSent,
-      ForgotPasswordStep.resetPassword => localizations.createNewPassword,
-      ForgotPasswordStep.success => localizations.passwordResetSuccessMessage,
-    };
-  }
+  String get _subtitle => switch (step) {
+        ForgotPasswordStep.enterAccount => localizations.forgotPasswordSubtitle,
+        ForgotPasswordStep.enterCode => localizations.verificationCodeSent,
+        ForgotPasswordStep.resetPassword => localizations.createNewPassword,
+        ForgotPasswordStep.success => localizations.passwordResetSuccessMessage,
+      };
 
-  IconData get _icon {
-    return switch (step) {
-      ForgotPasswordStep.enterAccount => Icons.lock_reset_rounded,
-      ForgotPasswordStep.enterCode => Icons.mark_email_read_outlined,
-      ForgotPasswordStep.resetPassword => Icons.password_rounded,
-      ForgotPasswordStep.success => Icons.check_circle_rounded,
-    };
-  }
+  IconData get _icon => switch (step) {
+        ForgotPasswordStep.enterAccount => Icons.lock_reset_rounded,
+        ForgotPasswordStep.enterCode => Icons.mark_email_read_outlined,
+        ForgotPasswordStep.resetPassword => Icons.password_rounded,
+        ForgotPasswordStep.success => Icons.check_circle_rounded,
+      };
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: colorScheme.primaryContainer,
-            shape: BoxShape.circle,
+  Widget build(BuildContext context) => Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: colorScheme.primaryContainer,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              _icon,
+              size: 48,
+              color: step == ForgotPasswordStep.success
+                  ? Colors.green
+                  : colorScheme.onPrimaryContainer,
+            ),
           ),
-          child: Icon(
-            _icon,
-            size: 48,
-            color: step == ForgotPasswordStep.success
-                ? Colors.green
-                : colorScheme.onPrimaryContainer,
+          const SizedBox(height: 24),
+          Text(
+            _subtitle,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
           ),
-        ),
-        const SizedBox(height: 24),
-        Text(
-          _subtitle,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }
 
 // ==================== Enter Account Form ====================
@@ -328,88 +322,88 @@ class _EnterAccountForm extends StatelessWidget {
   final int countdown;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Verification type toggle
-        Container(
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: _TypeToggleButton(
-                  label: localizations.email,
-                  icon: Icons.email_outlined,
-                  isSelected: state.verificationType == VerificationType.email,
-                  onTap: () =>
-                      onVerificationTypeChanged(VerificationType.email),
-                ),
-              ),
-              Expanded(
-                child: _TypeToggleButton(
-                  label: localizations.phone,
-                  icon: Icons.phone_outlined,
-                  isSelected: state.verificationType == VerificationType.sms,
-                  onTap: () => onVerificationTypeChanged(VerificationType.sms),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-        // Account input
-        TextFormField(
-          controller: accountController,
-          keyboardType: state.verificationType == VerificationType.email
-              ? TextInputType.emailAddress
-              : TextInputType.phone,
-          textInputAction: TextInputAction.done,
-          decoration: InputDecoration(
-            labelText: state.verificationType == VerificationType.email
-                ? localizations.email
-                : localizations.phoneNumber,
-            prefixIcon: Icon(
-              state.verificationType == VerificationType.email
-                  ? Icons.email_outlined
-                  : Icons.phone_outlined,
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Verification type toggle
+          Container(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(12),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _TypeToggleButton(
+                    label: localizations.email,
+                    icon: Icons.email_outlined,
+                    isSelected:
+                        state.verificationType == VerificationType.email,
+                    onTap: () =>
+                        onVerificationTypeChanged(VerificationType.email),
+                  ),
+                ),
+                Expanded(
+                  child: _TypeToggleButton(
+                    label: localizations.phone,
+                    icon: Icons.phone_outlined,
+                    isSelected: state.verificationType == VerificationType.sms,
+                    onTap: () =>
+                        onVerificationTypeChanged(VerificationType.sms),
+                  ),
+                ),
+              ],
             ),
           ),
-          onChanged: onAccountChanged,
-          onFieldSubmitted: (_) => onSendCode(),
-        ),
-        const SizedBox(height: 24),
-        // Send code button
-        SizedBox(
-          height: 52,
-          child: FilledButton(
-            onPressed: isLoading ? null : onSendCode,
-            style: FilledButton.styleFrom(
-              shape: RoundedRectangleBorder(
+          const SizedBox(height: 24),
+          // Account input
+          TextFormField(
+            controller: accountController,
+            keyboardType: state.verificationType == VerificationType.email
+                ? TextInputType.emailAddress
+                : TextInputType.phone,
+            textInputAction: TextInputAction.done,
+            decoration: InputDecoration(
+              labelText: state.verificationType == VerificationType.email
+                  ? localizations.email
+                  : localizations.phoneNumber,
+              prefixIcon: Icon(
+                state.verificationType == VerificationType.email
+                    ? Icons.email_outlined
+                    : Icons.phone_outlined,
+              ),
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: isLoading
-                ? const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(
-                    localizations.sendVerificationCode,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+            onChanged: onAccountChanged,
+            onFieldSubmitted: (_) => onSendCode(),
           ),
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 24),
+          // Send code button
+          SizedBox(
+            height: 52,
+            child: FilledButton(
+              onPressed: isLoading ? null : onSendCode,
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      localizations.sendVerificationCode,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+            ),
+          ),
+        ],
+      );
 }
 
 // ==================== Enter Code Form ====================
@@ -440,102 +434,100 @@ class _EnterCodeForm extends StatelessWidget {
   final bool canResend;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Show masked account
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: colorScheme.primaryContainer.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                state.verificationType == VerificationType.email
-                    ? Icons.email_outlined
-                    : Icons.phone_outlined,
-                size: 20,
-                color: colorScheme.primary,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  localizations.codeSentTo(state.maskedAccount),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Show masked account
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: colorScheme.primaryContainer.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  state.verificationType == VerificationType.email
+                      ? Icons.email_outlined
+                      : Icons.phone_outlined,
+                  size: 20,
+                  color: colorScheme.primary,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    localizations.codeSentTo(state.maskedAccount),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-        // Code input
-        TextFormField(
-          controller: codeController,
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          maxLength: 6,
-          style: const TextStyle(
-            fontSize: 24,
-            letterSpacing: 8,
-            fontWeight: FontWeight.bold,
-          ),
-          decoration: InputDecoration(
-            labelText: localizations.verificationCode,
-            counterText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              ],
             ),
           ),
-          onChanged: onCodeChanged,
-          onFieldSubmitted: (_) => onVerify(),
-        ),
-        const SizedBox(height: 16),
-        // Resend button
-        Center(
-          child: TextButton(
-            onPressed: canResend && !isLoading ? onResendCode : null,
-            child: Text(
-              canResend
-                  ? localizations.resendCode
-                  : localizations
-                      .resendCodeIn('${60 - (DateTime.now().second % 60)}'),
-              style: TextStyle(
-                color: canResend ? colorScheme.primary : colorScheme.outline,
-              ),
+          const SizedBox(height: 24),
+          // Code input
+          TextFormField(
+            controller: codeController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            maxLength: 6,
+            style: const TextStyle(
+              fontSize: 24,
+              letterSpacing: 8,
+              fontWeight: FontWeight.bold,
             ),
-          ),
-        ),
-        const SizedBox(height: 24),
-        // Verify button
-        SizedBox(
-          height: 52,
-          child: FilledButton(
-            onPressed: isLoading ? null : onVerify,
-            style: FilledButton.styleFrom(
-              shape: RoundedRectangleBorder(
+            decoration: InputDecoration(
+              labelText: localizations.verificationCode,
+              counterText: '',
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: isLoading
-                ? const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(
-                    localizations.verify,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+            onChanged: onCodeChanged,
+            onFieldSubmitted: (_) => onVerify(),
           ),
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 16),
+          // Resend button
+          Center(
+            child: TextButton(
+              onPressed: canResend && !isLoading ? onResendCode : null,
+              child: Text(
+                canResend
+                    ? localizations.resendCode
+                    : localizations
+                        .resendCodeIn('${60 - (DateTime.now().second % 60)}'),
+                style: TextStyle(
+                  color: canResend ? colorScheme.primary : colorScheme.outline,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // Verify button
+          SizedBox(
+            height: 52,
+            child: FilledButton(
+              onPressed: isLoading ? null : onVerify,
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      localizations.verify,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+            ),
+          ),
+        ],
+      );
 }
 
 // ==================== Reset Password Form ====================
@@ -574,110 +566,93 @@ class _ResetPasswordForm extends StatelessWidget {
   final bool isLoading;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Password requirements
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                localizations.passwordRequirements,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // New password
+          TextFormField(
+            controller: passwordController,
+            obscureText: obscurePassword,
+            decoration: InputDecoration(
+              labelText: localizations.newPassword,
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscurePassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
                 ),
+                onPressed: onTogglePassword,
               ),
-              const SizedBox(height: 8),
-              _RequirementItem(
-                text: localizations.passwordMinLengthReq,
-                isMet: state.newPassword.length >= 8,
-              ),
-              _RequirementItem(
-                text: localizations.passwordComplexityReq,
-                isMet: RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$')
-                    .hasMatch(state.newPassword),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-        // New password
-        TextFormField(
-          controller: passwordController,
-          obscureText: obscurePassword,
-          decoration: InputDecoration(
-            labelText: localizations.newPassword,
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                obscurePassword
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
-              ),
-              onPressed: onTogglePassword,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-          onChanged: onPasswordChanged,
-        ),
-        const SizedBox(height: 16),
-        // Confirm password
-        TextFormField(
-          controller: confirmPasswordController,
-          obscureText: obscureConfirmPassword,
-          decoration: InputDecoration(
-            labelText: localizations.confirmNewPassword,
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                obscureConfirmPassword
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
-              ),
-              onPressed: onToggleConfirmPassword,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-          onChanged: onConfirmPasswordChanged,
-          onFieldSubmitted: (_) => onResetPassword(),
-        ),
-        const SizedBox(height: 24),
-        // Reset button
-        SizedBox(
-          height: 52,
-          child: FilledButton(
-            onPressed: isLoading ? null : onResetPassword,
-            style: FilledButton.styleFrom(
-              shape: RoundedRectangleBorder(
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: isLoading
-                ? const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(
-                    localizations.resetPassword,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+            onChanged: onPasswordChanged,
           ),
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 16),
+          // Confirm password
+          TextFormField(
+            controller: confirmPasswordController,
+            obscureText: obscureConfirmPassword,
+            decoration: InputDecoration(
+              labelText: localizations.confirmNewPassword,
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscureConfirmPassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                ),
+                onPressed: onToggleConfirmPassword,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            onChanged: onConfirmPasswordChanged,
+            onFieldSubmitted: (_) => onResetPassword(),
+          ),
+          const SizedBox(height: 12),
+          // Password requirements (without title)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _RequirementItem(
+                text: localizations.passwordMinLengthReq,
+                isMet: Validators.isPasswordMinLengthMet(state.newPassword),
+              ),
+              _RequirementItem(
+                text: localizations.passwordComplexityReq,
+                isMet: Validators.isPasswordComplexityMet(state.newPassword),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          // Reset button
+          SizedBox(
+            height: 52,
+            child: FilledButton(
+              onPressed: isLoading ? null : onResetPassword,
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      localizations.resetPassword,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+            ),
+          ),
+        ],
+      );
 }
 
 // ==================== Success Section ====================
@@ -694,62 +669,60 @@ class _SuccessSection extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 24),
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.green.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            children: [
-              const Icon(
-                Icons.check_circle_rounded,
-                size: 64,
-                color: Colors.green,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                localizations.passwordResetSuccess,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                localizations.passwordResetSuccessMessage,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 32),
-        SizedBox(
-          height: 52,
-          width: double.infinity,
-          child: FilledButton(
-            onPressed: () => context.pop(),
-            style: FilledButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.green.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: Text(
-              localizations.backToLogin,
-              style: const TextStyle(fontSize: 16),
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.check_circle_rounded,
+                  size: 64,
+                  color: Colors.green,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  localizations.passwordResetSuccess,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  localizations.passwordResetSuccessMessage,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 32),
+          SizedBox(
+            height: 52,
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: () => context.pop(),
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(
+                localizations.backToLogin,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+      );
 }
 
 // ==================== Helper Widgets ====================

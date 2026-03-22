@@ -33,6 +33,7 @@ abstract final class RouterGuard {
     Routes.home,
     Routes.login,
     Routes.register,
+    Routes.forgotPassword,
     Routes.splash,
     Routes.error,
     Routes.about,

@@ -96,6 +96,11 @@
     "description": "Logout text"
   },
 
+  "logoutConfirmMessage": "确定要退出登录吗？",
+  "@logoutConfirmMessage": {
+    "description": "Logout confirmation message"
+  },
+
   "edit": "编辑",
   "@edit": {
     "description": "Edit text"

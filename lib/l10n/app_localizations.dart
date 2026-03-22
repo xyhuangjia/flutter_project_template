@@ -212,6 +212,12 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// Logout confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logoutConfirmMessage;
+
   /// Edit text
   ///
   /// In en, this message translates to:

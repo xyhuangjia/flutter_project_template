@@ -34,31 +34,29 @@ class PrivacyConsentDialog extends ConsumerWidget {
           borderRadius: BorderRadius.circular(28),
         ),
         child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Container(
-              constraints: const BoxConstraints(maxWidth: 500, maxHeight: 650),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _Header(theme: theme, localizations: localizations),
-                  Flexible(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(24),
-                      child: _Content(
-                        localizations: localizations,
-                        regionConfig: regionConfig,
-                      ),
+          builder: (context, constraints) => Container(
+            constraints: const BoxConstraints(maxWidth: 500, maxHeight: 650),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _Header(theme: theme, localizations: localizations),
+                Flexible(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: _Content(
+                      localizations: localizations,
+                      regionConfig: regionConfig,
                     ),
                   ),
-                  _Actions(
-                    ref: ref,
-                    localizations: localizations,
-                    privacyState: privacyState,
-                  ),
-                ],
-              ),
-            );
-          },
+                ),
+                _Actions(
+                  ref: ref,
+                  localizations: localizations,
+                  privacyState: privacyState,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -72,41 +70,39 @@ class _Header extends StatelessWidget {
   final AppLocalizations localizations;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.shield_rounded,
-              color: theme.colorScheme.onPrimaryContainer,
-              size: 28,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              localizations.privacyConsentTitle,
-              style: theme.textTheme.titleLarge?.copyWith(
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.shield_rounded,
                 color: theme.colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.bold,
+                size: 28,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                localizations.privacyConsentTitle,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: theme.colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 class _Content extends StatelessWidget {
@@ -304,10 +300,9 @@ class _Actions extends StatelessWidget {
 }
 
 /// Shows the privacy consent dialog.
-Future<bool?> showPrivacyConsentDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) => const PrivacyConsentDialog(),
-  );
-}
+Future<bool?> showPrivacyConsentDialog(BuildContext context) =>
+    showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const PrivacyConsentDialog(),
+    );

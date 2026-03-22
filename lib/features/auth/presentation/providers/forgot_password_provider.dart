@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter_project_template/core/errors/error_handler.dart';
 import 'package:flutter_project_template/core/errors/failures.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
+import 'package:flutter_project_template/core/utils/validators.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/forgot_password_state.dart';
 import 'package:flutter_project_template/features/auth/domain/repositories/forgot_password_repository.dart';
@@ -193,7 +194,7 @@ class ForgotPasswordNotifier extends _$ForgotPasswordNotifier {
       return false;
     }
 
-    if (state.newPassword.length < 8) {
+    if (!Validators.isPasswordMinLengthMet(state.newPassword)) {
       state = state.copyWith(
         errorMessage: 'Password must be at least 8 characters',
       );
@@ -201,7 +202,7 @@ class ForgotPasswordNotifier extends _$ForgotPasswordNotifier {
     }
 
     // Check password complexity: at least one letter and one number
-    if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$').hasMatch(state.newPassword)) {
+    if (!Validators.isPasswordComplexityMet(state.newPassword)) {
       state = state.copyWith(
         errorMessage: 'Password must contain letters and numbers',
       );
@@ -309,10 +310,9 @@ class ForgotPasswordNotifier extends _$ForgotPasswordNotifier {
 
   bool _validateAccount(String account) {
     if (state.verificationType == VerificationType.email) {
-      return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(account);
+      return Validators.isEmailValid(account);
     } else {
-      // Chinese phone number: starts with 1, 11 digits
-      return RegExp(r'^1[3-9]\d{9}$').hasMatch(account);
+      return Validators.isChinesePhoneValid(account);
     }
   }
 
@@ -341,7 +341,7 @@ class ForgotPasswordRepositoryImpl implements ForgotPasswordRepository {
     try {
       await _simulateNetworkDelay();
 
-      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      if (!Validators.isEmailValid(email)) {
         throw AuthException('Invalid email format');
       }
 
@@ -359,7 +359,7 @@ class ForgotPasswordRepositoryImpl implements ForgotPasswordRepository {
     try {
       await _simulateNetworkDelay();
 
-      if (!RegExp(r'^1[3-9]\d{9}$').hasMatch(phone)) {
+      if (!Validators.isChinesePhoneValid(phone)) {
         throw AuthException('Invalid phone number format');
       }
 
@@ -405,11 +405,11 @@ class ForgotPasswordRepositoryImpl implements ForgotPasswordRepository {
     try {
       await _simulateNetworkDelay();
 
-      if (newPassword.length < 8) {
+      if (!Validators.isPasswordMinLengthMet(newPassword)) {
         throw AuthException('Password must be at least 8 characters');
       }
 
-      if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$').hasMatch(newPassword)) {
+      if (!Validators.isPasswordComplexityMet(newPassword)) {
         throw AuthException('Password must contain letters and numbers');
       }
 

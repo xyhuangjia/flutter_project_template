@@ -4,7 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
-import 'package:flutter_project_template/core/splash/splash_screen.dart';
+import 'package:flutter_project_template/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';

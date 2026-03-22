@@ -134,12 +134,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (!mounted) return;
 
     if (success) {
-      DialogUtil.showSuccessDialog(
+      await DialogUtil.showSuccessDialog(
         context,
         AppLocalizations.of(context)!.saveSuccess,
       );
     } else {
-      DialogUtil.showErrorDialog(
+      await DialogUtil.showErrorDialog(
         context,
         AppLocalizations.of(context)!.operationFailed,
       );

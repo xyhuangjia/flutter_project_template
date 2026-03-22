@@ -24,9 +24,9 @@ enum PermissionType {
 class PermissionCard extends StatelessWidget {
   /// Creates a permission card.
   const PermissionCard({
-    super.key,
     required this.permissionType,
     required this.onRequest,
+    super.key,
     this.onSkip,
   });
 

@@ -9,7 +9,12 @@ library;
 abstract final class Validators {
   /// Email regex pattern.
   static final RegExp _emailRegex = RegExp(
-    r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+',
+    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+  );
+
+  /// Chinese phone number regex pattern (starts with 1, 11 digits).
+  static final RegExp _chinesePhoneRegex = RegExp(
+    r'^1[3-9]\d{9}$',
   );
 
   /// Phone number regex pattern (supports various formats).
@@ -152,6 +157,116 @@ abstract final class Validators {
     }
     if (value < min || value > max) {
       return '${fieldName ?? 'Value'} must be between $min and $max';
+    }
+    return null;
+  }
+
+  /// Checks if password meets minimum length requirement.
+  ///
+  /// Returns true if password length is at least [minLength].
+  static bool isPasswordMinLengthMet(String? password, {int minLength = 8}) {
+    return password != null && password.length >= minLength;
+  }
+
+  /// Checks if password meets complexity requirement.
+  ///
+  /// Returns true if password contains both letters and numbers.
+  static bool isPasswordComplexityMet(String? password) {
+    if (password == null || password.isEmpty) return false;
+    final hasLetter = RegExp(r'[A-Za-z]').hasMatch(password);
+    final hasDigit = RegExp(r'\d').hasMatch(password);
+    return hasLetter && hasDigit;
+  }
+
+  /// Checks if email format is valid.
+  ///
+  /// Returns true if email matches valid format.
+  static bool isEmailValid(String? email) {
+    if (email == null || email.isEmpty) return false;
+    return _emailRegex.hasMatch(email);
+  }
+
+  /// Checks if Chinese phone number format is valid.
+  ///
+  /// Returns true if phone matches Chinese phone format (starts with 1, 11 digits).
+  static bool isChinesePhoneValid(String? phone) {
+    if (phone == null || phone.isEmpty) return false;
+    return _chinesePhoneRegex.hasMatch(phone);
+  }
+
+  /// Checks if phone number format is valid (international format).
+  ///
+  /// Returns true if phone matches international phone format.
+  static bool isPhoneValid(String? phone) {
+    if (phone == null || phone.isEmpty) return false;
+    return _phoneRegex.hasMatch(phone);
+  }
+
+  /// Checks if verification code length is valid.
+  ///
+  /// Returns true if code has exactly [length] digits.
+  static bool isVerificationCodeValid(String? code, {int length = 6}) {
+    if (code == null || code.isEmpty) return false;
+    return code.length == length && RegExp(r'^\d+$').hasMatch(code);
+  }
+
+  /// Validates a Chinese phone number.
+  ///
+  /// Returns null if valid, otherwise returns an error message.
+  static String? validateChinesePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (!_chinesePhoneRegex.hasMatch(value)) {
+      return 'Please enter a valid phone number';
+    }
+    return null;
+  }
+
+  /// Validates a verification code.
+  ///
+  /// Returns null if valid, otherwise returns an error message.
+  static String? validateVerificationCode(String? value, {int length = 6}) {
+    if (value == null || value.isEmpty) {
+      return 'Verification code is required';
+    }
+    if (value.length != length) {
+      return 'Verification code must be $length digits';
+    }
+    if (!RegExp(r'^\d+$').hasMatch(value)) {
+      return 'Verification code must contain only digits';
+    }
+    return null;
+  }
+
+  /// Validates password match.
+  ///
+  /// Returns null if passwords match, otherwise returns an error message.
+  static String? validatePasswordMatch(
+    String? password,
+    String? confirmPassword,
+  ) {
+    if (confirmPassword == null || confirmPassword.isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (password != confirmPassword) {
+      return 'Passwords do not match';
+    }
+    return null;
+  }
+
+  /// Validates a simple password (letters and numbers, at least 8 chars).
+  ///
+  /// Returns null if valid, otherwise returns an error message.
+  static String? validateSimplePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    if (!isPasswordComplexityMet(value)) {
+      return 'Password must contain letters and numbers';
     }
     return null;
   }

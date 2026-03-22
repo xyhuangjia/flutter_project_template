@@ -240,11 +240,21 @@ class _SettingsContent extends StatelessWidget {
                     iconBgColor: colorScheme.errorContainer,
                     titleColor: colorScheme.error,
                     onTap: () async {
+                      final confirmed = await DialogUtil.showConfirmDialog(
+                        context,
+                        title: localizations.logout,
+                        message: localizations.logoutConfirmMessage,
+                        confirmText: localizations.confirm,
+                        cancelText: localizations.cancel,
+                        isDestructive: true,
+                      );
+                      if (!confirmed || !context.mounted) return;
+
                       final success = await ref
                           .read(authNotifierProvider.notifier)
                           .logout();
                       if (success && context.mounted) {
-                        DialogUtil.showSuccessDialog(
+                        await DialogUtil.showSuccessDialog(
                           context,
                           localizations.success,
                         );

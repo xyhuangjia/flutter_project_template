@@ -96,6 +96,11 @@
     "description": "Logout text"
   },
 
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "@logoutConfirmMessage": {
+    "description": "Logout confirmation message"
+  },
+
   "edit": "Edit",
   "@edit": {
     "description": "Edit text"

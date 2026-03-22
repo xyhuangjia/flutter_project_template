@@ -14,19 +14,19 @@ class AccountServiceMock {
 
     // Mock validation: password must be at least 6 characters
     if (password.length < 6) {
-      return FailureResult(
+      return const FailureResult(
         ValidationFailure(message: 'Password must be at least 6 characters'),
       );
     }
 
     // Mock success (90% success rate for demo)
     if (DateTime.now().millisecond % 10 != 0) {
-      return Success(null);
+      return const Success(null);
     }
 
     // Mock occasional failure
-    return FailureResult(
-      const ServerFailure(
+    return const FailureResult(
+      ServerFailure(
           message: 'Account deletion failed. Please try again later.'),
     );
   }

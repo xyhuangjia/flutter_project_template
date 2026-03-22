@@ -4,6 +4,7 @@ library;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/core/utils/validators.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
@@ -47,12 +48,12 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       return;
     }
 
-    if (_newPasswordController.text.length < 8) {
+    if (!Validators.isPasswordMinLengthMet(_newPasswordController.text)) {
       _showError(localizations.passwordMinLength8);
       return;
     }
 
-    if (!_isPasswordValid(_newPasswordController.text)) {
+    if (!Validators.isPasswordComplexityMet(_newPasswordController.text)) {
       _showError(localizations.passwordStrength);
       return;
     }
@@ -97,13 +98,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     }
   }
 
-  bool _isPasswordValid(String password) {
-    if (password.length < 8) return false;
-    final hasLetter = RegExp('[a-zA-Z]').hasMatch(password);
-    final hasNumber = RegExp('[0-9]').hasMatch(password);
-    return hasLetter && hasNumber;
-  }
-
   void _showError(String message) {
     unawaited(DialogUtil.showErrorDialog(context, message));
   }
@@ -136,13 +130,15 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               children: [
                 _RequirementTile(
                   text: localizations.passwordMinLengthReq,
-                  isMet: _newPasswordController.text.length >= 8,
+                  isMet: Validators.isPasswordMinLengthMet(
+                      _newPasswordController.text),
                   colorScheme: colorScheme,
                 ),
                 SettingsDivider(colorScheme: colorScheme),
                 _RequirementTile(
                   text: localizations.passwordComplexityReq,
-                  isMet: _isPasswordValid(_newPasswordController.text),
+                  isMet: Validators.isPasswordComplexityMet(
+                      _newPasswordController.text),
                   colorScheme: colorScheme,
                 ),
               ],

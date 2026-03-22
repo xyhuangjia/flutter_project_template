@@ -3,6 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
+import 'package:flutter_project_template/core/utils/validators.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -362,8 +363,7 @@ class _LoginForm extends StatelessWidget {
               if (value == null || value.isEmpty) {
                 return localizations.enterEmail;
               }
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                  .hasMatch(value)) {
+              if (!Validators.isEmailValid(value)) {
                 return localizations.enterValidEmail;
               }
               return null;
