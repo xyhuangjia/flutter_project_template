@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter_project_template/core/config/environment_provider.dart';
+import 'package:flutter_project_template/core/errors/failures.dart';
 import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -128,17 +129,17 @@ class AuthNotifier extends _$AuthNotifier {
 
   /// Logs in with WeChat.
   Future<bool> loginWithWeChat() async => _performLogin(
-        () => repository.loginWithWeChat(),
+        () => ref.read(authRepositoryProvider).loginWithWeChat(),
       );
 
   /// Logs in with Apple.
   Future<bool> loginWithApple() async => _performLogin(
-        () => repository.loginWithApple(),
+        () => ref.read(authRepositoryProvider).loginWithApple(),
       );
 
   /// Logs in with Google.
   Future<bool> loginWithGoogle() async => _performLogin(
-        () => repository.loginWithGoogle(),
+        () => ref.read(authRepositoryProvider).loginWithGoogle(),
       );
 
   /// Registers a new user.
@@ -148,7 +149,7 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
   }) async =>
       _performLogin(
-        () => repository.register(
+        () => ref.read(authRepositoryProvider).register(
           email: email,
           username: username,
           password: password,
@@ -245,7 +246,7 @@ class AuthNotifier extends _$AuthNotifier {
     String? avatarUrl,
   }) async =>
       _performLogin(
-        () => repository.registerWithPhone(
+        () => ref.read(authRepositoryProvider).registerWithPhone(
           phoneNumber: phoneNumber,
           username: username,
           password: password,
@@ -263,7 +264,7 @@ class AuthNotifier extends _$AuthNotifier {
     String? avatarUrl,
   }) async =>
       _performLogin(
-        () => repository.registerWithEmail(
+        () => ref.read(authRepositoryProvider).registerWithEmail(
           email: email,
           username: username,
           password: password,
