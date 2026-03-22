@@ -12,11 +12,11 @@ This project uses **Riverpod** with **riverpod_generator** for state management.
 
 ```yaml
 dependencies:
-  flutter_riverpod: ^2.4.0
-  riverpod_annotation: ^2.3.0
+  flutter_riverpod: ^3.2.1
+  riverpod_annotation: ^4.0.0
 
 dev_dependencies:
-  riverpod_generator: ^2.3.0
+  riverpod_generator: ^4.0.0
   build_runner: ^2.4.0
 ```
 
@@ -29,14 +29,14 @@ dev_dependencies:
 Use for simple values, dependency injection, or computed values that never change.
 
 ```dart
-// With riverpod_generator
+// With riverpod_generator (3.x)
 @riverpod
-String appName(AppNameRef ref) {
+String appName(Ref ref) {
   return 'My App';
 }
 
 @riverpod
-UserRepository userRepository(UserRepositoryRef ref) {
+UserRepository userRepository(Ref ref) {
   return UserRepositoryImpl();
 }
 ```
@@ -57,7 +57,7 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 Use for simple state like counters, toggles, or selected values. Consider Notifier for complex state.
 
 ```dart
-// With riverpod_generator
+// With riverpod_generator (3.x)
 @riverpod
 class Counter extends _$Counter {
   @override
@@ -68,20 +68,12 @@ class Counter extends _$Counter {
 }
 ```
 
-```dart
-// Traditional syntax
-final counterProvider = StateProvider<int>((ref) => 0);
-
-// Usage in widget
-ref.read(counterProvider.notifier).state++;
-```
-
 ### 3. NotifierProvider (Complex Synchronous State)
 
 Use for complex state with business logic. Preferred over StateNotifierProvider.
 
 ```dart
-// With riverpod_generator (recommended)
+// With riverpod_generator (3.x - recommended)
 @riverpod
 class TodoList extends _$TodoList {
   @override
@@ -104,28 +96,12 @@ class TodoList extends _$TodoList {
 }
 ```
 
-```dart
-// Traditional syntax
-class TodoListNotifier extends Notifier<List<Todo>> {
-  @override
-  List<Todo> build() => [];
-
-  void addTodo(Todo todo) {
-    state = [...state, todo];
-  }
-}
-
-final todoListProvider = NotifierProvider<TodoListNotifier, List<Todo>>(
-  TodoListNotifier.new,
-);
-```
-
 ### 4. AsyncNotifierProvider (Async Operations)
 
 Use for state that requires async initialization or async operations.
 
 ```dart
-// With riverpod_generator (recommended)
+// With riverpod_generator (3.x)
 @riverpod
 class AsyncUser extends _$AsyncUser {
   @override
@@ -137,13 +113,15 @@ class AsyncUser extends _$AsyncUser {
   Future<void> updateName(String name) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final repository = ref.read(userRepositoryProvider);
+      final repository = ref.read(userRepository);
       await repository.updateName(name);
       return repository.fetchUser(userId);
     });
   }
 }
 ```
+
+生成的 provider 名称：`asyncUserProvider`（不是 `asyncUserNotifierProvider`）
 
 ```dart
 // Traditional syntax
@@ -1064,3 +1042,71 @@ dart run build_runner clean
 6. Use `keepAlive: true` for cached/persistent data
 7. Always dispose resources in `ref.onDispose`
 8. Prefer riverpod_generator over traditional syntax
+
+## Riverpod 3.x 重要变更
+
+### Provider 名称简化
+
+Riverpod 3.x 简化了 provider 名称：
+
+```dart
+// 2.x - 生成的 provider 是 class 名 + "Provider"
+@riverpod
+class AuthNotifier extends _$AuthNotifier { ... }
+// 使用：authNotifierProvider
+
+// 3.x - 生成的 provider 是 class 名（去掉 Notifier 后缀）
+@riverpod
+class AuthNotifier extends _$AuthNotifier { ... }
+// 使用：authProvider
+```
+
+### Ref 类型统一
+
+所有 provider 参数的 Ref 类型不再需要特定的 `*Ref` 类型：
+
+```dart
+// 2.x - 需要特定 Ref 类型
+@riverpod
+DioClient dioClient(DioClientRef ref) { ... }
+
+// 3.x - 统一使用 Ref
+@riverpod
+DioClient dioClient(Ref ref) { ... }
+```
+
+### AsyncValue API 变更
+
+`AsyncValue.valueOrNull` 已移除，直接使用 `.value`：
+
+```dart
+// 2.x - 需要使用 valueOrNull
+final user = state.valueOrNull?.user;
+
+// 3.x - 直接使用 value
+final user = state.value?.user;
+```
+
+### Notifier 内部 state 访问
+
+在 Notifier 内部，直接使用 `state` 而不是 `this.ref.state`：
+
+```dart
+// 2.x
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+  
+  void increment() => this.ref.state++;
+}
+
+// 3.x
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+  
+  void increment() => state++;
+}
+```

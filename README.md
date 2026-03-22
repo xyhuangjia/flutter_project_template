@@ -301,6 +301,63 @@ class HomeNotifier extends _$HomeNotifier {
 }
 ```
 
+#### Riverpod 3.x Breaking Changes
+
+The project has been upgraded to Riverpod 3.x. Here are the important API changes to note:
+
+**1. Simplified Provider Names**
+- Generated provider names no longer include "Provider" suffix
+- `AuthNotifier` class → generated provider is `authProvider` (not `authNotifierProvider`)
+- 2.x syntax: `authNotifierProvider`
+- 3.x syntax: `authProvider`
+
+**2. Unified Ref Type**
+- All provider parameter Ref types are unified to `Ref`
+- 2.x: Required specific `*Ref` types like `DioClientRef`
+- 3.x: Unified `Ref`
+
+```dart
+// 3.x standard syntax
+@riverpod
+DioClient dioClient(Ref ref) { ... }
+```
+
+**3. AsyncValue API Changes**
+- `AsyncValue.valueOrNull` has been removed
+- Use `.value` directly with null-aware operators
+
+```dart
+// 2.x
+final user = state.valueOrNull?.user;
+
+// 3.x
+final user = state.value?.user;
+```
+
+**4. Notifier Internal State Access**
+- Inside Notifiers, use `state` directly
+- No longer use `this.ref.state`
+
+```dart
+// 2.x
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+  void increment() => this.ref.state++;
+}
+
+// 3.x
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+  void increment() => state++;
+}
+```
+
+For complete migration guide, see: [Riverpod 3.x Migration Documentation](https://riverpod.dev/docs/3.0_migration)
+
 #### Model Definition
 
 ```dart

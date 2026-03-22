@@ -267,6 +267,63 @@ class HomeNotifier extends _$HomeNotifier {
 }
 ```
 
+#### Riverpod 3.x 重要变更
+
+项目已升级到 Riverpod 3.x，以下是需要注意的 API 变更：
+
+**1. Provider 名称简化**
+- 生成的 provider 名称不再包含 "Provider" 后缀
+- `AuthNotifier` → 生成的 provider 是 `authProvider`（不是 `authNotifierProvider`）
+- 2.x 语法：`authNotifierProvider`
+- 3.x 语法：`authProvider`
+
+**2. Ref 类型统一**
+- 所有 provider 参数的 Ref 类型统一为 `Ref`
+- 2.x：需要特定的 `*Ref` 类型，如 `DioClientRef`
+- 3.x：统一使用 `Ref`
+
+```dart
+// 3.x 标准写法
+@riverpod
+DioClient dioClient(Ref ref) { ... }
+```
+
+**3. AsyncValue API 变更**
+- `AsyncValue.valueOrNull` 已移除
+- 直接使用 `.value` 处理可能的 null 值
+
+```dart
+// 2.x
+final user = state.valueOrNull?.user;
+
+// 3.x
+final user = state.value?.user;
+```
+
+**4. Notifier 内部 state 访问**
+- 在 Notifier 内部直接使用 `state`
+- 不再使用 `this.ref.state`
+
+```dart
+// 2.x
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+  void increment() => this.ref.state++;
+}
+
+// 3.x
+@riverpod
+class Counter extends _$Counter {
+  @override
+  int build() => 0;
+  void increment() => state++;
+}
+```
+
+完整迁移指南请参考：[Riverpod 3.x 迁移文档](https://riverpod.dev/zh-hans/docs/3.0_migration)
+
 #### 模型定义
 
 ```dart
