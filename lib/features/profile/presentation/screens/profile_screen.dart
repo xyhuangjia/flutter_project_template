@@ -11,6 +11,7 @@ import 'package:flutter_project_template/features/auth/domain/entities/auth_stat
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -133,18 +134,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (!mounted) return;
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.saveSuccess),
-          behavior: SnackBarBehavior.floating,
-        ),
+      DialogUtil.showSuccessDialog(
+        context,
+        AppLocalizations.of(context)!.saveSuccess,
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.operationFailed),
-          behavior: SnackBarBehavior.floating,
-        ),
+      DialogUtil.showErrorDialog(
+        context,
+        AppLocalizations.of(context)!.operationFailed,
       );
     }
   }

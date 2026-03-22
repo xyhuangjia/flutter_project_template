@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -909,13 +910,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
       if (config != null) {
         if (mounted) {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(widget.localizations.configSaved),
-              backgroundColor: AppIconColors.aiColor,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          DialogUtil.showSuccessDialog(context, widget.localizations.configSaved);
         }
       } else {
         setState(() {

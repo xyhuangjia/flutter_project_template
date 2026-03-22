@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 
 /// Extension methods for BuildContext.
 extension ContextExtensions on BuildContext {
@@ -49,27 +50,25 @@ extension ContextExtensions on BuildContext {
   /// Returns the navigator state.
   NavigatorState get navigator => Navigator.of(this);
 
-  /// Returns the scaffold messenger state.
-  ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
-
-  /// Shows a snackbar.
-  void showSnackBar(
-    String message, {
-    Duration duration = const Duration(seconds: 3),
-    SnackBarAction? action,
-  }) {
-    scaffoldMessenger.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: duration,
-        action: action,
-      ),
-    );
+  /// Shows a success message using DialogUtil.
+  ///
+  /// Prefer using [DialogUtil.showSuccessDialog] directly.
+  void showSuccessMessage(String message) {
+    DialogUtil.showSuccessDialog(this, message);
   }
 
-  /// Hides the current snackbar.
-  void hideSnackBar() {
-    scaffoldMessenger.hideCurrentSnackBar();
+  /// Shows an error message using DialogUtil.
+  ///
+  /// Prefer using [DialogUtil.showErrorDialog] directly.
+  void showErrorMessage(String message) {
+    DialogUtil.showErrorDialog(this, message);
+  }
+
+  /// Shows an info message using DialogUtil.
+  ///
+  /// Prefer using [DialogUtil.showInfoDialog] directly.
+  void showInfoMessage(String message) {
+    DialogUtil.showInfoDialog(this, message);
   }
 
   /// Shows a dialog and returns the result.

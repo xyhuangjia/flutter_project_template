@@ -8,6 +8,7 @@ import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -118,13 +119,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     if (success && mounted) {
       final localizations = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            localizations.verificationCodeSentTo(account),
-          ),
-          backgroundColor: Colors.green,
-        ),
+      DialogUtil.showSuccessDialog(
+        context,
+        localizations.verificationCodeSentTo(account),
       );
       _startCountdown();
     } else if (mounted) {
@@ -176,12 +173,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     if (success && mounted) {
       final localizations = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localizations.verificationSuccessful),
-          backgroundColor: Colors.green,
-        ),
-      );
+      DialogUtil.showSuccessDialog(context, localizations.verificationSuccessful);
     } else if (mounted) {
       _showError('Verification failed');
     }
@@ -228,12 +220,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   /// Shows error message.
   void _showError(String message) {
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
+      DialogUtil.showErrorDialog(context, message);
     }
   }
 

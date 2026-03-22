@@ -6,6 +6,7 @@ import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -72,13 +73,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // Show error if any
     ref.listen<AsyncValue<AuthState>>(authNotifierProvider, (previous, next) {
       if (next.hasError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.error.toString()),
-            backgroundColor: colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        DialogUtil.showErrorDialog(context, next.error.toString());
       }
     });
 

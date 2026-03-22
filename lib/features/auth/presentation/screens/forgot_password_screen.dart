@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/forgot_password_state.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/forgot_password_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -91,13 +92,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     ref.listen<ForgotPasswordState>(forgotPasswordNotifierProvider,
         (previous, next) {
       if (next.errorMessage != null && next.errorMessage!.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.errorMessage!),
-            backgroundColor: colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        DialogUtil.showErrorDialog(context, next.errorMessage!);
       }
     });
 

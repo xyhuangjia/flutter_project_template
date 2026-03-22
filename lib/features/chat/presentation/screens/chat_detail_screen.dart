@@ -12,6 +12,7 @@ import 'package:flutter_project_template/features/chat/presentation/widgets/chat
 import 'package:flutter_project_template/features/chat/presentation/widgets/message_bubble.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/typing_indicator.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -363,13 +364,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         } else if (event is ChatAIResponseError) {
           // Error occurred
           if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(event.message),
-                backgroundColor: Theme.of(context).colorScheme.error,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            DialogUtil.showErrorDialog(context, event.message);
           }
         }
       }
@@ -429,23 +424,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           await chatNotifier.exportConversation(widget.conversationId);
       await Share.share(markdown, subject: localizations.exportChat);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(localizations.chatExported),
-            backgroundColor: AppIconColors.aiColor,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        DialogUtil.showSuccessDialog(context, localizations.chatExported);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(localizations.exportFailed),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        DialogUtil.showErrorDialog(context, localizations.exportFailed);
       }
     }
   }
@@ -509,14 +492,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final localizations = AppLocalizations.of(context)!;
     await Clipboard.setData(ClipboardData(text: message.content));
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localizations.messageCopied),
-          backgroundColor: AppIconColors.aiColor,
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 1),
-        ),
-      );
+      DialogUtil.showSuccessDialog(context, localizations.messageCopied);
     }
   }
 
@@ -526,13 +502,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
     await chatNotifier.deleteMessage(messageId);
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localizations.messageDeleted),
-          backgroundColor: AppIconColors.aiColor,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      DialogUtil.showSuccessDialog(context, localizations.messageDeleted);
     }
   }
 
@@ -577,13 +547,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         newTitle != conversation.title) {
       await chatNotifier.renameConversation(widget.conversationId, newTitle);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(localizations.conversationRenamed),
-            backgroundColor: AppIconColors.aiColor,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        DialogUtil.showSuccessDialog(context, localizations.conversationRenamed);
       }
     }
   }

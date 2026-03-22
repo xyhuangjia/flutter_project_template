@@ -508,9 +508,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   .read(developerOptionsNotifierProvider.notifier)
                   .updateCustomApiBaseUrl(null);
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(loc.saveSuccess)),
-                );
+                DialogUtil.showSuccessDialog(context, loc.saveSuccess);
               }
             },
             child: Text(loc.resetToDefault),
@@ -524,9 +522,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     .read(developerOptionsNotifierProvider.notifier)
                     .updateCustomApiBaseUrl(url);
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(loc.saveSuccess)),
-                  );
+                  DialogUtil.showSuccessDialog(context, loc.saveSuccess);
                 }
               }
             },
@@ -592,12 +588,9 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   .read(developerOptionsNotifierProvider.notifier)
                   .clearCache();
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      success ? loc.cacheCleared : loc.operationFailed,
-                    ),
-                  ),
+                DialogUtil.showSuccessDialog(
+                  context,
+                  success ? loc.cacheCleared : loc.operationFailed,
                 );
               }
             },
@@ -637,12 +630,9 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   .read(developerOptionsNotifierProvider.notifier)
                   .clearDatabase();
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      success ? loc.databaseCleared : loc.operationFailed,
-                    ),
-                  ),
+                DialogUtil.showSuccessDialog(
+                  context,
+                  success ? loc.databaseCleared : loc.operationFailed,
                 );
               }
             },
@@ -675,12 +665,9 @@ class _DeveloperOptionsContent extends StatelessWidget {
                   .read(developerOptionsNotifierProvider.notifier)
                   .resetToDefaults();
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      success ? loc.optionsReset : loc.operationFailed,
-                    ),
-                  ),
+                DialogUtil.showSuccessDialog(
+                  context,
+                  success ? loc.optionsReset : loc.operationFailed,
                 );
               }
             },
