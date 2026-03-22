@@ -140,7 +140,7 @@ final privacyRepositoryProvider = Provider<PrivacyRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef PrivacyRepositoryRef = ProviderRef<PrivacyRepository>;
-String _$webviewRepositoryHash() => r'08b4cf2eed5d7e1b88f67614792bf4497d6fdb14';
+String _$webviewRepositoryHash() => r'1d2bb2f3b8c743f53e96ff744ddf624e204f19fe';
 
 /// Provides the WebViewRepository from GetIt.
 ///

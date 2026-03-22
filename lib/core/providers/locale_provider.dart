@@ -32,7 +32,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   @override
   Future<Locale?> build() async {
     // Load saved locale preference
-    final prefs = await ref.watch(sharedPrefsProvider.future);
+    final prefs = await this.ref.watch(sharedPrefsProvider.future);
     final savedLocale = prefs.getString(_localePreferenceKey);
 
     if (savedLocale == null || savedLocale == 'system') {
@@ -47,7 +47,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   ///
   /// Pass `null` to follow system locale.
   Future<void> setLocale(Locale? locale) async {
-    final prefs = await ref.read(sharedPrefsProvider.future);
+    final prefs = await this.ref.read(sharedPrefsProvider.future);
 
     if (locale == null) {
       await prefs.setString(_localePreferenceKey, 'system');
@@ -55,7 +55,7 @@ class LocaleNotifier extends _$LocaleNotifier {
       await prefs.setString(_localePreferenceKey, locale.languageCode);
     }
 
-    state = AsyncData(locale);
+    this.ref.state = AsyncData(locale);
   }
 
   /// Returns the effective locale.
@@ -63,7 +63,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   /// If the saved locale is null, returns the system locale.
   /// Otherwise returns the saved locale.
   Locale get effectiveLocale {
-    final savedLocale = state.valueOrNull;
+    final savedLocale = this.ref.state.value;
     if (savedLocale != null) {
       return savedLocale;
     }
@@ -71,15 +71,15 @@ class LocaleNotifier extends _$LocaleNotifier {
     return PlatformDispatcher.instance.locale;
   }
 
-  /// Returns whether the current locale is Chinese.
+  /// Returns whether current locale is Chinese.
   bool get isChinese {
     final locale = effectiveLocale;
-    return locale.languageCode == 'zh';
+    return locale?.languageCode == 'zh';
   }
 
   /// Toggles between English and Chinese.
   Future<void> toggleLocale() async {
-    final currentLocale = state.valueOrNull;
+    final currentLocale = this.ref.state.value;
     if (currentLocale?.languageCode == 'zh') {
       await setLocale(const Locale('en'));
     } else {

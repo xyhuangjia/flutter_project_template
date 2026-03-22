@@ -10,13 +10,14 @@ import 'package:flutter_project_template/features/auth/data/repositories/auth_re
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/domain/repositories/auth_repository.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_provider.g.dart';
 
 /// Provider for AuthLocalDataSource.
 @riverpod
-AuthLocalDataSource authLocalDataSource(AuthLocalDataSourceRef ref) {
+AuthLocalDataSource authLocalDataSource(Ref ref) {
   // Use the same sharedPreferencesProvider that is overridden in main.dart
   final prefs = ref.watch(sharedPreferencesProvider);
   return AuthLocalDataSource(sharedPreferences: prefs);
@@ -24,13 +25,13 @@ AuthLocalDataSource authLocalDataSource(AuthLocalDataSourceRef ref) {
 
 /// Provider for AuthRemoteDataSource.
 @riverpod
-AuthRemoteDataSource authRemoteDataSource(AuthRemoteDataSourceRef ref) {
+AuthRemoteDataSource authRemoteDataSource(Ref ref) {
   return AuthRemoteDataSource();
 }
 
 /// Provider for AuthRepository.
 @riverpod
-AuthRepository authRepository(AuthRepositoryRef ref) {
+AuthRepository authRepository(Ref ref) {
   return AuthRepositoryImpl(
     remoteDataSource: ref.watch(authRemoteDataSourceProvider),
     localDataSource: ref.watch(authLocalDataSourceProvider),
