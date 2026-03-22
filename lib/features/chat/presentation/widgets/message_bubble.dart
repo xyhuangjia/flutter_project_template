@@ -2,12 +2,11 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/typing_indicator.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Message bubble widget displaying a single chat message.
 class MessageBubble extends StatelessWidget {
@@ -110,57 +109,13 @@ class MessageBubble extends StatelessWidget {
   /// Builds the message content with Markdown support for AI messages.
   Widget _buildMessageContent(BuildContext context, ColorScheme colorScheme) {
     if (message.isFromAI) {
-      return MarkdownBody(
-        data: message.content,
-        selectable: true,
-        onTapLink: (text, href, title) {
-          if (href != null) {
-            _launchUrl(href);
-          }
-        },
-        styleSheet: MarkdownStyleSheet(
-          p: TextStyle(
+      return SelectionArea(
+        child: GptMarkdown(
+          message.content,
+          style: TextStyle(
             color: colorScheme.onSurface,
             fontSize: 15,
             height: 1.4,
-          ),
-          code: TextStyle(
-            color: colorScheme.primary,
-            backgroundColor: colorScheme.surfaceContainerHighest,
-            fontSize: 14,
-          ),
-          codeblockDecoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          codeblockPadding: const EdgeInsets.all(12),
-          blockquote: TextStyle(
-            color: colorScheme.onSurfaceVariant,
-            fontSize: 15,
-          ),
-          blockquoteDecoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(
-                color: colorScheme.primary,
-                width: 4,
-              ),
-            ),
-          ),
-          blockquotePadding: const EdgeInsets.only(left: 12),
-          listBullet: TextStyle(
-            color: colorScheme.onSurface,
-            fontSize: 15,
-          ),
-          tableHead: TextStyle(
-            color: colorScheme.onSurface,
-            fontWeight: FontWeight.bold,
-          ),
-          tableBody: TextStyle(
-            color: colorScheme.onSurface,
-          ),
-          a: TextStyle(
-            color: colorScheme.primary,
-            decoration: TextDecoration.underline,
           ),
         ),
       );
@@ -175,13 +130,6 @@ class MessageBubble extends StatelessWidget {
         height: 1.4,
       ),
     );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
   }
 
   Widget _buildAIAvatar() => Container(
