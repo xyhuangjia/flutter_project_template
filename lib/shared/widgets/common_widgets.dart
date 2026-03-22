@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
 
 /// Loading indicator widget.
 class LoadingIndicator extends StatelessWidget {
@@ -37,8 +38,8 @@ class LoadingIndicator extends StatelessWidget {
 class ErrorDisplay extends StatelessWidget {
   /// Creates an error display.
   const ErrorDisplay({
-    super.key,
     required this.message,
+    super.key,
     this.onRetry,
   });
 
@@ -49,42 +50,45 @@ class ErrorDisplay extends StatelessWidget {
   final VoidCallback? onRetry;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                size: 64,
-                color: Theme.of(context).colorScheme.error,
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            if (onRetry != null) ...[
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: onRetry,
+                child: Text(l10n?.retry ?? 'Retry'),
               ),
-              const SizedBox(height: 16),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              if (onRetry != null) ...[
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: onRetry,
-                  child: const Text('Retry'),
-                ),
-              ],
             ],
-          ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 /// Empty state widget.
 class EmptyStateWidget extends StatelessWidget {
   /// Creates an empty state widget.
   const EmptyStateWidget({
-    super.key,
     required this.message,
+    super.key,
     this.icon,
     this.action,
   });

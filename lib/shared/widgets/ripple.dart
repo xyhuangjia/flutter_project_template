@@ -1,3 +1,9 @@
+/// Ripple effect widget for touch interactions.
+///
+/// This widget provides a customizable ripple effect wrapper
+/// for handling tap gestures with visual feedback.
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/constants/app_colors.dart';
 

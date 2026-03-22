@@ -80,6 +80,6 @@ class PaginationDto {
   int get hashCode => Object.hash(page, pageSize, totalItems, totalPages);
 
   @override
-  String toString() =>
-      'PaginationDto(page: $page, pageSize: $pageSize, totalItems: $totalItems, totalPages: $totalPages)';
+  String toString() => 'PaginationDto(page: $page, pageSize: $pageSize, '
+      'totalItems: $totalItems, totalPages: $totalPages)';
 }
