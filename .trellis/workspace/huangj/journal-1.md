@@ -737,3 +737,35 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 17: UI重构：共享组件迁移 + Chat模块中国风格 + Markdown替换
+
+**Date**: 2026-03-22
+**Task**: UI重构：共享组件迁移 + Chat模块中国风格 + Markdown替换
+
+### Summary
+
+迁移设置页面到共享组件，Chat模块UI中国风格增强，使用gpt_markdown替换flutter_markdown
+
+### Main Changes
+
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `c00fa95` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
