@@ -101,12 +101,6 @@ The template includes the following feature modules:
 - Error handling and loading states
 - Local storage, cookies, and session management
 
-#### 🌐 WebView (`features/webview`)
-- Full-featured WebView with JavaScript bridge
-- Custom navigation controls
-- Error handling and loading states
-- Local storage, cookies, and session management
-
 ## 🛠 Tech Stack
 
 | Category | Technology |
@@ -226,7 +220,6 @@ lib/
 │       └── presentation/       # WebView screen with controls
 ├── shared/                     # Shared modules
 │   ├── models/                 # Shared data models
-│   ├── screens/                # Shared screens
 │   └── widgets/                # Reusable widgets
 ├── l10n/                       # Internationalization
 │   ├── app_en.arb              # English translations
