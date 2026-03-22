@@ -1,6 +1,8 @@
 /// WebView providers using Riverpod code generation.
 library;
 
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
@@ -81,6 +83,7 @@ class WebViewNotifier extends _$WebViewNotifier {
           onPageFinished: _onPageFinished,
           onProgress: _onProgress,
           onWebResourceError: _onWebResourceError,
+          onHttpError: _onHttpError,
           onNavigationRequest: (request) =>
               _onNavigationRequest(request, config),
         ),
@@ -122,8 +125,21 @@ class WebViewNotifier extends _$WebViewNotifier {
   void _handleJsMessage(String message) {
     try {
       debugPrint('Received JS message: $message');
-      // Parse message and handle based on type
-      // The message can be processed here and state can be updated accordingly
+
+      final data = jsonDecode(message) as Map<String, dynamic>;
+      final type = data['type'] as String?;
+
+      switch (type) {
+        case 'retry':
+          // 从 404 页面重试时，重新加载原始 URL
+          final originalUrl = _config?.url;
+          if (originalUrl != null && originalUrl.isNotEmpty) {
+            loadUrl(originalUrl);
+          }
+          break;
+        default:
+          debugPrint('Unknown JS message type: $type');
+      }
     } on Exception catch (e) {
       debugPrint('Error handling JS message: $e');
     }
@@ -174,10 +190,58 @@ class WebViewNotifier extends _$WebViewNotifier {
   }
 
   void _onWebResourceError(WebResourceError error) {
+    // 检查是否是需要显示404页面的错误
+    final shouldShowNotFound = _shouldShowNotFoundPage(error.errorCode);
+    if (shouldShowNotFound) {
+      _loadNotFoundPage();
+      return;
+    }
+
     state = state.copyWith(
       loadingState: WebViewLoadingState.error,
       errorMessage: error.description,
       errorCode: error.errorCode,
+    );
+  }
+
+  /// 处理 HTTP 错误（如 404, 500 等）
+  void _onHttpError(HttpResponseError error) {
+    debugPrint('HTTP Error: ${error.response?.statusCode}');
+
+    final statusCode = error.response?.statusCode;
+    // 对于 4xx 和 5xx 错误，显示 404 页面
+    if (statusCode != null && statusCode >= 400) {
+      _loadNotFoundPage();
+    }
+  }
+
+  /// 判断是否需要显示 404 页面
+  bool _shouldShowNotFoundPage(int errorCode) {
+    // WebView 错误码参考：
+    // -1: 未知错误 (ERR_UNKNOWN)
+    // -2: 主机名查找失败 (ERR_NAME_NOT_RESOLVED)
+    // -6: 连接被拒绝 (ERR_CONNECTION_REFUSED)
+    // -8: 连接超时 (ERR_CONNECTION_TIMED_OUT)
+    // -11: 资源加载失败 (ERR_ACCESS_DENIED)
+    // -12: 页面无法加载 (ERR_FILE_NOT_FOUND)
+    // -102: 帧框加载已中断 (ERR_FAILED)
+    const notFoundErrorCodes = {-1, -2, -6, -8, -11, -12, -102};
+    return notFoundErrorCodes.contains(errorCode);
+  }
+
+  /// 加载本地 404 页面
+  Future<void> _loadNotFoundPage() async {
+    state = state.copyWith(
+      loadingState: WebViewLoadingState.loading,
+      errorMessage: null,
+      errorCode: null,
+    );
+
+    await _controller?.loadFlutterAsset('assets/html/404.html');
+
+    state = state.copyWith(
+      loadingState: WebViewLoadingState.loaded,
+      loadingProgress: 100,
     );
   }
 
