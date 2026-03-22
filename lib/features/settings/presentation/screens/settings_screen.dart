@@ -17,6 +17,7 @@ import 'package:flutter_project_template/features/settings/presentation/widgets/
 import 'package:flutter_project_template/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:flutter_project_template/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -243,8 +244,9 @@ class _SettingsContent extends StatelessWidget {
                           .read(authNotifierProvider.notifier)
                           .logout();
                       if (success && context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(localizations.success)),
+                        DialogUtil.showSuccessDialog(
+                          context,
+                          localizations.success,
                         );
                       }
                     },

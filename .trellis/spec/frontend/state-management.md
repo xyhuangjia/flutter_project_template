@@ -366,9 +366,13 @@ class AddTodoButton extends ConsumerWidget {
 
 ### ref.listen (Side Effects)
 
-Use for navigation, dialogs, or snackbars in response to state changes.
+Use for navigation, dialogs, or notifications in response to state changes.
+
+**Note:** Use `DialogUtil` instead of `ScaffoldMessenger` for showing messages and notifications.
 
 ```dart
+import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
+
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
 
@@ -387,9 +391,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
           }
         },
         error: (error, stack) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login failed: $error')),
-          );
+          DialogUtil.showErrorDialog(context, 'Login failed: $error');
         },
         loading: () {},
       );
