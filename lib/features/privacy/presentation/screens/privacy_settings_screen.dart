@@ -343,7 +343,9 @@ class PrivacySettingsScreen extends ConsumerWidget {
                   ),
                   title: Text(_getRegionName(localizations, region)),
                   subtitle: Text(
-                    region == MarketRegion.china ? 'PIPL 合规' : 'GDPR Compliant',
+                    region == MarketRegion.china
+                        ? localizations.regionChina
+                        : localizations.regionInternational,
                   ),
                   trailing: state.region == region
                       ? Icon(

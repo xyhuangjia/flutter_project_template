@@ -104,8 +104,10 @@ class ChatMessages extends Table {
   @override
   Set<Column> get primaryKey => {id};
 
-  @override
-  List<Set<Column>>? get foreignKeys => [
+  /// Foreign key reference to conversations table.
+  /// Note: In Drift, use column.references() for proper foreign key support.
+  // ignore: unnecessary_getters_override
+  List<Set<Column>> get foreignKeys => [
         {conversationId},
       ];
 }

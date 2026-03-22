@@ -3,6 +3,8 @@
 /// This file provides extension methods for String manipulation.
 library;
 
+import 'package:flutter_project_template/core/utils/validators.dart';
+
 /// Extension methods for String class.
 extension StringExtensions on String {
   /// Returns true if the string is null or empty.
@@ -29,8 +31,7 @@ extension StringExtensions on String {
   String get removeWhitespace => replaceAll(RegExp(r'\s'), '');
 
   /// Returns true if the string is a valid email.
-  bool get isEmail =>
-      RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+').hasMatch(this);
+  bool get isEmail => Validators.isEmailValid(this);
 
   /// Returns true if the string is a valid URL.
   bool get isUrl => RegExp(

@@ -113,9 +113,9 @@ class AuthNotifier extends _$AuthNotifier {
       password: password,
     );
 
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
+    state = result.when<AsyncValue<AuthState>>(
+      failure: (Failure f) => AsyncValue<AuthState>.error(f, StackTrace.current),
+      success: (User user) => AsyncValue<AuthState>.data(
         AuthState.authenticated(
           user: user,
           token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
@@ -127,92 +127,33 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   /// Logs in with WeChat.
-  Future<bool> loginWithWeChat() async {
-    state = const AsyncValue.loading();
-
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.loginWithWeChat();
-
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
-        ),
-      ),
-    );
-
-    return !state.hasError;
-  }
+  Future<bool> loginWithWeChat() async => _performLogin(
+        () => repository.loginWithWeChat(),
+      );
 
   /// Logs in with Apple.
-  Future<bool> loginWithApple() async {
-    state = const AsyncValue.loading();
-
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.loginWithApple();
-
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
-        ),
-      ),
-    );
-
-    return !state.hasError;
-  }
+  Future<bool> loginWithApple() async => _performLogin(
+        () => repository.loginWithApple(),
+      );
 
   /// Logs in with Google.
-  Future<bool> loginWithGoogle() async {
-    state = const AsyncValue.loading();
-
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.loginWithGoogle();
-
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
-        ),
-      ),
-    );
-
-    return !state.hasError;
-  }
+  Future<bool> loginWithGoogle() async => _performLogin(
+        () => repository.loginWithGoogle(),
+      );
 
   /// Registers a new user.
   Future<bool> register({
     required String email,
     required String username,
     required String password,
-  }) async {
-    state = const AsyncValue.loading();
-
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.register(
-      email: email,
-      username: username,
-      password: password,
-    );
-
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+  }) async =>
+      _performLogin(
+        () => repository.register(
+          email: email,
+          username: username,
+          password: password,
         ),
-      ),
-    );
-
-    return !state.hasError;
-  }
+      );
 
   /// Logs out the current user.
   Future<bool> logout() async {
@@ -302,30 +243,16 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
     required String verificationCode,
     String? avatarUrl,
-  }) async {
-    state = const AsyncValue.loading();
-
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.registerWithPhone(
-      phoneNumber: phoneNumber,
-      username: username,
-      password: password,
-      verificationCode: verificationCode,
-      avatarUrl: avatarUrl,
-    );
-
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+  }) async =>
+      _performLogin(
+        () => repository.registerWithPhone(
+          phoneNumber: phoneNumber,
+          username: username,
+          password: password,
+          verificationCode: verificationCode,
+          avatarUrl: avatarUrl,
         ),
-      ),
-    );
-
-    return !state.hasError;
-  }
+      );
 
   /// Registers with email verification.
   Future<bool> registerWithEmail({
@@ -334,30 +261,16 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
     required String verificationCode,
     String? avatarUrl,
-  }) async {
-    state = const AsyncValue.loading();
-
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.registerWithEmail(
-      email: email,
-      username: username,
-      password: password,
-      verificationCode: verificationCode,
-      avatarUrl: avatarUrl,
-    );
-
-    state = result.when(
-      failure: (f) => AsyncValue.error(f, StackTrace.current),
-      success: (user) => AsyncValue.data(
-        AuthState.authenticated(
-          user: user,
-          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+  }) async =>
+      _performLogin(
+        () => repository.registerWithEmail(
+          email: email,
+          username: username,
+          password: password,
+          verificationCode: verificationCode,
+          avatarUrl: avatarUrl,
         ),
-      ),
-    );
-
-    return !state.hasError;
-  }
+      );
 
   /// Updates user profile.
   Future<bool> updateUserProfile({
@@ -384,5 +297,26 @@ class AuthNotifier extends _$AuthNotifier {
         return true;
       },
     );
+  }
+
+  /// Helper method to perform login operations with consistent state handling.
+  Future<bool> _performLogin(
+    Future<Result<User>> Function() loginAction,
+  ) async {
+    state = const AsyncValue.loading();
+
+    final result = await loginAction();
+
+    state = result.when<AsyncValue<AuthState>>(
+      failure: (Failure f) => AsyncValue<AuthState>.error(f, StackTrace.current),
+      success: (User user) => AsyncValue<AuthState>.data(
+        AuthState.authenticated(
+          user: user,
+          token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
+        ),
+      ),
+    );
+
+    return !state.hasError;
   }
 }

@@ -83,9 +83,13 @@ class ApiInterceptor extends Interceptor {
 class RetryInterceptor extends Interceptor {
   /// Creates a retry interceptor.
   RetryInterceptor({
+    required Dio dio,
     this.maxRetries = 3,
     this.retryDelay = const Duration(seconds: 1),
-  });
+  }) : _dio = dio;
+
+  /// The Dio instance to use for retry requests.
+  final Dio _dio;
 
   /// Maximum number of retry attempts.
   final int maxRetries;
@@ -123,12 +127,17 @@ class RetryInterceptor extends Interceptor {
     err.requestOptions.extra['retryCount'] = retryCount + 1;
 
     try {
-      final response = await Dio().fetch<dynamic>(err.requestOptions);
+      final response = await _dio.fetch<dynamic>(err.requestOptions);
       handler.resolve(response);
-    } on DioException {
-      handler.next(err);
-    } catch (_) {
-      handler.next(err);
+    } on DioException catch (e) {
+      handler.next(e);
+    } on Exception catch (e) {
+      handler.next(
+        DioException(
+          requestOptions: err.requestOptions,
+          error: e,
+        ),
+      );
     }
   }
 }

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 class WebViewLoadingIndicator extends StatelessWidget {
   /// Creates a loading indicator.
   const WebViewLoadingIndicator({
-    super.key,
     required this.progress,
+    super.key,
     this.height = 3.0,
   });
 

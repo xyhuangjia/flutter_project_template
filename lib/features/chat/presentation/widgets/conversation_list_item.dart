@@ -3,6 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
+import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -27,6 +28,7 @@ class ConversationListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -79,7 +81,7 @@ class ConversationListItem extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _formatTime(conversation.updatedAt),
+                            _formatTime(conversation.updatedAt, localizations),
                             style: TextStyle(
                               fontSize: 12,
                               color: colorScheme.onSurfaceVariant,
@@ -148,12 +150,12 @@ class ConversationListItem extends StatelessWidget {
         ),
       );
 
-  String _formatTime(DateTime time) {
+  String _formatTime(DateTime time, AppLocalizations localizations) {
     final now = DateTime.now();
     final difference = now.difference(time);
 
     if (difference.inMinutes < 1) {
-      return 'Now';
+      return localizations.justNow;
     } else if (difference.inHours < 1) {
       return '${difference.inMinutes}m';
     } else if (difference.inDays < 1) {

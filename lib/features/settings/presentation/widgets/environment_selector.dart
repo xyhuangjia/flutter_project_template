@@ -33,7 +33,6 @@ class EnvironmentSelector extends ConsumerWidget {
   const EnvironmentSelector({
     required this.onEnvironmentChanged,
     super.key,
-    this.currentEnvironment,
     this.environments = const [
       EnvironmentOption(
         type: EnvironmentType.development,
@@ -55,9 +54,6 @@ class EnvironmentSelector extends ConsumerWidget {
 
   /// Callback when environment is changed.
   final ValueChanged<EnvironmentType> onEnvironmentChanged;
-
-  /// The currently selected environment type.
-  final EnvironmentType? currentEnvironment;
 
   /// List of available environments.
   final List<EnvironmentOption> environments;

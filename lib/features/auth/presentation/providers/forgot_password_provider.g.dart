@@ -29,7 +29,7 @@ final forgotPasswordRepositoryProvider =
 typedef ForgotPasswordRepositoryRef
     = AutoDisposeProviderRef<ForgotPasswordRepository>;
 String _$forgotPasswordNotifierHash() =>
-    r'319f9760260e257815d66a615085a400ae5d9322';
+    r'f95a9c07865053c3b868e8d6f8531222159c8ce4';
 
 /// Forgot password state notifier provider.
 ///

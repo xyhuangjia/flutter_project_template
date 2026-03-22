@@ -28,20 +28,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    try {
-      final userDto = await _remoteDataSource.loginWithEmail(
-        email: email,
-        password: password,
-      );
-
-      await _saveUserData(userDto);
-
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleAuthOperation(
+      () => _remoteDataSource.loginWithEmail(email: email, password: password),
+    );
   }
 
   @override
@@ -49,59 +38,27 @@ class AuthRepositoryImpl implements AuthRepository {
     required String username,
     required String password,
   }) async {
-    try {
-      final userDto = await _remoteDataSource.loginWithUsername(
+    return _handleAuthOperation(
+      () => _remoteDataSource.loginWithUsername(
         username: username,
         password: password,
-      );
-
-      await _saveUserData(userDto);
-
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+      ),
+    );
   }
 
   @override
   Future<Result<User>> loginWithWeChat() async {
-    try {
-      final userDto = await _remoteDataSource.loginWithWeChat();
-      await _saveUserData(userDto);
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleAuthOperation(() => _remoteDataSource.loginWithWeChat());
   }
 
   @override
   Future<Result<User>> loginWithApple() async {
-    try {
-      final userDto = await _remoteDataSource.loginWithApple();
-      await _saveUserData(userDto);
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleAuthOperation(() => _remoteDataSource.loginWithApple());
   }
 
   @override
   Future<Result<User>> loginWithGoogle() async {
-    try {
-      final userDto = await _remoteDataSource.loginWithGoogle();
-      await _saveUserData(userDto);
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleAuthOperation(() => _remoteDataSource.loginWithGoogle());
   }
 
   @override
@@ -110,21 +67,13 @@ class AuthRepositoryImpl implements AuthRepository {
     required String username,
     required String password,
   }) async {
-    try {
-      final userDto = await _remoteDataSource.register(
+    return _handleAuthOperation(
+      () => _remoteDataSource.register(
         email: email,
         username: username,
         password: password,
-      );
-
-      await _saveUserData(userDto);
-
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+      ),
+    );
   }
 
   @override
@@ -169,14 +118,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> sendPasswordResetEmail(String email) async {
-    try {
-      await _remoteDataSource.sendPasswordResetEmail(email);
-      return const Success(null);
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleVoidOperation(
+      () => _remoteDataSource.sendPasswordResetEmail(email),
+    );
   }
 
   @override
@@ -184,41 +128,26 @@ class AuthRepositoryImpl implements AuthRepository {
     required String currentPassword,
     required String newPassword,
   }) async {
-    try {
-      await _remoteDataSource.updatePassword(
+    return _handleVoidOperation(
+      () => _remoteDataSource.updatePassword(
         currentPassword: currentPassword,
         newPassword: newPassword,
-      );
-      return const Success(null);
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+      ),
+    );
   }
 
   @override
   Future<Result<void>> sendVerificationCodeToPhone(String phoneNumber) async {
-    try {
-      await _remoteDataSource.sendVerificationCodeToPhone(phoneNumber);
-      return const Success(null);
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleVoidOperation(
+      () => _remoteDataSource.sendVerificationCodeToPhone(phoneNumber),
+    );
   }
 
   @override
   Future<Result<void>> sendVerificationCodeToEmail(String email) async {
-    try {
-      await _remoteDataSource.sendVerificationCodeToEmail(email);
-      return const Success(null);
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleVoidOperation(
+      () => _remoteDataSource.sendVerificationCodeToEmail(email),
+    );
   }
 
   @override
@@ -226,17 +155,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
     required String code,
   }) async {
-    try {
-      final result = await _remoteDataSource.verifyPhoneCode(
-        phoneNumber: phoneNumber,
-        code: code,
-      );
-      return Success(result);
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleBoolOperation(
+      () => _remoteDataSource.verifyPhoneCode(phoneNumber: phoneNumber, code: code),
+    );
   }
 
   @override
@@ -244,17 +165,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String code,
   }) async {
-    try {
-      final result = await _remoteDataSource.verifyEmailCode(
-        email: email,
-        code: code,
-      );
-      return Success(result);
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+    return _handleBoolOperation(
+      () => _remoteDataSource.verifyEmailCode(email: email, code: code),
+    );
   }
 
   @override
@@ -265,23 +178,15 @@ class AuthRepositoryImpl implements AuthRepository {
     required String verificationCode,
     String? avatarUrl,
   }) async {
-    try {
-      final userDto = await _remoteDataSource.registerWithPhone(
+    return _handleAuthOperation(
+      () => _remoteDataSource.registerWithPhone(
         phoneNumber: phoneNumber,
         username: username,
         password: password,
         verificationCode: verificationCode,
         avatarUrl: avatarUrl,
-      );
-
-      await _saveUserData(userDto);
-
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+      ),
+    );
   }
 
   @override
@@ -292,23 +197,15 @@ class AuthRepositoryImpl implements AuthRepository {
     required String verificationCode,
     String? avatarUrl,
   }) async {
-    try {
-      final userDto = await _remoteDataSource.registerWithEmail(
+    return _handleAuthOperation(
+      () => _remoteDataSource.registerWithEmail(
         email: email,
         username: username,
         password: password,
         verificationCode: verificationCode,
         avatarUrl: avatarUrl,
-      );
-
-      await _saveUserData(userDto);
-
-      return Success(userDto.toEntity());
-    } on AuthException catch (e) {
-      return FailureResult(AuthFailure(message: e.message));
-    } on Exception catch (e) {
-      return FailureResult(ErrorHandler.handleException(e));
-    }
+      ),
+    );
   }
 
   @override
@@ -367,5 +264,48 @@ class AuthRepositoryImpl implements AuthRepository {
       displayName: userDto.displayName,
       avatarUrl: userDto.avatarUrl,
     );
+  }
+
+  /// Handles auth operations that return a User.
+  Future<Result<User>> _handleAuthOperation(
+    Future<UserDto> Function() operation,
+  ) async {
+    try {
+      final userDto = await operation();
+      await _saveUserData(userDto);
+      return Success(userDto.toEntity());
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  /// Handles operations that return void.
+  Future<Result<void>> _handleVoidOperation(
+    Future<void> Function() operation,
+  ) async {
+    try {
+      await operation();
+      return const Success(null);
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  /// Handles operations that return a boolean.
+  Future<Result<bool>> _handleBoolOperation(
+    Future<bool> Function() operation,
+  ) async {
+    try {
+      final result = await operation();
+      return Success(result);
+    } on AuthException catch (e) {
+      return FailureResult(AuthFailure(message: e.message));
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
   }
 }

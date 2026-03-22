@@ -1,6 +1,7 @@
 /// WebView providers using Riverpod code generation.
 library;
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -14,26 +15,22 @@ import 'package:flutter_project_template/features/webview/domain/entities/js_bri
 import 'package:flutter_project_template/features/webview/domain/entities/webview_config.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/webview_state.dart';
 import 'package:flutter_project_template/features/webview/domain/repositories/webview_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-// ignore: unused_import
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'webview_provider.g.dart';
 
 /// Provider for WebViewCookieDataSource.
 @riverpod
-WebViewCookieDataSource webviewCookieDataSource(Ref ref) {
-  return WebViewCookieDataSource();
-}
+WebViewCookieDataSource webviewCookieDataSource(Ref ref) =>
+    WebViewCookieDataSource();
 
 /// Provider for WebViewFileDataSource.
 @riverpod
-WebViewFileDataSource webviewFileDataSource(Ref ref) {
-  return WebViewFileDataSource();
-}
+WebViewFileDataSource webviewFileDataSource(Ref ref) =>
+    WebViewFileDataSource();
 
 /// Provider for WebViewLocalStorageDataSource.
 @riverpod
@@ -47,13 +44,11 @@ WebViewLocalStorageDataSource webviewLocalStorageDataSource(Ref ref) {
 
 /// Provider for WebViewRepository.
 @riverpod
-WebViewRepository webviewRepository(Ref ref) {
-  return WebViewRepositoryImpl(
-    cookieDataSource: ref.watch(webviewCookieDataSourceProvider),
-    fileDataSource: ref.watch(webviewFileDataSourceProvider),
-    localStorageDataSource: ref.watch(webviewLocalStorageDataSourceProvider),
-  );
-}
+WebViewRepository webviewRepository(Ref ref) => WebViewRepositoryImpl(
+      cookieDataSource: ref.watch(webviewCookieDataSourceProvider),
+      fileDataSource: ref.watch(webviewFileDataSourceProvider),
+      localStorageDataSource: ref.watch(webviewLocalStorageDataSourceProvider),
+    );
 
 /// WebView state notifier provider.
 ///
@@ -64,19 +59,19 @@ class WebViewNotifier extends _$WebViewNotifier {
   WebViewConfig? _config;
 
   @override
-  WebViewState build() {
-    return const WebViewState.initial();
-  }
+  WebViewState build() => const WebViewState.initial();
 
   /// Initializes the WebView with a configuration.
   Future<void> initialize(WebViewConfig config) async {
     _config = config;
     _controller = WebViewController()
+      // ignore: unawaited_futures
       ..setJavaScriptMode(
         config.enableJavaScript
             ? JavaScriptMode.unrestricted
             : JavaScriptMode.disabled,
       )
+      // ignore: unawaited_futures
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: _onPageStarted,
@@ -88,13 +83,14 @@ class WebViewNotifier extends _$WebViewNotifier {
               _onNavigationRequest(request, config),
         ),
       )
+      // ignore: unawaited_futures
       ..setUserAgent(config.userAgent);
 
     // DOM storage is enabled by default in webview_flutter
 
     // Configure cache
     if (!config.enableCache) {
-      await _controller?.clearCache();
+      unawaited(_controller?.clearCache());
     }
 
     // Set up JS bridge handlers
@@ -107,9 +103,9 @@ class WebViewNotifier extends _$WebViewNotifier {
 
     // Sync cookies
     final repository = ref.read(webviewRepositoryProvider);
-    if (repository is WebViewRepositoryImpl) {
-      repository.setController(_controller!);
-      await repository.syncCookies(config.url);
+    if (repository is WebViewRepositoryImpl && _controller != null) {
+      repository.controller = _controller;
+      unawaited(repository.syncCookies(config.url));
     }
   }
 
@@ -149,12 +145,14 @@ class WebViewNotifier extends _$WebViewNotifier {
     state = state.copyWith(
       loadingState: WebViewLoadingState.loading,
       currentUrl: url,
-      errorMessage: null,
+      // ignore: avoid_redundant_argument_values
+      errorMessage: null, // Clear previous error
+      // ignore: avoid_redundant_argument_values
       errorCode: null,
     );
   }
 
-  void _onPageFinished(String url) async {
+  Future<void> _onPageFinished(String url) async {
     state = state.copyWith(
       loadingState: WebViewLoadingState.loaded,
       currentUrl: url,
@@ -233,7 +231,9 @@ class WebViewNotifier extends _$WebViewNotifier {
   Future<void> _loadNotFoundPage() async {
     state = state.copyWith(
       loadingState: WebViewLoadingState.loading,
-      errorMessage: null,
+      // ignore: avoid_redundant_argument_values
+      errorMessage: null, // Clear previous error
+      // ignore: avoid_redundant_argument_values
       errorCode: null,
     );
 
@@ -382,9 +382,12 @@ class WebViewConfigNotifier extends _$WebViewConfigNotifier {
   @override
   WebViewConfig? build() => null;
 
+  /// Gets the current configuration.
+  WebViewConfig? get config => state;
+
   /// Sets the configuration.
-  void setConfig(WebViewConfig config) {
-    state = config;
+  set config(WebViewConfig? value) {
+    state = value;
   }
 
   /// Updates the URL.

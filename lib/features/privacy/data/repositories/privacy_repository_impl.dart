@@ -20,6 +20,15 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
   final PrivacyLocalDataSource _localDataSource;
   final AccountServiceMock _accountService;
 
+  /// Gets the current privacy state, returns default state on failure.
+  Future<PrivacyState> _getCurrentState() async {
+    final result = await getPrivacyState();
+    return result.when(
+      failure: (_) => PrivacyState.defaultState,
+      success: (s) => s,
+    );
+  }
+
   @override
   Future<Result<PrivacyState>> getPrivacyState() async {
     try {
@@ -45,11 +54,7 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
     String? termsOfServiceVersion,
   }) async {
     try {
-      final currentState = await getPrivacyState();
-      final currentEntity = currentState.when(
-        failure: (_) => PrivacyState.defaultState,
-        success: (s) => s,
-      );
+      final currentEntity = await _getCurrentState();
 
       final newState = currentEntity.copyWith(
         hasConsented: hasConsented,
@@ -74,11 +79,7 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
   @override
   Future<Result<PrivacyState>> updateDataCollection(bool enabled) async {
     try {
-      final currentState = await getPrivacyState();
-      final currentEntity = currentState.when(
-        failure: (_) => PrivacyState.defaultState,
-        success: (s) => s,
-      );
+      final currentEntity = await _getCurrentState();
 
       final newState = currentEntity.copyWith(
         dataCollectionEnabled: enabled,
@@ -98,11 +99,7 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
   @override
   Future<Result<PrivacyState>> updateAnalytics(bool enabled) async {
     try {
-      final currentState = await getPrivacyState();
-      final currentEntity = currentState.when(
-        failure: (_) => PrivacyState.defaultState,
-        success: (s) => s,
-      );
+      final currentEntity = await _getCurrentState();
 
       final newState = currentEntity.copyWith(
         analyticsEnabled: enabled,
@@ -122,11 +119,7 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
   @override
   Future<Result<PrivacyState>> updateRegion(MarketRegion region) async {
     try {
-      final currentState = await getPrivacyState();
-      final currentEntity = currentState.when(
-        failure: (_) => PrivacyState.defaultState,
-        success: (s) => s,
-      );
+      final currentEntity = await _getCurrentState();
 
       final newState = currentEntity.copyWith(
         region: region,

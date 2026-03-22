@@ -17,18 +17,9 @@ import 'package:flutter_project_template/features/chat/data/services/universal_a
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart'
     as domain;
 import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_provider.g.dart';
-
-/// Provider for secure storage.
-@riverpod
-FlutterSecureStorage chatSecureStorage(ChatSecureStorageRef ref) {
-  return const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
-}
 
 /// Provider for chat local data source.
 @riverpod
@@ -266,7 +257,7 @@ class ChatNotifier extends _$ChatNotifier {
     }
 
     // Get secure storage for API key
-    final secureStorage = ref.read(chatSecureStorageProvider);
+    final secureStorage = ref.read(secureStorageProvider);
     final apiKey = await secureStorage.read(key: 'ai_api_key_${aiConfigEntity.id}');
     if (apiKey == null) {
       yield ChatAIResponseError(

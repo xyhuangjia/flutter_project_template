@@ -3,20 +3,20 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'privacy_consent.freezed.dart';
 part 'privacy_consent.g.dart';
 
-/// 隐私同意记录
+/// Privacy consent record.
 @freezed
 class PrivacyConsent with _$PrivacyConsent {
   const factory PrivacyConsent({
-    /// 是否已同意
+    /// Whether consent has been given.
     required bool hasConsented,
 
-    /// 同意时间
+    /// Consent timestamp.
     DateTime? consentedAt,
 
-    /// 协议版本
+    /// Agreement version.
     String? version,
 
-    /// 用户地区
+    /// User region.
     @Default('CN') String region,
   }) = _PrivacyConsent;
 

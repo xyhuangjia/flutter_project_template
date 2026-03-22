@@ -90,18 +90,17 @@ class WebViewState {
     bool? canGoForward,
     String? errorMessage,
     int? errorCode,
-  }) {
-    return WebViewState(
-      loadingState: loadingState ?? this.loadingState,
-      loadingProgress: loadingProgress ?? this.loadingProgress,
-      currentUrl: currentUrl ?? this.currentUrl,
-      pageTitle: pageTitle ?? this.pageTitle,
-      canGoBack: canGoBack ?? this.canGoBack,
-      canGoForward: canGoForward ?? this.canGoForward,
-      errorMessage: errorMessage ?? this.errorMessage,
-      errorCode: errorCode ?? this.errorCode,
-    );
-  }
+  }) =>
+      WebViewState(
+        loadingState: loadingState ?? this.loadingState,
+        loadingProgress: loadingProgress ?? this.loadingProgress,
+        currentUrl: currentUrl ?? this.currentUrl,
+        pageTitle: pageTitle ?? this.pageTitle,
+        canGoBack: canGoBack ?? this.canGoBack,
+        canGoForward: canGoForward ?? this.canGoForward,
+        errorMessage: errorMessage ?? this.errorMessage,
+        errorCode: errorCode ?? this.errorCode,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -119,25 +118,21 @@ class WebViewState {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
-      loadingState,
-      loadingProgress,
-      currentUrl,
-      pageTitle,
-      canGoBack,
-      canGoForward,
-      errorMessage,
-      errorCode,
-    );
-  }
+  int get hashCode => Object.hash(
+        loadingState,
+        loadingProgress,
+        currentUrl,
+        pageTitle,
+        canGoBack,
+        canGoForward,
+        errorMessage,
+        errorCode,
+      );
 
   @override
-  String toString() {
-    return 'WebViewState(loadingState: $loadingState, '
-        'loadingProgress: $loadingProgress, currentUrl: $currentUrl, '
-        'pageTitle: $pageTitle, canGoBack: $canGoBack, '
-        'canGoForward: $canGoForward, errorMessage: $errorMessage, '
-        'errorCode: $errorCode)';
-  }
+  String toString() => 'WebViewState(loadingState: $loadingState, '
+      'loadingProgress: $loadingProgress, currentUrl: $currentUrl, '
+      'pageTitle: $pageTitle, canGoBack: $canGoBack, '
+      'canGoForward: $canGoForward, errorMessage: $errorMessage, '
+      'errorCode: $errorCode)';
 }

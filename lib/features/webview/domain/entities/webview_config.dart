@@ -89,25 +89,24 @@ class WebViewConfig {
     bool? enableFileUpload,
     bool? enableNavigationControls,
     bool? enablePullToRefresh,
-  }) {
-    return WebViewConfig(
-      url: url ?? this.url,
-      title: title ?? this.title,
-      showAppBar: showAppBar ?? this.showAppBar,
-      enableJavaScript: enableJavaScript ?? this.enableJavaScript,
-      enableDomStorage: enableDomStorage ?? this.enableDomStorage,
-      enableCache: enableCache ?? this.enableCache,
-      userAgent: userAgent ?? this.userAgent,
-      headers: headers ?? this.headers,
-      blockedUrls: blockedUrls ?? this.blockedUrls,
-      allowedSchemes: allowedSchemes ?? this.allowedSchemes,
-      enableFileDownload: enableFileDownload ?? this.enableFileDownload,
-      enableFileUpload: enableFileUpload ?? this.enableFileUpload,
-      enableNavigationControls:
-          enableNavigationControls ?? this.enableNavigationControls,
-      enablePullToRefresh: enablePullToRefresh ?? this.enablePullToRefresh,
-    );
-  }
+  }) =>
+      WebViewConfig(
+        url: url ?? this.url,
+        title: title ?? this.title,
+        showAppBar: showAppBar ?? this.showAppBar,
+        enableJavaScript: enableJavaScript ?? this.enableJavaScript,
+        enableDomStorage: enableDomStorage ?? this.enableDomStorage,
+        enableCache: enableCache ?? this.enableCache,
+        userAgent: userAgent ?? this.userAgent,
+        headers: headers ?? this.headers,
+        blockedUrls: blockedUrls ?? this.blockedUrls,
+        allowedSchemes: allowedSchemes ?? this.allowedSchemes,
+        enableFileDownload: enableFileDownload ?? this.enableFileDownload,
+        enableFileUpload: enableFileUpload ?? this.enableFileUpload,
+        enableNavigationControls:
+            enableNavigationControls ?? this.enableNavigationControls,
+        enablePullToRefresh: enablePullToRefresh ?? this.enablePullToRefresh,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -131,35 +130,33 @@ class WebViewConfig {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
-      url,
-      title,
-      showAppBar,
-      enableJavaScript,
-      enableDomStorage,
-      enableCache,
-      userAgent,
-      Object.hashAll(headers?.entries ?? []),
-      Object.hashAll(blockedUrls),
-      Object.hashAll(allowedSchemes),
-      enableFileDownload,
-      enableFileUpload,
-      enableNavigationControls,
-      enablePullToRefresh,
-    );
-  }
+  int get hashCode => Object.hash(
+        url,
+        title,
+        showAppBar,
+        enableJavaScript,
+        enableDomStorage,
+        enableCache,
+        userAgent,
+        Object.hashAll(headers?.entries ?? []),
+        Object.hashAll(blockedUrls),
+        Object.hashAll(allowedSchemes),
+        enableFileDownload,
+        enableFileUpload,
+        enableNavigationControls,
+        enablePullToRefresh,
+      );
 
   @override
-  String toString() {
-    return 'WebViewConfig(url: $url, title: $title, showAppBar: $showAppBar, '
-        'enableJavaScript: $enableJavaScript, enableDomStorage: $enableDomStorage, '
-        'enableCache: $enableCache, userAgent: $userAgent, headers: $headers, '
-        'blockedUrls: $blockedUrls, allowedSchemes: $allowedSchemes, '
-        'enableFileDownload: $enableFileDownload, enableFileUpload: $enableFileUpload, '
-        'enableNavigationControls: $enableNavigationControls, '
-        'enablePullToRefresh: $enablePullToRefresh)';
-  }
+  String toString() => 'WebViewConfig(url: $url, title: $title, '
+      'showAppBar: $showAppBar, enableJavaScript: $enableJavaScript, '
+      'enableDomStorage: $enableDomStorage, enableCache: $enableCache, '
+      'userAgent: $userAgent, headers: $headers, blockedUrls: $blockedUrls, '
+      'allowedSchemes: $allowedSchemes, '
+      'enableFileDownload: $enableFileDownload, '
+      'enableFileUpload: $enableFileUpload, '
+      'enableNavigationControls: $enableNavigationControls, '
+      'enablePullToRefresh: $enablePullToRefresh)';
 
   static bool _mapEquals<T>(Map<T, T>? a, Map<T, T>? b) {
     if (a == null && b == null) return true;

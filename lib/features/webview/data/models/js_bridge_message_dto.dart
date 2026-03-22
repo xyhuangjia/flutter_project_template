@@ -22,14 +22,13 @@ class JsBridgeMessageDto {
   });
 
   /// Creates a DTO from a domain entity.
-  factory JsBridgeMessageDto.fromEntity(JsBridgeMessage entity) {
-    return JsBridgeMessageDto(
-      type: entity.type,
-      data: entity.data,
-      messageId: entity.messageId,
-      timestamp: entity.timestamp?.millisecondsSinceEpoch,
-    );
-  }
+  factory JsBridgeMessageDto.fromEntity(JsBridgeMessage entity) =>
+      JsBridgeMessageDto(
+        type: entity.type,
+        data: entity.data,
+        messageId: entity.messageId,
+        timestamp: entity.timestamp?.millisecondsSinceEpoch,
+      );
 
   /// Creates a DTO from JSON.
   factory JsBridgeMessageDto.fromJson(Map<String, dynamic> json) =>
@@ -48,16 +47,14 @@ class JsBridgeMessageDto {
   final int? timestamp;
 
   /// Converts the DTO to a domain entity.
-  JsBridgeMessage toEntity() {
-    return JsBridgeMessage(
-      type: type,
-      data: data,
-      messageId: messageId,
-      timestamp: timestamp != null
-          ? DateTime.fromMillisecondsSinceEpoch(timestamp!)
-          : null,
-    );
-  }
+  JsBridgeMessage toEntity() => JsBridgeMessage(
+        type: type,
+        data: data,
+        messageId: messageId,
+        timestamp: timestamp != null
+            ? DateTime.fromMillisecondsSinceEpoch(timestamp!)
+            : null,
+      );
 
   /// Converts the DTO to JSON.
   Map<String, dynamic> toJson() => _$JsBridgeMessageDtoToJson(this);

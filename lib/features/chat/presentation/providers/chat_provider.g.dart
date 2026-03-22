@@ -6,26 +6,6 @@ part of 'chat_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chatSecureStorageHash() => r'f231af0507b6dc839387e6862a7e4c1195cb6ffb';
-
-/// Provider for secure storage.
-///
-/// Copied from [chatSecureStorage].
-@ProviderFor(chatSecureStorage)
-final chatSecureStorageProvider =
-    AutoDisposeProvider<FlutterSecureStorage>.internal(
-  chatSecureStorage,
-  name: r'chatSecureStorageProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$chatSecureStorageHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ChatSecureStorageRef = AutoDisposeProviderRef<FlutterSecureStorage>;
 String _$chatLocalDataSourceHash() =>
     r'68ca93a59aa14902268932496c43cc395dc9b82a';
 
@@ -236,7 +216,7 @@ class _ConversationMessagesProviderElement
       (origin as ConversationMessagesProvider).conversationId;
 }
 
-String _$chatNotifierHash() => r'5cda27e93dbca39848d2db550b7c83041678c557';
+String _$chatNotifierHash() => r'75acd08f186575f9abf4ae2347d25ceae8efa083';
 
 /// Provider for managing chat conversations.
 ///

@@ -29,7 +29,7 @@ final privacyLocalDataSourceProvider =
 typedef PrivacyLocalDataSourceRef
     = AutoDisposeProviderRef<PrivacyLocalDataSource>;
 String _$accountServiceMockHash() =>
-    r'489dfb7a1a5849d9f9490316a8d997eec9d16a08';
+    r'981dfce93af9f4ea172efdf0944a65236d7c2caa';
 
 /// Mock account service provider.
 ///
@@ -49,7 +49,7 @@ final accountServiceMockProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AccountServiceMockRef = AutoDisposeProviderRef<AccountServiceMock>;
-String _$privacyRepositoryHash() => r'4954c7f75d5693c21da72135ba9b1c5febd82271';
+String _$privacyRepositoryHash() => r'96c52da1b56b8a76e897d38cf38f120f3635e831';
 
 /// Privacy repository provider.
 ///

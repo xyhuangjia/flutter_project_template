@@ -32,24 +32,23 @@ class WebViewConfigDto {
   });
 
   /// Creates a DTO from a domain entity.
-  factory WebViewConfigDto.fromEntity(WebViewConfig entity) {
-    return WebViewConfigDto(
-      url: entity.url,
-      title: entity.title,
-      showAppBar: entity.showAppBar,
-      enableJavaScript: entity.enableJavaScript,
-      enableDomStorage: entity.enableDomStorage,
-      enableCache: entity.enableCache,
-      userAgent: entity.userAgent,
-      headers: entity.headers,
-      blockedUrls: entity.blockedUrls,
-      allowedSchemes: entity.allowedSchemes,
-      enableFileDownload: entity.enableFileDownload,
-      enableFileUpload: entity.enableFileUpload,
-      enableNavigationControls: entity.enableNavigationControls,
-      enablePullToRefresh: entity.enablePullToRefresh,
-    );
-  }
+  factory WebViewConfigDto.fromEntity(WebViewConfig entity) =>
+      WebViewConfigDto(
+        url: entity.url,
+        title: entity.title,
+        showAppBar: entity.showAppBar,
+        enableJavaScript: entity.enableJavaScript,
+        enableDomStorage: entity.enableDomStorage,
+        enableCache: entity.enableCache,
+        userAgent: entity.userAgent,
+        headers: entity.headers,
+        blockedUrls: entity.blockedUrls,
+        allowedSchemes: entity.allowedSchemes,
+        enableFileDownload: entity.enableFileDownload,
+        enableFileUpload: entity.enableFileUpload,
+        enableNavigationControls: entity.enableNavigationControls,
+        enablePullToRefresh: entity.enablePullToRefresh,
+      );
 
   /// Creates a DTO from JSON.
   factory WebViewConfigDto.fromJson(Map<String, dynamic> json) =>
@@ -108,24 +107,22 @@ class WebViewConfigDto {
   final bool enablePullToRefresh;
 
   /// Converts the DTO to a domain entity.
-  WebViewConfig toEntity() {
-    return WebViewConfig(
-      url: url,
-      title: title,
-      showAppBar: showAppBar,
-      enableJavaScript: enableJavaScript,
-      enableDomStorage: enableDomStorage,
-      enableCache: enableCache,
-      userAgent: userAgent,
-      headers: headers,
-      blockedUrls: blockedUrls,
-      allowedSchemes: allowedSchemes,
-      enableFileDownload: enableFileDownload,
-      enableFileUpload: enableFileUpload,
-      enableNavigationControls: enableNavigationControls,
-      enablePullToRefresh: enablePullToRefresh,
-    );
-  }
+  WebViewConfig toEntity() => WebViewConfig(
+        url: url,
+        title: title,
+        showAppBar: showAppBar,
+        enableJavaScript: enableJavaScript,
+        enableDomStorage: enableDomStorage,
+        enableCache: enableCache,
+        userAgent: userAgent,
+        headers: headers,
+        blockedUrls: blockedUrls,
+        allowedSchemes: allowedSchemes,
+        enableFileDownload: enableFileDownload,
+        enableFileUpload: enableFileUpload,
+        enableNavigationControls: enableNavigationControls,
+        enablePullToRefresh: enablePullToRefresh,
+      );
 
   /// Converts the DTO to JSON.
   Map<String, dynamic> toJson() => _$WebViewConfigDtoToJson(this);

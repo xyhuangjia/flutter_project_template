@@ -181,9 +181,15 @@ class _SettingsContent extends StatelessWidget {
                         .read(settingsNotifierProvider.notifier)
                         .updateLanguage(code);
                   },
-                  languages: const [
-                    LanguageOption(code: 'en', name: 'English'),
-                    LanguageOption(code: 'zh', name: '中文'),
+                  languages: [
+                    LanguageOption(
+                      code: 'en',
+                      name: localizations.languageEnglish,
+                    ),
+                    LanguageOption(
+                      code: 'zh',
+                      name: localizations.languageChinese,
+                    ),
                   ],
                 ),
                 SettingsDivider(colorScheme: colorScheme),

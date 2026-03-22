@@ -1905,5 +1905,20 @@
   "elderlyModeDisabled": "Accessibility mode disabled",
   "@elderlyModeDisabled": {
     "description": "Elderly mode disabled message"
+  },
+
+  "noModels": "No models",
+  "@noModels": {
+    "description": "No models available text"
+  },
+
+  "more": "more",
+  "@more": {
+    "description": "More text for count"
+  },
+
+  "justNow": "Now",
+  "@justNow": {
+    "description": "Time indicator for just now"
   }
 }

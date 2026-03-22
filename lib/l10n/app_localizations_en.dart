@@ -1197,4 +1197,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get elderlyModeDisabled => 'Accessibility mode disabled';
+
+  @override
+  String get noModels => 'No models';
+
+  @override
+  String get more => 'more';
+
+  @override
+  String get justNow => 'Now';
 }

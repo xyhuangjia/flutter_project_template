@@ -1905,5 +1905,20 @@
   "elderlyModeDisabled": "适老化模式已关闭",
   "@elderlyModeDisabled": {
     "description": "Elderly mode disabled message"
+  },
+
+  "noModels": "无模型",
+  "@noModels": {
+    "description": "No models available text"
+  },
+
+  "more": "个",
+  "@more": {
+    "description": "More text for count"
+  },
+
+  "justNow": "刚刚",
+  "@justNow": {
+    "description": "Time indicator for just now"
   }
 }

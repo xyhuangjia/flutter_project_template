@@ -7,7 +7,7 @@ part of 'webview_provider.dart';
 // **************************************************************************
 
 String _$webviewCookieDataSourceHash() =>
-    r'187dca0465d0866299388afbfe96910b40bc19ec';
+    r'29f613f4ec140097fcbbe74af70bb065121218aa';
 
 /// Provider for WebViewCookieDataSource.
 ///
@@ -29,7 +29,7 @@ final webviewCookieDataSourceProvider =
 typedef WebviewCookieDataSourceRef
     = AutoDisposeProviderRef<WebViewCookieDataSource>;
 String _$webviewFileDataSourceHash() =>
-    r'b632fc74a3522167756d7e426d524580832a0eb0';
+    r'31f653e0d4c66d8022b4faec95dbaf5ef1f6f77f';
 
 /// Provider for WebViewFileDataSource.
 ///
@@ -72,7 +72,7 @@ final webviewLocalStorageDataSourceProvider =
 // ignore: unused_element
 typedef WebviewLocalStorageDataSourceRef
     = AutoDisposeProviderRef<WebViewLocalStorageDataSource>;
-String _$webviewRepositoryHash() => r'061e4e9ba623a2db0fb22cffa519931af9f77b39';
+String _$webviewRepositoryHash() => r'b36393a8642ff803d13f281caa0a531da33f2204';
 
 /// Provider for WebViewRepository.
 ///
@@ -92,7 +92,7 @@ final webviewRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef WebviewRepositoryRef = AutoDisposeProviderRef<WebViewRepository>;
-String _$webViewNotifierHash() => r'a1488b8c458a866a895a1fc009f1dfc85bbbd1b6';
+String _$webViewNotifierHash() => r'9cf7c7864339e7f9c8bdd58f7646f5a1f5d3b0d8';
 
 /// WebView state notifier provider.
 ///
@@ -113,7 +113,7 @@ final webViewNotifierProvider =
 
 typedef _$WebViewNotifier = AutoDisposeNotifier<WebViewState>;
 String _$webViewConfigNotifierHash() =>
-    r'778f814045226a163b66437575e8c9963bfdcc21';
+    r'5d6f3a1819a6401a1c72bc8256de6bb34af3e081';
 
 /// Provider for WebView configuration.
 ///

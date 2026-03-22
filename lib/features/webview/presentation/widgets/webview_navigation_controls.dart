@@ -10,12 +10,12 @@ import 'package:flutter_project_template/l10n/app_localizations.dart';
 class WebViewNavigationControls extends StatelessWidget {
   /// Creates navigation controls.
   const WebViewNavigationControls({
-    super.key,
     required this.canGoBack,
     required this.canGoForward,
     required this.onBack,
     required this.onForward,
     required this.onRefresh,
+    super.key,
     this.showRefresh = true,
   });
 

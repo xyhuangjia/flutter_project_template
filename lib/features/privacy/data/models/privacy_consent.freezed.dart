@@ -20,16 +20,16 @@ PrivacyConsent _$PrivacyConsentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PrivacyConsent {
-  /// 是否已同意
+  /// Whether consent has been given.
   bool get hasConsented => throw _privateConstructorUsedError;
 
-  /// 同意时间
+  /// Consent timestamp.
   DateTime? get consentedAt => throw _privateConstructorUsedError;
 
-  /// 协议版本
+  /// Agreement version.
   String? get version => throw _privateConstructorUsedError;
 
-  /// 用户地区
+  /// User region.
   String get region => throw _privateConstructorUsedError;
 
   /// Serializes this PrivacyConsent to a JSON map.
@@ -162,19 +162,19 @@ class _$PrivacyConsentImpl implements _PrivacyConsent {
   factory _$PrivacyConsentImpl.fromJson(Map<String, dynamic> json) =>
       _$$PrivacyConsentImplFromJson(json);
 
-  /// 是否已同意
+  /// Whether consent has been given.
   @override
   final bool hasConsented;
 
-  /// 同意时间
+  /// Consent timestamp.
   @override
   final DateTime? consentedAt;
 
-  /// 协议版本
+  /// Agreement version.
   @override
   final String? version;
 
-  /// 用户地区
+  /// User region.
   @override
   @JsonKey()
   final String region;
@@ -229,19 +229,19 @@ abstract class _PrivacyConsent implements PrivacyConsent {
   factory _PrivacyConsent.fromJson(Map<String, dynamic> json) =
       _$PrivacyConsentImpl.fromJson;
 
-  /// 是否已同意
+  /// Whether consent has been given.
   @override
   bool get hasConsented;
 
-  /// 同意时间
+  /// Consent timestamp.
   @override
   DateTime? get consentedAt;
 
-  /// 协议版本
+  /// Agreement version.
   @override
   String? get version;
 
-  /// 用户地区
+  /// User region.
   @override
   String get region;
 

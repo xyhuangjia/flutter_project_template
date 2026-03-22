@@ -172,7 +172,7 @@ class AIConfigScreen extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        _getModelsDisplayText(config),
+                        _getModelsDisplayText(config, localizations),
                         style: TextStyle(
                           fontSize: 12,
                           color: colorScheme.onSurfaceVariant,
@@ -256,15 +256,15 @@ class AIConfigScreen extends ConsumerWidget {
     }
   }
 
-  String _getModelsDisplayText(AIConfigEntity config) {
-    if (config.models.isEmpty) return 'No models';
+  String _getModelsDisplayText(AIConfigEntity config, AppLocalizations localizations) {
+    if (config.models.isEmpty) return localizations.noModels;
 
     // Show default model first, then count of others
     final defaultDisplay = _getModelDisplayName(config.provider, config.defaultModel);
     if (config.models.length == 1) {
       return defaultDisplay;
     }
-    return '$defaultDisplay (+${config.models.length - 1} more)';
+    return '$defaultDisplay (+${config.models.length - 1} ${localizations.more})';
   }
 
   String _getModelDisplayName(String provider, String model) {

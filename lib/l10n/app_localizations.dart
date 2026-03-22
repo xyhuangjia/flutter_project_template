@@ -2359,6 +2359,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accessibility mode disabled'**
   String get elderlyModeDisabled;
+
+  /// No models available text
+  ///
+  /// In en, this message translates to:
+  /// **'No models'**
+  String get noModels;
+
+  /// More text for count
+  ///
+  /// In en, this message translates to:
+  /// **'more'**
+  String get more;
+
+  /// Time indicator for just now
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get justNow;
 }
 
 class _AppLocalizationsDelegate

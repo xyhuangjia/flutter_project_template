@@ -23,8 +23,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebViewScreen extends ConsumerStatefulWidget {
   /// Creates a WebView screen with a config object.
   const WebViewScreen({
-    super.key,
     required this.config,
+    super.key,
     this.title,
     this.showAppBar = true,
     this.enableNavigationControls = true,
@@ -32,14 +32,17 @@ class WebViewScreen extends ConsumerStatefulWidget {
 
   /// Alternative constructor with URL.
   WebViewScreen.url({
-    super.key,
     required String url,
+    super.key,
     String? title,
     bool showAppBar = true,
     bool enableNavigationControls = true,
   })  : config = WebViewConfig(url: url),
+        // ignore: prefer_initializing_formals
         title = title,
+        // ignore: prefer_initializing_formals
         showAppBar = showAppBar,
+        // ignore: prefer_initializing_formals
         enableNavigationControls = enableNavigationControls;
 
   /// The configuration for this WebView.

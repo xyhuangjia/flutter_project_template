@@ -28,15 +28,8 @@ class WebViewRepositoryImpl implements WebViewRepository {
   final WebViewFileDataSource _fileDataSource;
   final WebViewLocalStorageDataSource _localStorageDataSource;
 
-  WebViewController? _controller;
-
-  /// Sets the WebView controller.
-  void setController(WebViewController controller) {
-    _controller = controller;
-  }
-
-  /// Gets the current controller.
-  WebViewController? get controller => _controller;
+  /// The WebView controller used for operations.
+  WebViewController? controller;
 
   @override
   Future<Result<Map<String, String>>> getCookies(String url) async {
@@ -95,17 +88,17 @@ class WebViewRepositoryImpl implements WebViewRepository {
     JsBridgeMessage message,
   ) async {
     try {
-      final controller = _controller;
-      if (controller == null) {
+      final ctrl = controller;
+      if (ctrl == null) {
         return const FailureResult(
           CacheFailure(message: 'WebView controller not initialized'),
         );
       }
 
       final jsonMessage = message.toJson();
-      final jsonString = jsonMessage.toString().replaceAll("'", "\\'");
-      await controller.runJavaScript(
-        'if (window.$handlerName) { window.$handlerName(\'$jsonString\'); }',
+      final jsonString = jsonMessage.toString().replaceAll("'", r"\'");
+      await ctrl.runJavaScript(
+        'if (window.$handlerName) { window.$handlerName("$jsonString"); }',
       );
 
       return const Success(null);
@@ -194,17 +187,17 @@ class WebViewRepositoryImpl implements WebViewRepository {
 
   /// Syncs cookies to the WebView controller.
   Future<void> syncCookies(String url) async {
-    final controller = _controller;
-    if (controller != null) {
-      await _cookieDataSource.syncCookiesToController(controller, url);
+    final ctrl = controller;
+    if (ctrl != null) {
+      await _cookieDataSource.syncCookiesToController(ctrl, url);
     }
   }
 
   /// Extracts cookies from the WebView controller.
   Future<Map<String, String>> extractCookies() async {
-    final controller = _controller;
-    if (controller != null) {
-      return _cookieDataSource.extractCookiesFromController(controller);
+    final ctrl = controller;
+    if (ctrl != null) {
+      return _cookieDataSource.extractCookiesFromController(ctrl);
     }
     return {};
   }

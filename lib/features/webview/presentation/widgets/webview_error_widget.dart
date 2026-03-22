@@ -10,10 +10,10 @@ import 'package:flutter_project_template/l10n/app_localizations.dart';
 class WebViewErrorWidget extends StatelessWidget {
   /// Creates an error widget.
   const WebViewErrorWidget({
-    super.key,
-    this.errorCode,
     required this.errorMessage,
     required this.onRetry,
+    super.key,
+    this.errorCode,
   });
 
   /// The error message to display.

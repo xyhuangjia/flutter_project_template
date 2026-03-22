@@ -1164,4 +1164,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get elderlyModeDisabled => '适老化模式已关闭';
+
+  @override
+  String get noModels => '无模型';
+
+  @override
+  String get more => '个';
+
+  @override
+  String get justNow => '刚刚';
 }
