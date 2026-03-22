@@ -32,6 +32,7 @@ class MyApp extends ConsumerWidget {
       child: localeAsync.when(
         data: (locale) => _buildMaterialApp(
           themeMode: _getThemeMode(settingsAsync),
+          accessibilityMode: _getAccessibilityMode(settingsAsync),
           locale: locale,
         ),
         loading: _buildMaterialApp,
@@ -43,13 +44,14 @@ class MyApp extends ConsumerWidget {
   /// Builds the MaterialApp.router with common configuration.
   Widget _buildMaterialApp({
     ThemeMode themeMode = ThemeMode.system,
+    AccessibilityMode accessibilityMode = AccessibilityMode.standard,
     Locale? locale,
   }) =>
       MaterialApp.router(
         title: 'Flutter Project Template',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme(),
-        darkTheme: AppTheme.darkTheme(),
+        theme: AppTheme.lightTheme(accessibilityMode: accessibilityMode),
+        darkTheme: AppTheme.darkTheme(accessibilityMode: accessibilityMode),
         themeMode: themeMode,
         routerConfig: appRouter,
         localizationsDelegates: [
@@ -66,5 +68,15 @@ class MyApp extends ConsumerWidget {
         data: (settings) => AppTheme.toThemeMode(settings.themeMode),
         loading: () => ThemeMode.system,
         error: (_, __) => ThemeMode.system,
+      );
+
+  /// Gets the AccessibilityMode from settings.
+  AccessibilityMode _getAccessibilityMode(
+    AsyncValue<SettingsEntity> settingsAsync,
+  ) =>
+      settingsAsync.when(
+        data: (settings) => settings.accessibilityMode,
+        loading: () => AccessibilityMode.standard,
+        error: (_, __) => AccessibilityMode.standard,
       );
 }

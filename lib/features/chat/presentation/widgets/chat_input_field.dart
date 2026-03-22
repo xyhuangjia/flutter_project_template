@@ -82,8 +82,17 @@ class _ChatInputFieldState extends State<ChatInputField> {
                 focusNode: _focusNode,
                 enabled: widget.enabled,
                 maxLines: null,
+                minLines: 1,
+                keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.send,
+                textCapitalization: TextCapitalization.sentences,
                 onSubmitted: (_) => _handleSend(),
+                onTap: () {
+                  // Ensure focus is requested on tap
+                  if (widget.enabled) {
+                    _focusNode.requestFocus();
+                  }
+                },
                 style: TextStyle(
                   fontSize: 15,
                   color: isDark ? Colors.white : const Color(0xFF1E293B),

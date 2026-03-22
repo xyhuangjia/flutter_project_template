@@ -966,6 +966,67 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please configure an AI model to start chatting';
 
   @override
+  String get customProvider => 'Custom';
+
+  @override
+  String get apiFormat => 'API Format';
+
+  @override
+  String get openaiFormat => 'OpenAI Format';
+
+  @override
+  String get claudeFormat => 'Claude Format';
+
+  @override
+  String get baseUrl => 'API Endpoint';
+
+  @override
+  String get baseUrlHint => 'e.g., http://localhost:11434/v1';
+
+  @override
+  String get customModelHint => 'Enter model name';
+
+  @override
+  String get baseUrlRequired => 'Please enter API endpoint';
+
+  @override
+  String get customModelRequired => 'Please enter model name';
+
+  @override
+  String get customProviderHelp =>
+      'Supports custom API endpoints (Ollama, vLLM, DeepSeek, etc.)';
+
+  @override
+  String get selectModels => 'Select Models';
+
+  @override
+  String get availableModels => 'Available Models';
+
+  @override
+  String get addModel => 'Add Model';
+
+  @override
+  String get removeModel => 'Remove Model';
+
+  @override
+  String get setDefaultModel => 'Set as Default';
+
+  @override
+  String get currentModel => 'Current Model';
+
+  @override
+  String get switchModel => 'Switch Model';
+
+  @override
+  String get noModelsSelected => 'Please select at least one model';
+
+  @override
+  String get modelAdded => 'Model added';
+
+  @override
+  String get modelRemoved => 'Model removed';
+
+  @override
   String get environmentSection => 'Environment';
 
   @override
@@ -1117,4 +1178,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchHint => 'Search';
+
+  @override
+  String get accessibilityMode => 'Accessibility Mode';
+
+  @override
+  String get accessibilityModeDescription =>
+      'Enable larger fonts and icons for easier reading';
+
+  @override
+  String get elderlyModeEnabled => 'Accessibility mode enabled';
+
+  @override
+  String get elderlyModeDisabled => 'Accessibility mode disabled';
 }

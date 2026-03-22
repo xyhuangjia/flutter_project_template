@@ -122,6 +122,26 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
+  Future<Result<SettingsEntity>> updateAccessibilityMode(
+    AccessibilityMode mode,
+  ) async {
+    try {
+      final currentSettings = await getSettings();
+      return currentSettings.when(
+        success: (settings) async {
+          final updated = settings.copyWith(accessibilityMode: mode);
+          final dto = SettingsDto.fromEntity(updated);
+          await _localDataSource.saveSettings(dto);
+          return Success(updated);
+        },
+        failure: (failure) => FailureResult(failure),
+      );
+    } on Exception catch (e) {
+      return FailureResult(ErrorHandler.handleException(e));
+    }
+  }
+
+  @override
   Future<Result<void>> clearSettings() async {
     try {
       await _localDataSource.clearSettings();

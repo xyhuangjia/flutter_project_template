@@ -30,6 +30,11 @@ abstract class SettingsRepository {
   /// Updates notification settings.
   Future<Result<SettingsEntity>> updateNotifications(bool enabled);
 
+  /// Updates accessibility mode for elderly users.
+  Future<Result<SettingsEntity>> updateAccessibilityMode(
+    AccessibilityMode mode,
+  );
+
   /// Clears all settings.
   Future<Result<void>> clearSettings();
 }

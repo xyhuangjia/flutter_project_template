@@ -26,7 +26,7 @@ final secureStorageProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SecureStorageRef = AutoDisposeProviderRef<FlutterSecureStorage>;
-String _$availableModelsHash() => r'18d96091e6ba77aab7d40d224b8f4a5ab173654d';
+String _$availableModelsHash() => r'57eb2a0d3e513c0bd4aa54245ae047f623d4f1c7';
 
 /// Provider for available AI models.
 ///
@@ -45,7 +45,7 @@ final availableModelsProvider = AutoDisposeProvider<List<AIModelInfo>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AvailableModelsRef = AutoDisposeProviderRef<List<AIModelInfo>>;
-String _$aIConfigNotifierHash() => r'1588873507c05d41f43cd2cccd3f18c4df8dad04';
+String _$aIConfigNotifierHash() => r'254966cabbe77140a9b11769ff52b4436a33d177';
 
 /// Provider for AI configuration management.
 ///

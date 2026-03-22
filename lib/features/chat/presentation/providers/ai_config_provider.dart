@@ -2,12 +2,14 @@
 library;
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_project_template/core/storage/database.dart';
 import 'package:flutter_project_template/features/chat/data/services/ai_service.dart';
 import 'package:flutter_project_template/features/chat/data/services/claude_service.dart';
 import 'package:flutter_project_template/features/chat/data/services/openai_service.dart';
+import 'package:flutter_project_template/features/chat/data/services/universal_ai_service.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,9 +23,12 @@ class AIConfigEntity {
     required this.id,
     required this.name,
     required this.provider,
-    required this.model,
+    required this.models,
+    required this.defaultModel,
     required this.apiKeyEncrypted,
     this.isDefault = false,
+    this.baseUrl,
+    this.apiFormat = 'openai',
     this.configJson,
     this.createdAt,
     this.updatedAt,
@@ -35,17 +40,26 @@ class AIConfigEntity {
   /// Display name.
   final String name;
 
-  /// Provider name (openai, claude).
+  /// Provider name (openai, claude, custom).
   final String provider;
 
-  /// Model identifier.
-  final String model;
+  /// Model identifiers list.
+  final List<String> models;
+
+  /// Default model identifier.
+  final String defaultModel;
 
   /// Encrypted API key reference.
   final String apiKeyEncrypted;
 
   /// Whether this is the default config.
   final bool isDefault;
+
+  /// Custom API endpoint URL (for custom providers).
+  final String? baseUrl;
+
+  /// API format type: 'openai' or 'claude' (for custom providers).
+  final String apiFormat;
 
   /// Additional configuration JSON.
   final String? configJson;
@@ -56,14 +70,26 @@ class AIConfigEntity {
   /// Last update timestamp.
   final DateTime? updatedAt;
 
+  /// Checks if a model is in the models list.
+  bool hasModel(String modelId) => models.contains(modelId);
+
+  /// Gets the default model or first model if default is not set.
+  String get currentModel {
+    if (models.contains(defaultModel)) return defaultModel;
+    return models.isNotEmpty ? models.first : '';
+  }
+
   /// Creates a copy with updated fields.
   AIConfigEntity copyWith({
     String? id,
     String? name,
     String? provider,
-    String? model,
+    List<String>? models,
+    String? defaultModel,
     String? apiKeyEncrypted,
     bool? isDefault,
+    String? baseUrl,
+    String? apiFormat,
     String? configJson,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -72,9 +98,12 @@ class AIConfigEntity {
       id: id ?? this.id,
       name: name ?? this.name,
       provider: provider ?? this.provider,
-      model: model ?? this.model,
+      models: models ?? this.models,
+      defaultModel: defaultModel ?? this.defaultModel,
       apiKeyEncrypted: apiKeyEncrypted ?? this.apiKeyEncrypted,
       isDefault: isDefault ?? this.isDefault,
+      baseUrl: baseUrl ?? this.baseUrl,
+      apiFormat: apiFormat ?? this.apiFormat,
       configJson: configJson ?? this.configJson,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -147,9 +176,12 @@ class AIConfigNotifier extends _$AIConfigNotifier {
   Future<AIConfigEntity?> addConfig({
     required String name,
     required String provider,
-    required String model,
+    required List<String> models,
+    required String defaultModel,
     required String apiKey,
     bool isDefault = false,
+    String? baseUrl,
+    String apiFormat = 'openai',
   }) async {
     final currentState = state.valueOrNull;
     if (currentState == null) return null;
@@ -158,7 +190,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
     try {
       // Validate API key first
-      final isValid = await _validateApiKey(provider, apiKey);
+      final isValid = await _validateApiKey(provider, apiKey, baseUrl: baseUrl, apiFormat: apiFormat);
       if (!isValid) {
         state = AsyncValue.data(currentState.copyWith(
           error: 'Invalid API key',
@@ -181,9 +213,12 @@ class AIConfigNotifier extends _$AIConfigNotifier {
         id: Value(id),
         name: Value(name),
         provider: Value(provider),
-        model: Value(model),
+        models: Value(jsonEncode(models)),
+        defaultModel: Value(defaultModel),
         apiKeyEncrypted: Value(id), // Store ID reference
         isDefault: Value(isDefault),
+        baseUrl: Value(baseUrl),
+        apiFormat: Value(apiFormat),
         updatedAt: Value(DateTime.now()),
       );
 
@@ -221,9 +256,12 @@ class AIConfigNotifier extends _$AIConfigNotifier {
           id: Value(config.id),
           name: Value(config.name),
           provider: Value(config.provider),
-          model: Value(config.model),
+          models: Value(jsonEncode(config.models)),
+          defaultModel: Value(config.defaultModel),
           apiKeyEncrypted: Value(config.apiKeyEncrypted),
           isDefault: Value(config.isDefault),
+          baseUrl: Value(config.baseUrl),
+          apiFormat: Value(config.apiFormat),
           updatedAt: Value(DateTime.now()),
         ),
       );
@@ -274,24 +312,85 @@ class AIConfigNotifier extends _$AIConfigNotifier {
     ref.invalidateSelf();
   }
 
+  /// Adds a model to a configuration.
+  Future<void> addModelToConfig(String configId, String modelId) async {
+    final currentState = state.valueOrNull;
+    if (currentState == null) return;
+
+    final config = currentState.configs.where((c) => c.id == configId).firstOrNull;
+    if (config == null) return;
+
+    if (config.models.contains(modelId)) return; // Already exists
+
+    final updatedModels = [...config.models, modelId];
+    await updateConfig(config.copyWith(models: updatedModels));
+  }
+
+  /// Removes a model from a configuration.
+  Future<void> removeModelFromConfig(String configId, String modelId) async {
+    final currentState = state.valueOrNull;
+    if (currentState == null) return;
+
+    final config = currentState.configs.where((c) => c.id == configId).firstOrNull;
+    if (config == null) return;
+
+    if (config.models.length <= 1) return; // Must have at least one model
+
+    final updatedModels = config.models.where((m) => m != modelId).toList();
+    final updatedDefaultModel = config.defaultModel == modelId
+        ? updatedModels.first
+        : config.defaultModel;
+
+    await updateConfig(config.copyWith(
+      models: updatedModels,
+      defaultModel: updatedDefaultModel,
+    ));
+  }
+
+  /// Sets the default model for a configuration.
+  Future<void> setDefaultModel(String configId, String modelId) async {
+    final currentState = state.valueOrNull;
+    if (currentState == null) return;
+
+    final config = currentState.configs.where((c) => c.id == configId).firstOrNull;
+    if (config == null) return;
+
+    if (!config.models.contains(modelId)) return;
+
+    await updateConfig(config.copyWith(defaultModel: modelId));
+  }
+
   /// Gets the decrypted API key for a configuration.
   Future<String?> getDecryptedApiKey(String configId) async {
     final secureStorage = ref.read(secureStorageProvider);
     return secureStorage.read(key: 'ai_api_key_$configId');
   }
 
-  Future<bool> _validateApiKey(String provider, String apiKey) async {
+  Future<bool> _validateApiKey(
+    String provider,
+    String apiKey, {
+    String? baseUrl,
+    String apiFormat = 'openai',
+  }) async {
     final AIService service;
     switch (provider) {
       case 'openai':
         service = OpenAIService();
       case 'claude':
         service = ClaudeService();
+      case 'custom':
+        if (baseUrl == null) return false;
+        service = UniversalAIService(
+          baseUrl: baseUrl,
+          apiFormat: apiFormat == 'claude'
+              ? APIFormat.claude
+              : APIFormat.openai,
+        );
       default:
         return false;
     }
     try {
-      return service.validateApiKey(apiKey);
+      return await service.validateApiKey(apiKey);
     } finally {
       service.dispose();
     }
@@ -302,13 +401,26 @@ class AIConfigNotifier extends _$AIConfigNotifier {
   }
 
   AIConfigEntity _toEntity(AIConfig config) {
+    // Parse models from JSON
+    List<String> modelsList;
+    try {
+      final decoded = jsonDecode(config.models) as List<dynamic>;
+      modelsList = decoded.cast<String>();
+    } catch (_) {
+      // Fallback: treat as single model
+      modelsList = [config.models];
+    }
+
     return AIConfigEntity(
       id: config.id,
       name: config.name,
       provider: config.provider,
-      model: config.model,
+      models: modelsList,
+      defaultModel: config.defaultModel,
       apiKeyEncrypted: config.apiKeyEncrypted,
       isDefault: config.isDefault,
+      baseUrl: config.baseUrl,
+      apiFormat: config.apiFormat,
       configJson: config.configJson,
       createdAt: config.createdAt,
       updatedAt: config.updatedAt,
@@ -351,6 +463,11 @@ List<AIModelInfo> availableModels(AvailableModelsRef ref) {
           description: 'Fastest and most compact',
         ),
       ],
+    ),
+    AIModelInfo(
+      provider: 'custom',
+      providerDisplayName: 'Custom',
+      models: [], // Custom providers have user-defined models
     ),
   ];
 }

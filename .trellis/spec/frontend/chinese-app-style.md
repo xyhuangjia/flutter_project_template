@@ -173,28 +173,28 @@ Container(
 
 | 用途 | 颜色代码 | 背景色 |
 |------|---------|--------|
-| 主题/通用 | `primary` | `primaryContainer` |
-| 语言/国际化 | `#3B82F6` (蓝) | `#EBF5FF` |
-| 主题切换 | `#F97316` (橙) | `#FFF7ED` |
-| 通知 | `#EC4899` (粉) | `#FDF2F8` |
-| AI助手 | `#8B5CF6` (紫) | `#F5F3FF` |
-| 关于/信息 | `#0EA5E9` (青) | `#F0F9FF` |
-| 隐私/安全 | `#14B8A6` (绿) | `#F0FDFA` |
-| 开发者选项 | `#64748B` (灰) | `#F1F5F9` |
-| 退出/危险 | `error` | `errorContainer` |
+| 主题/通用 | `primary` (#1677FF) | `primaryContainer` (#E6F4FF) |
+| 语言/国际化 | `#1677FF` (蓝) | `#E6F4FF` |
+| 主题切换 | `#FA8C16` (橙) | `#FFF7E6` |
+| 通知 | `#EB2F96` (洋红) | `#FFF0F6` |
+| AI助手 | `#1677FF` (蓝) | `#E6F4FF` |
+| 关于/信息 | `#13C2C2` (青) | `#E6FFFB` |
+| 隐私/安全 | `#52C41A` (绿) | `#F6FFED` |
+| 开发者选项 | `#595959` (灰) | `#F5F5F5` |
+| 退出/危险 | `error` (#FF4D4F) | `errorContainer` (#FFF2F0) |
 
 ### Pre-defined Color Pairs
 
 ```dart
-// 预定义图标颜色组合
+// 预定义图标颜色组合 (基于 Ant Design 色板)
 const iconColorPairs = {
-  'language': (color: Color(0xFF3B82F6), bg: Color(0xFFEBF5FF)),
-  'theme': (color: Color(0xFFF97316), bg: Color(0xFFFFF7ED)),
-  'notification': (color: Color(0xFFEC4899), bg: Color(0xFFFDF2F8)),
-  'ai': (color: Color(0xFF8B5CF6), bg: Color(0xFFF5F3FF)),
-  'info': (color: Color(0xFF0EA5E9), bg: Color(0xFFF0F9FF)),
-  'privacy': (color: Color(0xFF14B8A6), bg: Color(0xFFF0FDFA)),
-  'developer': (color: Color(0xFF64748B), bg: Color(0xFFF1F5F9)),
+  'language': (color: Color(0xFF1677FF), bg: Color(0xFFE6F4FF)),
+  'theme': (color: Color(0xFFFA8C16), bg: Color(0xFFFFF7E6)),
+  'notification': (color: Color(0xFFEB2F96), bg: Color(0xFFFFF0F6)),
+  'ai': (color: Color(0xFF1677FF), bg: Color(0xFFE6F4FF)),
+  'info': (color: Color(0xFF13C2C2), bg: Color(0xFFE6FFFB)),
+  'privacy': (color: Color(0xFF52C41A), bg: Color(0xFFF6FFED)),
+  'developer': (color: Color(0xFF595959), bg: Color(0xFFF5F5F5)),
 };
 ```
 

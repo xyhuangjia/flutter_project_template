@@ -15,6 +15,15 @@ enum AppThemeMode {
   dark,
 }
 
+/// Accessibility mode enum for elderly users.
+enum AccessibilityMode {
+  /// Standard mode (default).
+  standard,
+
+  /// Elderly-friendly mode with larger fonts and icons.
+  elderly,
+}
+
 /// Settings entity representing application settings.
 @immutable
 class SettingsEntity {
@@ -25,6 +34,7 @@ class SettingsEntity {
     this.notificationsEnabled = true,
     this.soundEnabled = true,
     this.vibrationEnabled = true,
+    this.accessibilityMode = AccessibilityMode.standard,
   });
 
   /// Default settings.
@@ -45,6 +55,12 @@ class SettingsEntity {
   /// Whether vibration is enabled.
   final bool vibrationEnabled;
 
+  /// Accessibility mode for elderly users.
+  final AccessibilityMode accessibilityMode;
+
+  /// Whether elderly mode is enabled.
+  bool get isElderlyMode => accessibilityMode == AccessibilityMode.elderly;
+
   /// Creates a copy of this entity with optionally overridden fields.
   SettingsEntity copyWith({
     AppThemeMode? themeMode,
@@ -52,6 +68,7 @@ class SettingsEntity {
     bool? notificationsEnabled,
     bool? soundEnabled,
     bool? vibrationEnabled,
+    AccessibilityMode? accessibilityMode,
   }) {
     return SettingsEntity(
       themeMode: themeMode ?? this.themeMode,
@@ -59,6 +76,7 @@ class SettingsEntity {
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       soundEnabled: soundEnabled ?? this.soundEnabled,
       vibrationEnabled: vibrationEnabled ?? this.vibrationEnabled,
+      accessibilityMode: accessibilityMode ?? this.accessibilityMode,
     );
   }
 
@@ -71,7 +89,8 @@ class SettingsEntity {
         other.languageCode == languageCode &&
         other.notificationsEnabled == notificationsEnabled &&
         other.soundEnabled == soundEnabled &&
-        other.vibrationEnabled == vibrationEnabled;
+        other.vibrationEnabled == vibrationEnabled &&
+        other.accessibilityMode == accessibilityMode;
   }
 
   @override
@@ -82,6 +101,7 @@ class SettingsEntity {
       notificationsEnabled,
       soundEnabled,
       vibrationEnabled,
+      accessibilityMode,
     );
   }
 
@@ -89,6 +109,6 @@ class SettingsEntity {
   String toString() {
     return 'SettingsEntity(themeMode: $themeMode, languageCode: $languageCode, '
         'notificationsEnabled: $notificationsEnabled, soundEnabled: $soundEnabled, '
-        'vibrationEnabled: $vibrationEnabled)';
+        'vibrationEnabled: $vibrationEnabled, accessibilityMode: $accessibilityMode)';
   }
 }

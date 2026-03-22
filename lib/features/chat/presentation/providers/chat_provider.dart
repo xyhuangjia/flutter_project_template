@@ -13,8 +13,10 @@ import 'package:flutter_project_template/features/chat/data/datasources/chat_loc
 import 'package:flutter_project_template/features/chat/data/services/ai_service.dart';
 import 'package:flutter_project_template/features/chat/data/services/claude_service.dart';
 import 'package:flutter_project_template/features/chat/data/services/openai_service.dart';
+import 'package:flutter_project_template/features/chat/data/services/universal_ai_service.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart'
     as domain;
+import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -208,8 +210,9 @@ class ChatNotifier extends _$ChatNotifier {
   /// Sends a message and streams AI response.
   Stream<ChatMessageEvent> sendMessageStream(
     String conversationId,
-    String content,
-  ) async* {
+    String content, {
+    String? selectedModel,
+  }) async* {
     final localDataSource = ref.read(chatLocalDataSourceProvider);
     final now = DateTime.now();
 
@@ -247,16 +250,24 @@ class ChatNotifier extends _$ChatNotifier {
     );
 
     // Get AI config
-    final aiConfig = await localDataSource.getDefaultAIConfig();
-    if (aiConfig == null) {
+    final aiConfigState = ref.read(aIConfigNotifierProvider).valueOrNull;
+    final aiConfigEntity = aiConfigState?.defaultConfig;
+    if (aiConfigEntity == null) {
       yield ChatAIResponseError(
           'No AI configuration found. Please configure an AI model in settings.');
       return;
     }
 
+    // Determine which model to use
+    final modelToUse = selectedModel ?? aiConfigEntity.currentModel;
+    if (modelToUse.isEmpty) {
+      yield ChatAIResponseError('No model available for this configuration.');
+      return;
+    }
+
     // Get secure storage for API key
     final secureStorage = ref.read(chatSecureStorageProvider);
-    final apiKey = await secureStorage.read(key: 'ai_api_key_${aiConfig.id}');
+    final apiKey = await secureStorage.read(key: 'ai_api_key_${aiConfigEntity.id}');
     if (apiKey == null) {
       yield ChatAIResponseError(
           'API key not found. Please reconfigure the AI model.');
@@ -287,10 +298,26 @@ class ChatNotifier extends _$ChatNotifier {
     );
 
     // Get AI service
-    final services = ref.read(aiServicesProvider);
-    final service = services[aiConfig.provider];
+    AIService? service;
+    if (aiConfigEntity.provider == 'custom') {
+      // Create dynamic service for custom provider
+      if (aiConfigEntity.baseUrl == null) {
+        yield ChatAIResponseError('Custom provider missing base URL');
+        return;
+      }
+      service = UniversalAIService(
+        baseUrl: aiConfigEntity.baseUrl!,
+        apiFormat: aiConfigEntity.apiFormat == 'claude'
+            ? APIFormat.claude
+            : APIFormat.openai,
+      );
+    } else {
+      final services = ref.read(aiServicesProvider);
+      service = services[aiConfigEntity.provider];
+    }
+
     if (service == null) {
-      yield ChatAIResponseError('Unknown AI provider: ${aiConfig.provider}');
+      yield ChatAIResponseError('Unknown AI provider: ${aiConfigEntity.provider}');
       return;
     }
 
@@ -300,7 +327,7 @@ class ChatNotifier extends _$ChatNotifier {
     try {
       final stream = service.streamMessage(
         config: AIRequestConfig(
-          model: aiConfig.model,
+          model: modelToUse,
           apiKey: apiKey,
         ),
         messages: aiMessages,
@@ -340,6 +367,11 @@ class ChatNotifier extends _$ChatNotifier {
     } catch (e) {
       await localDataSource.updateMessageStatus(aiMessageId, 3);
       yield ChatAIResponseError(e.toString());
+    } finally {
+      // Dispose custom service if created
+      if (aiConfigEntity.provider == 'custom') {
+        service.dispose();
+      }
     }
 
     // Refresh conversations
@@ -501,4 +533,14 @@ Stream<List<domain.ChatMessage>> conversationMessages(
                 ))
             .toList(),
       );
+}
+
+/// Provider for selected model in a conversation.
+@riverpod
+class SelectedModel extends _$SelectedModel {
+  @override
+  String? build(String conversationId) => null;
+
+  /// Sets the selected model for the conversation.
+  void setModel(String? modelId) => state = modelId;
 }

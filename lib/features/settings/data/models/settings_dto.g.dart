@@ -12,6 +12,7 @@ SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => SettingsDto(
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
       soundEnabled: json['soundEnabled'] as bool? ?? true,
       vibrationEnabled: json['vibrationEnabled'] as bool? ?? true,
+      accessibilityMode: json['accessibilityMode'] as String? ?? 'standard',
     );
 
 Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
@@ -21,6 +22,7 @@ Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
       'notificationsEnabled': instance.notificationsEnabled,
       'soundEnabled': instance.soundEnabled,
       'vibrationEnabled': instance.vibrationEnabled,
+      'accessibilityMode': instance.accessibilityMode,
     };
 
 UserPreferencesDto _$UserPreferencesDtoFromJson(Map<String, dynamic> json) =>

@@ -1542,6 +1542,106 @@
     "description": "No AI config message in chat"
   },
 
+  "customProvider": "自定义",
+  "@customProvider": {
+    "description": "Custom provider option"
+  },
+
+  "apiFormat": "API 格式",
+  "@apiFormat": {
+    "description": "API format label"
+  },
+
+  "openaiFormat": "OpenAI 格式",
+  "@openaiFormat": {
+    "description": "OpenAI API format option"
+  },
+
+  "claudeFormat": "Claude 格式",
+  "@claudeFormat": {
+    "description": "Claude API format option"
+  },
+
+  "baseUrl": "API 端点",
+  "@baseUrl": {
+    "description": "Base URL label"
+  },
+
+  "baseUrlHint": "例如：http://localhost:11434/v1",
+  "@baseUrlHint": {
+    "description": "Base URL hint"
+  },
+
+  "customModelHint": "输入模型名称",
+  "@customModelHint": {
+    "description": "Custom model name hint"
+  },
+
+  "baseUrlRequired": "请输入 API 端点",
+  "@baseUrlRequired": {
+    "description": "Base URL required validation"
+  },
+
+  "customModelRequired": "请输入模型名称",
+  "@customModelRequired": {
+    "description": "Custom model name required validation"
+  },
+
+  "customProviderHelp": "支持自定义 API 端点（Ollama、vLLM、DeepSeek 等）",
+  "@customProviderHelp": {
+    "description": "Custom provider help text"
+  },
+
+  "selectModels": "选择模型",
+  "@selectModels": {
+    "description": "Select models title"
+  },
+
+  "availableModels": "可用模型",
+  "@availableModels": {
+    "description": "Available models label"
+  },
+
+  "addModel": "添加模型",
+  "@addModel": {
+    "description": "Add model button"
+  },
+
+  "removeModel": "移除模型",
+  "@removeModel": {
+    "description": "Remove model button"
+  },
+
+  "setDefaultModel": "设为默认",
+  "@setDefaultModel": {
+    "description": "Set as default model button"
+  },
+
+  "currentModel": "当前模型",
+  "@currentModel": {
+    "description": "Current model label"
+  },
+
+  "switchModel": "切换模型",
+  "@switchModel": {
+    "description": "Switch model action"
+  },
+
+  "noModelsSelected": "请至少选择一个模型",
+  "@noModelsSelected": {
+    "description": "No models selected validation"
+  },
+
+  "modelAdded": "模型已添加",
+  "@modelAdded": {
+    "description": "Model added success message"
+  },
+
+  "modelRemoved": "模型已移除",
+  "@modelRemoved": {
+    "description": "Model removed success message"
+  },
+
   "environmentSection": "环境设置",
   "@environmentSection": {
     "description": "Environment section title"
@@ -1775,5 +1875,25 @@
   "searchHint": "搜索",
   "@searchHint": {
     "description": "Search hint text"
+  },
+
+  "accessibilityMode": "适老化模式",
+  "@accessibilityMode": {
+    "description": "Accessibility mode label"
+  },
+
+  "accessibilityModeDescription": "开启后字体和图标将放大，方便阅读",
+  "@accessibilityModeDescription": {
+    "description": "Accessibility mode description"
+  },
+
+  "elderlyModeEnabled": "适老化模式已开启",
+  "@elderlyModeEnabled": {
+    "description": "Elderly mode enabled message"
+  },
+
+  "elderlyModeDisabled": "适老化模式已关闭",
+  "@elderlyModeDisabled": {
+    "description": "Elderly mode disabled message"
   }
 }

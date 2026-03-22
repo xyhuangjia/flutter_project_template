@@ -1542,6 +1542,106 @@
     "description": "No AI config message in chat"
   },
 
+  "customProvider": "Custom",
+  "@customProvider": {
+    "description": "Custom provider option"
+  },
+
+  "apiFormat": "API Format",
+  "@apiFormat": {
+    "description": "API format label"
+  },
+
+  "openaiFormat": "OpenAI Format",
+  "@openaiFormat": {
+    "description": "OpenAI API format option"
+  },
+
+  "claudeFormat": "Claude Format",
+  "@claudeFormat": {
+    "description": "Claude API format option"
+  },
+
+  "baseUrl": "API Endpoint",
+  "@baseUrl": {
+    "description": "Base URL label"
+  },
+
+  "baseUrlHint": "e.g., http://localhost:11434/v1",
+  "@baseUrlHint": {
+    "description": "Base URL hint"
+  },
+
+  "customModelHint": "Enter model name",
+  "@customModelHint": {
+    "description": "Custom model name hint"
+  },
+
+  "baseUrlRequired": "Please enter API endpoint",
+  "@baseUrlRequired": {
+    "description": "Base URL required validation"
+  },
+
+  "customModelRequired": "Please enter model name",
+  "@customModelRequired": {
+    "description": "Custom model name required validation"
+  },
+
+  "customProviderHelp": "Supports custom API endpoints (Ollama, vLLM, DeepSeek, etc.)",
+  "@customProviderHelp": {
+    "description": "Custom provider help text"
+  },
+
+  "selectModels": "Select Models",
+  "@selectModels": {
+    "description": "Select models title"
+  },
+
+  "availableModels": "Available Models",
+  "@availableModels": {
+    "description": "Available models label"
+  },
+
+  "addModel": "Add Model",
+  "@addModel": {
+    "description": "Add model button"
+  },
+
+  "removeModel": "Remove Model",
+  "@removeModel": {
+    "description": "Remove model button"
+  },
+
+  "setDefaultModel": "Set as Default",
+  "@setDefaultModel": {
+    "description": "Set as default model button"
+  },
+
+  "currentModel": "Current Model",
+  "@currentModel": {
+    "description": "Current model label"
+  },
+
+  "switchModel": "Switch Model",
+  "@switchModel": {
+    "description": "Switch model action"
+  },
+
+  "noModelsSelected": "Please select at least one model",
+  "@noModelsSelected": {
+    "description": "No models selected validation"
+  },
+
+  "modelAdded": "Model added",
+  "@modelAdded": {
+    "description": "Model added success message"
+  },
+
+  "modelRemoved": "Model removed",
+  "@modelRemoved": {
+    "description": "Model removed success message"
+  },
+
   "environmentSection": "Environment",
   "@environmentSection": {
     "description": "Environment section title"
@@ -1775,5 +1875,25 @@
   "searchHint": "Search",
   "@searchHint": {
     "description": "Search hint text"
+  },
+
+  "accessibilityMode": "Accessibility Mode",
+  "@accessibilityMode": {
+    "description": "Accessibility mode label"
+  },
+
+  "accessibilityModeDescription": "Enable larger fonts and icons for easier reading",
+  "@accessibilityModeDescription": {
+    "description": "Accessibility mode description"
+  },
+
+  "elderlyModeEnabled": "Accessibility mode enabled",
+  "@elderlyModeEnabled": {
+    "description": "Elderly mode enabled message"
+  },
+
+  "elderlyModeDisabled": "Accessibility mode disabled",
+  "@elderlyModeDisabled": {
+    "description": "Elderly mode disabled message"
   }
 }

@@ -187,6 +187,27 @@ class _SettingsContent extends StatelessWidget {
                 ),
                 SettingsDivider(colorScheme: colorScheme),
                 SettingsTile(
+                  title: localizations.accessibilityMode,
+                  subtitle: localizations.accessibilityModeDescription,
+                  icon: Icons.accessibility_new_outlined,
+                  iconColor: const Color(0xFF52C41A),
+                  iconBgColor: const Color(0xFFF6FFED),
+                  trailing: Switch(
+                    value: settings.isElderlyMode,
+                    onChanged: (value) {
+                      ref
+                          .read(settingsNotifierProvider.notifier)
+                          .updateAccessibilityMode(
+                            value
+                                ? AccessibilityMode.elderly
+                                : AccessibilityMode.standard,
+                          );
+                    },
+                  ),
+                  showChevron: false,
+                ),
+                SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
                   title: localizations.notifications,
                   icon: Icons.notifications_outlined,
                   iconColor: AppIconColors.notificationColor,

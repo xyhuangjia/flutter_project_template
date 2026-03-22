@@ -236,7 +236,7 @@ class _ConversationMessagesProviderElement
       (origin as ConversationMessagesProvider).conversationId;
 }
 
-String _$chatNotifierHash() => r'b7479dc666fd595cec7d3a4860ef1d36c30a25e4';
+String _$chatNotifierHash() => r'5cda27e93dbca39848d2db550b7c83041678c557';
 
 /// Provider for managing chat conversations.
 ///
@@ -423,6 +423,163 @@ class _StreamingMessageProviderElement
 
   @override
   String get messageId => (origin as StreamingMessageProvider).messageId;
+}
+
+String _$selectedModelHash() => r'0350239a67555a244040fa2972875d337e0c7a6f';
+
+abstract class _$SelectedModel extends BuildlessAutoDisposeNotifier<String?> {
+  late final String conversationId;
+
+  String? build(
+    String conversationId,
+  );
+}
+
+/// Provider for selected model in a conversation.
+///
+/// Copied from [SelectedModel].
+@ProviderFor(SelectedModel)
+const selectedModelProvider = SelectedModelFamily();
+
+/// Provider for selected model in a conversation.
+///
+/// Copied from [SelectedModel].
+class SelectedModelFamily extends Family<String?> {
+  /// Provider for selected model in a conversation.
+  ///
+  /// Copied from [SelectedModel].
+  const SelectedModelFamily();
+
+  /// Provider for selected model in a conversation.
+  ///
+  /// Copied from [SelectedModel].
+  SelectedModelProvider call(
+    String conversationId,
+  ) {
+    return SelectedModelProvider(
+      conversationId,
+    );
+  }
+
+  @override
+  SelectedModelProvider getProviderOverride(
+    covariant SelectedModelProvider provider,
+  ) {
+    return call(
+      provider.conversationId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'selectedModelProvider';
+}
+
+/// Provider for selected model in a conversation.
+///
+/// Copied from [SelectedModel].
+class SelectedModelProvider
+    extends AutoDisposeNotifierProviderImpl<SelectedModel, String?> {
+  /// Provider for selected model in a conversation.
+  ///
+  /// Copied from [SelectedModel].
+  SelectedModelProvider(
+    String conversationId,
+  ) : this._internal(
+          () => SelectedModel()..conversationId = conversationId,
+          from: selectedModelProvider,
+          name: r'selectedModelProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$selectedModelHash,
+          dependencies: SelectedModelFamily._dependencies,
+          allTransitiveDependencies:
+              SelectedModelFamily._allTransitiveDependencies,
+          conversationId: conversationId,
+        );
+
+  SelectedModelProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.conversationId,
+  }) : super.internal();
+
+  final String conversationId;
+
+  @override
+  String? runNotifierBuild(
+    covariant SelectedModel notifier,
+  ) {
+    return notifier.build(
+      conversationId,
+    );
+  }
+
+  @override
+  Override overrideWith(SelectedModel Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: SelectedModelProvider._internal(
+        () => create()..conversationId = conversationId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        conversationId: conversationId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<SelectedModel, String?> createElement() {
+    return _SelectedModelProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SelectedModelProvider &&
+        other.conversationId == conversationId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, conversationId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin SelectedModelRef on AutoDisposeNotifierProviderRef<String?> {
+  /// The parameter `conversationId` of this provider.
+  String get conversationId;
+}
+
+class _SelectedModelProviderElement
+    extends AutoDisposeNotifierProviderElement<SelectedModel, String?>
+    with SelectedModelRef {
+  _SelectedModelProviderElement(super.provider);
+
+  @override
+  String get conversationId => (origin as SelectedModelProvider).conversationId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

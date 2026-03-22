@@ -1916,6 +1916,126 @@ abstract class AppLocalizations {
   /// **'Please configure an AI model to start chatting'**
   String get noAIConfigMessage;
 
+  /// Custom provider option
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get customProvider;
+
+  /// API format label
+  ///
+  /// In en, this message translates to:
+  /// **'API Format'**
+  String get apiFormat;
+
+  /// OpenAI API format option
+  ///
+  /// In en, this message translates to:
+  /// **'OpenAI Format'**
+  String get openaiFormat;
+
+  /// Claude API format option
+  ///
+  /// In en, this message translates to:
+  /// **'Claude Format'**
+  String get claudeFormat;
+
+  /// Base URL label
+  ///
+  /// In en, this message translates to:
+  /// **'API Endpoint'**
+  String get baseUrl;
+
+  /// Base URL hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., http://localhost:11434/v1'**
+  String get baseUrlHint;
+
+  /// Custom model name hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter model name'**
+  String get customModelHint;
+
+  /// Base URL required validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter API endpoint'**
+  String get baseUrlRequired;
+
+  /// Custom model name required validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter model name'**
+  String get customModelRequired;
+
+  /// Custom provider help text
+  ///
+  /// In en, this message translates to:
+  /// **'Supports custom API endpoints (Ollama, vLLM, DeepSeek, etc.)'**
+  String get customProviderHelp;
+
+  /// Select models title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Models'**
+  String get selectModels;
+
+  /// Available models label
+  ///
+  /// In en, this message translates to:
+  /// **'Available Models'**
+  String get availableModels;
+
+  /// Add model button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Model'**
+  String get addModel;
+
+  /// Remove model button
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Model'**
+  String get removeModel;
+
+  /// Set as default model button
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Default'**
+  String get setDefaultModel;
+
+  /// Current model label
+  ///
+  /// In en, this message translates to:
+  /// **'Current Model'**
+  String get currentModel;
+
+  /// Switch model action
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Model'**
+  String get switchModel;
+
+  /// No models selected validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please select at least one model'**
+  String get noModelsSelected;
+
+  /// Model added success message
+  ///
+  /// In en, this message translates to:
+  /// **'Model added'**
+  String get modelAdded;
+
+  /// Model removed success message
+  ///
+  /// In en, this message translates to:
+  /// **'Model removed'**
+  String get modelRemoved;
+
   /// Environment section title
   ///
   /// In en, this message translates to:
@@ -2203,6 +2323,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search'**
   String get searchHint;
+
+  /// Accessibility mode label
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility Mode'**
+  String get accessibilityMode;
+
+  /// Accessibility mode description
+  ///
+  /// In en, this message translates to:
+  /// **'Enable larger fonts and icons for easier reading'**
+  String get accessibilityModeDescription;
+
+  /// Elderly mode enabled message
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility mode enabled'**
+  String get elderlyModeEnabled;
+
+  /// Elderly mode disabled message
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility mode disabled'**
+  String get elderlyModeDisabled;
 }
 
 class _AppLocalizationsDelegate

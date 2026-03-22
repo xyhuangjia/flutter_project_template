@@ -69,8 +69,12 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final aiConfig =
         ref.watch(aIConfigNotifierProvider).valueOrNull?.defaultConfig;
 
+    // Get selected model for this conversation
+    final selectedModel = ref.watch(selectedModelProvider(widget.conversationId));
+
     return Scaffold(
       backgroundColor: colorScheme.surface,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +82,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             Text(conversation?.title ?? localizations.chat),
             if (aiConfig != null)
               Text(
-                aiConfig.name,
+                _getSubtitle(aiConfig, selectedModel),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -86,6 +90,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           ],
         ),
         actions: [
+          // Model selector (only if config has multiple models)
+          if (aiConfig != null && aiConfig.models.length > 1)
+            _buildModelSelectorButton(aiConfig, selectedModel, colorScheme, localizations),
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () => _showOptionsMenu(context),
@@ -109,6 +116,65 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  String _getSubtitle(AIConfigEntity config, String? selectedModel) {
+    final modelName = _getModelDisplayName(config, selectedModel ?? config.currentModel);
+    return '${config.name} • $modelName';
+  }
+
+  String _getModelDisplayName(AIConfigEntity config, String modelId) {
+    if (config.provider == 'custom') return modelId;
+
+    final models = {
+      'openai': {
+        'gpt-4o': 'GPT-4o',
+        'gpt-4o-mini': 'GPT-4o Mini',
+        'gpt-4-turbo': 'GPT-4 Turbo',
+      },
+      'claude': {
+        'claude-3-5-sonnet-20241022': 'Claude 3.5 Sonnet',
+        'claude-3-5-haiku-20241022': 'Claude 3.5 Haiku',
+      },
+    };
+    return models[config.provider]?[modelId] ?? modelId;
+  }
+
+  Widget _buildModelSelectorButton(
+    AIConfigEntity config,
+    String? selectedModel,
+    ColorScheme colorScheme,
+    AppLocalizations localizations,
+  ) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.tune),
+      tooltip: localizations.switchModel,
+      initialValue: selectedModel ?? config.currentModel,
+      onSelected: (modelId) {
+        ref.read(selectedModelProvider(widget.conversationId).notifier)
+            .setModel(modelId);
+      },
+      itemBuilder: (context) {
+        return config.models.map((modelId) {
+          final isDefault = config.defaultModel == modelId;
+          final displayName = _getModelDisplayName(config, modelId);
+          return PopupMenuItem(
+            value: modelId,
+            child: Row(
+              children: [
+                Expanded(child: Text(displayName)),
+                if (isDefault)
+                  Icon(
+                    Icons.star,
+                    size: 16,
+                    color: AppIconColors.aiColor,
+                  ),
+              ],
+            ),
+          );
+        }).toList();
+      },
     );
   }
 
@@ -263,6 +329,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   Future<void> _sendMessage(String text) async {
     final chatNotifier = ref.read(chatNotifierProvider.notifier);
     final isTypingNotifier = ref.read(isTypingProvider.notifier);
+    final selectedModel = ref.read(selectedModelProvider(widget.conversationId));
 
     isTypingNotifier.setTyping(true);
     _streamingContent = '';
@@ -270,7 +337,11 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
     try {
       await for (final event
-          in chatNotifier.sendMessageStream(widget.conversationId, text)) {
+          in chatNotifier.sendMessageStream(
+            widget.conversationId,
+            text,
+            selectedModel: selectedModel,
+          )) {
         if (event is ChatUserMessageCreated) {
           // User message created, scroll to bottom
           _scrollToBottom();

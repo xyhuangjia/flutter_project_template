@@ -1248,10 +1248,16 @@ class $AIConfigsTable extends AIConfigs
   late final GeneratedColumn<String> provider = GeneratedColumn<String>(
       'provider', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  static const VerificationMeta _modelsMeta = const VerificationMeta('models');
   @override
-  late final GeneratedColumn<String> model = GeneratedColumn<String>(
-      'model', aliasedName, false,
+  late final GeneratedColumn<String> models = GeneratedColumn<String>(
+      'models', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _defaultModelMeta =
+      const VerificationMeta('defaultModel');
+  @override
+  late final GeneratedColumn<String> defaultModel = GeneratedColumn<String>(
+      'default_model', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _apiKeyEncryptedMeta =
       const VerificationMeta('apiKeyEncrypted');
@@ -1269,6 +1275,20 @@ class $AIConfigsTable extends AIConfigs
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('CHECK ("is_default" IN (0, 1))'),
       defaultValue: const Constant(false));
+  static const VerificationMeta _baseUrlMeta =
+      const VerificationMeta('baseUrl');
+  @override
+  late final GeneratedColumn<String> baseUrl = GeneratedColumn<String>(
+      'base_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _apiFormatMeta =
+      const VerificationMeta('apiFormat');
+  @override
+  late final GeneratedColumn<String> apiFormat = GeneratedColumn<String>(
+      'api_format', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant('openai'));
   static const VerificationMeta _configJsonMeta =
       const VerificationMeta('configJson');
   @override
@@ -1294,9 +1314,12 @@ class $AIConfigsTable extends AIConfigs
         id,
         name,
         provider,
-        model,
+        models,
+        defaultModel,
         apiKeyEncrypted,
         isDefault,
+        baseUrl,
+        apiFormat,
         configJson,
         createdAt,
         updatedAt
@@ -1328,11 +1351,19 @@ class $AIConfigsTable extends AIConfigs
     } else if (isInserting) {
       context.missing(_providerMeta);
     }
-    if (data.containsKey('model')) {
-      context.handle(
-          _modelMeta, model.isAcceptableOrUnknown(data['model']!, _modelMeta));
+    if (data.containsKey('models')) {
+      context.handle(_modelsMeta,
+          models.isAcceptableOrUnknown(data['models']!, _modelsMeta));
     } else if (isInserting) {
-      context.missing(_modelMeta);
+      context.missing(_modelsMeta);
+    }
+    if (data.containsKey('default_model')) {
+      context.handle(
+          _defaultModelMeta,
+          defaultModel.isAcceptableOrUnknown(
+              data['default_model']!, _defaultModelMeta));
+    } else if (isInserting) {
+      context.missing(_defaultModelMeta);
     }
     if (data.containsKey('api_key_encrypted')) {
       context.handle(
@@ -1345,6 +1376,14 @@ class $AIConfigsTable extends AIConfigs
     if (data.containsKey('is_default')) {
       context.handle(_isDefaultMeta,
           isDefault.isAcceptableOrUnknown(data['is_default']!, _isDefaultMeta));
+    }
+    if (data.containsKey('base_url')) {
+      context.handle(_baseUrlMeta,
+          baseUrl.isAcceptableOrUnknown(data['base_url']!, _baseUrlMeta));
+    }
+    if (data.containsKey('api_format')) {
+      context.handle(_apiFormatMeta,
+          apiFormat.isAcceptableOrUnknown(data['api_format']!, _apiFormatMeta));
     }
     if (data.containsKey('config_json')) {
       context.handle(
@@ -1375,12 +1414,18 @@ class $AIConfigsTable extends AIConfigs
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       provider: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}provider'])!,
-      model: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}model'])!,
+      models: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}models'])!,
+      defaultModel: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}default_model'])!,
       apiKeyEncrypted: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}api_key_encrypted'])!,
       isDefault: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_default'])!,
+      baseUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}base_url']),
+      apiFormat: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}api_format'])!,
       configJson: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}config_json']),
       createdAt: attachedDatabase.typeMapping
@@ -1403,17 +1448,26 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
   /// Display name for this configuration.
   final String name;
 
-  /// AI provider: 'openai' or 'claude'.
+  /// AI provider: 'openai', 'claude', or 'custom'.
   final String provider;
 
-  /// Model identifier (e.g., 'gpt-4', 'claude-3-5-sonnet').
-  final String model;
+  /// Model identifiers as JSON array (e.g., '["gpt-4o", "gpt-4o-mini"]').
+  final String models;
+
+  /// Default model identifier.
+  final String defaultModel;
 
   /// Encrypted API key.
   final String apiKeyEncrypted;
 
   /// Whether this is the default configuration.
   final bool isDefault;
+
+  /// Custom API endpoint URL (for custom providers).
+  final String? baseUrl;
+
+  /// API format type: 'openai' or 'claude' (for custom providers).
+  final String apiFormat;
 
   /// Additional configuration as JSON.
   final String? configJson;
@@ -1427,9 +1481,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
       {required this.id,
       required this.name,
       required this.provider,
-      required this.model,
+      required this.models,
+      required this.defaultModel,
       required this.apiKeyEncrypted,
       required this.isDefault,
+      this.baseUrl,
+      required this.apiFormat,
       this.configJson,
       required this.createdAt,
       this.updatedAt});
@@ -1439,9 +1496,14 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['provider'] = Variable<String>(provider);
-    map['model'] = Variable<String>(model);
+    map['models'] = Variable<String>(models);
+    map['default_model'] = Variable<String>(defaultModel);
     map['api_key_encrypted'] = Variable<String>(apiKeyEncrypted);
     map['is_default'] = Variable<bool>(isDefault);
+    if (!nullToAbsent || baseUrl != null) {
+      map['base_url'] = Variable<String>(baseUrl);
+    }
+    map['api_format'] = Variable<String>(apiFormat);
     if (!nullToAbsent || configJson != null) {
       map['config_json'] = Variable<String>(configJson);
     }
@@ -1457,9 +1519,14 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
       id: Value(id),
       name: Value(name),
       provider: Value(provider),
-      model: Value(model),
+      models: Value(models),
+      defaultModel: Value(defaultModel),
       apiKeyEncrypted: Value(apiKeyEncrypted),
       isDefault: Value(isDefault),
+      baseUrl: baseUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(baseUrl),
+      apiFormat: Value(apiFormat),
       configJson: configJson == null && nullToAbsent
           ? const Value.absent()
           : Value(configJson),
@@ -1477,9 +1544,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       provider: serializer.fromJson<String>(json['provider']),
-      model: serializer.fromJson<String>(json['model']),
+      models: serializer.fromJson<String>(json['models']),
+      defaultModel: serializer.fromJson<String>(json['defaultModel']),
       apiKeyEncrypted: serializer.fromJson<String>(json['apiKeyEncrypted']),
       isDefault: serializer.fromJson<bool>(json['isDefault']),
+      baseUrl: serializer.fromJson<String?>(json['baseUrl']),
+      apiFormat: serializer.fromJson<String>(json['apiFormat']),
       configJson: serializer.fromJson<String?>(json['configJson']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
@@ -1492,9 +1562,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'provider': serializer.toJson<String>(provider),
-      'model': serializer.toJson<String>(model),
+      'models': serializer.toJson<String>(models),
+      'defaultModel': serializer.toJson<String>(defaultModel),
       'apiKeyEncrypted': serializer.toJson<String>(apiKeyEncrypted),
       'isDefault': serializer.toJson<bool>(isDefault),
+      'baseUrl': serializer.toJson<String?>(baseUrl),
+      'apiFormat': serializer.toJson<String>(apiFormat),
       'configJson': serializer.toJson<String?>(configJson),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
@@ -1505,9 +1578,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
           {String? id,
           String? name,
           String? provider,
-          String? model,
+          String? models,
+          String? defaultModel,
           String? apiKeyEncrypted,
           bool? isDefault,
+          Value<String?> baseUrl = const Value.absent(),
+          String? apiFormat,
           Value<String?> configJson = const Value.absent(),
           DateTime? createdAt,
           Value<DateTime?> updatedAt = const Value.absent()}) =>
@@ -1515,9 +1591,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
         id: id ?? this.id,
         name: name ?? this.name,
         provider: provider ?? this.provider,
-        model: model ?? this.model,
+        models: models ?? this.models,
+        defaultModel: defaultModel ?? this.defaultModel,
         apiKeyEncrypted: apiKeyEncrypted ?? this.apiKeyEncrypted,
         isDefault: isDefault ?? this.isDefault,
+        baseUrl: baseUrl.present ? baseUrl.value : this.baseUrl,
+        apiFormat: apiFormat ?? this.apiFormat,
         configJson: configJson.present ? configJson.value : this.configJson,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
@@ -1527,11 +1606,16 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       provider: data.provider.present ? data.provider.value : this.provider,
-      model: data.model.present ? data.model.value : this.model,
+      models: data.models.present ? data.models.value : this.models,
+      defaultModel: data.defaultModel.present
+          ? data.defaultModel.value
+          : this.defaultModel,
       apiKeyEncrypted: data.apiKeyEncrypted.present
           ? data.apiKeyEncrypted.value
           : this.apiKeyEncrypted,
       isDefault: data.isDefault.present ? data.isDefault.value : this.isDefault,
+      baseUrl: data.baseUrl.present ? data.baseUrl.value : this.baseUrl,
+      apiFormat: data.apiFormat.present ? data.apiFormat.value : this.apiFormat,
       configJson:
           data.configJson.present ? data.configJson.value : this.configJson,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -1545,9 +1629,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('provider: $provider, ')
-          ..write('model: $model, ')
+          ..write('models: $models, ')
+          ..write('defaultModel: $defaultModel, ')
           ..write('apiKeyEncrypted: $apiKeyEncrypted, ')
           ..write('isDefault: $isDefault, ')
+          ..write('baseUrl: $baseUrl, ')
+          ..write('apiFormat: $apiFormat, ')
           ..write('configJson: $configJson, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -1556,8 +1643,19 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
   }
 
   @override
-  int get hashCode => Object.hash(id, name, provider, model, apiKeyEncrypted,
-      isDefault, configJson, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      id,
+      name,
+      provider,
+      models,
+      defaultModel,
+      apiKeyEncrypted,
+      isDefault,
+      baseUrl,
+      apiFormat,
+      configJson,
+      createdAt,
+      updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1565,9 +1663,12 @@ class AIConfig extends DataClass implements Insertable<AIConfig> {
           other.id == this.id &&
           other.name == this.name &&
           other.provider == this.provider &&
-          other.model == this.model &&
+          other.models == this.models &&
+          other.defaultModel == this.defaultModel &&
           other.apiKeyEncrypted == this.apiKeyEncrypted &&
           other.isDefault == this.isDefault &&
+          other.baseUrl == this.baseUrl &&
+          other.apiFormat == this.apiFormat &&
           other.configJson == this.configJson &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -1577,9 +1678,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
   final Value<String> id;
   final Value<String> name;
   final Value<String> provider;
-  final Value<String> model;
+  final Value<String> models;
+  final Value<String> defaultModel;
   final Value<String> apiKeyEncrypted;
   final Value<bool> isDefault;
+  final Value<String?> baseUrl;
+  final Value<String> apiFormat;
   final Value<String?> configJson;
   final Value<DateTime> createdAt;
   final Value<DateTime?> updatedAt;
@@ -1588,9 +1692,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.provider = const Value.absent(),
-    this.model = const Value.absent(),
+    this.models = const Value.absent(),
+    this.defaultModel = const Value.absent(),
     this.apiKeyEncrypted = const Value.absent(),
     this.isDefault = const Value.absent(),
+    this.baseUrl = const Value.absent(),
+    this.apiFormat = const Value.absent(),
     this.configJson = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -1600,9 +1707,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
     required String id,
     required String name,
     required String provider,
-    required String model,
+    required String models,
+    required String defaultModel,
     required String apiKeyEncrypted,
     this.isDefault = const Value.absent(),
+    this.baseUrl = const Value.absent(),
+    this.apiFormat = const Value.absent(),
     this.configJson = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -1610,15 +1720,19 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
   })  : id = Value(id),
         name = Value(name),
         provider = Value(provider),
-        model = Value(model),
+        models = Value(models),
+        defaultModel = Value(defaultModel),
         apiKeyEncrypted = Value(apiKeyEncrypted);
   static Insertable<AIConfig> custom({
     Expression<String>? id,
     Expression<String>? name,
     Expression<String>? provider,
-    Expression<String>? model,
+    Expression<String>? models,
+    Expression<String>? defaultModel,
     Expression<String>? apiKeyEncrypted,
     Expression<bool>? isDefault,
+    Expression<String>? baseUrl,
+    Expression<String>? apiFormat,
     Expression<String>? configJson,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
@@ -1628,9 +1742,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (provider != null) 'provider': provider,
-      if (model != null) 'model': model,
+      if (models != null) 'models': models,
+      if (defaultModel != null) 'default_model': defaultModel,
       if (apiKeyEncrypted != null) 'api_key_encrypted': apiKeyEncrypted,
       if (isDefault != null) 'is_default': isDefault,
+      if (baseUrl != null) 'base_url': baseUrl,
+      if (apiFormat != null) 'api_format': apiFormat,
       if (configJson != null) 'config_json': configJson,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -1642,9 +1759,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
       {Value<String>? id,
       Value<String>? name,
       Value<String>? provider,
-      Value<String>? model,
+      Value<String>? models,
+      Value<String>? defaultModel,
       Value<String>? apiKeyEncrypted,
       Value<bool>? isDefault,
+      Value<String?>? baseUrl,
+      Value<String>? apiFormat,
       Value<String?>? configJson,
       Value<DateTime>? createdAt,
       Value<DateTime?>? updatedAt,
@@ -1653,9 +1773,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
       id: id ?? this.id,
       name: name ?? this.name,
       provider: provider ?? this.provider,
-      model: model ?? this.model,
+      models: models ?? this.models,
+      defaultModel: defaultModel ?? this.defaultModel,
       apiKeyEncrypted: apiKeyEncrypted ?? this.apiKeyEncrypted,
       isDefault: isDefault ?? this.isDefault,
+      baseUrl: baseUrl ?? this.baseUrl,
+      apiFormat: apiFormat ?? this.apiFormat,
       configJson: configJson ?? this.configJson,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -1675,14 +1798,23 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
     if (provider.present) {
       map['provider'] = Variable<String>(provider.value);
     }
-    if (model.present) {
-      map['model'] = Variable<String>(model.value);
+    if (models.present) {
+      map['models'] = Variable<String>(models.value);
+    }
+    if (defaultModel.present) {
+      map['default_model'] = Variable<String>(defaultModel.value);
     }
     if (apiKeyEncrypted.present) {
       map['api_key_encrypted'] = Variable<String>(apiKeyEncrypted.value);
     }
     if (isDefault.present) {
       map['is_default'] = Variable<bool>(isDefault.value);
+    }
+    if (baseUrl.present) {
+      map['base_url'] = Variable<String>(baseUrl.value);
+    }
+    if (apiFormat.present) {
+      map['api_format'] = Variable<String>(apiFormat.value);
     }
     if (configJson.present) {
       map['config_json'] = Variable<String>(configJson.value);
@@ -1705,9 +1837,12 @@ class AIConfigsCompanion extends UpdateCompanion<AIConfig> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('provider: $provider, ')
-          ..write('model: $model, ')
+          ..write('models: $models, ')
+          ..write('defaultModel: $defaultModel, ')
           ..write('apiKeyEncrypted: $apiKeyEncrypted, ')
           ..write('isDefault: $isDefault, ')
+          ..write('baseUrl: $baseUrl, ')
+          ..write('apiFormat: $apiFormat, ')
           ..write('configJson: $configJson, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
@@ -2341,9 +2476,12 @@ typedef $$AIConfigsTableCreateCompanionBuilder = AIConfigsCompanion Function({
   required String id,
   required String name,
   required String provider,
-  required String model,
+  required String models,
+  required String defaultModel,
   required String apiKeyEncrypted,
   Value<bool> isDefault,
+  Value<String?> baseUrl,
+  Value<String> apiFormat,
   Value<String?> configJson,
   Value<DateTime> createdAt,
   Value<DateTime?> updatedAt,
@@ -2353,9 +2491,12 @@ typedef $$AIConfigsTableUpdateCompanionBuilder = AIConfigsCompanion Function({
   Value<String> id,
   Value<String> name,
   Value<String> provider,
-  Value<String> model,
+  Value<String> models,
+  Value<String> defaultModel,
   Value<String> apiKeyEncrypted,
   Value<bool> isDefault,
+  Value<String?> baseUrl,
+  Value<String> apiFormat,
   Value<String?> configJson,
   Value<DateTime> createdAt,
   Value<DateTime?> updatedAt,
@@ -2380,8 +2521,11 @@ class $$AIConfigsTableFilterComposer
   ColumnFilters<String> get provider => $composableBuilder(
       column: $table.provider, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get model => $composableBuilder(
-      column: $table.model, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get models => $composableBuilder(
+      column: $table.models, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get defaultModel => $composableBuilder(
+      column: $table.defaultModel, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get apiKeyEncrypted => $composableBuilder(
       column: $table.apiKeyEncrypted,
@@ -2389,6 +2533,12 @@ class $$AIConfigsTableFilterComposer
 
   ColumnFilters<bool> get isDefault => $composableBuilder(
       column: $table.isDefault, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get baseUrl => $composableBuilder(
+      column: $table.baseUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get apiFormat => $composableBuilder(
+      column: $table.apiFormat, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get configJson => $composableBuilder(
       column: $table.configJson, builder: (column) => ColumnFilters(column));
@@ -2418,8 +2568,12 @@ class $$AIConfigsTableOrderingComposer
   ColumnOrderings<String> get provider => $composableBuilder(
       column: $table.provider, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get model => $composableBuilder(
-      column: $table.model, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get models => $composableBuilder(
+      column: $table.models, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get defaultModel => $composableBuilder(
+      column: $table.defaultModel,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get apiKeyEncrypted => $composableBuilder(
       column: $table.apiKeyEncrypted,
@@ -2427,6 +2581,12 @@ class $$AIConfigsTableOrderingComposer
 
   ColumnOrderings<bool> get isDefault => $composableBuilder(
       column: $table.isDefault, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get baseUrl => $composableBuilder(
+      column: $table.baseUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get apiFormat => $composableBuilder(
+      column: $table.apiFormat, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get configJson => $composableBuilder(
       column: $table.configJson, builder: (column) => ColumnOrderings(column));
@@ -2456,14 +2616,23 @@ class $$AIConfigsTableAnnotationComposer
   GeneratedColumn<String> get provider =>
       $composableBuilder(column: $table.provider, builder: (column) => column);
 
-  GeneratedColumn<String> get model =>
-      $composableBuilder(column: $table.model, builder: (column) => column);
+  GeneratedColumn<String> get models =>
+      $composableBuilder(column: $table.models, builder: (column) => column);
+
+  GeneratedColumn<String> get defaultModel => $composableBuilder(
+      column: $table.defaultModel, builder: (column) => column);
 
   GeneratedColumn<String> get apiKeyEncrypted => $composableBuilder(
       column: $table.apiKeyEncrypted, builder: (column) => column);
 
   GeneratedColumn<bool> get isDefault =>
       $composableBuilder(column: $table.isDefault, builder: (column) => column);
+
+  GeneratedColumn<String> get baseUrl =>
+      $composableBuilder(column: $table.baseUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get apiFormat =>
+      $composableBuilder(column: $table.apiFormat, builder: (column) => column);
 
   GeneratedColumn<String> get configJson => $composableBuilder(
       column: $table.configJson, builder: (column) => column);
@@ -2501,9 +2670,12 @@ class $$AIConfigsTableTableManager extends RootTableManager<
             Value<String> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<String> provider = const Value.absent(),
-            Value<String> model = const Value.absent(),
+            Value<String> models = const Value.absent(),
+            Value<String> defaultModel = const Value.absent(),
             Value<String> apiKeyEncrypted = const Value.absent(),
             Value<bool> isDefault = const Value.absent(),
+            Value<String?> baseUrl = const Value.absent(),
+            Value<String> apiFormat = const Value.absent(),
             Value<String?> configJson = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
@@ -2513,9 +2685,12 @@ class $$AIConfigsTableTableManager extends RootTableManager<
             id: id,
             name: name,
             provider: provider,
-            model: model,
+            models: models,
+            defaultModel: defaultModel,
             apiKeyEncrypted: apiKeyEncrypted,
             isDefault: isDefault,
+            baseUrl: baseUrl,
+            apiFormat: apiFormat,
             configJson: configJson,
             createdAt: createdAt,
             updatedAt: updatedAt,
@@ -2525,9 +2700,12 @@ class $$AIConfigsTableTableManager extends RootTableManager<
             required String id,
             required String name,
             required String provider,
-            required String model,
+            required String models,
+            required String defaultModel,
             required String apiKeyEncrypted,
             Value<bool> isDefault = const Value.absent(),
+            Value<String?> baseUrl = const Value.absent(),
+            Value<String> apiFormat = const Value.absent(),
             Value<String?> configJson = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
@@ -2537,9 +2715,12 @@ class $$AIConfigsTableTableManager extends RootTableManager<
             id: id,
             name: name,
             provider: provider,
-            model: model,
+            models: models,
+            defaultModel: defaultModel,
             apiKeyEncrypted: apiKeyEncrypted,
             isDefault: isDefault,
+            baseUrl: baseUrl,
+            apiFormat: apiFormat,
             configJson: configJson,
             createdAt: createdAt,
             updatedAt: updatedAt,

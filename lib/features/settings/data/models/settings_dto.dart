@@ -17,6 +17,7 @@ class SettingsDto {
     this.notificationsEnabled = true,
     this.soundEnabled = true,
     this.vibrationEnabled = true,
+    this.accessibilityMode = 'standard',
   });
 
   /// Creates a settings DTO from JSON.
@@ -38,6 +39,9 @@ class SettingsDto {
   /// Whether vibration is enabled.
   final bool vibrationEnabled;
 
+  /// Accessibility mode string.
+  final String accessibilityMode;
+
   /// Converts this DTO to JSON.
   Map<String, dynamic> toJson() => _$SettingsDtoToJson(this);
 
@@ -48,6 +52,7 @@ class SettingsDto {
         notificationsEnabled: notificationsEnabled,
         soundEnabled: soundEnabled,
         vibrationEnabled: vibrationEnabled,
+        accessibilityMode: _parseAccessibilityMode(accessibilityMode),
       );
 
   /// Creates a DTO from an entity.
@@ -57,6 +62,7 @@ class SettingsDto {
         notificationsEnabled: entity.notificationsEnabled,
         soundEnabled: entity.soundEnabled,
         vibrationEnabled: entity.vibrationEnabled,
+        accessibilityMode: entity.accessibilityMode.name,
       );
 
   /// Parses theme mode string to enum.
@@ -65,6 +71,14 @@ class SettingsDto {
       'light' => AppThemeMode.light,
       'dark' => AppThemeMode.dark,
       _ => AppThemeMode.system,
+    };
+  }
+
+  /// Parses accessibility mode string to enum.
+  static AccessibilityMode _parseAccessibilityMode(String mode) {
+    return switch (mode) {
+      'elderly' => AccessibilityMode.elderly,
+      _ => AccessibilityMode.standard,
     };
   }
 }

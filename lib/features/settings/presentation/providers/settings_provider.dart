@@ -98,6 +98,18 @@ class SettingsNotifier extends _$SettingsNotifier {
     return !result.isFailure;
   }
 
+  Future<bool> updateAccessibilityMode(AccessibilityMode mode) async {
+    final repository = ref.read(settingsRepositoryProvider);
+    final result = await repository.updateAccessibilityMode(mode);
+
+    result.when(
+      failure: (_) => null,
+      success: (s) => state = AsyncValue.data(s),
+    );
+
+    return !result.isFailure;
+  }
+
   Future<bool> clearSettings() async {
     final repository = ref.read(settingsRepositoryProvider);
     final result = await repository.clearSettings();

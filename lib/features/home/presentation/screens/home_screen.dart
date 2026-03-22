@@ -433,12 +433,14 @@ class _ModuleItem {
     required this.title,
     required this.color,
     required this.bgColor,
+    this.route,
   });
 
   final IconData icon;
   final String title;
   final Color color;
   final Color bgColor;
+  final String? route;
 }
 
 /// Module grid with Chinese app style.
@@ -461,30 +463,35 @@ class _ModuleGrid extends StatelessWidget {
         title: localizations.moduleAuthTitle,
         color: const Color(0xFF4F46E5),
         bgColor: const Color(0xFFEEF2FF),
+        route: Routes.login,
       ),
       _ModuleItem(
         icon: Icons.chat_bubble_rounded,
         title: localizations.moduleChatTitle,
         color: const Color(0xFF059669),
         bgColor: const Color(0xFFECFDF5),
+        route: Routes.chat,
       ),
       _ModuleItem(
         icon: Icons.settings_rounded,
         title: localizations.moduleSettingsTitle,
         color: const Color(0xFFD97706),
         bgColor: const Color(0xFFFFF7ED),
+        route: Routes.settings,
       ),
       _ModuleItem(
         icon: Icons.privacy_tip_rounded,
         title: localizations.modulePrivacyTitle,
         color: const Color(0xFFDC2626),
         bgColor: const Color(0xFFFEF2F2),
+        route: Routes.privacySettings,
       ),
       _ModuleItem(
         icon: Icons.web_rounded,
         title: localizations.moduleWebViewTitle,
         color: const Color(0xFF0284C7),
         bgColor: const Color(0xFFF0F9FF),
+        route: Routes.webView,
       ),
       _ModuleItem(
         icon: Icons.extension_rounded,
@@ -536,33 +543,45 @@ class _ModuleGridItem extends StatelessWidget {
   final TextTheme textTheme;
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: item.bgColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              item.icon,
-              color: item.color,
-              size: 28,
-            ),
+  Widget build(BuildContext context) {
+    final content = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: item.bgColor,
+            borderRadius: BorderRadius.circular(12),
           ),
-          const SizedBox(height: 8),
-          Text(
-            item.title,
-            style: textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          child: Icon(
+            item.icon,
+            color: item.color,
+            size: 28,
           ),
-        ],
-      );
+        ),
+        const SizedBox(height: 8),
+        Text(
+          item.title,
+          style: textTheme.bodySmall?.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+
+    if (item.route == null) {
+      return content;
+    }
+
+    return InkWell(
+      onTap: () => context.push(item.route!),
+      borderRadius: BorderRadius.circular(12),
+      child: content,
+    );
+  }
 }
 
 /// Tech tags widget.

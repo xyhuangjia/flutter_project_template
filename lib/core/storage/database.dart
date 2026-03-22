@@ -120,17 +120,26 @@ class AIConfigs extends Table {
   /// Display name for this configuration.
   TextColumn get name => text().withLength(min: 1, max: 100)();
 
-  /// AI provider: 'openai' or 'claude'.
+  /// AI provider: 'openai', 'claude', or 'custom'.
   TextColumn get provider => text()();
 
-  /// Model identifier (e.g., 'gpt-4', 'claude-3-5-sonnet').
-  TextColumn get model => text()();
+  /// Model identifiers as JSON array (e.g., '["gpt-4o", "gpt-4o-mini"]').
+  TextColumn get models => text()();
+
+  /// Default model identifier.
+  TextColumn get defaultModel => text()();
 
   /// Encrypted API key.
   TextColumn get apiKeyEncrypted => text()();
 
   /// Whether this is the default configuration.
   BoolColumn get isDefault => boolean().withDefault(const Constant(false))();
+
+  /// Custom API endpoint URL (for custom providers).
+  TextColumn get baseUrl => text().nullable()();
+
+  /// API format type: 'openai' or 'claude' (for custom providers).
+  TextColumn get apiFormat => text().withDefault(const Constant('openai'))();
 
   /// Additional configuration as JSON.
   TextColumn get configJson => text().nullable()();
@@ -157,7 +166,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.connection) : super();
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -168,6 +177,31 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(chatConversations);
             await m.createTable(chatMessages);
             await m.createTable(aIConfigs);
+            // Fresh install with new schema, no data migration needed for v4
+          }
+          if (from >= 2 && from < 3) {
+            // Add baseUrl and apiFormat columns for custom providers
+            await m.addColumn(aIConfigs, aIConfigs.baseUrl);
+            await m.addColumn(aIConfigs, aIConfigs.apiFormat);
+          }
+          if (from >= 2 && from < 4) {
+            // Migrate from single model to multiple models
+            // Add new columns first
+            await m.addColumn(aIConfigs, aIConfigs.models);
+            await m.addColumn(aIConfigs, aIConfigs.defaultModel);
+
+            // Migrate existing data using custom SQL
+            // Only run if the old 'model' column exists
+            try {
+              await customStatement('''
+                UPDATE aI_configs
+                SET models = '["' || model || '"]',
+                    defaultModel = model
+                WHERE models IS NULL OR models = ''
+              ''');
+            } catch (_) {
+              // Column 'model' doesn't exist, skip migration
+            }
           }
         },
         beforeOpen: (details) async =>

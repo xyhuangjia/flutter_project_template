@@ -23,7 +23,11 @@
       "Bash(flutter devices:*)",
       "Bash(flutter run:*)",
       "Bash(perl -i -pe 'chomp if eof' /Users/huangj/Desktop/gitSpace/flutter_project_template/lib/features/home/presentation/screens/home_screen.dart)",
-      "Bash(xxd)"
+      "Bash(xxd)",
+      "mcp__stitch__list_projects",
+      "mcp__stitch__create_project",
+      "mcp__stitch__generate_screen_from_text",
+      "mcp__stitch__list_screens"
     ]
   }
 }

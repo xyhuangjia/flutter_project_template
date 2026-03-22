@@ -171,7 +171,7 @@ class AIConfigScreen extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        _getModelDisplayName(config.provider, config.model),
+                        _getModelsDisplayText(config),
                         style: TextStyle(
                           fontSize: 12,
                           color: colorScheme.onSurfaceVariant,
@@ -248,12 +248,28 @@ class AIConfigScreen extends ConsumerWidget {
         return Icons.auto_awesome;
       case 'claude':
         return Icons.psychology;
+      case 'custom':
+        return Icons.dns;
       default:
         return Icons.smart_toy;
     }
   }
 
+  String _getModelsDisplayText(AIConfigEntity config) {
+    if (config.models.isEmpty) return 'No models';
+
+    // Show default model first, then count of others
+    final defaultDisplay = _getModelDisplayName(config.provider, config.defaultModel);
+    if (config.models.length == 1) {
+      return defaultDisplay;
+    }
+    return '$defaultDisplay (+${config.models.length - 1} more)';
+  }
+
   String _getModelDisplayName(String provider, String model) {
+    if (provider == 'custom') {
+      return model;
+    }
     final models = {
       'openai': {
         'gpt-4o': 'GPT-4o',
@@ -339,16 +355,24 @@ class _AddConfigSheet extends ConsumerStatefulWidget {
 class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
   final _nameController = TextEditingController();
   final _apiKeyController = TextEditingController();
+  final _customModelController = TextEditingController();
+  final _baseUrlController = TextEditingController();
   String _selectedProvider = 'openai';
-  String _selectedModel = 'gpt-4o';
+  String _selectedApiFormat = 'openai';
+  Set<String> _selectedModels = {'gpt-4o'};
+  String _defaultModel = 'gpt-4o';
   bool _isLoading = false;
   String? _error;
   bool _obscureApiKey = true;
+
+  bool get _isCustomProvider => _selectedProvider == 'custom';
 
   @override
   void dispose() {
     _nameController.dispose();
     _apiKeyController.dispose();
+    _customModelController.dispose();
+    _baseUrlController.dispose();
     super.dispose();
   }
 
@@ -407,17 +431,87 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
             const SizedBox(height: 8),
             _buildProviderSelector(models, colorScheme),
             const SizedBox(height: 16),
-            // Model selection
-            Text(
-              widget.localizations.model,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: colorScheme.onSurfaceVariant,
+            // Custom provider fields
+            if (_isCustomProvider) ...[
+              // API Format selection
+              Text(
+                widget.localizations.apiFormat,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            _buildModelSelector(selectedProviderInfo, colorScheme),
+              const SizedBox(height: 8),
+              _buildApiFormatSelector(colorScheme),
+              const SizedBox(height: 16),
+              // Base URL input
+              Text(
+                widget.localizations.baseUrl,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _baseUrlController,
+                decoration: InputDecoration(
+                  hintText: widget.localizations.baseUrlHint,
+                  filled: true,
+                  fillColor: colorScheme.surfaceContainerHighest,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              // Custom model input
+              Text(
+                widget.localizations.model,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _customModelController,
+                decoration: InputDecoration(
+                  hintText: widget.localizations.customModelHint,
+                  filled: true,
+                  fillColor: colorScheme.surfaceContainerHighest,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              // Custom provider help text
+              Text(
+                widget.localizations.customProviderHelp,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ] else ...[
+              // Model selection (for predefined providers)
+              Text(
+                widget.localizations.selectModels,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
+              _buildModelsSelector(selectedProviderInfo, colorScheme),
+            ],
             const SizedBox(height: 16),
             // Name input
             Text(
@@ -478,15 +572,16 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
             ),
             const SizedBox(height: 8),
             // API Key help text
-            Text(
-              _selectedProvider == 'openai'
-                  ? widget.localizations.openAIKeyHelp
-                  : widget.localizations.claudeKeyHelp,
-              style: TextStyle(
-                fontSize: 12,
-                color: colorScheme.onSurfaceVariant,
+            if (!_isCustomProvider)
+              Text(
+                _selectedProvider == 'openai'
+                    ? widget.localizations.openAIKeyHelp
+                    : widget.localizations.claudeKeyHelp,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
             // Error message
             if (_error != null) ...[
               const SizedBox(height: 12),
@@ -556,7 +651,14 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
             if (selected) {
               setState(() {
                 _selectedProvider = provider.provider;
-                _selectedModel = provider.models.first.id;
+                // Reset selected models for new provider
+                if (provider.models.isNotEmpty) {
+                  _selectedModels = {provider.models.first.id};
+                  _defaultModel = provider.models.first.id;
+                } else {
+                  _selectedModels = {};
+                  _defaultModel = '';
+                }
               });
             }
           },
@@ -574,58 +676,183 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
     );
   }
 
-  Widget _buildModelSelector(
-      AIModelInfo providerInfo, ColorScheme colorScheme) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedModel,
-          isExpanded: true,
-          items: providerInfo.models.map((model) {
-            return DropdownMenuItem(
-              value: model.id,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    model.name,
-                    style: TextStyle(
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                  if (model.description != null)
-                    Text(
-                      model.description!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                ],
-              ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            if (value != null) {
+  Widget _buildApiFormatSelector(ColorScheme colorScheme) {
+    return Wrap(
+      spacing: 8,
+      children: [
+        ChoiceChip(
+          label: Text(widget.localizations.openaiFormat),
+          selected: _selectedApiFormat == 'openai',
+          onSelected: (selected) {
+            if (selected) {
               setState(() {
-                _selectedModel = value;
+                _selectedApiFormat = 'openai';
               });
             }
           },
+          selectedColor: AppIconColors.aiColor.withValues(alpha: 0.2),
+          backgroundColor: colorScheme.surfaceContainerHighest,
+          labelStyle: TextStyle(
+            color: _selectedApiFormat == 'openai'
+                ? AppIconColors.aiColor
+                : colorScheme.onSurface,
+            fontWeight: _selectedApiFormat == 'openai'
+                ? FontWeight.w600
+                : FontWeight.normal,
+          ),
+          side: BorderSide(
+            color: _selectedApiFormat == 'openai'
+                ? AppIconColors.aiColor
+                : colorScheme.outline,
+          ),
         ),
-      ),
+        ChoiceChip(
+          label: Text(widget.localizations.claudeFormat),
+          selected: _selectedApiFormat == 'claude',
+          onSelected: (selected) {
+            if (selected) {
+              setState(() {
+                _selectedApiFormat = 'claude';
+              });
+            }
+          },
+          selectedColor: AppIconColors.aiColor.withValues(alpha: 0.2),
+          backgroundColor: colorScheme.surfaceContainerHighest,
+          labelStyle: TextStyle(
+            color: _selectedApiFormat == 'claude'
+                ? AppIconColors.aiColor
+                : colorScheme.onSurface,
+            fontWeight: _selectedApiFormat == 'claude'
+                ? FontWeight.w600
+                : FontWeight.normal,
+          ),
+          side: BorderSide(
+            color: _selectedApiFormat == 'claude'
+                ? AppIconColors.aiColor
+                : colorScheme.outline,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildModelsSelector(
+      AIModelInfo providerInfo, ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Model chips
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: providerInfo.models.map((model) {
+            final isSelected = _selectedModels.contains(model.id);
+            final isDefault = _defaultModel == model.id;
+            return FilterChip(
+              label: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(model.name),
+                  if (isDefault) ...[
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.star,
+                      size: 14,
+                      color: isSelected
+                          ? AppIconColors.aiColor
+                          : colorScheme.onSurfaceVariant,
+                    ),
+                  ],
+                ],
+              ),
+              selected: isSelected,
+              onSelected: (selected) {
+                setState(() {
+                  if (selected) {
+                    _selectedModels.add(model.id);
+                    if (_defaultModel.isEmpty) {
+                      _defaultModel = model.id;
+                    }
+                  } else {
+                    _selectedModels.remove(model.id);
+                    if (_defaultModel == model.id) {
+                      _defaultModel = _selectedModels.firstOrNull ?? '';
+                    }
+                  }
+                });
+              },
+              selectedColor: AppIconColors.aiColor.withValues(alpha: 0.2),
+              backgroundColor: colorScheme.surfaceContainerHighest,
+              labelStyle: TextStyle(
+                color: isSelected ? AppIconColors.aiColor : colorScheme.onSurface,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              ),
+              side: BorderSide(
+                color: isSelected ? AppIconColors.aiColor : colorScheme.outline,
+              ),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 12),
+        // Selected models with set default option
+        if (_selectedModels.isNotEmpty) ...[
+          Text(
+            '${widget.localizations.currentModel}:',
+            style: TextStyle(
+              fontSize: 12,
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: _selectedModels.map((modelId) {
+              final modelInfo = providerInfo.models.firstWhere(
+                (m) => m.id == modelId,
+                orElse: () => ModelInfo(id: modelId, name: modelId),
+              );
+              final isDefault = _defaultModel == modelId;
+              return InputChip(
+                label: Text(modelInfo.name),
+                selected: isDefault,
+                onSelected: (_) {
+                  setState(() {
+                    _defaultModel = modelId;
+                  });
+                },
+                deleteIcon: _selectedModels.length > 1
+                    ? const Icon(Icons.close, size: 16)
+                    : null,
+                onDeleted: _selectedModels.length > 1
+                    ? () {
+                        setState(() {
+                          _selectedModels.remove(modelId);
+                          if (_defaultModel == modelId) {
+                            _defaultModel = _selectedModels.firstOrNull ?? '';
+                          }
+                        });
+                      }
+                    : null,
+                selectedColor: AppIconColors.aiColor.withValues(alpha: 0.2),
+                backgroundColor: colorScheme.surfaceContainerHighest,
+                labelStyle: TextStyle(
+                  color: isDefault ? AppIconColors.aiColor : colorScheme.onSurface,
+                  fontSize: 12,
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ],
     );
   }
 
   Future<void> _saveConfig() async {
     final name = _nameController.text.trim();
     final apiKey = _apiKeyController.text.trim();
+    final baseUrl = _baseUrlController.text.trim();
+    final customModel = _customModelController.text.trim();
 
     if (name.isEmpty) {
       setState(() => _error = widget.localizations.nameRequired);
@@ -637,19 +864,46 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
       return;
     }
 
+    // Custom provider validation
+    if (_isCustomProvider) {
+      if (baseUrl.isEmpty) {
+        setState(() => _error = widget.localizations.baseUrlRequired);
+        return;
+      }
+      if (customModel.isEmpty) {
+        setState(() => _error = widget.localizations.customModelRequired);
+        return;
+      }
+    } else {
+      // For predefined providers, must have at least one model selected
+      if (_selectedModels.isEmpty) {
+        setState(() => _error = widget.localizations.noModelsSelected);
+        return;
+      }
+    }
+
     setState(() {
       _isLoading = true;
       _error = null;
     });
 
     try {
+      // Prepare models list
+      final models = _isCustomProvider
+          ? [customModel]
+          : _selectedModels.toList();
+      final defaultModel = _isCustomProvider ? customModel : _defaultModel;
+
       final config =
           await ref.read(aIConfigNotifierProvider.notifier).addConfig(
                 name: name,
                 provider: _selectedProvider,
-                model: _selectedModel,
+                models: models,
+                defaultModel: defaultModel,
                 apiKey: apiKey,
                 isDefault: true,
+                baseUrl: _isCustomProvider ? baseUrl : null,
+                apiFormat: _isCustomProvider ? _selectedApiFormat : 'openai',
               );
 
       if (config != null) {

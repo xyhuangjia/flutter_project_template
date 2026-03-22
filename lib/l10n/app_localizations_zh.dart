@@ -942,6 +942,66 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noAIConfigMessage => '请先配置 AI 模型以开始聊天';
 
   @override
+  String get customProvider => '自定义';
+
+  @override
+  String get apiFormat => 'API 格式';
+
+  @override
+  String get openaiFormat => 'OpenAI 格式';
+
+  @override
+  String get claudeFormat => 'Claude 格式';
+
+  @override
+  String get baseUrl => 'API 端点';
+
+  @override
+  String get baseUrlHint => '例如：http://localhost:11434/v1';
+
+  @override
+  String get customModelHint => '输入模型名称';
+
+  @override
+  String get baseUrlRequired => '请输入 API 端点';
+
+  @override
+  String get customModelRequired => '请输入模型名称';
+
+  @override
+  String get customProviderHelp => '支持自定义 API 端点（Ollama、vLLM、DeepSeek 等）';
+
+  @override
+  String get selectModels => '选择模型';
+
+  @override
+  String get availableModels => '可用模型';
+
+  @override
+  String get addModel => '添加模型';
+
+  @override
+  String get removeModel => '移除模型';
+
+  @override
+  String get setDefaultModel => '设为默认';
+
+  @override
+  String get currentModel => '当前模型';
+
+  @override
+  String get switchModel => '切换模型';
+
+  @override
+  String get noModelsSelected => '请至少选择一个模型';
+
+  @override
+  String get modelAdded => '模型已添加';
+
+  @override
+  String get modelRemoved => '模型已移除';
+
+  @override
   String get environmentSection => '环境设置';
 
   @override
@@ -1086,4 +1146,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get searchHint => '搜索';
+
+  @override
+  String get accessibilityMode => '适老化模式';
+
+  @override
+  String get accessibilityModeDescription => '开启后字体和图标将放大，方便阅读';
+
+  @override
+  String get elderlyModeEnabled => '适老化模式已开启';
+
+  @override
+  String get elderlyModeDisabled => '适老化模式已关闭';
 }
