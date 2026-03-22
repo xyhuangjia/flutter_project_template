@@ -212,8 +212,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _isLoading = false);
 
     if (success && mounted) {
-      // Registration successful, navigate directly to chat
-      context.go(Routes.chat);
+      // Registration successful, navigate directly to home
+      context.go(Routes.home);
     }
   }
 
@@ -339,8 +339,8 @@ class _AlreadyLoggedInView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TextButton(
-              onPressed: () => context.go(Routes.chat),
-              child: const Text('Back to Chat'),
+              onPressed: () => context.go(Routes.home),
+              child: const Text('Back to Home'),
             ),
           ],
         ),

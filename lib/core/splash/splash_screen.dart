@@ -125,8 +125,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       return;
     }
 
-    talker.log('[SplashScreen] Navigating to chat');
-    context.go(Routes.chat);
+    talker.log('[SplashScreen] Navigating to home');
+    context.go(Routes.home);
   }
 
   @override

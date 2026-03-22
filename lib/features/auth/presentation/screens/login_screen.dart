@@ -47,7 +47,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = false);
 
     if (success && mounted) {
-      context.go(Routes.chat);
+      context.go(Routes.home);
     }
   }
 
@@ -59,7 +59,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = false);
 
     if (success && mounted) {
-      context.go(Routes.chat);
+      context.go(Routes.home);
     }
   }
 
