@@ -8,6 +8,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -159,7 +160,9 @@ class AIConfigs extends Table {
 /// Application database.
 ///
 /// Defines all tables and provides database access methods.
+/// Registered as a lazy singleton in GetIt for dependency injection.
 @DriftDatabase(tables: [Users, ChatConversations, ChatMessages, AIConfigs])
+@lazySingleton
 class AppDatabase extends _$AppDatabase {
   /// Creates the application database.
   AppDatabase() : super(_openConnection());

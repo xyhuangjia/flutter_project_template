@@ -9,10 +9,13 @@ import 'package:flutter_project_template/features/home/data/datasources/home_loc
 import 'package:flutter_project_template/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:flutter_project_template/features/home/domain/entities/home_entity.dart';
 import 'package:flutter_project_template/features/home/domain/repositories/home_repository.dart';
+import 'package:injectable/injectable.dart';
 
 /// Home repository implementation.
 ///
 /// Coordinates between local and remote data sources.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: HomeRepository)
 class HomeRepositoryImpl implements HomeRepository {
   /// Creates a home repository.
   HomeRepositoryImpl({

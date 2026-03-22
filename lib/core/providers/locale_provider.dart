@@ -6,7 +6,6 @@ library;
 
 import 'dart:ui';
 
-import 'package:flutter_project_template/core/storage/database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,12 +19,6 @@ const String _localePreferenceKey = 'app_locale';
 class SharedPrefs extends _$SharedPrefs {
   @override
   Future<SharedPreferences> build() async => SharedPreferences.getInstance();
-}
-
-/// App database provider.
-@riverpod
-AppDatabase appDatabase(AppDatabaseRef ref) {
-  return AppDatabase();
 }
 
 /// Locale notifier provider for managing app locale.

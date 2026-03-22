@@ -2,8 +2,11 @@
 library;
 
 import 'package:flutter_project_template/core/errors/failures.dart';
+import 'package:injectable/injectable.dart';
 
 /// Mock account service for testing account deletion flow.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class AccountServiceMock {
   /// Simulates account deletion API call.
   ///

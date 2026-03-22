@@ -7,8 +7,11 @@ import 'package:flutter_project_template/features/settings/data/datasources/deve
 import 'package:flutter_project_template/features/settings/data/models/developer_options_dto.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/developer_options.dart';
 import 'package:flutter_project_template/features/settings/domain/repositories/developer_options_repository.dart';
+import 'package:injectable/injectable.dart';
 
 /// Developer options repository implementation.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: DeveloperOptionsRepository)
 class DeveloperOptionsRepositoryImpl implements DeveloperOptionsRepository {
   /// Creates developer options repository.
   DeveloperOptionsRepositoryImpl({

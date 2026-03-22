@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter_project_template/features/home/data/models/dummy_model.dart';
+import 'package:injectable/injectable.dart';
 
 /// Abstract home local data source.
 ///
@@ -23,6 +24,8 @@ abstract class HomeLocalDataSource {
 ///
 /// Implements local storage using in-memory cache.
 /// In a real app, this would use SharedPreferences or Drift.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: HomeLocalDataSource)
 class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   /// Creates a home local data source.
   HomeLocalDataSourceImpl();

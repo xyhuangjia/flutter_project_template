@@ -7,9 +7,10 @@ part of 'developer_options_provider.dart';
 // **************************************************************************
 
 String _$developerOptionsLocalDataSourceHash() =>
-    r'8a0ca18f8a7ff11e60a1d06bbb3fc3e69f145b15';
+    r'4a071267336b40c7a41ec41e33672c37a6e28f30';
 
 /// Provider for DeveloperOptionsLocalDataSource.
+/// Uses GetIt for dependency injection.
 ///
 /// Copied from [developerOptionsLocalDataSource].
 @ProviderFor(developerOptionsLocalDataSource)
@@ -29,9 +30,10 @@ final developerOptionsLocalDataSourceProvider =
 typedef DeveloperOptionsLocalDataSourceRef
     = AutoDisposeProviderRef<DeveloperOptionsLocalDataSource>;
 String _$developerOptionsRepositoryHash() =>
-    r'abf2f8293d3e118b5c1133e166532bbbc764d409';
+    r'e93ec794551583fccab30598368a80e6d61f5406';
 
 /// Provider for DeveloperOptionsRepository.
+/// Uses GetIt for dependency injection.
 ///
 /// Copied from [developerOptionsRepository].
 @ProviderFor(developerOptionsRepository)

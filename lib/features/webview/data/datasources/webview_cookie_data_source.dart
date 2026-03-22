@@ -4,11 +4,14 @@
 library;
 
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// WebView cookie data source.
 ///
 /// Provides cookie management functionality for WebView.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class WebViewCookieDataSource {
   /// Creates a cookie data source.
   WebViewCookieDataSource();

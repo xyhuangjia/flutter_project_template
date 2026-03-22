@@ -6,11 +6,14 @@ library;
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// WebView file data source.
 ///
 /// Provides file download and management functionality.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class WebViewFileDataSource {
   /// Creates a file data source.
   WebViewFileDataSource();

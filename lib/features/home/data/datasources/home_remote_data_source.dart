@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter_project_template/features/home/data/models/dummy_model.dart';
+import 'package:injectable/injectable.dart';
 
 /// Abstract home remote data source.
 ///
@@ -16,6 +17,8 @@ abstract class HomeRemoteDataSource {
 /// Home remote data source implementation.
 ///
 /// Implements API calls using Dio client.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: HomeRemoteDataSource)
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   /// Creates a home remote data source.
   HomeRemoteDataSourceImpl();

@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter_project_template/features/auth/data/models/user_dto.dart';
+import 'package:injectable/injectable.dart';
 
 /// Verification code storage for mock implementation.
 class _VerificationCodeStorage {
@@ -46,6 +47,8 @@ class _CodeInfo {
 ///
 /// Handles remote API calls for authentication.
 /// This implementation uses mock data for development.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class AuthRemoteDataSource {
   /// Simulates network delay.
   Future<void> _simulateNetworkDelay() async {

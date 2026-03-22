@@ -8,8 +8,11 @@ import 'package:flutter_project_template/features/settings/data/models/settings_
 import 'package:flutter_project_template/features/settings/domain/entities/settings_entity.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/user_preferences.dart';
 import 'package:flutter_project_template/features/settings/domain/repositories/settings_repository.dart';
+import 'package:injectable/injectable.dart';
 
 /// Settings repository implementation.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: SettingsRepository)
 class SettingsRepositoryImpl implements SettingsRepository {
   /// Creates a settings repository.
   SettingsRepositoryImpl({required SettingsLocalDataSource localDataSource})

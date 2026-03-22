@@ -9,15 +9,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_project_template/core/constants/app_constants.dart';
 import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/core/network/api_interceptor.dart';
+import 'package:injectable/injectable.dart';
 
 /// Dio HTTP client wrapper.
 ///
 /// Provides a configured Dio instance with interceptors
 /// and default options.
+///
+/// Registered as a lazy singleton in GetIt for dependency injection.
+@lazySingleton
 class DioClient {
   /// Creates a Dio client.
+  ///
+  /// The [baseUrl] parameter is optional and defaults to AppConstants.apiBaseUrl.
+  /// When using GetIt injection, the default URL is used.
   DioClient({
-    String? baseUrl,
+    @ignoreParam String? baseUrl,
   }) : _dio = Dio(
           BaseOptions(
             baseUrl: baseUrl ?? AppConstants.apiBaseUrl,

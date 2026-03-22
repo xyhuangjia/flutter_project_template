@@ -7,8 +7,11 @@ import 'package:flutter_project_template/features/privacy/data/models/privacy_co
 import 'package:flutter_project_template/features/privacy/data/services/account_service_mock.dart';
 import 'package:flutter_project_template/features/privacy/domain/entities/privacy_state.dart';
 import 'package:flutter_project_template/features/privacy/domain/repositories/privacy_repository.dart';
+import 'package:injectable/injectable.dart';
 
 /// Privacy repository implementation.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: PrivacyRepository)
 class PrivacyRepositoryImpl implements PrivacyRepository {
   /// Creates a privacy repository.
   PrivacyRepositoryImpl({

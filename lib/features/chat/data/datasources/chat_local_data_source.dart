@@ -5,6 +5,7 @@
 library;
 
 import 'package:flutter_project_template/core/storage/database.dart';
+import 'package:injectable/injectable.dart';
 
 /// Abstract chat local data source.
 ///
@@ -72,6 +73,8 @@ abstract class ChatLocalDataSource {
 /// Chat local data source implementation.
 ///
 /// Implements local storage using Drift database.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: ChatLocalDataSource)
 class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   /// Creates a chat local data source.
   ChatLocalDataSourceImpl(this._database);

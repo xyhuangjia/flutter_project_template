@@ -6,11 +6,14 @@ library;
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// WebView local storage data source.
 ///
 /// Provides local storage functionality for WebView using SharedPreferences.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class WebViewLocalStorageDataSource {
   /// Creates a local storage data source.
   WebViewLocalStorageDataSource({

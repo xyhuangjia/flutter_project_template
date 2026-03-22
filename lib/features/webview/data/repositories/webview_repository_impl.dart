@@ -9,11 +9,14 @@ import 'package:flutter_project_template/features/webview/data/datasources/webvi
 import 'package:flutter_project_template/features/webview/data/datasources/webview_local_storage_data_source.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/js_bridge_message.dart';
 import 'package:flutter_project_template/features/webview/domain/repositories/webview_repository.dart';
+import 'package:injectable/injectable.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// WebView repository implementation.
 ///
 /// Coordinates between data sources to provide WebView functionality.
+/// Registered as a lazy singleton in GetIt.
+@LazySingleton(as: WebViewRepository)
 class WebViewRepositoryImpl implements WebViewRepository {
   /// Creates a webview repository implementation.
   WebViewRepositoryImpl({

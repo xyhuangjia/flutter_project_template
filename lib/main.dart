@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_project_template/app.dart';
 import 'package:flutter_project_template/core/config/environment_provider.dart';
+import 'package:flutter_project_template/core/di/injection.dart';
 import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +25,9 @@ void main() async {
   await dotenv.load();
 
   final sharedPreferences = await SharedPreferences.getInstance();
+
+  // Initialize GetIt dependency injection
+  await configureDependencies(sharedPreferences: sharedPreferences);
 
   final container = ProviderContainer(
     overrides: [

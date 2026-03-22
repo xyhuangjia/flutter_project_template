@@ -3,11 +3,14 @@ library;
 
 import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Authentication local data source.
 ///
 /// Handles local storage of authentication data using SharedPreferences.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class AuthLocalDataSource {
   /// Creates an auth local data source.
   AuthLocalDataSource({required SharedPreferences sharedPreferences})

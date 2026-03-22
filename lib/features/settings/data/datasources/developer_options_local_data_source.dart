@@ -4,11 +4,14 @@ library;
 import 'dart:convert';
 
 import 'package:flutter_project_template/features/settings/data/models/developer_options_dto.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Developer options local data source.
 ///
 /// Handles local storage of developer options using SharedPreferences.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class DeveloperOptionsLocalDataSource {
   /// Creates developer options local data source.
   DeveloperOptionsLocalDataSource({

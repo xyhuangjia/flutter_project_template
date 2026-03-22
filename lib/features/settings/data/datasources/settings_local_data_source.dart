@@ -4,11 +4,14 @@ library;
 import 'dart:convert';
 
 import 'package:flutter_project_template/features/settings/data/models/settings_dto.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Settings local data source.
 ///
 /// Handles local storage of settings using SharedPreferences.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class SettingsLocalDataSource {
   /// Creates a settings local data source.
   SettingsLocalDataSource({required SharedPreferences sharedPreferences})

@@ -8,10 +8,13 @@ import 'package:flutter_project_template/features/auth/data/datasources/auth_rem
 import 'package:flutter_project_template/features/auth/data/models/user_dto.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/domain/repositories/auth_repository.dart';
+import 'package:injectable/injectable.dart';
 
 /// Auth repository implementation.
 ///
 /// Coordinates between local and remote data sources.
+/// Registered as a lazy singleton in GetIt, bound to [AuthRepository] interface.
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   /// Creates an auth repository.
   AuthRepositoryImpl({
@@ -156,7 +159,8 @@ class AuthRepositoryImpl implements AuthRepository {
     required String code,
   }) async {
     return _handleBoolOperation(
-      () => _remoteDataSource.verifyPhoneCode(phoneNumber: phoneNumber, code: code),
+      () => _remoteDataSource.verifyPhoneCode(
+          phoneNumber: phoneNumber, code: code),
     );
   }
 

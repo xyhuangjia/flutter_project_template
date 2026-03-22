@@ -5,9 +5,12 @@ import 'dart:convert';
 
 import 'package:flutter_project_template/core/logging/talker_config.dart';
 import 'package:flutter_project_template/features/privacy/data/models/privacy_consent_dto.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Privacy local data source.
+/// Registered as a lazy singleton in GetIt.
+@lazySingleton
 class PrivacyLocalDataSource {
   /// Creates a privacy local data source.
   PrivacyLocalDataSource({required SharedPreferences sharedPreferences})

@@ -1,9 +1,9 @@
 /// Developer options provider using Riverpod code generation.
 library;
 
+import 'package:flutter_project_template/core/di/injection.dart';
 import 'package:flutter_project_template/core/providers/locale_provider.dart';
 import 'package:flutter_project_template/features/settings/data/datasources/developer_options_local_data_source.dart';
-import 'package:flutter_project_template/features/settings/data/repositories/developer_options_repository_impl.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/developer_options.dart';
 import 'package:flutter_project_template/features/settings/domain/repositories/developer_options_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,26 +11,21 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'developer_options_provider.g.dart';
 
 /// Provider for DeveloperOptionsLocalDataSource.
+/// Uses GetIt for dependency injection.
 @riverpod
 DeveloperOptionsLocalDataSource developerOptionsLocalDataSource(
   DeveloperOptionsLocalDataSourceRef ref,
 ) {
-  final prefs = ref.watch(sharedPrefsProvider).valueOrNull;
-  if (prefs == null) {
-    throw StateError('SharedPreferences not initialized');
-  }
-  return DeveloperOptionsLocalDataSource(sharedPreferences: prefs);
+  return getIt<DeveloperOptionsLocalDataSource>();
 }
 
 /// Provider for DeveloperOptionsRepository.
+/// Uses GetIt for dependency injection.
 @riverpod
 DeveloperOptionsRepository developerOptionsRepository(
   DeveloperOptionsRepositoryRef ref,
 ) {
-  return DeveloperOptionsRepositoryImpl(
-    localDataSource: ref.watch(developerOptionsLocalDataSourceProvider),
-    database: ref.watch(appDatabaseProvider),
-  );
+  return getIt<DeveloperOptionsRepository>();
 }
 
 /// Developer options notifier provider.
