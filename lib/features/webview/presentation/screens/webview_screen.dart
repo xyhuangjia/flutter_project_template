@@ -85,11 +85,13 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.arrow_back),
+                    splashRadius: 20,
                     onPressed: () => Navigator.of(context).maybePop(),
                     tooltip: localizations.back,
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
+                    splashRadius: 20,
                     onPressed: () => Navigator.of(context).pop(),
                     tooltip: localizations.close,
                   ),
@@ -104,8 +106,16 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
               actions: [
                 if (widget.enableNavigationControls)
                   PopupMenuButton<String>(
-                    icon: const Icon(Icons.more_vert),
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Theme.of(context).appBarTheme.foregroundColor,
+                    ),
+                    splashRadius: 20,
                     tooltip: localizations.webViewTitle,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
                     onSelected: (value) =>
                         _handleMenuAction(value, webViewNotifier, webViewState),
                     itemBuilder: (context) => [
