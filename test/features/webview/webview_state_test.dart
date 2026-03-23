@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/webview_state.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('WebViewState', () {
@@ -25,7 +25,6 @@ void main() {
         currentUrl: 'https://example.com',
         pageTitle: 'Example',
         canGoBack: true,
-        canGoForward: false,
       );
 
       expect(state.loadingState, equals(WebViewLoadingState.loading));

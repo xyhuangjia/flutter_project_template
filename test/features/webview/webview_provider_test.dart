@@ -1,7 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_project_template/features/webview/domain/entities/webview_state.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/webview_config.dart';
+import 'package:flutter_project_template/features/webview/domain/entities/webview_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('WebViewNotifier State Management', () {
@@ -135,7 +135,6 @@ void main() {
       test('allowed schemes filter navigation', () {
         const config = WebViewConfig(
           url: 'https://example.com',
-          allowedSchemes: ['http', 'https'],
         );
 
         final httpsUri = Uri.parse('https://example.com');

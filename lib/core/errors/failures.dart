@@ -101,13 +101,11 @@ sealed class Result<T> {
   bool get isFailure => this is FailureResult<T>;
 
   /// Gets the data if success, throws if failure.
-  T get data {
-    return switch (this) {
+  T get data => switch (this) {
       Success<T>(:final data) => data,
       FailureResult<T>(:final failure) =>
         throw StateError('No data in failure: $failure'),
     };
-  }
 
   /// Gets the data if success, null otherwise.
   T? get dataOrNull => switch (this) {
@@ -144,6 +142,7 @@ final class Success<T> extends Result<T> {
   const Success(this.data);
 
   /// The success data.
+  @override
   final T data;
 }
 

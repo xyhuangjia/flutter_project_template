@@ -4,7 +4,6 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/router/router_guard.dart';
 import 'package:flutter_project_template/core/router/routes.dart';
-import 'package:flutter_project_template/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/register_screen.dart';
@@ -22,6 +21,7 @@ import 'package:flutter_project_template/features/settings/presentation/screens/
 import 'package:flutter_project_template/features/settings/presentation/screens/developer_options_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/log_viewer_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
+import 'package:flutter_project_template/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
 import 'package:go_router/go_router.dart';
 

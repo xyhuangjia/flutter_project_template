@@ -18,18 +18,14 @@ class LoginUseCase {
   Future<Result<User>> executeWithEmail({
     required String email,
     required String password,
-  }) {
-    return _repository.loginWithEmail(email: email, password: password);
-  }
+  }) => _repository.loginWithEmail(email: email, password: password);
 
   /// Executes the login with username.
   Future<Result<User>> executeWithUsername({
     required String username,
     required String password,
-  }) {
-    return _repository.loginWithUsername(
+  }) => _repository.loginWithUsername(
       username: username,
       password: password,
     );
-  }
 }

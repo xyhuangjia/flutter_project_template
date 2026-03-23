@@ -157,8 +157,8 @@ void main() {
     });
 
     test('should handle only special characters', () {
-      expect(PasswordValidator.hasLetter('!@#\$%^&*'), isFalse);
-      expect(PasswordValidator.hasNumber('!@#\$%^&*'), isFalse);
+      expect(PasswordValidator.hasLetter(r'!@#$%^&*'), isFalse);
+      expect(PasswordValidator.hasNumber(r'!@#$%^&*'), isFalse);
     });
 
     test('should handle very long passwords', () {

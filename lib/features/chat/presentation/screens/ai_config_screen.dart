@@ -83,8 +83,7 @@ class AIConfigScreen extends ConsumerWidget {
     BuildContext context,
     AppLocalizations localizations,
     ColorScheme colorScheme,
-  ) {
-    return Center(
+  ) => Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -95,7 +94,7 @@ class AIConfigScreen extends ConsumerWidget {
               color: AppIconColors.aiBgColor,
               borderRadius: BorderRadius.circular(40),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.smart_toy_outlined,
               size: 40,
               color: AppIconColors.aiColor,
@@ -122,7 +121,6 @@ class AIConfigScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
 
   Widget _buildConfigCard(
     BuildContext context,
@@ -131,8 +129,7 @@ class AIConfigScreen extends ConsumerWidget {
     ColorScheme colorScheme,
     AIConfigEntity config,
     bool isDefault,
-  ) {
-    return SettingsCard(
+  ) => SettingsCard(
       colorScheme: colorScheme,
       child: Column(
         children: [
@@ -241,7 +238,6 @@ class AIConfigScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
 
   IconData _getProviderIcon(String provider) {
     switch (provider) {
@@ -595,7 +591,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
                 child: Row(
                   children: [
                     Icon(Icons.error_outline,
-                        color: colorScheme.error, size: 20),
+                        color: colorScheme.error, size: 20,),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -640,8 +636,7 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
   }
 
   Widget _buildProviderSelector(
-      List<AIModelInfo> models, ColorScheme colorScheme) {
-    return Wrap(
+      List<AIModelInfo> models, ColorScheme colorScheme,) => Wrap(
       spacing: 8,
       children: models.map((provider) {
         final isSelected = provider.provider == _selectedProvider;
@@ -675,10 +670,8 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
         );
       }).toList(),
     );
-  }
 
-  Widget _buildApiFormatSelector(ColorScheme colorScheme) {
-    return Wrap(
+  Widget _buildApiFormatSelector(ColorScheme colorScheme) => Wrap(
       spacing: 8,
       children: [
         ChoiceChip(
@@ -735,11 +728,9 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
         ),
       ],
     );
-  }
 
   Widget _buildModelsSelector(
-      AIModelInfo providerInfo, ColorScheme colorScheme) {
-    return Column(
+      AIModelInfo providerInfo, ColorScheme colorScheme,) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Model chips
@@ -847,7 +838,6 @@ class _AddConfigSheetState extends ConsumerState<_AddConfigSheet> {
         ],
       ],
     );
-  }
 
   Future<void> _saveConfig() async {
     final name = _nameController.text.trim();

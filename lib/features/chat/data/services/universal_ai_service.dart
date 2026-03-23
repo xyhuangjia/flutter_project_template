@@ -142,18 +142,18 @@ class UniversalAIService implements AIService {
 
       final data = response.data;
       if (data == null) {
-        throw AIServiceException('Empty response from API');
+        throw const AIServiceException('Empty response from API');
       }
 
       final choices = data['choices'] as List<dynamic>?;
       if (choices == null || choices.isEmpty) {
-        throw AIServiceException('No choices in response');
+        throw const AIServiceException('No choices in response');
       }
 
       final message = choices[0]['message'] as Map<String, dynamic>?;
       final content = message?['content'] as String?;
       if (content == null) {
-        throw AIServiceException('No content in response');
+        throw const AIServiceException('No content in response');
       }
 
       return content;
@@ -187,7 +187,7 @@ class UniversalAIService implements AIService {
 
       final stream = response.data?.stream;
       if (stream == null) {
-        throw AIServiceException('No stream in response');
+        throw const AIServiceException('No stream in response');
       }
 
       await for (final chunk in stream) {
@@ -232,7 +232,7 @@ class UniversalAIService implements AIService {
       }
     } on DioException catch (e) {
       yield AIStreamChunk(
-          content: '', isDone: true, error: _handleOpenAIDioError(e).message);
+          content: '', isDone: true, error: _handleOpenAIDioError(e).message,);
     }
   }
 
@@ -290,18 +290,18 @@ class UniversalAIService implements AIService {
 
       final data = response.data;
       if (data == null) {
-        throw AIServiceException('Empty response from API');
+        throw const AIServiceException('Empty response from API');
       }
 
       final content = data['content'] as List<dynamic>?;
       if (content == null || content.isEmpty) {
-        throw AIServiceException('No content in response');
+        throw const AIServiceException('No content in response');
       }
 
       final firstContent = content[0] as Map<String, dynamic>?;
       final text = firstContent?['text'] as String?;
       if (text == null) {
-        throw AIServiceException('No text in response');
+        throw const AIServiceException('No text in response');
       }
 
       return text;
@@ -336,7 +336,7 @@ class UniversalAIService implements AIService {
 
       final stream = response.data?.stream;
       if (stream == null) {
-        throw AIServiceException('No stream in response');
+        throw const AIServiceException('No stream in response');
       }
 
       await for (final chunk in stream) {
@@ -393,19 +393,17 @@ class UniversalAIService implements AIService {
       }
     } on DioException catch (e) {
       yield AIStreamChunk(
-          content: '', isDone: true, error: _handleClaudeDioError(e).message);
+          content: '', isDone: true, error: _handleClaudeDioError(e).message,);
     }
   }
 
-  List<Map<String, dynamic>> _buildClaudeMessages(List<AIMessage> messages) {
-    return messages
+  List<Map<String, dynamic>> _buildClaudeMessages(List<AIMessage> messages) => messages
         .where((m) => m.role != 'system')
         .map((m) => {
               'role': m.role == 'user' ? 'user' : 'assistant',
               'content': m.content,
-            })
+            },)
         .toList();
-  }
 
   AIServiceException _handleClaudeDioError(DioException e) {
     final statusCode = e.response?.statusCode;

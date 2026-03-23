@@ -1,10 +1,8 @@
 /// Unit tests for AuthNotifier.
 library;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/errors/failures.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_local_data_source.dart';
-import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

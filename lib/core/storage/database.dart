@@ -334,7 +334,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Fetches all messages for a conversation.
   Future<List<ChatMessage>> getMessagesByConversationId(
-          String conversationId) =>
+          String conversationId,) =>
       (select(chatMessages)
             ..where((t) => t.conversationId.equals(conversationId))
             ..orderBy([(t) => OrderingTerm.asc(t.timestamp)]))
@@ -383,7 +383,7 @@ class AppDatabase extends _$AppDatabase {
       (select(chatMessages)
             ..where((t) =>
                 t.conversationId.equals(conversationId) &
-                t.messageType.equals(messageType))
+                t.messageType.equals(messageType),)
             ..orderBy([(t) => OrderingTerm.asc(t.timestamp)]))
           .get();
 
@@ -392,7 +392,7 @@ class AppDatabase extends _$AppDatabase {
     final count = chatMessages.id.count();
     final query = selectOnly(chatMessages)
       ..where(chatMessages.conversationId.equals(conversationId) &
-          chatMessages.messageType.equals(messageType))
+          chatMessages.messageType.equals(messageType),)
       ..addColumns([count]);
     final result = await query.getSingle();
     return result.read(count) ?? 0;

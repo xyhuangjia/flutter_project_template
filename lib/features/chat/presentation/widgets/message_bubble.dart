@@ -154,7 +154,7 @@ class MessageBubble extends ConsumerWidget {
                         const TypingIndicator()
                       else
                         _buildMessageContent(
-                            context, colorScheme, isFromAI, textContent),
+                            context, colorScheme, isFromAI, textContent,),
                     ],
                   ),
                 ),

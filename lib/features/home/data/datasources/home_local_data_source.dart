@@ -38,9 +38,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   }
 
   @override
-  Future<DummyModel?> getCachedHomeData() async {
-    return _cachedHome;
-  }
+  Future<DummyModel?> getCachedHomeData() async => _cachedHome;
 
   @override
   Future<void> clearCachedHomeData() async {

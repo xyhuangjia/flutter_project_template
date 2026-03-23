@@ -123,8 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ColorScheme colorScheme,
     AppLocalizations localizations,
     AsyncValue<AuthState> authState,
-  ) {
-    return Padding(
+  ) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
@@ -156,7 +155,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ],
       ),
     );
-  }
 
   // Tablet layout - two columns for landscape, centered for portrait
   Widget _buildTabletLayout(
@@ -174,7 +172,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           // Left side - branding
           Expanded(
             flex: 5,
-            child: Container(
+            child: ColoredBox(
               color: colorScheme.primaryContainer,
               child: Center(
                 child: Padding(
@@ -518,8 +516,7 @@ class _SocialLoginButton extends StatelessWidget {
   final Color? borderColor;
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
+  Widget build(BuildContext context) => SizedBox(
       height: 52,
       child: OutlinedButton.icon(
         onPressed: onPressed,
@@ -535,7 +532,6 @@ class _SocialLoginButton extends StatelessWidget {
         label: Text(label, style: const TextStyle(fontSize: 15)),
       ),
     );
-  }
 }
 
 /// Register link.

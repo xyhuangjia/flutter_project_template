@@ -19,7 +19,5 @@ class RefreshHomeData {
   /// Executes the use case.
   ///
   /// Returns either a [HomeEntity] on success or a [Failure] on error.
-  Future<Result<HomeEntity>> call() async {
-    return _repository.refreshHomeData();
-  }
+  Future<Result<HomeEntity>> call() async => _repository.refreshHomeData();
 }

@@ -19,7 +19,5 @@ class GetHomeData {
   /// Executes the use case.
   ///
   /// Returns either a [HomeEntity] on success or a [Failure] on error.
-  Future<Result<HomeEntity>> call() async {
-    return _repository.getHomeData();
-  }
+  Future<Result<HomeEntity>> call() async => _repository.getHomeData();
 }

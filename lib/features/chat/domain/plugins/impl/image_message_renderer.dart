@@ -251,7 +251,7 @@ class _ImageMessageBubble extends StatelessWidget {
           mainAxisSpacing: 2,
         ),
         itemCount: imageCount.clamp(0, 9), // 最多显示 9 张
-        itemBuilder: (context, index) => _buildGridImage(context, index),
+        itemBuilder: _buildGridImage,
       ),
     );
   }

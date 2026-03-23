@@ -34,30 +34,24 @@ class ChatRepositoryImpl implements ChatRepository {
               lastMessage: c.lastMessage,
               updatedAt: c.updatedAt,
               unreadCount: c.unreadCount,
-              type: 'ai', // 默认类型
               aiModelId: c.aiModelId,
               totalTokens: c.totalTokens,
-            ))
+            ),)
         .toList();
   }
 
   @override
-  Stream<List<Conversation>> watchConversations() {
-    return _localDataSource.watchAllConversations().map((dbConversations) {
-      return dbConversations
+  Stream<List<Conversation>> watchConversations() => _localDataSource.watchAllConversations().map((dbConversations) => dbConversations
           .map((c) => Conversation(
                 id: c.id,
                 title: c.title,
                 lastMessage: c.lastMessage,
                 updatedAt: c.updatedAt,
                 unreadCount: c.unreadCount,
-                type: 'ai',
                 aiModelId: c.aiModelId,
                 totalTokens: c.totalTokens,
-              ))
-          .toList();
-    });
-  }
+              ),)
+          .toList(),);
 
   @override
   Future<Conversation?> getConversation(String id) async {
@@ -70,15 +64,13 @@ class ChatRepositoryImpl implements ChatRepository {
       lastMessage: dbConversation.lastMessage,
       updatedAt: dbConversation.updatedAt,
       unreadCount: dbConversation.unreadCount,
-      type: 'ai',
       aiModelId: dbConversation.aiModelId,
       totalTokens: dbConversation.totalTokens,
     );
   }
 
   @override
-  Stream<Conversation?> watchConversation(String id) {
-    return _localDataSource.watchConversationById(id).map((dbConversation) {
+  Stream<Conversation?> watchConversation(String id) => _localDataSource.watchConversationById(id).map((dbConversation) {
       if (dbConversation == null) return null;
       return Conversation(
         id: dbConversation.id,
@@ -86,12 +78,10 @@ class ChatRepositoryImpl implements ChatRepository {
         lastMessage: dbConversation.lastMessage,
         updatedAt: dbConversation.updatedAt,
         unreadCount: dbConversation.unreadCount,
-        type: 'ai',
         aiModelId: dbConversation.aiModelId,
         totalTokens: dbConversation.totalTokens,
       );
     });
-  }
 
   @override
   Future<Conversation> createConversation({
@@ -151,11 +141,9 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<List<Message>> watchMessages(String conversationId) {
-    return _localDataSource.watchMessagesByConversationId(conversationId).map(
-          (dbMessages) => MessageConverter.fromDtoList(dbMessages),
+  Stream<List<Message>> watchMessages(String conversationId) => _localDataSource.watchMessagesByConversationId(conversationId).map(
+          MessageConverter.fromDtoList,
         );
-  }
 
   @override
   Future<Message> addMessage(Message message) async {

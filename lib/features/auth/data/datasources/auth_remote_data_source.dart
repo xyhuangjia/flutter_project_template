@@ -237,14 +237,10 @@ class AuthRemoteDataSource {
   }
 
   /// Validates email format.
-  bool _isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
-  }
+  bool _isValidEmail(String email) => RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
 
   /// Validates Chinese phone number format.
-  bool _isValidChinesePhone(String phone) {
-    return RegExp(r'^1[3-9]\d{9}$').hasMatch(phone);
-  }
+  bool _isValidChinesePhone(String phone) => RegExp(r'^1[3-9]\d{9}$').hasMatch(phone);
 
   /// Sends a verification code to phone number.
   ///
@@ -431,8 +427,8 @@ class AuthRemoteDataSource {
   /// At least 8 characters with both letters and numbers.
   bool _isValidPassword(String password) {
     if (password.length < 8) return false;
-    final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(password);
-    final hasNumber = RegExp(r'[0-9]').hasMatch(password);
+    final hasLetter = RegExp('[a-zA-Z]').hasMatch(password);
+    final hasNumber = RegExp('[0-9]').hasMatch(password);
     return hasLetter && hasNumber;
   }
 

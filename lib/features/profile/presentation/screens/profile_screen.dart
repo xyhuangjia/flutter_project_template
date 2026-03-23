@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_pickers/pickers.dart' as pickers;
 import 'package:flutter_pickers/style/default_style.dart';
-import 'package:flutter_project_template/core/router/routes.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';

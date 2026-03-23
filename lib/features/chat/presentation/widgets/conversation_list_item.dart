@@ -144,7 +144,7 @@ class ConversationListItem extends StatelessWidget {
           color: AppIconColors.aiBgColor,
           borderRadius: BorderRadius.circular(26),
         ),
-        child: Icon(
+        child: const Icon(
           Icons.chat_bubble_outline_rounded,
           size: 24,
           color: AppIconColors.aiColor,

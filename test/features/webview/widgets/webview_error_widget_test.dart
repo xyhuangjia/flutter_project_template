@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/features/webview/presentation/widgets/webview_error_widget.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Widget createTestWidget({
     required Widget child,
-  }) {
-    return ProviderScope(
+  }) => ProviderScope(
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -20,7 +19,6 @@ void main() {
         ),
       ),
     );
-  }
 
   group('WebViewErrorWidget', () {
     testWidgets('renders error message', (tester) async {
@@ -31,7 +29,7 @@ void main() {
           errorMessage: errorMessage,
           onRetry: () {},
         ),
-      ));
+      ),);
 
       // The widget should render the error message
       expect(find.textContaining(errorMessage), findsOneWidget);
@@ -43,7 +41,7 @@ void main() {
           errorMessage: 'Error',
           onRetry: () {},
         ),
-      ));
+      ),);
 
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
     });
@@ -54,7 +52,7 @@ void main() {
           errorMessage: 'Error',
           onRetry: () {},
         ),
-      ));
+      ),);
 
       expect(find.byIcon(Icons.refresh), findsOneWidget);
     });
@@ -66,7 +64,7 @@ void main() {
           errorCode: 404,
           onRetry: () {},
         ),
-      ));
+      ),);
 
       expect(find.textContaining('404'), findsOneWidget);
     });
@@ -77,7 +75,7 @@ void main() {
           errorMessage: 'Error',
           onRetry: () {},
         ),
-      ));
+      ),);
 
       final icon = tester.widget<Icon>(find.byIcon(Icons.error_outline));
       final theme = Theme.of(tester.element(find.byIcon(Icons.error_outline)));
@@ -91,7 +89,7 @@ void main() {
           errorMessage: 'Error',
           onRetry: () {},
         ),
-      ));
+      ),);
 
       // Verify padding widget exists
       expect(find.byType(Padding), findsWidgets);
@@ -104,7 +102,7 @@ void main() {
           errorCode: 404,
           onRetry: () {},
         ),
-      ));
+      ),);
 
       final column = tester.widget<Column>(find.byType(Column));
       expect(column.mainAxisAlignment, equals(MainAxisAlignment.center));

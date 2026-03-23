@@ -180,14 +180,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                 _RequirementTile(
                   text: localizations.passwordMinLengthReq,
                   isMet: Validators.isPasswordMinLengthMet(
-                      _newPasswordController.text),
+                      _newPasswordController.text,),
                   colorScheme: colorScheme,
                 ),
                 SettingsDivider(colorScheme: colorScheme),
                 _RequirementTile(
                   text: localizations.passwordComplexityReq,
                   isMet: Validators.isPasswordComplexityMet(
-                      _newPasswordController.text),
+                      _newPasswordController.text,),
                   colorScheme: colorScheme,
                 ),
               ],

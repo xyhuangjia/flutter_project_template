@@ -99,7 +99,7 @@ abstract final class RouterGuard {
     // - Allow access to register page (user might want to register new account)
     if (isAuthenticated && currentPath == Routes.login) {
       talker.log(
-          '[RouterGuard] Authenticated user at login, redirecting to home');
+          '[RouterGuard] Authenticated user at login, redirecting to home',);
       return Routes.home;
     }
 

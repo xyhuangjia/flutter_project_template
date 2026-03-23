@@ -113,7 +113,6 @@ class AIChatHandler extends MessageHandler {
         sender: MessageSender.assistant,
         timestamp: DateTime.now(),
         content: buffer.toString(),
-        status: MessageStatus.sent,
       );
     } on Exception catch (e) {
       onError?.call(e.toString());

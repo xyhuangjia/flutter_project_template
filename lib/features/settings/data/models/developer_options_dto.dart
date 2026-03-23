@@ -20,9 +20,12 @@ class DeveloperOptionsDto {
     this.experimentalFeatures,
   });
 
+  /// Creates DTO from JSON.
+  factory DeveloperOptionsDto.fromJson(Map<String, dynamic> json) =>
+      _$DeveloperOptionsDtoFromJson(json);
+
   /// Creates DTO from entity.
-  factory DeveloperOptionsDto.fromEntity(DeveloperOptions entity) {
-    return DeveloperOptionsDto(
+  factory DeveloperOptionsDto.fromEntity(DeveloperOptions entity) => DeveloperOptionsDto(
       customApiBaseUrl: entity.customApiBaseUrl,
       logLevel: entity.logLevel.name,
       loggingEnabled: entity.loggingEnabled,
@@ -33,7 +36,6 @@ class DeveloperOptionsDto {
           Map<String, dynamic>.from(entity.experimentalFeatures)
               .map((key, value) => MapEntry(key, value as bool)),
     );
-  }
 
   /// Custom API base URL.
   final String? customApiBaseUrl;
@@ -56,16 +58,11 @@ class DeveloperOptionsDto {
   /// Experimental features.
   final Map<String, dynamic>? experimentalFeatures;
 
-  /// Creates DTO from JSON.
-  factory DeveloperOptionsDto.fromJson(Map<String, dynamic> json) =>
-      _$DeveloperOptionsDtoFromJson(json);
-
   /// Converts to JSON.
   Map<String, dynamic> toJson() => _$DeveloperOptionsDtoToJson(this);
 
   /// Converts to entity.
-  DeveloperOptions toEntity() {
-    return DeveloperOptions(
+  DeveloperOptions toEntity() => DeveloperOptions(
       customApiBaseUrl: customApiBaseUrl,
       logLevel: LogLevel.values.firstWhere(
         (e) => e.name == logLevel,
@@ -80,5 +77,4 @@ class DeveloperOptionsDto {
           ) ??
           {},
     );
-  }
 }

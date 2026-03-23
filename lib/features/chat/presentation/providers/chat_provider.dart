@@ -68,7 +68,7 @@ class ChatState {
     return conversations
         .where((c) =>
             c.title.toLowerCase().contains(query) ||
-            c.lastMessage.toLowerCase().contains(query))
+            c.lastMessage.toLowerCase().contains(query),)
         .toList();
   }
 
@@ -80,14 +80,12 @@ class ChatState {
     String? searchQuery,
     bool clearError = false,
     bool clearSearchQuery = false,
-  }) {
-    return ChatState(
+  }) => ChatState(
       conversations: conversations ?? this.conversations,
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
       searchQuery: clearSearchQuery ? null : (searchQuery ?? this.searchQuery),
     );
-  }
 }
 
 /// Provider for managing chat conversations.
@@ -228,7 +226,6 @@ class ChatNotifier extends _$ChatNotifier {
         content: content,
         sender: domain.MessageSender.user,
         timestamp: now,
-        status: domain.MessageStatus.sent,
       ),
     );
 
@@ -237,7 +234,7 @@ class ChatNotifier extends _$ChatNotifier {
     final aiConfigEntity = aiConfigState?.defaultConfig;
     if (aiConfigEntity == null) {
       yield ChatAIResponseError(
-          'No AI configuration found. Please configure an AI model in settings.');
+          'No AI configuration found. Please configure an AI model in settings.',);
       return;
     }
 
@@ -254,19 +251,17 @@ class ChatNotifier extends _$ChatNotifier {
         await secureStorage.read(key: 'ai_api_key_${aiConfigEntity.id}');
     if (apiKey == null) {
       yield ChatAIResponseError(
-          'API key not found. Please reconfigure the AI model.');
+          'API key not found. Please reconfigure the AI model.',);
       return;
     }
 
     // Get conversation history
     final dbMessages =
         await localDataSource.getMessagesByConversationId(conversationId);
-    final aiMessages = dbMessages.map((m) {
-      return AIMessage(
+    final aiMessages = dbMessages.map((m) => AIMessage(
         role: m.sender == 0 ? 'user' : 'assistant',
         content: m.content,
-      );
-    }).toList();
+      ),).toList();
 
     // Create AI message placeholder
     final aiMessageId = '${DateTime.now().millisecondsSinceEpoch}_ai';
@@ -302,7 +297,7 @@ class ChatNotifier extends _$ChatNotifier {
 
     if (service == null) {
       yield ChatAIResponseError(
-          'Unknown AI provider: ${aiConfigEntity.provider}');
+          'Unknown AI provider: ${aiConfigEntity.provider}',);
       return;
     }
 
@@ -426,18 +421,14 @@ class ChatNotifier extends _$ChatNotifier {
     return buffer.toString();
   }
 
-  List<domain.ChatMessage> _convertMessages(List<ChatMessage> dbMessages) {
-    return dbMessages.map((m) {
-      return domain.ChatMessage(
+  List<domain.ChatMessage> _convertMessages(List<ChatMessage> dbMessages) => dbMessages.map((m) => domain.ChatMessage(
         id: m.id,
         content: m.content,
         sender:
             m.sender == 0 ? domain.MessageSender.user : domain.MessageSender.ai,
         timestamp: m.timestamp,
         status: domain.MessageStatus.values[m.status.clamp(0, 3)],
-      );
-    }).toList();
-  }
+      ),).toList();
 }
 
 /// Stream event types for chat messages.
@@ -515,7 +506,7 @@ Stream<List<domain.ChatMessage>> conversationMessages(
                       : domain.MessageSender.ai,
                   timestamp: m.timestamp,
                   status: domain.MessageStatus.values[m.status.clamp(0, 3)],
-                ))
+                ),)
             .toList(),
       );
 }

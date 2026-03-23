@@ -99,7 +99,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           // 模型选择器（仅当配置有多个模型时显示）
           if (aiConfig != null && aiConfig.models.length > 1)
             _buildModelSelectorButton(
-                aiConfig, selectedModel, colorScheme, localizations),
+                aiConfig, selectedModel, colorScheme, localizations,),
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () => _showOptionsMenu(context),
@@ -112,7 +112,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             child: conversation == null
                 ? const Center(child: CircularProgressIndicator())
                 : _buildMessagesList(
-                    conversation, colorScheme, localizations, isTyping),
+                    conversation, colorScheme, localizations, isTyping,),
           ),
           if (aiConfig == null)
             _buildNoConfigBanner(context, localizations, colorScheme),
@@ -154,8 +154,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     String? selectedModel,
     ColorScheme colorScheme,
     AppLocalizations localizations,
-  ) {
-    return PopupMenuButton<String>(
+  ) => PopupMenuButton<String>(
       icon: const Icon(Icons.tune),
       tooltip: localizations.switchModel,
       initialValue: selectedModel ?? config.currentModel,
@@ -164,8 +163,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             .read(selectedModelProvider(widget.conversationId).notifier)
             .setModel(modelId);
       },
-      itemBuilder: (context) {
-        return config.models.map((modelId) {
+      itemBuilder: (context) => config.models.map((modelId) {
           final isDefault = config.defaultModel == modelId;
           final displayName = _getModelDisplayName(config, modelId);
           return PopupMenuItem(
@@ -174,7 +172,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               children: [
                 Expanded(child: Text(displayName)),
                 if (isDefault)
-                  Icon(
+                  const Icon(
                     Icons.star,
                     size: 16,
                     color: AppIconColors.aiColor,
@@ -182,22 +180,19 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               ],
             ),
           );
-        }).toList();
-      },
+        }).toList(),
     );
-  }
 
   Widget _buildNoConfigBanner(
     BuildContext context,
     AppLocalizations localizations,
     ColorScheme colorScheme,
-  ) {
-    return Container(
+  ) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       color: AppIconColors.aiColor.withValues(alpha: 0.1),
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.info_outline,
             color: AppIconColors.aiColor,
             size: 20,
@@ -222,7 +217,6 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ],
       ),
     );
-  }
 
   Widget _buildMessagesList(
     domain.ChatConversation conversation,
@@ -291,7 +285,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   Widget _buildEmptyState(
-          ColorScheme colorScheme, AppLocalizations localizations) =>
+          ColorScheme colorScheme, AppLocalizations localizations,) =>
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -303,7 +297,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 color: AppIconColors.aiBgColor,
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.smart_toy_outlined,
                 size: 40,
                 color: AppIconColors.aiColor,
@@ -597,7 +591,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       await chatNotifier.renameConversation(widget.conversationId, newTitle);
       if (mounted) {
         DialogUtil.showSuccessDialog(
-            context, localizations.conversationRenamed);
+            context, localizations.conversationRenamed,);
       }
     }
   }

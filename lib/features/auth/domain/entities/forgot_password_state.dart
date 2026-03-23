@@ -84,8 +84,7 @@ class ForgotPasswordState {
     DateTime? codeSentAt,
     bool? canResendCode,
     bool clearError = false,
-  }) {
-    return ForgotPasswordState(
+  }) => ForgotPasswordState(
       step: step ?? this.step,
       verificationType: verificationType ?? this.verificationType,
       account: account ?? this.account,
@@ -97,7 +96,6 @@ class ForgotPasswordState {
       codeSentAt: codeSentAt ?? this.codeSentAt,
       canResendCode: canResendCode ?? this.canResendCode,
     );
-  }
 
   /// Returns masked account for display.
   String get maskedAccount {
@@ -123,14 +121,10 @@ class ForgotPasswordState {
   }
 
   /// Returns the label for account input.
-  String get accountLabel {
-    return verificationType == VerificationType.email ? 'Email' : 'Phone';
-  }
+  String get accountLabel => verificationType == VerificationType.email ? 'Email' : 'Phone';
 
   /// Returns the hint for account input.
-  String get accountHint {
-    return verificationType == VerificationType.email
+  String get accountHint => verificationType == VerificationType.email
         ? 'Enter your email address'
         : 'Enter your phone number';
-  }
 }

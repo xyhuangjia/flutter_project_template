@@ -37,7 +37,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       title: 'Flutter Project Template',
       welcomeMessage: 'Welcome to the Flutter Project Template!',
       userName: 'Guest',
-      avatarUrl: null,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

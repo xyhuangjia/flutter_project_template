@@ -10,7 +10,6 @@ import 'package:flutter_project_template/features/auth/data/repositories/auth_re
 import 'package:flutter_project_template/features/auth/domain/entities/auth_state.dart';
 import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/domain/repositories/auth_repository.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_provider.g.dart';
@@ -25,18 +24,14 @@ AuthLocalDataSource authLocalDataSource(Ref ref) {
 
 /// Provider for AuthRemoteDataSource.
 @riverpod
-AuthRemoteDataSource authRemoteDataSource(Ref ref) {
-  return AuthRemoteDataSource();
-}
+AuthRemoteDataSource authRemoteDataSource(Ref ref) => AuthRemoteDataSource();
 
 /// Provider for AuthRepository.
 @riverpod
-AuthRepository authRepository(Ref ref) {
-  return AuthRepositoryImpl(
+AuthRepository authRepository(Ref ref) => AuthRepositoryImpl(
     remoteDataSource: ref.watch(authRemoteDataSourceProvider),
     localDataSource: ref.watch(authLocalDataSourceProvider),
   );
-}
 
 /// Auth state notifier provider.
 ///
@@ -116,9 +111,9 @@ class AuthNotifier extends _$AuthNotifier {
     );
 
     state = result.when<AsyncValue<AuthState>>(
-      failure: (Failure f) =>
+      failure: (f) =>
           AsyncValue<AuthState>.error(f, StackTrace.current),
-      success: (User user) => AsyncValue<AuthState>.data(
+      success: (user) => AsyncValue<AuthState>.data(
         AuthState.authenticated(
           user: user,
           token: ref.read(authLocalDataSourceProvider).getToken() ?? '',
@@ -311,9 +306,9 @@ class AuthNotifier extends _$AuthNotifier {
     final result = await loginAction();
 
     state = result.when<AsyncValue<AuthState>>(
-      failure: (Failure f) =>
+      failure: (f) =>
           AsyncValue<AuthState>.error(f, StackTrace.current),
-      success: (User user) => AsyncValue<AuthState>.data(
+      success: (user) => AsyncValue<AuthState>.data(
         AuthState.authenticated(
           user: user,
           token: ref.read(authLocalDataSourceProvider).getToken() ?? '',

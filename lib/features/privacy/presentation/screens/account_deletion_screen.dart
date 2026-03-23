@@ -97,7 +97,7 @@ class _AccountDeletionScreenState extends ConsumerState<AccountDeletionScreen> {
       ),
     );
 
-    if (confirmed == true) {
+    if (confirmed ?? false) {
       await _deleteAccount();
     }
   }

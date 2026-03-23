@@ -10,10 +10,7 @@ import 'package:flutter_project_template/l10n/app_localizations.dart';
 class SocialLoginButtons extends StatelessWidget {
   /// Creates social login buttons.
   const SocialLoginButtons({
-    super.key,
-    required this.onWeChatLogin,
-    required this.onAppleLogin,
-    required this.onGoogleLogin,
+    required this.onWeChatLogin, required this.onAppleLogin, required this.onGoogleLogin, super.key,
     this.isLoading = false,
   });
 
@@ -82,8 +79,7 @@ class _SocialButton extends StatelessWidget {
   final Color? borderColor;
 
   @override
-  Widget build(BuildContext context) {
-    return OutlinedButton.icon(
+  Widget build(BuildContext context) => OutlinedButton.icon(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         backgroundColor: backgroundColor,
@@ -94,7 +90,6 @@ class _SocialButton extends StatelessWidget {
       icon: Icon(icon, size: 24),
       label: Text(label),
     );
-  }
 }
 
 /// Divider with "OR" text.

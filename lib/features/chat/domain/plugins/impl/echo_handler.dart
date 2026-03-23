@@ -68,7 +68,6 @@ class EchoHandler extends MessageHandler {
       sender: MessageSender.assistant,
       timestamp: DateTime.now(),
       content: '$prefix${message.content}',
-      status: MessageStatus.sent,
     );
   }
 }
@@ -115,7 +114,6 @@ class ReverseHandler extends MessageHandler {
       sender: MessageSender.assistant,
       timestamp: DateTime.now(),
       content: reversed,
-      status: MessageStatus.sent,
     );
   }
 }
@@ -162,7 +160,6 @@ class UppercaseHandler extends MessageHandler {
       sender: MessageSender.assistant,
       timestamp: DateTime.now(),
       content: uppercased,
-      status: MessageStatus.sent,
     );
   }
 }

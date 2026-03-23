@@ -171,7 +171,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (success && mounted) {
       final localizations = AppLocalizations.of(context)!;
       DialogUtil.showSuccessDialog(
-          context, localizations.verificationSuccessful);
+          context, localizations.verificationSuccessful,);
     } else if (mounted) {
       _showError('Verification failed');
     }

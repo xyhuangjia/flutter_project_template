@@ -30,54 +30,42 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<User>> loginWithEmail({
     required String email,
     required String password,
-  }) async {
-    return _handleAuthOperation(
+  }) async => _handleAuthOperation(
       () => _remoteDataSource.loginWithEmail(email: email, password: password),
     );
-  }
 
   @override
   Future<Result<User>> loginWithUsername({
     required String username,
     required String password,
-  }) async {
-    return _handleAuthOperation(
+  }) async => _handleAuthOperation(
       () => _remoteDataSource.loginWithUsername(
         username: username,
         password: password,
       ),
     );
-  }
 
   @override
-  Future<Result<User>> loginWithWeChat() async {
-    return _handleAuthOperation(() => _remoteDataSource.loginWithWeChat());
-  }
+  Future<Result<User>> loginWithWeChat() async => _handleAuthOperation(_remoteDataSource.loginWithWeChat);
 
   @override
-  Future<Result<User>> loginWithApple() async {
-    return _handleAuthOperation(() => _remoteDataSource.loginWithApple());
-  }
+  Future<Result<User>> loginWithApple() async => _handleAuthOperation(_remoteDataSource.loginWithApple);
 
   @override
-  Future<Result<User>> loginWithGoogle() async {
-    return _handleAuthOperation(() => _remoteDataSource.loginWithGoogle());
-  }
+  Future<Result<User>> loginWithGoogle() async => _handleAuthOperation(_remoteDataSource.loginWithGoogle);
 
   @override
   Future<Result<User>> register({
     required String email,
     required String username,
     required String password,
-  }) async {
-    return _handleAuthOperation(
+  }) async => _handleAuthOperation(
       () => _remoteDataSource.register(
         email: email,
         username: username,
         password: password,
       ),
     );
-  }
 
   @override
   Future<Result<void>> logout() async {
@@ -115,64 +103,50 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> isAuthenticated() async {
-    return _localDataSource.isAuthenticated();
-  }
+  Future<bool> isAuthenticated() async => _localDataSource.isAuthenticated();
 
   @override
-  Future<Result<void>> sendPasswordResetEmail(String email) async {
-    return _handleVoidOperation(
+  Future<Result<void>> sendPasswordResetEmail(String email) async => _handleVoidOperation(
       () => _remoteDataSource.sendPasswordResetEmail(email),
     );
-  }
 
   @override
   Future<Result<void>> updatePassword({
     required String currentPassword,
     required String newPassword,
-  }) async {
-    return _handleVoidOperation(
+  }) async => _handleVoidOperation(
       () => _remoteDataSource.updatePassword(
         currentPassword: currentPassword,
         newPassword: newPassword,
       ),
     );
-  }
 
   @override
-  Future<Result<void>> sendVerificationCodeToPhone(String phoneNumber) async {
-    return _handleVoidOperation(
+  Future<Result<void>> sendVerificationCodeToPhone(String phoneNumber) async => _handleVoidOperation(
       () => _remoteDataSource.sendVerificationCodeToPhone(phoneNumber),
     );
-  }
 
   @override
-  Future<Result<void>> sendVerificationCodeToEmail(String email) async {
-    return _handleVoidOperation(
+  Future<Result<void>> sendVerificationCodeToEmail(String email) async => _handleVoidOperation(
       () => _remoteDataSource.sendVerificationCodeToEmail(email),
     );
-  }
 
   @override
   Future<Result<bool>> verifyPhoneCode({
     required String phoneNumber,
     required String code,
-  }) async {
-    return _handleBoolOperation(
+  }) async => _handleBoolOperation(
       () => _remoteDataSource.verifyPhoneCode(
-          phoneNumber: phoneNumber, code: code),
+          phoneNumber: phoneNumber, code: code,),
     );
-  }
 
   @override
   Future<Result<bool>> verifyEmailCode({
     required String email,
     required String code,
-  }) async {
-    return _handleBoolOperation(
+  }) async => _handleBoolOperation(
       () => _remoteDataSource.verifyEmailCode(email: email, code: code),
     );
-  }
 
   @override
   Future<Result<User>> registerWithPhone({
@@ -181,8 +155,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String verificationCode,
     String? avatarUrl,
-  }) async {
-    return _handleAuthOperation(
+  }) async => _handleAuthOperation(
       () => _remoteDataSource.registerWithPhone(
         phoneNumber: phoneNumber,
         username: username,
@@ -191,7 +164,6 @@ class AuthRepositoryImpl implements AuthRepository {
         avatarUrl: avatarUrl,
       ),
     );
-  }
 
   @override
   Future<Result<User>> registerWithEmail({
@@ -200,8 +172,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String verificationCode,
     String? avatarUrl,
-  }) async {
-    return _handleAuthOperation(
+  }) async => _handleAuthOperation(
       () => _remoteDataSource.registerWithEmail(
         email: email,
         username: username,
@@ -210,7 +181,6 @@ class AuthRepositoryImpl implements AuthRepository {
         avatarUrl: avatarUrl,
       ),
     );
-  }
 
   @override
   Future<Result<User>> updateUserProfile({
@@ -222,7 +192,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final userId = _localDataSource.getUserId();
       if (userId == null) {
-        return FailureResult(AuthFailure(message: 'User not logged in'));
+        return const FailureResult(AuthFailure(message: 'User not logged in'));
       }
 
       final userDto = await _remoteDataSource.updateUserProfile(

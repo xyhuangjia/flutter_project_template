@@ -116,8 +116,7 @@ class _ConversationListScreenState
     );
   }
 
-  Widget _buildConversationList(List<ChatConversation> conversations) {
-    return ListView.builder(
+  Widget _buildConversationList(List<ChatConversation> conversations) => ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: conversations.length,
       itemBuilder: (context, index) {
@@ -132,10 +131,9 @@ class _ConversationListScreenState
         );
       },
     );
-  }
 
   Widget _buildEmptyState(
-          ColorScheme colorScheme, AppLocalizations localizations) =>
+          ColorScheme colorScheme, AppLocalizations localizations,) =>
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +145,7 @@ class _ConversationListScreenState
                 color: AppIconColors.aiColor.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.chat_bubble_outline_rounded,
                 size: 40,
                 color: AppIconColors.aiColor,
@@ -175,7 +173,7 @@ class _ConversationListScreenState
       );
 
   Widget _buildNoSearchResultsState(
-          ColorScheme colorScheme, AppLocalizations localizations) =>
+          ColorScheme colorScheme, AppLocalizations localizations,) =>
       Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

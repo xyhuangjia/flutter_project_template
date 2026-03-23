@@ -117,7 +117,7 @@ class Environment extends _$Environment {
     _dataSource = ref.read(environmentLocalDataSourceProvider);
 
     // In release mode, always use production environment
-    if (!bool.fromEnvironment('dart.vm.product')) {
+    if (!const bool.fromEnvironment('dart.vm.product')) {
       // In debug mode, load saved environment or use development as default
       final savedType = _dataSource.getEnvironmentType();
       if (savedType != null) {
@@ -152,7 +152,7 @@ class Environment extends _$Environment {
     await _dataSource.clearEnvironment();
 
     // Reset to production in release mode, development in debug
-    if (bool.fromEnvironment('dart.vm.product')) {
+    if (const bool.fromEnvironment('dart.vm.product')) {
       state = EnvironmentConfig.production;
     } else {
       state = EnvironmentConfig.development;

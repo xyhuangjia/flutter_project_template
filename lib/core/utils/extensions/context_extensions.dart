@@ -76,14 +76,12 @@ extension ContextExtensions on BuildContext {
     required Widget child,
     bool barrierDismissible = true,
     Color? barrierColor,
-  }) {
-    return showDialog<T>(
+  }) => showDialog<T>(
       context: this,
       barrierDismissible: barrierDismissible,
       barrierColor: barrierColor,
       builder: (context) => child,
     );
-  }
 
   /// Shows a modal bottom sheet and returns the result.
   Future<T?> showAppBottomSheet<T>({
@@ -91,15 +89,13 @@ extension ContextExtensions on BuildContext {
     bool isScrollControlled = false,
     bool isDismissible = true,
     Color? backgroundColor,
-  }) {
-    return showModalBottomSheet<T>(
+  }) => showModalBottomSheet<T>(
       context: this,
       isScrollControlled: isScrollControlled,
       isDismissible: isDismissible,
       backgroundColor: backgroundColor,
       builder: (context) => child,
     );
-  }
 
   /// Focuses the next focus node.
   void focusNext() {

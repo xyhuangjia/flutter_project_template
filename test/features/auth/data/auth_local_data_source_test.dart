@@ -74,7 +74,7 @@ void main() {
       expect(mockPrefs.getString('username'), 'testuser');
       expect(mockPrefs.getString('display_name'), 'Test User');
       expect(
-          mockPrefs.getString('avatar_url'), 'https://example.com/avatar.png');
+          mockPrefs.getString('avatar_url'), 'https://example.com/avatar.png',);
     });
 
     test('should save user data without optional fields', () async {

@@ -584,8 +584,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
         title: Text(loc.logLevel),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: dev.LogLevel.values.map((level) {
-            return RadioListTile<dev.LogLevel>(
+          children: dev.LogLevel.values.map((level) => RadioListTile<dev.LogLevel>(
               title: Text(_getLogLevelName(level, loc)),
               value: level,
               groupValue: currentLevel,
@@ -598,8 +597,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                       .updateLogLevel(value);
                 }
               },
-            );
-          }).toList(),
+            ),).toList(),
         ),
       ),
     );
@@ -758,8 +756,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               // Options
-              ...MarketRegion.values.map((region) {
-                return ListTile(
+              ...MarketRegion.values.map((region) => ListTile(
                   leading: Radio<MarketRegion>(
                     value: region,
                     groupValue: state.region,
@@ -788,8 +785,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     ref.read(privacyProvider.notifier).updateRegion(region);
                     Navigator.of(sheetContext).pop();
                   },
-                );
-              }),
+                ),),
             ],
           ),
         ),

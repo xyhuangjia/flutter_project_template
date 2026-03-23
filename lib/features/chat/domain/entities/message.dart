@@ -106,11 +106,9 @@ sealed class TextMessage with _$TextMessage implements Message {
     /// 消息发送时间。
     required DateTime timestamp,
 
-    /// 消息状态。
-    @Default(MessageStatus.sent) MessageStatus status,
-
     /// 文本内容。
-    required String content,
+    required String content, /// 消息状态。
+    @Default(MessageStatus.sent) MessageStatus status,
   }) = _TextMessage;
 
   const TextMessage._();
@@ -145,11 +143,9 @@ sealed class ImageMessage with _$ImageMessage implements Message {
     /// 消息发送时间。
     required DateTime timestamp,
 
-    /// 消息状态。
-    @Default(MessageStatus.sent) MessageStatus status,
-
     /// 图片 URL 列表（支持多图）。
-    required List<String> imageUrls,
+    required List<String> imageUrls, /// 消息状态。
+    @Default(MessageStatus.sent) MessageStatus status,
 
     /// 缩略图 URL 列表（与图片一一对应）。
     @Default([]) List<String> thumbnailUrls,
@@ -218,6 +214,25 @@ class MessageAttachment {
     this.metadata = const {},
   });
 
+  /// 从 JSON Map 创建附件。
+  factory MessageAttachment.fromJson(Map<String, dynamic> json) =>
+      MessageAttachment(
+        id: json['id'] as String,
+        type: AttachmentType.values.firstWhere(
+          (e) => e.name == json['type'],
+          orElse: () => AttachmentType.file,
+        ),
+        url: json['url'] as String,
+        thumbnailUrl: json['thumbnailUrl'] as String?,
+        fileName: json['fileName'] as String?,
+        fileSize: json['fileSize'] as int?,
+        mimeType: json['mimeType'] as String?,
+        width: json['width'] as int?,
+        height: json['height'] as int?,
+        duration: json['duration'] as int?,
+        metadata: (json['metadata'] as Map<String, dynamic>?) ?? {},
+      );
+
   /// 附件唯一标识符。
   final String id;
 
@@ -265,25 +280,6 @@ class MessageAttachment {
         'duration': duration,
         'metadata': metadata,
       };
-
-  /// 从 JSON Map 创建附件。
-  factory MessageAttachment.fromJson(Map<String, dynamic> json) =>
-      MessageAttachment(
-        id: json['id'] as String,
-        type: AttachmentType.values.firstWhere(
-          (e) => e.name == json['type'],
-          orElse: () => AttachmentType.file,
-        ),
-        url: json['url'] as String,
-        thumbnailUrl: json['thumbnailUrl'] as String?,
-        fileName: json['fileName'] as String?,
-        fileSize: json['fileSize'] as int?,
-        mimeType: json['mimeType'] as String?,
-        width: json['width'] as int?,
-        height: json['height'] as int?,
-        duration: json['duration'] as int?,
-        metadata: (json['metadata'] as Map<String, dynamic>?) ?? {},
-      );
 
   /// 创建附件副本。
   MessageAttachment copyWith({

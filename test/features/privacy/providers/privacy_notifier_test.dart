@@ -118,7 +118,7 @@ void main() {
               consentedAt.isAtSameMomentAs(afterConsent) ||
               (consentedAt.isAfter(beforeConsent) &&
                   consentedAt.isBefore(afterConsent)),
-          isTrue);
+          isTrue,);
     });
   });
 

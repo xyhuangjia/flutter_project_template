@@ -10,9 +10,7 @@ import 'package:flutter_project_template/l10n/app_localizations.dart';
 class LoginForm extends StatefulWidget {
   /// Creates a login form.
   const LoginForm({
-    super.key,
-    required this.onEmailLogin,
-    required this.onUsernameLogin,
+    required this.onEmailLogin, required this.onUsernameLogin, super.key,
     this.isLoading = false,
   });
 

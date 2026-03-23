@@ -69,8 +69,7 @@ class DeveloperOptions {
     bool? performanceMonitorEnabled,
     bool? showDebugInfo,
     Map<String, bool>? experimentalFeatures,
-  }) {
-    return DeveloperOptions(
+  }) => DeveloperOptions(
       customApiBaseUrl: clearCustomApiBaseUrl
           ? null
           : customApiBaseUrl ?? this.customApiBaseUrl,
@@ -82,7 +81,6 @@ class DeveloperOptions {
       showDebugInfo: showDebugInfo ?? this.showDebugInfo,
       experimentalFeatures: experimentalFeatures ?? this.experimentalFeatures,
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -99,8 +97,7 @@ class DeveloperOptions {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
+  int get hashCode => Object.hash(
       customApiBaseUrl,
       logLevel,
       loggingEnabled,
@@ -109,17 +106,14 @@ class DeveloperOptions {
       showDebugInfo,
       Object.hashAll(experimentalFeatures.entries),
     );
-  }
 
   @override
-  String toString() {
-    return 'DeveloperOptions(customApiBaseUrl: $customApiBaseUrl, '
+  String toString() => 'DeveloperOptions(customApiBaseUrl: $customApiBaseUrl, '
         'logLevel: $logLevel, loggingEnabled: $loggingEnabled, '
         'networkLogEnabled: $networkLogEnabled, '
         'performanceMonitorEnabled: $performanceMonitorEnabled, '
         'showDebugInfo: $showDebugInfo, '
         'experimentalFeatures: $experimentalFeatures)';
-  }
 
   static bool _mapEquals(Map<String, bool> a, Map<String, bool> b) {
     if (a.length != b.length) return false;

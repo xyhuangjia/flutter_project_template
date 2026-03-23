@@ -164,16 +164,14 @@ abstract final class Validators {
   /// Checks if password meets minimum length requirement.
   ///
   /// Returns true if password length is at least [minLength].
-  static bool isPasswordMinLengthMet(String? password, {int minLength = 8}) {
-    return password != null && password.length >= minLength;
-  }
+  static bool isPasswordMinLengthMet(String? password, {int minLength = 8}) => password != null && password.length >= minLength;
 
   /// Checks if password meets complexity requirement.
   ///
   /// Returns true if password contains both letters and numbers.
   static bool isPasswordComplexityMet(String? password) {
     if (password == null || password.isEmpty) return false;
-    final hasLetter = RegExp(r'[A-Za-z]').hasMatch(password);
+    final hasLetter = RegExp('[A-Za-z]').hasMatch(password);
     final hasDigit = RegExp(r'\d').hasMatch(password);
     return hasLetter && hasDigit;
   }

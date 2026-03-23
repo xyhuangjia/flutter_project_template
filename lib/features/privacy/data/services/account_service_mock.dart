@@ -30,7 +30,7 @@ class AccountServiceMock {
     // Mock occasional failure
     return const FailureResult(
       ServerFailure(
-          message: 'Account deletion failed. Please try again later.'),
+          message: 'Account deletion failed. Please try again later.',),
     );
   }
 }

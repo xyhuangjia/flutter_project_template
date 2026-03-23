@@ -208,7 +208,5 @@ class PermissionHelper {
   }
 
   /// Opens app settings.
-  static Future<bool> openSettings() {
-    return openAppSettings();
-  }
+  static Future<bool> openSettings() => openAppSettings();
 }

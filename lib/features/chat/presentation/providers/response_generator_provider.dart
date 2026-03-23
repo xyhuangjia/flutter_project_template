@@ -77,9 +77,7 @@ class ResponseGeneratorManager {
 ResponseGeneratorManager responseGeneratorManager(Ref ref) {
   final manager = ResponseGeneratorManager();
 
-  ref.onDispose(() {
-    manager.clear();
-  });
+  ref.onDispose(manager.clear);
 
   return manager;
 }

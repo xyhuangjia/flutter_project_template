@@ -16,9 +16,7 @@ part 'forgot_password_provider.g.dart';
 
 /// Provider for ForgotPasswordRepository.
 @riverpod
-ForgotPasswordRepository forgotPasswordRepository(Ref ref) {
-  return ForgotPasswordRepositoryImpl();
-}
+ForgotPasswordRepository forgotPasswordRepository(Ref ref) => ForgotPasswordRepositoryImpl();
 
 /// Forgot password state notifier provider.
 ///
@@ -314,17 +312,13 @@ class ForgotPasswordNotifier extends _$ForgotPasswordNotifier {
     }
   }
 
-  String _getAccountRequiredMessage() {
-    return state.verificationType == VerificationType.email
+  String _getAccountRequiredMessage() => state.verificationType == VerificationType.email
         ? 'Please enter your email'
         : 'Please enter your phone number';
-  }
 
-  String _getInvalidAccountMessage() {
-    return state.verificationType == VerificationType.email
+  String _getInvalidAccountMessage() => state.verificationType == VerificationType.email
         ? 'Please enter a valid email address'
         : 'Please enter a valid phone number';
-  }
 }
 
 /// Mock implementation of ForgotPasswordRepository.

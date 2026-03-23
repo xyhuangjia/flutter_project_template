@@ -28,10 +28,10 @@ class DioClient {
   }) : _dio = Dio(
           BaseOptions(
             baseUrl: baseUrl ?? AppConstants.apiBaseUrl,
-            connectTimeout: Duration(
+            connectTimeout: const Duration(
               seconds: AppConstants.connectionTimeoutSeconds,
             ),
-            receiveTimeout: Duration(
+            receiveTimeout: const Duration(
               seconds: AppConstants.receiveTimeoutSeconds,
             ),
             headers: {

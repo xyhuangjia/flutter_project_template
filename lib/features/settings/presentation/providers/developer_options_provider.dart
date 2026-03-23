@@ -15,18 +15,14 @@ part 'developer_options_provider.g.dart';
 @riverpod
 DeveloperOptionsLocalDataSource developerOptionsLocalDataSource(
   Ref ref,
-) {
-  return getIt<DeveloperOptionsLocalDataSource>();
-}
+) => getIt<DeveloperOptionsLocalDataSource>();
 
 /// Provider for DeveloperOptionsRepository.
 /// Uses GetIt for dependency injection.
 @riverpod
 DeveloperOptionsRepository developerOptionsRepository(
   Ref ref,
-) {
-  return getIt<DeveloperOptionsRepository>();
-}
+) => getIt<DeveloperOptionsRepository>();
 
 /// Developer options notifier provider.
 ///
@@ -100,9 +96,7 @@ class DeveloperOptionsNotifier extends _$DeveloperOptionsNotifier {
   }
 
   /// Resets all developer options to defaults.
-  Future<bool> resetToDefaults() async {
-    return _saveOptions(DeveloperOptions.defaults);
-  }
+  Future<bool> resetToDefaults() async => _saveOptions(DeveloperOptions.defaults);
 
   /// Clears app cache.
   Future<bool> clearCache() async {

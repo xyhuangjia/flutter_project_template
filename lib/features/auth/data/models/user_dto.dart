@@ -82,8 +82,6 @@ class UserDto {
   }
 
   @override
-  String toString() {
-    return 'UserDto(id: $id, email: $email, username: $username, '
+  String toString() => 'UserDto(id: $id, email: $email, username: $username, '
         'displayName: $displayName, avatarUrl: $avatarUrl)';
-  }
 }

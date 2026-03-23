@@ -69,8 +69,7 @@ class SettingsEntity {
     bool? soundEnabled,
     bool? vibrationEnabled,
     AccessibilityMode? accessibilityMode,
-  }) {
-    return SettingsEntity(
+  }) => SettingsEntity(
       themeMode: themeMode ?? this.themeMode,
       languageCode: languageCode ?? this.languageCode,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
@@ -78,7 +77,6 @@ class SettingsEntity {
       vibrationEnabled: vibrationEnabled ?? this.vibrationEnabled,
       accessibilityMode: accessibilityMode ?? this.accessibilityMode,
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -94,8 +92,7 @@ class SettingsEntity {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
+  int get hashCode => Object.hash(
       themeMode,
       languageCode,
       notificationsEnabled,
@@ -103,12 +100,9 @@ class SettingsEntity {
       vibrationEnabled,
       accessibilityMode,
     );
-  }
 
   @override
-  String toString() {
-    return 'SettingsEntity(themeMode: $themeMode, languageCode: $languageCode, '
+  String toString() => 'SettingsEntity(themeMode: $themeMode, languageCode: $languageCode, '
         'notificationsEnabled: $notificationsEnabled, soundEnabled: $soundEnabled, '
         'vibrationEnabled: $vibrationEnabled, accessibilityMode: $accessibilityMode)';
-  }
 }

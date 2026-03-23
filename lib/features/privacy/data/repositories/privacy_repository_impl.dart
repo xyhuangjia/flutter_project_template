@@ -39,7 +39,7 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
 
       if (dto == null) {
         // No consent stored, return default state
-        return Success(PrivacyState.defaultState);
+        return const Success(PrivacyState.defaultState);
       }
 
       return Success(dto.toEntity());
@@ -140,15 +140,13 @@ class PrivacyRepositoryImpl implements PrivacyRepository {
   }
 
   @override
-  Future<Result<void>> deleteAccount(String password) async {
-    return _accountService.deleteAccount(password);
-  }
+  Future<Result<void>> deleteAccount(String password) async => _accountService.deleteAccount(password);
 
   @override
   Future<Result<void>> clearPrivacyData() async {
     try {
       await _localDataSource.clearPrivacyConsent();
-      return Success(null);
+      return const Success(null);
     } catch (e) {
       return FailureResult(
         CacheFailure(message: 'Failed to clear privacy data: $e'),

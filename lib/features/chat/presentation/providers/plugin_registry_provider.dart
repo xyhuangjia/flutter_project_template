@@ -45,9 +45,7 @@ IMPluginRegistry pluginRegistry(Ref ref) {
   registry.registerHandler(EchoHandler());
 
   // 在 dispose 时清理
-  ref.onDispose(() {
-    registry.clear();
-  });
+  ref.onDispose(registry.clear);
 
   return registry;
 }

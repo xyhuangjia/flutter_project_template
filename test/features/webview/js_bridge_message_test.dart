@@ -1,10 +1,10 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/js_bridge_message.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('JsBridgeMessage', () {
     test('creates message with required fields', () {
-      final message = const JsBridgeMessage(
+      const message = JsBridgeMessage(
         type: 'navigation',
         data: {'url': 'https://example.com'},
       );
@@ -19,7 +19,7 @@ void main() {
       final now = DateTime.now();
       final message = JsBridgeMessage(
         type: 'action',
-        data: {'action': 'click', 'target': 'button'},
+        data: const {'action': 'click', 'target': 'button'},
         messageId: '123',
         timestamp: now,
       );
@@ -44,14 +44,14 @@ void main() {
       expect(message.data, containsPair('key', 'value'));
       expect(message.messageId, equals('456'));
       expect(message.timestamp,
-          equals(DateTime.fromMillisecondsSinceEpoch(1234567890000)));
+          equals(DateTime.fromMillisecondsSinceEpoch(1234567890000)),);
     });
 
     test('toJson serializes message correctly', () {
       final now = DateTime.now();
       final message = JsBridgeMessage(
         type: 'response',
-        data: {'status': 'success'},
+        data: const {'status': 'success'},
         messageId: '789',
         timestamp: now,
       );
@@ -65,7 +65,7 @@ void main() {
     });
 
     test('copyWith creates new message with updated values', () {
-      final original = JsBridgeMessage(
+      const original = JsBridgeMessage(
         type: 'request',
         data: {'key': 'value'},
       );
@@ -81,17 +81,17 @@ void main() {
     });
 
     test('equality compares all fields', () {
-      final message1 = JsBridgeMessage(
+      const message1 = JsBridgeMessage(
         type: 'test',
         data: {'key': 'value'},
         messageId: '1',
       );
-      final message2 = JsBridgeMessage(
+      const message2 = JsBridgeMessage(
         type: 'test',
         data: {'key': 'value'},
         messageId: '1',
       );
-      final message3 = JsBridgeMessage(
+      const message3 = JsBridgeMessage(
         type: 'test',
         data: {'key': 'different'},
         messageId: '1',

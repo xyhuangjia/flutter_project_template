@@ -13,19 +13,17 @@ import '../../../fakes/fake_auth_repository.dart';
 /// Creates a test widget with proper localization setup.
 Widget createTestWidget({
   required FakeAuthRepository fakeRepository,
-}) {
-  return ProviderScope(
+}) => ProviderScope(
     overrides: [
       authRepositoryProvider.overrideWithValue(fakeRepository),
     ],
-    child: MaterialApp(
+    child: const MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: const ChangePasswordScreen(),
+      locale: Locale('en'),
+      home: ChangePasswordScreen(),
     ),
   );
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +43,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert
       expect(find.byType(ChangePasswordScreen), findsOneWidget);
@@ -55,7 +53,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert
       expect(find.byType(TextField), findsNWidgets(3));
@@ -65,7 +63,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert
       expect(find.byType(FilledButton), findsOneWidget);
@@ -75,7 +73,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should have three visibility toggle icons
       expect(
@@ -90,7 +88,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Find first visibility toggle (current password)
       final visibilityIcon = find.byIcon(Icons.visibility_outlined).first;
@@ -110,7 +108,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Find second visibility toggle (new password)
       final visibilityIcon = find.byIcon(Icons.visibility_outlined).at(1);
@@ -130,7 +128,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Find third visibility toggle (confirm password)
       final visibilityIcon = find.byIcon(Icons.visibility_outlined).at(2);
@@ -153,7 +151,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Enter new password only
       final textFields = find.byType(TextField);
@@ -174,7 +172,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       final textFields = find.byType(TextField);
       await tester.enterText(textFields.at(0), 'Currentpass1');
@@ -195,7 +193,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       final textFields = find.byType(TextField);
       await tester.enterText(textFields.at(0), 'Currentpass1');
@@ -220,7 +218,7 @@ void main() {
       fakeRepository.operationDelay = const Duration(milliseconds: 500);
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       final textFields = find.byType(TextField);
       await tester.enterText(textFields.at(0), 'Currentpass1');
@@ -245,7 +243,7 @@ void main() {
       fakeRepository.operationDelay = const Duration(milliseconds: 500);
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       final textFields = find.byType(TextField);
       await tester.enterText(textFields.at(0), 'Currentpass1');
@@ -271,7 +269,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Button should have semantics
       expect(find.byType(FilledButton), findsOneWidget);

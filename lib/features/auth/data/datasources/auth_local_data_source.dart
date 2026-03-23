@@ -83,34 +83,22 @@ class AuthLocalDataSource {
   }
 
   /// Gets stored user ID.
-  String? getUserId() {
-    return _sharedPreferences.getString(_userIdKey);
-  }
+  String? getUserId() => _sharedPreferences.getString(_userIdKey);
 
   /// Gets stored user email.
-  String? getUserEmail() {
-    return _sharedPreferences.getString(_userEmailKey);
-  }
+  String? getUserEmail() => _sharedPreferences.getString(_userEmailKey);
 
   /// Gets stored username.
-  String? getUsername() {
-    return _sharedPreferences.getString(_usernameKey);
-  }
+  String? getUsername() => _sharedPreferences.getString(_usernameKey);
 
   /// Gets stored display name.
-  String? getDisplayName() {
-    return _sharedPreferences.getString(_displayNameKey);
-  }
+  String? getDisplayName() => _sharedPreferences.getString(_displayNameKey);
 
   /// Gets stored avatar URL.
-  String? getAvatarUrl() {
-    return _sharedPreferences.getString(_avatarUrlKey);
-  }
+  String? getAvatarUrl() => _sharedPreferences.getString(_avatarUrlKey);
 
   /// Gets stored phone number.
-  String? getPhoneNumber() {
-    return _sharedPreferences.getString(_phoneNumberKey);
-  }
+  String? getPhoneNumber() => _sharedPreferences.getString(_phoneNumberKey);
 
   /// Gets stored gender.
   UserGender? getGender() {
@@ -140,7 +128,5 @@ class AuthLocalDataSource {
   }
 
   /// Checks if user is authenticated (has token).
-  bool isAuthenticated() {
-    return getToken() != null;
-  }
+  bool isAuthenticated() => getToken() != null;
 }

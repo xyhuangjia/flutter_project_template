@@ -247,7 +247,7 @@ class PrivacySettingsScreen extends ConsumerWidget {
         final granted = await context.push<bool>(
           '${Routes.permissionRationale}?type=${permissionType.name}',
         );
-        if (context.mounted && granted == true) {
+        if (context.mounted && (granted ?? false)) {
           _showPermissionGrantedDialog(context);
         }
       }
@@ -257,6 +257,6 @@ class PrivacySettingsScreen extends ConsumerWidget {
   void _showPermissionGrantedDialog(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     DialogUtil.showSuccessDialog(
-        context, localizations.permissionAlreadyGranted);
+        context, localizations.permissionAlreadyGranted,);
   }
 }

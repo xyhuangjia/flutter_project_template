@@ -12,12 +12,7 @@ class PrivacyConsentDto {
   /// Creates a privacy consent DTO.
   const PrivacyConsentDto({
     required this.hasConsented,
-    this.consentedAt,
-    required this.privacyPolicyVersion,
-    required this.termsOfServiceVersion,
-    required this.region,
-    required this.dataCollectionEnabled,
-    required this.analyticsEnabled,
+    required this.privacyPolicyVersion, required this.termsOfServiceVersion, required this.region, required this.dataCollectionEnabled, required this.analyticsEnabled, this.consentedAt,
   });
 
   /// Creates from JSON.
@@ -49,8 +44,7 @@ class PrivacyConsentDto {
   Map<String, dynamic> toJson() => _$PrivacyConsentDtoToJson(this);
 
   /// Converts to domain entity.
-  PrivacyState toEntity() {
-    return PrivacyState(
+  PrivacyState toEntity() => PrivacyState(
       hasConsented: hasConsented,
       consentedAt: consentedAt,
       privacyPolicyVersion: privacyPolicyVersion,
@@ -59,11 +53,9 @@ class PrivacyConsentDto {
       dataCollectionEnabled: dataCollectionEnabled,
       analyticsEnabled: analyticsEnabled,
     );
-  }
 
   /// Creates from domain entity.
-  static PrivacyConsentDto fromEntity(PrivacyState entity) {
-    return PrivacyConsentDto(
+  static PrivacyConsentDto fromEntity(PrivacyState entity) => PrivacyConsentDto(
       hasConsented: entity.hasConsented,
       consentedAt: entity.consentedAt,
       privacyPolicyVersion: entity.privacyPolicyVersion,
@@ -72,12 +64,9 @@ class PrivacyConsentDto {
       dataCollectionEnabled: entity.dataCollectionEnabled,
       analyticsEnabled: entity.analyticsEnabled,
     );
-  }
 
-  static MarketRegion _parseRegion(String value) {
-    return MarketRegion.values.firstWhere(
+  static MarketRegion _parseRegion(String value) => MarketRegion.values.firstWhere(
       (r) => r.name == value,
       orElse: () => MarketRegion.international,
     );
-  }
 }

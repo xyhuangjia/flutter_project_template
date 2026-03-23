@@ -81,7 +81,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
           await _localDataSource.saveSettings(dto);
           return Success(updated);
         },
-        failure: (failure) => FailureResult(failure),
+        failure: FailureResult.new,
       );
     } on Exception catch (e) {
       return FailureResult(ErrorHandler.handleException(e));
@@ -99,7 +99,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
           await _localDataSource.saveSettings(dto);
           return Success(updated);
         },
-        failure: (failure) => FailureResult(failure),
+        failure: FailureResult.new,
       );
     } on Exception catch (e) {
       return FailureResult(ErrorHandler.handleException(e));
@@ -117,7 +117,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
           await _localDataSource.saveSettings(dto);
           return Success(updated);
         },
-        failure: (failure) => FailureResult(failure),
+        failure: FailureResult.new,
       );
     } on Exception catch (e) {
       return FailureResult(ErrorHandler.handleException(e));
@@ -137,7 +137,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
           await _localDataSource.saveSettings(dto);
           return Success(updated);
         },
-        failure: (failure) => FailureResult(failure),
+        failure: FailureResult.new,
       );
     } on Exception catch (e) {
       return FailureResult(ErrorHandler.handleException(e));

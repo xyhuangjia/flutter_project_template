@@ -29,7 +29,6 @@ void main() {
       // Arrange
       const expectedConsent = PrivacyConsentDto(
         hasConsented: true,
-        consentedAt: null,
         privacyPolicyVersion: '1.0.0',
         termsOfServiceVersion: '1.0.0',
         region: 'international',
@@ -45,12 +44,12 @@ void main() {
       expect(consent, isNotNull);
       expect(consent!.hasConsented, expectedConsent.hasConsented);
       expect(
-          consent.privacyPolicyVersion, expectedConsent.privacyPolicyVersion);
+          consent.privacyPolicyVersion, expectedConsent.privacyPolicyVersion,);
       expect(
-          consent.termsOfServiceVersion, expectedConsent.termsOfServiceVersion);
+          consent.termsOfServiceVersion, expectedConsent.termsOfServiceVersion,);
       expect(consent.region, expectedConsent.region);
       expect(
-          consent.dataCollectionEnabled, expectedConsent.dataCollectionEnabled);
+          consent.dataCollectionEnabled, expectedConsent.dataCollectionEnabled,);
       expect(consent.analyticsEnabled, expectedConsent.analyticsEnabled);
     });
 
@@ -76,7 +75,7 @@ void main() {
       expect(consent!.hasConsented, isTrue);
       expect(consent.consentedAt, isNotNull);
       expect(consent.consentedAt!.toIso8601String(),
-          consentedAt.toIso8601String());
+          consentedAt.toIso8601String(),);
     });
 
     test('should return null when stored data is corrupted', () async {
@@ -124,7 +123,6 @@ void main() {
 
       const secondConsent = PrivacyConsentDto(
         hasConsented: true,
-        consentedAt: null,
         privacyPolicyVersion: '1.0.1',
         termsOfServiceVersion: '1.0.1',
         region: 'china',
@@ -146,7 +144,6 @@ void main() {
       // Arrange
       const consent = PrivacyConsentDto(
         hasConsented: true,
-        consentedAt: null,
         privacyPolicyVersion: '2.0.0',
         termsOfServiceVersion: '2.0.0',
         region: 'china',
@@ -173,7 +170,6 @@ void main() {
       // Arrange
       const consent = PrivacyConsentDto(
         hasConsented: true,
-        consentedAt: null,
         privacyPolicyVersion: '1.0.0',
         termsOfServiceVersion: '1.0.0',
         region: 'international',
@@ -203,9 +199,8 @@ void main() {
       expect(consent, isNull);
 
       // Act - User accepts
-      final acceptedConsent = PrivacyConsentDto(
+      const acceptedConsent = PrivacyConsentDto(
         hasConsented: true,
-        consentedAt: null,
         privacyPolicyVersion: '1.0.0',
         termsOfServiceVersion: '1.0.0',
         region: 'international',
@@ -241,7 +236,6 @@ void main() {
       // Arrange - Save consent with first instance
       const consent = PrivacyConsentDto(
         hasConsented: true,
-        consentedAt: null,
         privacyPolicyVersion: '1.0.0',
         termsOfServiceVersion: '1.0.0',
         region: 'international',

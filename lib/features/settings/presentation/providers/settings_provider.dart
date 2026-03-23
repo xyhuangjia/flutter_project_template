@@ -25,11 +25,9 @@ SettingsLocalDataSource settingsLocalDataSource(Ref ref) {
 
 /// Provider for SettingsRepository.
 @riverpod
-SettingsRepository settingsRepository(Ref ref) {
-  return SettingsRepositoryImpl(
+SettingsRepository settingsRepository(Ref ref) => SettingsRepositoryImpl(
     localDataSource: ref.watch(settingsLocalDataSourceProvider),
   );
-}
 
 /// Settings state notifier provider.
 ///

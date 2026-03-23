@@ -36,14 +36,12 @@ class HomeEntity {
     String? welcomeMessage,
     String? userName,
     String? avatarUrl,
-  }) {
-    return HomeEntity(
+  }) => HomeEntity(
       title: title ?? this.title,
       welcomeMessage: welcomeMessage ?? this.welcomeMessage,
       userName: userName ?? this.userName,
       avatarUrl: avatarUrl ?? this.avatarUrl,
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -57,13 +55,9 @@ class HomeEntity {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(title, welcomeMessage, userName, avatarUrl);
-  }
+  int get hashCode => Object.hash(title, welcomeMessage, userName, avatarUrl);
 
   @override
-  String toString() {
-    return 'HomeEntity(title: $title, welcomeMessage: $welcomeMessage, '
+  String toString() => 'HomeEntity(title: $title, welcomeMessage: $welcomeMessage, '
         'userName: $userName, avatarUrl: $avatarUrl)';
-  }
 }

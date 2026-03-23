@@ -28,7 +28,7 @@ class DeveloperOptionsRepositoryImpl implements DeveloperOptionsRepository {
     try {
       final dto = _localDataSource.getDeveloperOptions();
       if (dto == null) {
-        return Success(DeveloperOptions.defaults);
+        return const Success(DeveloperOptions.defaults);
       }
       return Success(dto.toEntity());
     } catch (e) {

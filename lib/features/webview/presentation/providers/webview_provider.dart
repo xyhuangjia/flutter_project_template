@@ -15,7 +15,6 @@ import 'package:flutter_project_template/features/webview/domain/entities/js_bri
 import 'package:flutter_project_template/features/webview/domain/entities/webview_config.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/webview_state.dart';
 import 'package:flutter_project_template/features/webview/domain/repositories/webview_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';

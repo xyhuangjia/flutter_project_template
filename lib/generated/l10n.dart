@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/generated/intl/messages_all.dart';
 import 'package:intl/intl.dart';
-import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -50,17 +50,13 @@ class S {
     return instance!;
   }
 
-  static S? maybeOf(BuildContext context) {
-    return Localizations.of<S>(context, S);
-  }
+  static S? maybeOf(BuildContext context) => Localizations.of<S>(context, S);
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();
 
-  List<Locale> get supportedLocales {
-    return const <Locale>[Locale.fromSubtags(languageCode: 'en')];
-  }
+  List<Locale> get supportedLocales => const <Locale>[Locale.fromSubtags(languageCode: 'en')];
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);

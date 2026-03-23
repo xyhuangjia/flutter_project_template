@@ -56,7 +56,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
           weight: 25,
         ),
         TweenSequenceItem(
-          tween: ConstantTween(0.0),
+          tween: ConstantTween(0),
           weight: 50,
         ),
       ]).animate(

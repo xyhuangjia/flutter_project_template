@@ -5,9 +5,8 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project_template/core/errors/failures.dart';
-import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:flutter_project_template/features/auth/domain/entities/user.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
@@ -20,19 +19,17 @@ import '../../../fakes/fake_auth_repository.dart';
 /// Creates a test widget with proper localization setup.
 Widget createTestWidget({
   required FakeAuthRepository fakeRepository,
-}) {
-  return ProviderScope(
+}) => ProviderScope(
     overrides: [
       authRepositoryProvider.overrideWithValue(fakeRepository),
     ],
-    child: MaterialApp(
+    child: const MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: const LoginScreen(),
+      locale: Locale('en'),
+      home: LoginScreen(),
     ),
   );
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +61,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should render LoginScreen
       expect(find.byType(LoginScreen), findsOneWidget);
@@ -74,7 +71,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should have form-related widgets
       expect(find.byType(Form), findsOneWidget);
@@ -86,7 +83,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should have outlined buttons for social login
       expect(find.byType(OutlinedButton), findsWidgets);
@@ -96,7 +93,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Find visibility toggle icon
       final visibilityIcon = find.byIcon(Icons.visibility_outlined);
@@ -117,7 +114,7 @@ void main() {
       await tester.binding.setSurfaceSize(const Size(375, 667));
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should render without errors
       expect(find.byType(LoginScreen), findsOneWidget);
@@ -131,7 +128,7 @@ void main() {
       await tester.binding.setSurfaceSize(const Size(1024, 768));
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should render without errors
       expect(find.byType(LoginScreen), findsOneWidget);
@@ -145,7 +142,7 @@ void main() {
       await tester.binding.setSurfaceSize(const Size(667, 375));
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Should render without errors
       expect(find.byType(LoginScreen), findsOneWidget);
@@ -160,7 +157,7 @@ void main() {
       // Arrange
       await tester.pumpWidget(createTestWidget(
         fakeRepository: fakeRepository,
-      ));
+      ),);
 
       // Assert - Buttons should have semantics
       expect(find.byType(FilledButton), findsWidgets);

@@ -287,11 +287,9 @@ class _TypingIndicatorState extends State<_TypingIndicator>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
+  Widget build(BuildContext context) => AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) {
-        return Row(
+      builder: (context, child) => Row(
           mainAxisSize: MainAxisSize.min,
           children: List.generate(3, (index) {
             final delay = index * 0.2;
@@ -312,8 +310,6 @@ class _TypingIndicatorState extends State<_TypingIndicator>
               ),
             );
           }),
-        );
-      },
+        ),
     );
-  }
 }

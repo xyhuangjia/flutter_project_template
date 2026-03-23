@@ -21,8 +21,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            homeProvider.overrideWith(() => MockHomeNotifier()),
-            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
+            homeProvider.overrideWith(MockHomeNotifier.new),
+            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
+            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -62,8 +62,8 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            homeProvider.overrideWith(() => MockHomeNotifier()),
-            sharedPrefsProvider.overrideWith(() => MockSharedPrefs()),
+            homeProvider.overrideWith(MockHomeNotifier.new),
+            sharedPrefsProvider.overrideWith(MockSharedPrefs.new),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,

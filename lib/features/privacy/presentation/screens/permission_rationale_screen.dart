@@ -10,8 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 class PermissionRationaleScreen extends StatefulWidget {
   /// Creates a permission rationale screen.
   const PermissionRationaleScreen({
-    super.key,
-    required this.permissionType,
+    required this.permissionType, super.key,
     this.onGranted,
     this.onDenied,
   });

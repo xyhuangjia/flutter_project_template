@@ -37,7 +37,7 @@ abstract class ChatLocalDataSource {
 
   /// Watches messages for a conversation.
   Stream<List<ChatMessage>> watchMessagesByConversationId(
-      String conversationId);
+      String conversationId,);
 
   /// Creates a new message.
   Future<void> insertMessage(ChatMessagesCompanion message);
@@ -114,7 +114,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
 
   @override
   Future<List<ChatMessage>> getMessagesByConversationId(
-          String conversationId) =>
+          String conversationId,) =>
       _database.getMessagesByConversationId(conversationId);
 
   @override

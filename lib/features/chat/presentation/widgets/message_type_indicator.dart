@@ -44,8 +44,7 @@ class MessageTypeIndicator extends StatelessWidget {
     );
   }
 
-  IconData? _getIcon() {
-    return switch (type) {
+  IconData? _getIcon() => switch (type) {
       MessageType.text => null, // 文本消息不显示图标
       MessageType.image => Icons.image_outlined,
       MessageType.file => Icons.insert_drive_file_outlined,
@@ -53,7 +52,6 @@ class MessageTypeIndicator extends StatelessWidget {
       MessageType.video => Icons.videocam_outlined,
       MessageType.custom => Icons.more_horiz,
     };
-  }
 }
 
 /// 消息类型图标构建工具类。
@@ -120,11 +118,9 @@ class MessageTypeIcon {
   /// 获取消息预览文本。
   ///
   /// 根据消息类型生成用于显示的预览文本。
-  static String getPreviewText(Message message) {
-    return switch (message) {
+  static String getPreviewText(Message message) => switch (message) {
       TextMessage(:final content) => content,
       ImageMessage(:final caption, :final imageCount) =>
         caption ?? (imageCount > 1 ? '[$imageCount 张图片]' : '[图片]'),
     };
-  }
 }

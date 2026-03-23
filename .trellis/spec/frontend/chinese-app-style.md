@@ -380,6 +380,169 @@ SettingsTile(
 
 ---
 
+## Responsive Design & Tablet Adaptation
+
+> 响应式设计与平板适配规范
+
+### 设计稿基准
+
+**基准宽度**: 375pt (iPhone 标准)
+
+| 设计稿类型 | 基准宽度 | 转换规则 |
+|-----------|---------|---------|
+| iOS 设计稿 | 375pt | **直接使用** - 与 Flutter 逻辑像素 1:1 对应 |
+| Android 设计稿 | 360dp | 乘以 375/360 ≈ 1.04 |
+| 2x 标注稿 | 750px | 除以 2 转换为逻辑像素 |
+| 3x 标注稿 | 1125px | 除以 3 转换为逻辑像素 |
+
+**转换示例**:
+```dart
+// 375pt 基准设计稿 → Flutter 代码 (直接使用)
+设计稿: 16px  → 代码: 16.0
+设计稿: 20px  → 代码: 20.0
+设计稿: 375px → 代码: 375.0 (满屏宽度)
+```
+
+### 设备断点
+
+使用 `Breakpoints` 类定义的断点:
+
+```dart
+import 'package:flutter_project_template/core/theme/theme.dart';
+
+LayoutBuilder(
+  builder: (context, constraints) {
+    if (constraints.maxWidth >= Breakpoints.mobile) {
+      // 平板布局
+    }
+    return MobileLayout();
+  },
+)
+```
+
+| 断点 | 宽度范围 | 设备类型 |
+|------|---------|---------|
+| `< 600px` | 手机 | Phone |
+| `600px - 840px` | 平板竖屏 | Tablet Portrait |
+| `840px - 1200px` | 平板横屏 | Tablet Landscape |
+| `≥ 1200px` | 桌面 | Desktop |
+
+### 固定尺寸 vs 弹性尺寸
+
+#### 固定尺寸 (不随设备变化)
+
+| 元素类型 | 处理方式 | 示例 |
+|---------|---------|------|
+| 字体大小 | 固定值 | `fontSize: 16` |
+| 图标大小 | 固定值 | `Icon(size: 24)` |
+| 按钮高度 | 固定值 | `height: 48` |
+| 圆角 | 固定值 | `BorderRadius.circular(16)` |
+| 小间距 | 固定值 | `SizedBox(height: 8)` |
+
+#### 弹性尺寸 (响应式调整)
+
+| 元素类型 | 手机 | 平板 | 获取方式 |
+|---------|------|------|---------|
+| 页面内边距 | 16px | 24px | `context.spacing.pagePadding` |
+| 卡片内边距 | 16px | 20px | `context.spacing.cardPadding` |
+| 卡片间距 | 16px | 20px | `context.spacing.cardSpacing` |
+| 列表项高度 | 56px | 64px | `context.spacing.listItemHeight` |
+
+### 平板布局策略
+
+#### 方式 1: 完全独立布局 (推荐用于差异大的页面)
+
+```dart
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveLayout(
+      mobile: _MobileLayout(),
+      tablet: _TabletLayout(),
+      desktop: _DesktopLayout(),
+    );
+  }
+
+  Widget _MobileLayout() {
+    // 手机专用布局
+    return Scaffold(
+      appBar: AppBar(title: Text('Title')),
+      body: ListView(children: [...]),
+    );
+  }
+
+  Widget _TabletLayout() {
+    // 平板专用布局
+    return Scaffold(
+      body: Row(
+        children: [
+          SizedBox(width: 280, child: _NavigationRail()),
+          Expanded(child: _Content()),
+        ],
+      ),
+    );
+  }
+}
+```
+
+#### 方式 2: 内容约束 (用于表单、卡片等内容)
+
+```dart
+ConstrainedContent(
+  maxWidth: ContentConstraints.form,  // 400px
+  child: LoginForm(),
+)
+```
+
+#### 方式 3: 响应式数值选择
+
+```dart
+final columns = context.selectValue(
+  mobile: 3,
+  tablet: 4,
+  desktop: 6,
+);
+
+return GridView.count(
+  crossAxisCount: columns,
+  children: items,
+);
+```
+
+### 平板专属设计要点
+
+| 设计元素 | 手机布局 | 平板布局 |
+|---------|---------|---------|
+| 导航 | 底部导航栏 | 侧边导航栏 / 底部导航+侧边详情 |
+| 列表 | 单列列表 | 双栏 Master-Detail 或多列 Grid |
+| 表单 | 单列垂直表单 | 双列表单或卡片式分组 |
+| 详情页 | 全屏页面 | 右侧面板或 Modal |
+| 内边距 | 16px | 24-32px |
+| 网格列数 | 3 | 4-6 |
+
+### 内容最大宽度约束
+
+使用 `ContentConstraints` 类:
+
+```dart
+ConstrainedBox(
+  constraints: BoxConstraints(
+    maxWidth: ContentConstraints.form,  // 400px
+  ),
+  child: MyForm(),
+)
+```
+
+| 内容类型 | 最大宽度 | 用途 |
+|---------|---------|------|
+| `form` | 400px | 登录、注册等表单 |
+| `card` | 600px | 卡片内容 |
+| `text` | 680px | 正文、文章 |
+| `list` | 840px | 列表页面 |
+| `masterDetail` | 1200px | 双栏布局 |
+
+---
+
 ## Checklist for New Pages
 
 开发新页面时，确保：
@@ -392,6 +555,8 @@ SettingsTile(
 - [ ] 圆角统一使用 16px (卡片) / 10-12px (图标容器)
 - [ ] 支持深色模式
 - [ ] 使用 `CustomScrollView` 或 `SingleChildScrollView` 实现滚动
+- [ ] **平板适配**: 使用 `ResponsiveLayout` 或 `ConstrainedContent`
+- [ ] **响应式间距**: 使用 `context.spacing` 获取响应式数值
 
 ---
 
@@ -399,8 +564,11 @@ SettingsTile(
 
 | 文件 | 说明 |
 |------|------|
+| `lib/core/theme/breakpoints.dart` | 断点定义、响应式间距 |
+| `lib/shared/widgets/responsive_layout.dart` | 响应式布局组件 |
 | `home_screen.dart` | 首页示例（沉浸式头部） |
 | `settings_screen.dart` | 设置页面示例（标准 AppBar + 卡片式布局） |
+| `login_screen.dart` | 登录页面示例（平板独立布局） |
 | `about_screen.dart` | 关于页面示例（标准 AppBar） |
 | `profile_screen.dart` | 个人资料页面示例（标准 AppBar + 卡片式布局） |
 | `change_password_screen.dart` | 修改密码页面示例（表单卡片） |

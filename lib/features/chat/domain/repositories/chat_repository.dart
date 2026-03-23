@@ -14,8 +14,7 @@ class Conversation {
   const Conversation({
     required this.id,
     required this.title,
-    this.lastMessage,
-    required this.updatedAt,
+    required this.updatedAt, this.lastMessage,
     this.unreadCount = 0,
     this.type = 'ai',
     this.aiModelId,
@@ -61,8 +60,7 @@ class Conversation {
     String? aiModelId,
     int? totalTokens,
     DateTime? createdAt,
-  }) {
-    return Conversation(
+  }) => Conversation(
       id: id ?? this.id,
       title: title ?? this.title,
       lastMessage: lastMessage ?? this.lastMessage,
@@ -73,7 +71,6 @@ class Conversation {
       totalTokens: totalTokens ?? this.totalTokens,
       createdAt: createdAt ?? this.createdAt,
     );
-  }
 
   @override
   bool operator ==(Object other) =>

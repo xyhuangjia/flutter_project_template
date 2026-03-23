@@ -93,8 +93,7 @@ class AIConfigEntity {
     String? configJson,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) {
-    return AIConfigEntity(
+  }) => AIConfigEntity(
       id: id ?? this.id,
       name: name ?? this.name,
       provider: provider ?? this.provider,
@@ -108,16 +107,13 @@ class AIConfigEntity {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
-  }
 }
 
 /// Provider for secure storage.
 @riverpod
-FlutterSecureStorage secureStorage(Ref ref) {
-  return const FlutterSecureStorage(
+FlutterSecureStorage secureStorage(Ref ref) => const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
-}
 
 /// AI configuration state.
 class AIConfigState {
@@ -147,14 +143,12 @@ class AIConfigState {
     AIConfigEntity? defaultConfig,
     bool? isLoading,
     String? error,
-  }) {
-    return AIConfigState(
+  }) => AIConfigState(
       configs: configs ?? this.configs,
       defaultConfig: defaultConfig ?? this.defaultConfig,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
     );
-  }
 }
 
 /// Provider for AI configuration management.
@@ -191,12 +185,12 @@ class AIConfigNotifier extends _$AIConfigNotifier {
     try {
       // Validate API key first
       final isValid = await _validateApiKey(provider, apiKey,
-          baseUrl: baseUrl, apiFormat: apiFormat);
+          baseUrl: baseUrl, apiFormat: apiFormat,);
       if (!isValid) {
         state = AsyncValue.data(currentState.copyWith(
           error: 'Invalid API key',
           isLoading: false,
-        ));
+        ),);
         return null;
       }
 
@@ -237,7 +231,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
       state = AsyncValue.data(currentState.copyWith(
         error: e.toString(),
         isLoading: false,
-      ));
+      ),);
       return null;
     }
   }
@@ -276,7 +270,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
       state = AsyncValue.data(currentState.copyWith(
         error: e.toString(),
         isLoading: false,
-      ));
+      ),);
     }
   }
 
@@ -302,7 +296,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
       state = AsyncValue.data(currentState.copyWith(
         error: e.toString(),
         isLoading: false,
-      ));
+      ),);
     }
   }
 
@@ -347,7 +341,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
     await updateConfig(config.copyWith(
       models: updatedModels,
       defaultModel: updatedDefaultModel,
-    ));
+    ),);
   }
 
   /// Sets the default model for a configuration.
@@ -399,9 +393,7 @@ class AIConfigNotifier extends _$AIConfigNotifier {
     }
   }
 
-  List<AIConfigEntity> _toEntities(List<AIConfig> configs) {
-    return configs.map(_toEntity).toList();
-  }
+  List<AIConfigEntity> _toEntities(List<AIConfig> configs) => configs.map(_toEntity).toList();
 
   AIConfigEntity _toEntity(AIConfig config) {
     // Parse models from JSON
@@ -433,25 +425,24 @@ class AIConfigNotifier extends _$AIConfigNotifier {
 
 /// Provider for available AI models.
 @riverpod
-List<AIModelInfo> availableModels(Ref ref) {
-  return [
-    AIModelInfo(
+List<AIModelInfo> availableModels(Ref ref) => [
+    const AIModelInfo(
       provider: 'openai',
       providerDisplayName: 'OpenAI',
       models: [
         ModelInfo(
-            id: 'gpt-4o', name: 'GPT-4o', description: 'Most capable model'),
+            id: 'gpt-4o', name: 'GPT-4o', description: 'Most capable model',),
         ModelInfo(
             id: 'gpt-4o-mini',
             name: 'GPT-4o Mini',
-            description: 'Fast and affordable'),
+            description: 'Fast and affordable',),
         ModelInfo(
             id: 'gpt-4-turbo',
             name: 'GPT-4 Turbo',
-            description: 'Previous flagship'),
+            description: 'Previous flagship',),
       ],
     ),
-    AIModelInfo(
+    const AIModelInfo(
       provider: 'claude',
       providerDisplayName: 'Claude (Anthropic)',
       models: [
@@ -467,13 +458,12 @@ List<AIModelInfo> availableModels(Ref ref) {
         ),
       ],
     ),
-    AIModelInfo(
+    const AIModelInfo(
       provider: 'custom',
       providerDisplayName: 'Custom',
       models: [], // Custom providers have user-defined models
     ),
   ];
-}
 
 /// AI model information.
 class AIModelInfo {

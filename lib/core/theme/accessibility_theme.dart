@@ -142,23 +142,19 @@ class AccessibilityTheme extends ThemeExtension<AccessibilityTheme> {
   double scaleIcon(double size) => size * iconScale;
 
   /// Gets scaled text style from base style.
-  TextStyle scaleTextStyle(TextStyle base) {
-    return base.copyWith(
+  TextStyle scaleTextStyle(TextStyle base) => base.copyWith(
       fontSize: base.fontSize != null ? base.fontSize! * scaleFactor : null,
       height: base.height,
     );
-  }
 
   @override
   AccessibilityTheme copyWith({
     double? scaleFactor,
     bool? isElderlyMode,
-  }) {
-    return AccessibilityTheme(
+  }) => AccessibilityTheme(
       scaleFactor: scaleFactor ?? this.scaleFactor,
       isElderlyMode: isElderlyMode ?? this.isElderlyMode,
     );
-  }
 
   @override
   AccessibilityTheme lerp(AccessibilityTheme? other, double t) {
@@ -184,9 +180,7 @@ extension AccessibilityThemeExtension on ThemeData {
 /// Extension on BuildContext for easy access to accessibility theme.
 extension AccessibilityContextExtension on BuildContext {
   /// Gets the accessibility theme from the context.
-  AccessibilityTheme get accessibility {
-    return Theme.of(this).accessibility;
-  }
+  AccessibilityTheme get accessibility => Theme.of(this).accessibility;
 
   /// Checks if elderly mode is enabled.
   bool get isElderlyMode => accessibility.isElderlyMode;

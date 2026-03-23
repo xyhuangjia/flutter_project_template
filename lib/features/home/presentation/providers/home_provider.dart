@@ -6,7 +6,6 @@ library;
 
 import 'package:flutter_project_template/core/constants/app_strings.dart';
 import 'package:flutter_project_template/features/home/domain/entities/home_entity.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_provider.g.dart';
@@ -26,7 +25,6 @@ class HomeNotifier extends _$HomeNotifier {
       title: AppStrings.appName,
       welcomeMessage: 'Welcome to the Flutter Project Template!',
       userName: 'Guest',
-      avatarUrl: null,
     );
   }
 
@@ -57,7 +55,6 @@ class HomeNotifier extends _$HomeNotifier {
         title: AppStrings.appName,
         welcomeMessage: 'Welcome to the Flutter Project Template!',
         userName: 'Guest',
-        avatarUrl: null,
       ),
     );
   }

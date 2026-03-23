@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/features/webview/presentation/widgets/webview_navigation_controls.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Widget createTestWidget({
     required Widget child,
-  }) {
-    return ProviderScope(
+  }) => ProviderScope(
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -20,13 +19,12 @@ void main() {
         ),
       ),
     );
-  }
 
   group('WebViewNavigationControls', () {
     testWidgets('renders all buttons', (tester) async {
-      bool backPressed = false;
-      bool forwardPressed = false;
-      bool refreshPressed = false;
+      var backPressed = false;
+      var forwardPressed = false;
+      var refreshPressed = false;
 
       await tester.pumpWidget(createTestWidget(
         child: WebViewNavigationControls(
@@ -36,7 +34,7 @@ void main() {
           onForward: () => forwardPressed = true,
           onRefresh: () => refreshPressed = true,
         ),
-      ));
+      ),);
 
       // Find all IconButtons
       expect(find.byType(IconButton), findsNWidgets(3));
@@ -56,7 +54,7 @@ void main() {
           onForward: () {},
           onRefresh: () {},
         ),
-      ));
+      ),);
 
       final backButton = tester.widget<IconButton>(
         find.widgetWithIcon(IconButton, Icons.arrow_back),
@@ -73,7 +71,7 @@ void main() {
           onForward: () {},
           onRefresh: () {},
         ),
-      ));
+      ),);
 
       final forwardButton = tester.widget<IconButton>(
         find.widgetWithIcon(IconButton, Icons.arrow_forward),
@@ -90,7 +88,7 @@ void main() {
           onForward: () {},
           onRefresh: () {},
         ),
-      ));
+      ),);
 
       final refreshButton = tester.widget<IconButton>(
         find.widgetWithIcon(IconButton, Icons.refresh),
@@ -108,14 +106,14 @@ void main() {
           onRefresh: () {},
           showRefresh: false,
         ),
-      ));
+      ),);
 
       expect(find.byIcon(Icons.refresh), findsNothing);
       expect(find.byType(IconButton), findsNWidgets(2)); // Back and forward only
     });
 
     testWidgets('calls onBack when back button is tapped', (tester) async {
-      bool backPressed = false;
+      var backPressed = false;
 
       await tester.pumpWidget(createTestWidget(
         child: WebViewNavigationControls(
@@ -125,14 +123,14 @@ void main() {
           onForward: () {},
           onRefresh: () {},
         ),
-      ));
+      ),);
 
       await tester.tap(find.byIcon(Icons.arrow_back));
       expect(backPressed, isTrue);
     });
 
     testWidgets('calls onForward when forward button is tapped', (tester) async {
-      bool forwardPressed = false;
+      var forwardPressed = false;
 
       await tester.pumpWidget(createTestWidget(
         child: WebViewNavigationControls(
@@ -142,14 +140,14 @@ void main() {
           onForward: () => forwardPressed = true,
           onRefresh: () {},
         ),
-      ));
+      ),);
 
       await tester.tap(find.byIcon(Icons.arrow_forward));
       expect(forwardPressed, isTrue);
     });
 
     testWidgets('calls onRefresh when refresh button is tapped', (tester) async {
-      bool refreshPressed = false;
+      var refreshPressed = false;
 
       await tester.pumpWidget(createTestWidget(
         child: WebViewNavigationControls(
@@ -159,7 +157,7 @@ void main() {
           onForward: () {},
           onRefresh: () => refreshPressed = true,
         ),
-      ));
+      ),);
 
       await tester.tap(find.byIcon(Icons.refresh));
       expect(refreshPressed, isTrue);

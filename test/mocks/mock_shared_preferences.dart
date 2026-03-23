@@ -16,13 +16,13 @@ Future<SharedPreferences> createMockSharedPreferences(
   Map<String, Object> initialValues,
 ) async {
   SharedPreferences.setMockInitialValues(initialValues);
-  return await SharedPreferences.getInstance();
+  return SharedPreferences.getInstance();
 }
 
 /// Creates an empty mock SharedPreferences instance.
 Future<SharedPreferences> createEmptyMockSharedPreferences() async {
   SharedPreferences.setMockInitialValues({});
-  return await SharedPreferences.getInstance();
+  return SharedPreferences.getInstance();
 }
 
 /// Creates a mock SharedPreferences with auth data pre-populated.

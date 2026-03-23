@@ -37,15 +37,13 @@ class UserPreferences {
     String? bio,
     String? phoneNumber,
     String? email,
-  }) {
-    return UserPreferences(
+  }) => UserPreferences(
       displayName: displayName ?? this.displayName,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       bio: bio ?? this.bio,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -60,13 +58,9 @@ class UserPreferences {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(displayName, avatarUrl, bio, phoneNumber, email);
-  }
+  int get hashCode => Object.hash(displayName, avatarUrl, bio, phoneNumber, email);
 
   @override
-  String toString() {
-    return 'UserPreferences(displayName: $displayName, avatarUrl: $avatarUrl, '
+  String toString() => 'UserPreferences(displayName: $displayName, avatarUrl: $avatarUrl, '
         'bio: $bio, phoneNumber: $phoneNumber, email: $email)';
-  }
 }

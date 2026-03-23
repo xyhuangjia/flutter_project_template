@@ -93,7 +93,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     ref.listen<ForgotPasswordState>(forgotPasswordProvider,
         (previous, next) {
       if (next.errorMessage != null && next.errorMessage!.isNotEmpty) {
-        DialogUtil.showErrorDialog(context, next.errorMessage!);
+        DialogUtil.showErrorDialog(context, next.errorMessage);
       }
     });
 
@@ -227,7 +227,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   String _getAppBarTitle(
-          ForgotPasswordStep step, AppLocalizations localizations) =>
+          ForgotPasswordStep step, AppLocalizations localizations,) =>
       switch (step) {
         ForgotPasswordStep.enterAccount => localizations.forgotPasswordTitle,
         ForgotPasswordStep.enterCode => localizations.enterVerificationCode,
@@ -326,7 +326,7 @@ class _EnterAccountForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Verification type toggle
-          Container(
+          DecoratedBox(
             decoration: BoxDecoration(
               color: colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(12),

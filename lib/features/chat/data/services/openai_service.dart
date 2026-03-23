@@ -54,18 +54,18 @@ class OpenAIService implements AIService {
 
       final data = response.data;
       if (data == null) {
-        throw AIServiceException('Empty response from OpenAI');
+        throw const AIServiceException('Empty response from OpenAI');
       }
 
       final choices = data['choices'] as List<dynamic>?;
       if (choices == null || choices.isEmpty) {
-        throw AIServiceException('No choices in OpenAI response');
+        throw const AIServiceException('No choices in OpenAI response');
       }
 
       final message = choices[0]['message'] as Map<String, dynamic>?;
       final content = message?['content'] as String?;
       if (content == null) {
-        throw AIServiceException('No content in OpenAI response');
+        throw const AIServiceException('No content in OpenAI response');
       }
 
       return content;
@@ -100,7 +100,7 @@ class OpenAIService implements AIService {
 
       final stream = response.data?.stream;
       if (stream == null) {
-        throw AIServiceException('No stream in response');
+        throw const AIServiceException('No stream in response');
       }
 
       await for (final chunk in stream) {
@@ -148,7 +148,7 @@ class OpenAIService implements AIService {
       }
     } on DioException catch (e) {
       yield AIStreamChunk(
-          content: '', isDone: true, error: _handleDioError(e).message);
+          content: '', isDone: true, error: _handleDioError(e).message,);
     }
   }
 

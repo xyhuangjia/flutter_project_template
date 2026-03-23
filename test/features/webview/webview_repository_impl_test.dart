@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/core/errors/failures.dart';
 import 'package:flutter_project_template/features/webview/data/datasources/webview_cookie_data_source.dart';
 import 'package:flutter_project_template/features/webview/data/datasources/webview_file_data_source.dart';
 import 'package:flutter_project_template/features/webview/data/datasources/webview_local_storage_data_source.dart';
 import 'package:flutter_project_template/features/webview/data/repositories/webview_repository_impl.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/js_bridge_message.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('WebViewRepositoryImpl', () {
@@ -232,9 +232,7 @@ class FakeCookieDataSource implements WebViewCookieDataSource {
   final Map<String, Map<String, String>> cookies = {};
 
   @override
-  Future<Map<String, String>> getCookies(String url) async {
-    return cookies[url] ?? {};
-  }
+  Future<Map<String, String>> getCookies(String url) async => cookies[url] ?? {};
 
   @override
   Future<void> setCookies(String url, Map<String, String> cookies) async {
@@ -262,9 +260,7 @@ class FakeCookieDataSource implements WebViewCookieDataSource {
   @override
   Future<Map<String, String>> extractCookiesFromController(
     dynamic controller,
-  ) async {
-    return {};
-  }
+  ) async => {};
 }
 
 class FakeFileDataSource implements WebViewFileDataSource {
@@ -281,9 +277,7 @@ class FakeFileDataSource implements WebViewFileDataSource {
   }
 
   @override
-  Future<bool> fileExists(String filePath) async {
-    return existingFiles.contains(filePath);
-  }
+  Future<bool> fileExists(String filePath) async => existingFiles.contains(filePath);
 
   @override
   Future<void> deleteFile(String filePath) async {
@@ -291,19 +285,13 @@ class FakeFileDataSource implements WebViewFileDataSource {
   }
 
   @override
-  Future<Directory> getDownloadDirectory() async {
-    return Directory.systemTemp;
-  }
+  Future<Directory> getDownloadDirectory() async => Directory.systemTemp;
 
   @override
-  Future<int> getFileSize(String filePath) async {
-    return 1024;
-  }
+  Future<int> getFileSize(String filePath) async => 1024;
 
   @override
-  Future<List<FileSystemEntity>> listDownloadedFiles() async {
-    return [];
-  }
+  Future<List<FileSystemEntity>> listDownloadedFiles() async => [];
 
   @override
   Future<void> clearDownloadedFiles() async {

@@ -82,7 +82,7 @@ abstract class AIResponseGenerator implements ResponseGenerator {
 
       await for (final chunk in stream) {
         // 检查是否已取消
-        if (_cancelToken?.isCompleted == true) {
+        if (_cancelToken?.isCompleted ?? false) {
           yield ResponseChunk.withError('Generation cancelled');
           return;
         }
@@ -124,8 +124,7 @@ abstract class AIResponseGenerator implements ResponseGenerator {
   }
 
   /// 转换消息格式。
-  List<AIMessage> _convertMessages(List<Message> messages) {
-    return messages.map((msg) {
+  List<AIMessage> _convertMessages(List<Message> messages) => messages.map((msg) {
       final role = switch (msg.sender) {
         MessageSender.user => 'user',
         MessageSender.assistant => 'assistant',
@@ -136,7 +135,6 @@ abstract class AIResponseGenerator implements ResponseGenerator {
 
       return AIMessage(role: role, content: content);
     }).toList();
-  }
 
   /// 释放资源。
   void dispose() {

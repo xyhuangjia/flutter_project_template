@@ -29,7 +29,7 @@ class InputContent {
   /// 纯文本内容。
   const InputContent.text(String text)
       : type = InputContentType.text,
-        this.text = text,
+        text = text,
         imagePaths = const [];
 
   /// 图片内容。
@@ -129,11 +129,9 @@ class _ChatInputFieldState extends State<ChatInputField> {
       widget.onSend(InputContent.image(
         paths: List.from(_selectedImages),
         caption: text.isNotEmpty ? text : null,
-      ));
+      ),);
       _controller.clear();
-      setState(() {
-        _selectedImages.clear();
-      });
+      setState(_selectedImages.clear);
     } else {
       // 发送纯文本消息
       widget.onSend(InputContent.text(text));
@@ -286,8 +284,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
   }
 
   /// 构建图片按钮。
-  Widget _buildImageButton(bool isDark) {
-    return Padding(
+  Widget _buildImageButton(bool isDark) => Padding(
       padding: const EdgeInsets.only(right: 8),
       child: GestureDetector(
         onTap: widget.enabled ? _showImageSourceDialog : null,
@@ -306,7 +303,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
         ),
       ),
     );
-  }
 
   /// 显示图片来源选择对话框。
   void _showImageSourceDialog() {
@@ -379,8 +375,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
       );
 
   /// 构建图片预览区域。
-  Widget _buildImagePreview(bool isDark) {
-    return Container(
+  Widget _buildImagePreview(bool isDark) => Container(
       constraints: const BoxConstraints(maxHeight: 100),
       margin: const EdgeInsets.only(bottom: 8),
       child: SingleChildScrollView(
@@ -393,7 +388,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
         ),
       ),
     );
-  }
 
   /// 构建单个图片预览项。
   Widget _buildImageItem(int index, bool isDark) {

@@ -57,18 +57,18 @@ class ClaudeService implements AIService {
 
       final data = response.data;
       if (data == null) {
-        throw AIServiceException('Empty response from Claude');
+        throw const AIServiceException('Empty response from Claude');
       }
 
       final content = data['content'] as List<dynamic>?;
       if (content == null || content.isEmpty) {
-        throw AIServiceException('No content in Claude response');
+        throw const AIServiceException('No content in Claude response');
       }
 
       final firstContent = content[0] as Map<String, dynamic>?;
       final text = firstContent?['text'] as String?;
       if (text == null) {
-        throw AIServiceException('No text in Claude response');
+        throw const AIServiceException('No text in Claude response');
       }
 
       return text;
@@ -104,7 +104,7 @@ class ClaudeService implements AIService {
 
       final stream = response.data?.stream;
       if (stream == null) {
-        throw AIServiceException('No stream in response');
+        throw const AIServiceException('No stream in response');
       }
 
       await for (final chunk in stream) {
@@ -162,7 +162,7 @@ class ClaudeService implements AIService {
       }
     } on DioException catch (e) {
       yield AIStreamChunk(
-          content: '', isDone: true, error: _handleDioError(e).message);
+          content: '', isDone: true, error: _handleDioError(e).message,);
     }
   }
 
@@ -207,7 +207,7 @@ class ClaudeService implements AIService {
         .map((m) => {
               'role': m.role == 'user' ? 'user' : 'assistant',
               'content': m.content,
-            })
+            },)
         .toList();
   }
 

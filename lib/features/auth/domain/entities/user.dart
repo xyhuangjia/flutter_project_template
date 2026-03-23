@@ -66,8 +66,7 @@ class User {
     String? phoneNumber,
     UserGender? gender,
     String? bio,
-  }) {
-    return User(
+  }) => User(
       id: id ?? this.id,
       email: email ?? this.email,
       username: username ?? this.username,
@@ -77,7 +76,6 @@ class User {
       gender: gender ?? this.gender,
       bio: bio ?? this.bio,
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -95,8 +93,7 @@ class User {
   }
 
   @override
-  int get hashCode {
-    return Object.hash(
+  int get hashCode => Object.hash(
       id,
       email,
       username,
@@ -106,12 +103,9 @@ class User {
       gender,
       bio,
     );
-  }
 
   @override
-  String toString() {
-    return 'User(id: $id, email: $email, username: $username, '
+  String toString() => 'User(id: $id, email: $email, username: $username, '
         'displayName: $displayName, avatarUrl: $avatarUrl, '
         'phoneNumber: $phoneNumber, gender: $gender, bio: $bio)';
-  }
 }

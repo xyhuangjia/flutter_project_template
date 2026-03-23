@@ -20,6 +20,16 @@ class SettingsDto {
     this.accessibilityMode = 'standard',
   });
 
+  /// Creates a DTO from an entity.
+  factory SettingsDto.fromEntity(SettingsEntity entity) => SettingsDto(
+        themeMode: entity.themeMode.name,
+        languageCode: entity.languageCode,
+        notificationsEnabled: entity.notificationsEnabled,
+        soundEnabled: entity.soundEnabled,
+        vibrationEnabled: entity.vibrationEnabled,
+        accessibilityMode: entity.accessibilityMode.name,
+      );
+
   /// Creates a settings DTO from JSON.
   factory SettingsDto.fromJson(Map<String, dynamic> json) =>
       _$SettingsDtoFromJson(json);
@@ -55,32 +65,18 @@ class SettingsDto {
         accessibilityMode: _parseAccessibilityMode(accessibilityMode),
       );
 
-  /// Creates a DTO from an entity.
-  factory SettingsDto.fromEntity(SettingsEntity entity) => SettingsDto(
-        themeMode: entity.themeMode.name,
-        languageCode: entity.languageCode,
-        notificationsEnabled: entity.notificationsEnabled,
-        soundEnabled: entity.soundEnabled,
-        vibrationEnabled: entity.vibrationEnabled,
-        accessibilityMode: entity.accessibilityMode.name,
-      );
-
   /// Parses theme mode string to enum.
-  static AppThemeMode _parseThemeMode(String mode) {
-    return switch (mode) {
+  static AppThemeMode _parseThemeMode(String mode) => switch (mode) {
       'light' => AppThemeMode.light,
       'dark' => AppThemeMode.dark,
       _ => AppThemeMode.system,
     };
-  }
 
   /// Parses accessibility mode string to enum.
-  static AccessibilityMode _parseAccessibilityMode(String mode) {
-    return switch (mode) {
+  static AccessibilityMode _parseAccessibilityMode(String mode) => switch (mode) {
       'elderly' => AccessibilityMode.elderly,
       _ => AccessibilityMode.standard,
     };
-  }
 }
 
 /// User preferences DTO.
@@ -94,6 +90,16 @@ class UserPreferencesDto {
     this.phoneNumber,
     this.email,
   });
+
+  /// Creates a DTO from an entity.
+  factory UserPreferencesDto.fromEntity(UserPreferences entity) =>
+      UserPreferencesDto(
+        displayName: entity.displayName,
+        avatarUrl: entity.avatarUrl,
+        bio: entity.bio,
+        phoneNumber: entity.phoneNumber,
+        email: entity.email,
+      );
 
   /// Creates a user preferences DTO from JSON.
   factory UserPreferencesDto.fromJson(Map<String, dynamic> json) =>
@@ -124,15 +130,5 @@ class UserPreferencesDto {
         bio: bio,
         phoneNumber: phoneNumber,
         email: email,
-      );
-
-  /// Creates a DTO from an entity.
-  factory UserPreferencesDto.fromEntity(UserPreferences entity) =>
-      UserPreferencesDto(
-        displayName: entity.displayName,
-        avatarUrl: entity.avatarUrl,
-        bio: entity.bio,
-        phoneNumber: entity.phoneNumber,
-        email: entity.email,
       );
 }

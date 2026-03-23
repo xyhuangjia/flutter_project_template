@@ -30,13 +30,11 @@ class MessageContext {
     String? conversationId,
     List<Message>? history,
     Map<String, dynamic>? metadata,
-  }) {
-    return MessageContext(
+  }) => MessageContext(
       conversationId: conversationId ?? this.conversationId,
       history: history ?? this.history,
       metadata: metadata ?? this.metadata,
     );
-  }
 }
 
 /// 消息处理器插件接口。

@@ -52,7 +52,7 @@ void main() {
       when(() => mockRemoteDataSource.loginWithEmail(
             email: 'test@example.com',
             password: 'password123',
-          )).thenAnswer((_) async => tUserDto);
+          ),).thenAnswer((_) async => tUserDto);
       when(() => mockLocalDataSource.saveToken(any()))
           .thenAnswer((_) async => {});
       when(() => mockLocalDataSource.saveUserData(
@@ -61,7 +61,7 @@ void main() {
             username: any(named: 'username'),
             displayName: any(named: 'displayName'),
             avatarUrl: any(named: 'avatarUrl'),
-          )).thenAnswer((_) async => []);
+          ),).thenAnswer((_) async => []);
 
       // Act
       final result = await repository.loginWithEmail(
@@ -76,7 +76,7 @@ void main() {
       verify(() => mockRemoteDataSource.loginWithEmail(
             email: 'test@example.com',
             password: 'password123',
-          )).called(1);
+          ),).called(1);
       verify(() => mockLocalDataSource.saveToken('test-token')).called(1);
     });
 
@@ -85,7 +85,7 @@ void main() {
       when(() => mockRemoteDataSource.loginWithEmail(
             email: 'test@example.com',
             password: 'wrong',
-          )).thenThrow(AuthException('Invalid credentials'));
+          ),).thenThrow(AuthException('Invalid credentials'));
 
       // Act
       final result = await repository.loginWithEmail(
@@ -104,7 +104,7 @@ void main() {
       when(() => mockRemoteDataSource.loginWithEmail(
             email: any(named: 'email'),
             password: any(named: 'password'),
-          )).thenThrow(Exception('Network error'));
+          ),).thenThrow(Exception('Network error'));
 
       // Act
       final result = await repository.loginWithEmail(
@@ -123,7 +123,7 @@ void main() {
       when(() => mockRemoteDataSource.loginWithUsername(
             username: 'testuser',
             password: 'password123',
-          )).thenAnswer((_) async => tUserDto);
+          ),).thenAnswer((_) async => tUserDto);
       when(() => mockLocalDataSource.saveToken(any()))
           .thenAnswer((_) async => {});
       when(() => mockLocalDataSource.saveUserData(
@@ -132,7 +132,7 @@ void main() {
             username: any(named: 'username'),
             displayName: any(named: 'displayName'),
             avatarUrl: any(named: 'avatarUrl'),
-          )).thenAnswer((_) async => []);
+          ),).thenAnswer((_) async => []);
 
       // Act
       final result = await repository.loginWithUsername(
@@ -227,7 +227,7 @@ void main() {
             email: 'test@example.com',
             username: 'testuser',
             password: 'password123',
-          )).thenAnswer((_) async => tUserDto);
+          ),).thenAnswer((_) async => tUserDto);
       when(() => mockLocalDataSource.saveToken(any()))
           .thenAnswer((_) async => {});
       when(() => mockLocalDataSource.saveUserData(
@@ -236,7 +236,7 @@ void main() {
             username: any(named: 'username'),
             displayName: any(named: 'displayName'),
             avatarUrl: any(named: 'avatarUrl'),
-          )).thenAnswer((_) async => []);
+          ),).thenAnswer((_) async => []);
 
       // Act
       final result = await repository.register(
@@ -264,7 +264,7 @@ void main() {
             username: any(named: 'username'),
             displayName: any(named: 'displayName'),
             avatarUrl: any(named: 'avatarUrl'),
-          )).thenAnswer((_) async => []);
+          ),).thenAnswer((_) async => []);
 
       // Act
       final result = await repository.loginWithWeChat();
@@ -285,7 +285,7 @@ void main() {
             username: any(named: 'username'),
             displayName: any(named: 'displayName'),
             avatarUrl: any(named: 'avatarUrl'),
-          )).thenAnswer((_) async => []);
+          ),).thenAnswer((_) async => []);
 
       // Act
       final result = await repository.loginWithApple();
@@ -306,7 +306,7 @@ void main() {
             username: any(named: 'username'),
             displayName: any(named: 'displayName'),
             avatarUrl: any(named: 'avatarUrl'),
-          )).thenAnswer((_) async => []);
+          ),).thenAnswer((_) async => []);
 
       // Act
       final result = await repository.loginWithGoogle();

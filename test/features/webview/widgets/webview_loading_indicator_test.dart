@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/features/webview/presentation/widgets/webview_loading_indicator.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('WebViewLoadingIndicator', () {
@@ -82,7 +82,7 @@ void main() {
           home: Scaffold(
             body: WebViewLoadingIndicator(
               progress: 50,
-              height: 5.0,
+              height: 5,
             ),
           ),
         ),
@@ -132,7 +132,7 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: WebViewLoadingIndicator(
-                progress: testCase['progress'] as int,
+                progress: testCase['progress']! as int,
               ),
             ),
           ),

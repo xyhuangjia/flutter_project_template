@@ -54,7 +54,7 @@ class MyApp extends ConsumerWidget {
         darkTheme: AppTheme.darkTheme(accessibilityMode: accessibilityMode),
         themeMode: themeMode,
         routerConfig: appRouter,
-        localizationsDelegates: [
+        localizationsDelegates: const [
           ...AppLocalizations.localizationsDelegates,
           picker_l10n.AppLocalizations.delegate,
         ],

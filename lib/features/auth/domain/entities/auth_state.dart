@@ -21,8 +21,8 @@ class AuthState {
   /// Creates an authenticated state.
   const AuthState.authenticated({required User user, required String token})
       : isAuthenticated = true,
-        this.user = user,
-        this.token = token;
+        user = user,
+        token = token;
 
   /// Whether the user is authenticated.
   final bool isAuthenticated;
@@ -34,13 +34,11 @@ class AuthState {
   final String? token;
 
   /// Creates a copy of this state with optionally overridden fields.
-  AuthState copyWith({bool? isAuthenticated, User? user, String? token}) {
-    return AuthState(
+  AuthState copyWith({bool? isAuthenticated, User? user, String? token}) => AuthState(
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       user: user ?? this.user,
       token: token ?? this.token,
     );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -56,8 +54,6 @@ class AuthState {
   int get hashCode => Object.hash(isAuthenticated, user, token);
 
   @override
-  String toString() {
-    return 'AuthState(isAuthenticated: $isAuthenticated, user: $user, '
+  String toString() => 'AuthState(isAuthenticated: $isAuthenticated, user: $user, '
         'token: ${token != null ? "***" : null})';
-  }
 }

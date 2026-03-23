@@ -133,9 +133,7 @@ class IMPluginRegistry {
   /// 获取所有能处理该消息的处理器。
   ///
   /// 返回所有能处理该消息的处理器列表，按优先级排序。
-  List<MessageHandler> getAllHandlers(Message message) {
-    return _handlers.where((h) => h.canHandle(message)).toList();
-  }
+  List<MessageHandler> getAllHandlers(Message message) => _handlers.where((h) => h.canHandle(message)).toList();
 
   /// 根据 ID 获取处理器。
   ///
@@ -166,9 +164,7 @@ class IMPluginRegistry {
   /// 获取所有能渲染该消息的渲染器。
   ///
   /// 返回所有能渲染该消息的渲染器列表，按优先级排序。
-  List<MessageRenderer> getAllRenderers(Message message) {
-    return _renderers.where((r) => r.canRender(message)).toList();
-  }
+  List<MessageRenderer> getAllRenderers(Message message) => _renderers.where((r) => r.canRender(message)).toList();
 
   /// 根据 ID 获取渲染器。
   ///
@@ -184,16 +180,12 @@ class IMPluginRegistry {
   /// 根据 ID 获取响应生成器。
   ///
   /// 返回指定 ID 的生成器，如果不存在则返回 `null`。
-  ResponseGenerator? getGenerator(String id) {
-    return _generators[id];
-  }
+  ResponseGenerator? getGenerator(String id) => _generators[id];
 
   /// 获取所有响应生成器。
   ///
   /// 返回所有已注册的生成器列表。
-  List<ResponseGenerator> getAllGenerators() {
-    return _generators.values.toList();
-  }
+  List<ResponseGenerator> getAllGenerators() => _generators.values.toList();
 
   /// 使用注册的渲染器渲染消息。
   ///
@@ -259,7 +251,7 @@ class IMPluginRegistry {
       return generator.generate(context, config);
     }
     return Stream.value(
-        ResponseChunk.withError('Generator not found: $generatorId'));
+        ResponseChunk.withError('Generator not found: $generatorId'),);
   }
 
   /// 清除所有已注册的插件。
@@ -272,8 +264,7 @@ class IMPluginRegistry {
   /// 构建默认的消息 Widget。
   ///
   /// 当没有找到合适的渲染器时使用。
-  Widget _buildDefaultMessageWidget(Message message) {
-    return Container(
+  Widget _buildDefaultMessageWidget(Message message) => Container(
       padding: const EdgeInsets.all(12),
       child: Text(
         message.text ?? '[${message.type.name}]',
@@ -283,5 +274,4 @@ class IMPluginRegistry {
         ),
       ),
     );
-  }
 }

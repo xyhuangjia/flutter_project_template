@@ -8,7 +8,7 @@ export 'data/services/openai_service.dart';
 // 旧的消息实体（保持兼容）
 // 注意：hide MessageSender 和 MessageStatus 避免与新的 message.dart 冲突
 export 'domain/entities/chat_message.dart'
-    hide MessageSender, MessageStatus, ChatMessage;
+    hide ChatMessage, MessageSender, MessageStatus;
 // 新的 IM 消息实体
 export 'domain/entities/entities.dart';
 // 插件系统

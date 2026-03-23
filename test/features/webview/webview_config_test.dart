@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_project_template/features/webview/domain/entities/webview_config.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('WebViewConfig', () {

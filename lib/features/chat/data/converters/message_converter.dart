@@ -53,7 +53,7 @@ class MessageConverter {
     MessageStatus status,
   ) {
     // 解析图片 URL 列表
-    List<String> imageUrls = [];
+    var imageUrls = <String>[];
     if (dto.imageUrl != null && dto.imageUrl!.isNotEmpty) {
       try {
         final decoded = jsonDecode(dto.imageUrl!);
@@ -69,7 +69,7 @@ class MessageConverter {
     }
 
     // 解析缩略图 URL 列表
-    List<String> thumbnailUrls = [];
+    var thumbnailUrls = <String>[];
     if (dto.thumbnailUrl != null && dto.thumbnailUrl!.isNotEmpty) {
       try {
         final decoded = jsonDecode(dto.thumbnailUrl!);
@@ -84,8 +84,8 @@ class MessageConverter {
     }
 
     // 解析图片尺寸
-    List<int> widths = [];
-    List<int> heights = [];
+    var widths = <int>[];
+    var heights = <int>[];
     if (dto.metadata != null) {
       try {
         final metadata = jsonDecode(dto.metadata!) as Map<String, dynamic>;
@@ -117,8 +117,7 @@ class MessageConverter {
   /// 将领域 Message 转换为数据库 Companion。
   ///
   /// 用于插入或更新数据库记录。
-  static ChatMessagesCompanion toCompanion(Message message) {
-    return switch (message) {
+  static ChatMessagesCompanion toCompanion(Message message) => switch (message) {
       TextMessage(:final id, :final conversationId, :final sender, :final timestamp, :final status, :final content) =>
         ChatMessagesCompanion(
           id: Value(id),
@@ -148,7 +147,6 @@ class MessageConverter {
           metadata: Value(_buildImageMetadata(widths, heights)),
         ),
     };
-  }
 
   /// 构建图片元数据 JSON。
   static String? _buildImageMetadata(List<int> widths, List<int> heights) {
@@ -160,15 +158,12 @@ class MessageConverter {
   }
 
   /// 将数据库消息列表转换为领域消息列表。
-  static List<Message> fromDtoList(List<ChatMessage> dtos) {
-    return dtos.map(fromDto).toList();
-  }
+  static List<Message> fromDtoList(List<ChatMessage> dtos) => dtos.map(fromDto).toList();
 
   /// 将新版 Message 转换为旧版 ChatMessage。
   ///
   /// 用于向后兼容现有的 UI 代码。
-  static domain.ChatMessage toLegacyChatMessage(Message message) {
-    return domain.ChatMessage(
+  static domain.ChatMessage toLegacyChatMessage(Message message) => domain.ChatMessage(
       id: message.id,
       content: message.text ?? '',
       sender: message.sender == MessageSender.user
@@ -177,14 +172,11 @@ class MessageConverter {
       timestamp: message.timestamp,
       status: domain.MessageStatus.values[message.status.index],
     );
-  }
 
   /// 将新版 Message 列表转换为旧版 ChatMessage 列表。
   static List<domain.ChatMessage> toLegacyChatMessageList(
     List<Message> messages,
-  ) {
-    return messages.map(toLegacyChatMessage).toList();
-  }
+  ) => messages.map(toLegacyChatMessage).toList();
 
   /// 将旧版 ChatMessage 转换为新版 TextMessage。
   ///
@@ -192,8 +184,7 @@ class MessageConverter {
   static TextMessage fromLegacyChatMessage(
     domain.ChatMessage legacy, {
     required String conversationId,
-  }) {
-    return TextMessage(
+  }) => TextMessage(
       id: legacy.id,
       conversationId: conversationId,
       sender: legacy.sender == domain.MessageSender.user
@@ -203,5 +194,4 @@ class MessageConverter {
       status: MessageStatus.values[legacy.status.index],
       content: legacy.content,
     );
-  }
 }

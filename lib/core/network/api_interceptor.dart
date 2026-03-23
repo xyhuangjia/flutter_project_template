@@ -98,7 +98,7 @@ class RetryInterceptor extends Interceptor {
   final Duration retryDelay;
 
   @override
-  void onError(
+  Future<void> onError(
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
