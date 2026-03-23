@@ -60,6 +60,7 @@ The template includes the following feature modules:
 - Forgot password flow
 - Secure token storage with flutter_secure_storage
 - Social login ready architecture
+- **Test Coverage**: Complete unit, widget, and integration tests
 
 #### 👤 Profile (`features/profile`)
 - User profile management
@@ -417,13 +418,94 @@ class User with _$User {
 
 ### Testing
 
+The project includes comprehensive test coverage following Clean Architecture layers:
+
+#### Test Structure
+
+```
+test/
+├── features/
+│   └── auth/                           # Authentication module tests
+│       ├── data/                       # Data layer tests
+│       │   ├── auth_local_data_source_test.dart
+│       │   ├── auth_remote_data_source_test.dart
+│       │   ├── auth_repository_impl_test.dart
+│       │   ├── auth_response_dto_test.dart
+│       │   ├── login_request_dto_test.dart
+│       │   └── user_dto_test.dart
+│       ├── domain/                     # Domain layer tests
+│       │   ├── auth_state_test.dart
+│       │   ├── login_usecase_test.dart
+│       │   ├── logout_usecase_test.dart
+│       │   └── user_test.dart
+│       ├── integration/                # Integration tests
+│       │   ├── login_integration_test.dart
+│       │   └── register_integration_test.dart
+│       ├── providers/                  # Provider tests
+│       │   └── auth_notifier_test.dart
+│       ├── screens/                    # Screen widget tests
+│       │   └── login_screen_test.dart
+│       └── widgets/                    # Widget tests
+│           └── login_form_test.dart
+├── fakes/                              # Fake implementations
+│   └── fake_auth_repository.dart
+├── mocks/                              # Mock implementations
+└── test_helpers/                       # Test utilities
+    └── pump_app.dart
+```
+
+#### Test Categories
+
+| Category | Description | Files |
+|----------|-------------|-------|
+| **Unit Tests** | Test individual classes, methods, and functions | `*_test.dart` in `data/`, `domain/` |
+| **Widget Tests** | Test UI components in isolation | `widgets/`, `screens/` |
+| **Integration Tests** | Test complete user flows | `integration/` |
+| **Provider Tests** | Test Riverpod state management | `providers/` |
+
+#### Running Tests
+
 ```bash
 # Run all tests
 flutter test
 
-# Run specific test
-flutter test test/widget_test.dart
+# Run tests for a specific module
+flutter test test/features/auth/
+
+# Run tests with coverage
+flutter test --coverage
+
+# Run specific test file
+flutter test test/features/auth/domain/login_usecase_test.dart
+
+# Run integration tests
+flutter test test/features/auth/integration/
+
+# Run tests with verbose output
+flutter test --reporter expanded
 ```
+
+#### Test Best Practices
+
+1. **Follow AAA Pattern**: Arrange, Act, Assert
+2. **Use Fake Objects**: For complex dependencies (see `test/fakes/`)
+3. **Mock External Dependencies**: Use `mocktail` for mocking
+4. **Test Edge Cases**: Empty inputs, null values, error states
+5. **Keep Tests Independent**: Each test should be self-contained
+
+#### FlutterDriver Integration Tests
+
+For end-to-end automated testing, FlutterDriver tests are provided:
+
+```bash
+# Run FlutterDriver login tests
+flutter drive --target=test_driver/login_test.dart
+
+# Run FlutterDriver registration tests
+flutter drive --target=test_driver/register_test.dart
+```
+
+**Note**: FlutterDriver tests require a connected device or emulator.
 
 ### Code Generation
 
