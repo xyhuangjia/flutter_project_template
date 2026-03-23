@@ -769,3 +769,38 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 18: 日志上传系统与 UI 优化
+
+**Date**: 2026-03-23
+**Task**: 日志上传系统与 UI 优化
+
+### Summary
+
+日志上传系统: LogConfig, LogPersistenceService, LogUploadService, LogUploadProvider, 日志查看页面。UI优化: 开发者选项新增入口、设置页面布局调整、WebView按钮扁平化、个人资料左右布局、修改密码页面调整。
+
+### Main Changes
+
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `31978a2` | (see git log) |
+| `4d5583a` | (see git log) |
+| `cfc7eed` | (see git log) |
+| `f0f0160` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
