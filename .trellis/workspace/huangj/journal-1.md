@@ -837,3 +837,93 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 20: 设计稿到实现转换方案
+
+**Date**: 2026-03-23
+**Task**: 设计稿到实现转换方案
+
+### Summary
+
+添加响应式设计支持，实现设计稿像素到 Flutter 逻辑像素的转换规范
+
+### Main Changes
+
+## 目标
+
+针对该项目，设计稿和实现效果之间的转换应该如何处理
+
+## 决策
+
+| 决策项 | 选择 | 说明 |
+|--------|------|------|
+| 设计稿基准宽度 | **375pt** | 与 Flutter 逻辑像素 1:1 对应，无需转换 |
+| 是否引入 flutter_screenutil | **不引入** | 保持 LayoutBuilder + AccessibilityTheme 原生方案 |
+| 平板适配策略 | **完全独立布局** | 手机和平板使用不同的布局代码 |
+
+## 新增文件
+
+| 文件 | 说明 |
+|------|------|
+| `lib/core/theme/breakpoints.dart` | 设备断点、内容约束、响应式间距 |
+| `lib/shared/widgets/responsive_layout.dart` | ResponsiveLayout、ConstrainedContent 等组件 |
+
+## 核心设计
+
+### 像素转换规则
+```
+设计稿 375pt 基准 → Flutter 逻辑像素 1:1 直接映射
+
+固定尺寸元素: 直接使用 (字体、图标、按钮高度、圆角)
+弹性尺寸元素: 响应式调整 (内边距、间距、网格列数)
+```
+
+### 设备断点
+| 断点 | 宽度范围 | 设备类型 |
+|------|---------|---------|
+| `< 600px` | 手机 | Phone |
+| `600px - 840px` | 平板竖屏 | Tablet Portrait |
+| `840px - 1200px` | 平板横屏 | Tablet Landscape |
+| `≥ 1200px` | 桌面 | Desktop |
+
+### 使用示例
+```dart
+// 完全独立布局
+ResponsiveLayout(
+  mobile: MobileLayout(),
+  tablet: TabletLayout(),
+)
+
+// 内容约束
+ConstrainedContent(
+  maxWidth: ContentConstraints.form,
+  child: LoginForm(),
+)
+
+// 响应式数值
+final columns = context.selectValue(mobile: 3, tablet: 4);
+```
+
+## 更新文档
+
+- `.trellis/spec/frontend/chinese-app-style.md`: 添加"响应式设计与平板适配"章节
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `fc30819` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
