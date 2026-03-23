@@ -32,7 +32,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   @override
   Future<Locale?> build() async {
     // Load saved locale preference
-    final prefs = await this.ref.watch(sharedPrefsProvider.future);
+    final prefs = await ref.watch(sharedPrefsProvider.future);
     final savedLocale = prefs.getString(_localePreferenceKey);
 
     if (savedLocale == null || savedLocale == 'system') {
@@ -74,7 +74,7 @@ class LocaleNotifier extends _$LocaleNotifier {
   /// Returns whether current locale is Chinese.
   bool get isChinese {
     final locale = effectiveLocale;
-    return locale?.languageCode == 'zh';
+    return locale.languageCode == 'zh';
   }
 
   /// Toggles between English and Chinese.
