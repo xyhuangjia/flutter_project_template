@@ -119,32 +119,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Requirements card
-            SectionTitle(
-              title: localizations.passwordRequirements,
-              colorScheme: colorScheme,
-            ),
-            const SizedBox(height: 12),
-            SettingsCard(
-              colorScheme: colorScheme,
-              children: [
-                _RequirementTile(
-                  text: localizations.passwordMinLengthReq,
-                  isMet: Validators.isPasswordMinLengthMet(
-                      _newPasswordController.text),
-                  colorScheme: colorScheme,
-                ),
-                SettingsDivider(colorScheme: colorScheme),
-                _RequirementTile(
-                  text: localizations.passwordComplexityReq,
-                  isMet: Validators.isPasswordComplexityMet(
-                      _newPasswordController.text),
-                  colorScheme: colorScheme,
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-
             // Form card
             SectionTitle(
               title: localizations.newPassword,
@@ -196,6 +170,27 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                   ],
                 ),
               ),
+            ),
+            const SizedBox(height: 16),
+
+            // Requirements card
+            SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                _RequirementTile(
+                  text: localizations.passwordMinLengthReq,
+                  isMet: Validators.isPasswordMinLengthMet(
+                      _newPasswordController.text),
+                  colorScheme: colorScheme,
+                ),
+                SettingsDivider(colorScheme: colorScheme),
+                _RequirementTile(
+                  text: localizations.passwordComplexityReq,
+                  isMet: Validators.isPasswordComplexityMet(
+                      _newPasswordController.text),
+                  colorScheme: colorScheme,
+                ),
+              ],
             ),
             const SizedBox(height: 32),
 

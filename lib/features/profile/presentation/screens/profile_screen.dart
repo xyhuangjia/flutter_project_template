@@ -261,13 +261,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       backgroundColor: colorScheme.surfaceContainerLow,
       appBar: AppBar(
         title: Text(localizations.profile),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push(Routes.settings),
-            tooltip: localizations.settings,
-          ),
-        ],
       ),
       body: authState.when(
         data: (state) => _ProfileContent(
@@ -629,7 +622,7 @@ class _ProfileTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
             Container(
@@ -645,26 +638,23 @@ class _ProfileTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    value,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+            Text(
+              title,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurface,
               ),
             ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                value,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.end,
+              ),
+            ),
+            const SizedBox(width: 8),
             Icon(
               Icons.chevron_right_rounded,
               size: 20,
