@@ -1,0 +1,5 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Riverpod 3.x Provider 模式"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "freezed 模型和 Result 模式"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "Clean Architecture 目录结构"}
