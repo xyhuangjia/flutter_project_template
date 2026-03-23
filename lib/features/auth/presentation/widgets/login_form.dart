@@ -67,6 +67,7 @@ class _LoginFormState extends State<LoginForm> {
           Row(
             children: [
               ChoiceChip(
+                key: const ValueKey('login_email_tab'),
                 label: Text(localizations.email),
                 selected: _isEmailMode,
                 onSelected: (selected) {
@@ -75,6 +76,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               const SizedBox(width: 8),
               ChoiceChip(
+                key: const ValueKey('login_username_tab'),
                 label: Text(localizations.username),
                 selected: !_isEmailMode,
                 onSelected: (selected) {
@@ -86,6 +88,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 16),
           // Email or Username field
           TextFormField(
+            key: ValueKey(_isEmailMode ? 'login_email_field' : 'login_username_field'),
             controller: _emailOrUsernameController,
             keyboardType:
                 _isEmailMode ? TextInputType.emailAddress : TextInputType.text,
@@ -121,6 +124,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 16),
           // Password field
           TextFormField(
+            key: const ValueKey('login_password_field'),
             controller: _passwordController,
             obscureText: _obscurePassword,
             textInputAction: TextInputAction.done,
@@ -128,6 +132,7 @@ class _LoginFormState extends State<LoginForm> {
               labelText: localizations.password,
               prefixIcon: const Icon(Icons.lock_outline),
               suffixIcon: IconButton(
+                key: const ValueKey('login_password_visibility_toggle'),
                 icon: Icon(
                   _obscurePassword
                       ? Icons.visibility_outlined
@@ -154,6 +159,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 24),
           // Login button
           FilledButton(
+            key: const ValueKey('login_submit_button'),
             onPressed: widget.isLoading ? null : _handleSubmit,
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
