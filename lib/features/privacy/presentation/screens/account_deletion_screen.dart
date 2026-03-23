@@ -2,10 +2,12 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_template/core/theme/breakpoints.dart';
 import 'package:flutter_project_template/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_project_template/features/privacy/presentation/providers/privacy_provider.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
+import 'package:flutter_project_template/shared/widgets/responsive_layout.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -147,162 +149,335 @@ class _AccountDeletionScreenState extends ConsumerState<AccountDeletionScreen> {
       appBar: AppBar(
         title: Text(localizations.deleteAccount),
       ),
-      body: SafeArea(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
+      body: ResponsiveLayout(
+        mobile: _buildMobileLayout(
+          context,
+          localizations,
+          theme,
+          colorScheme,
+        ),
+        tabletLandscape: _buildTabletLandscapeLayout(
+          context,
+          localizations,
+          theme,
+          colorScheme,
+        ),
+        desktop: _buildTabletLandscapeLayout(
+          context,
+          localizations,
+          theme,
+          colorScheme,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileLayout(
+    BuildContext context,
+    AppLocalizations localizations,
+    ThemeData theme,
+    ColorScheme colorScheme,
+  ) {
+    final spacing = context.spacing;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isLandscape = constraints.maxWidth > constraints.maxHeight;
+
+        // 手机横屏使用分栏布局
+        if (isLandscape) {
+          return _buildLandscapeLayout(
+            context,
+            localizations,
+            theme,
+            colorScheme,
+            spacing,
+          );
+        }
+
+        // 手机竖屏使用单列布局
+        return SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Data list
-                  SettingsCard(
-                    colorScheme: colorScheme,
-                    children: [
-                      _DataItem(
-                        icon: Icons.person_rounded,
-                        text: localizations.profileInformation,
-                        colorScheme: colorScheme,
-                      ),
-                      SettingsDivider(colorScheme: colorScheme),
-                      _DataItem(
-                        icon: Icons.chat_rounded,
-                        text: localizations.chatHistory,
-                        colorScheme: colorScheme,
-                      ),
-                      SettingsDivider(colorScheme: colorScheme),
-                      _DataItem(
-                        icon: Icons.settings_rounded,
-                        text: localizations.settingsAndPreferences,
-                        colorScheme: colorScheme,
-                      ),
-                      SettingsDivider(colorScheme: colorScheme),
-                      _DataItem(
-                        icon: Icons.storage_rounded,
-                        text: localizations.savedData,
-                        colorScheme: colorScheme,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Confirmations
-                  SettingsCard(
-                    colorScheme: colorScheme,
-                    children: [
-                      CheckboxListTile(
-                        value: _confirmedFirst,
-                        onChanged: (v) =>
-                            setState(() => _confirmedFirst = v ?? false),
-                        title: Text(
-                          localizations.accountDeletionConfirm1,
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      SettingsDivider(colorScheme: colorScheme),
-                      CheckboxListTile(
-                        value: _confirmedSecond,
-                        onChanged: (v) =>
-                            setState(() => _confirmedSecond = v ?? false),
-                        title: Text(
-                          localizations.accountDeletionConfirm2,
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Password field
-                  SettingsCard(
-                    colorScheme: colorScheme,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        decoration: InputDecoration(
-                          labelText: localizations.password,
-                          prefixIcon: const Icon(Icons.lock_outline_rounded),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                            ),
-                            onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return localizations.enterPassword;
-                          }
-                          if (value.length < 6) {
-                            return localizations.passwordMinLength;
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Action button
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      onPressed:
-                          _isDeleting ? null : _showDeleteConfirmationDialog,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: colorScheme.error,
-                        foregroundColor: colorScheme.onError,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      icon: _isDeleting
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.delete_forever_rounded),
-                      label: Text(
-                        _isDeleting
-                            ? localizations.deleting
-                            : localizations.deleteAccountPermanently,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                ],
+            padding: EdgeInsets.all(spacing.pagePadding),
+            child: ConstrainedContent(
+              maxWidth: ContentConstraints.form,
+              child: _buildFormContent(
+                context,
+                localizations,
+                theme,
+                colorScheme,
+                spacing,
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLandscapeLayout(
+    BuildContext context,
+    AppLocalizations localizations,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    ResponsiveSpacing spacing,
+  ) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(spacing.pagePadding),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Left side: Data list card
+            Expanded(
+              child: ConstrainedContent(
+                child: SettingsCard(
+                  colorScheme: colorScheme,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(spacing.cardPadding),
+                      child: Text(
+                        localizations.dataToBeDeleted,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SettingsDivider(colorScheme: colorScheme),
+                    _DataItem(
+                      icon: Icons.person_rounded,
+                      text: localizations.profileInformation,
+                      colorScheme: colorScheme,
+                    ),
+                    SettingsDivider(colorScheme: colorScheme),
+                    _DataItem(
+                      icon: Icons.chat_rounded,
+                      text: localizations.chatHistory,
+                      colorScheme: colorScheme,
+                    ),
+                    SettingsDivider(colorScheme: colorScheme),
+                    _DataItem(
+                      icon: Icons.settings_rounded,
+                      text: localizations.settingsAndPreferences,
+                      colorScheme: colorScheme,
+                    ),
+                    SettingsDivider(colorScheme: colorScheme),
+                    _DataItem(
+                      icon: Icons.storage_rounded,
+                      text: localizations.savedData,
+                      colorScheme: colorScheme,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(width: spacing.cardSpacing),
+            // Right side: Confirmation and action
+            Expanded(
+              child: ConstrainedContent(
+                maxWidth: ContentConstraints.form,
+                alignment: Alignment.centerRight,
+                child: _buildConfirmationSection(
+                  context,
+                  localizations,
+                  theme,
+                  colorScheme,
+                  spacing,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTabletLandscapeLayout(
+    BuildContext context,
+    AppLocalizations localizations,
+    ThemeData theme,
+    ColorScheme colorScheme,
+  ) {
+    return _buildLandscapeLayout(
+      context,
+      localizations,
+      theme,
+      colorScheme,
+      context.spacing,
+    );
+  }
+
+  Widget _buildFormContent(
+    BuildContext context,
+    AppLocalizations localizations,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    ResponsiveSpacing spacing,
+  ) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Data list
+          SettingsCard(
+            colorScheme: colorScheme,
+            children: [
+              _DataItem(
+                icon: Icons.person_rounded,
+                text: localizations.profileInformation,
+                colorScheme: colorScheme,
+              ),
+              SettingsDivider(colorScheme: colorScheme),
+              _DataItem(
+                icon: Icons.chat_rounded,
+                text: localizations.chatHistory,
+                colorScheme: colorScheme,
+              ),
+              SettingsDivider(colorScheme: colorScheme),
+              _DataItem(
+                icon: Icons.settings_rounded,
+                text: localizations.settingsAndPreferences,
+                colorScheme: colorScheme,
+              ),
+              SettingsDivider(colorScheme: colorScheme),
+              _DataItem(
+                icon: Icons.storage_rounded,
+                text: localizations.savedData,
+                colorScheme: colorScheme,
+              ),
+            ],
+          ),
+          SizedBox(height: spacing.cardSpacing),
+          _buildConfirmationSection(
+            context,
+            localizations,
+            theme,
+            colorScheme,
+            spacing,
+          ),
+          const SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConfirmationSection(
+    BuildContext context,
+    AppLocalizations localizations,
+    ThemeData theme,
+    ColorScheme colorScheme,
+    ResponsiveSpacing spacing,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Confirmations
+        SettingsCard(
+          colorScheme: colorScheme,
+          children: [
+            CheckboxListTile(
+              value: _confirmedFirst,
+              onChanged: (v) => setState(() => _confirmedFirst = v ?? false),
+              title: Text(
+                localizations.accountDeletionConfirm1,
+                style: theme.textTheme.bodyMedium,
+              ),
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: spacing.cardPadding,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            SettingsDivider(colorScheme: colorScheme),
+            CheckboxListTile(
+              value: _confirmedSecond,
+              onChanged: (v) => setState(() => _confirmedSecond = v ?? false),
+              title: Text(
+                localizations.accountDeletionConfirm2,
+                style: theme.textTheme.bodyMedium,
+              ),
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: spacing.cardPadding,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: spacing.cardSpacing),
+
+        // Password field
+        SettingsCard(
+          colorScheme: colorScheme,
+          child: Padding(
+            padding: EdgeInsets.all(spacing.cardPadding),
+            child: TextFormField(
+              controller: _passwordController,
+              obscureText: _obscurePassword,
+              decoration: InputDecoration(
+                labelText: localizations.password,
+                prefixIcon: const Icon(Icons.lock_outline_rounded),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                  ),
+                  onPressed: () => setState(
+                    () => _obscurePassword = !_obscurePassword,
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return localizations.enterPassword;
+                }
+                if (value.length < 6) {
+                  return localizations.passwordMinLength;
+                }
+                return null;
+              },
+            ),
+          ),
+        ),
+        SizedBox(height: spacing.cardSpacing),
+
+        // Action button
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: _isDeleting ? null : _showDeleteConfirmationDialog,
+            style: FilledButton.styleFrom(
+              backgroundColor: colorScheme.error,
+              foregroundColor: colorScheme.onError,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            icon: _isDeleting
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.delete_forever_rounded),
+            label: Text(
+              _isDeleting
+                  ? localizations.deleting
+                  : localizations.deleteAccountPermanently,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -323,9 +498,13 @@ class _DataItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final spacing = context.spacing;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(
+        horizontal: spacing.cardPadding,
+        vertical: 12,
+      ),
       child: Row(
         children: [
           Icon(

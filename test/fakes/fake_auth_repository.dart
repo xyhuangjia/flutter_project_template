@@ -66,13 +66,6 @@ class FakeAuthRepository implements AuthRepository {
     }
   }
 
-  Result<T> _handleResult<T>(T successValue) {
-    if (shouldFail) {
-      return FailureResult(failureToReturn);
-    }
-    return Success(successValue);
-  }
-
   @override
   Future<Result<User>> loginWithEmail({
     required String email,

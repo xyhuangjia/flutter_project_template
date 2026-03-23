@@ -21,6 +21,8 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
-        }
-    ]
+        },
+       
+    ],
+     "dart.mcpServer": true
 }

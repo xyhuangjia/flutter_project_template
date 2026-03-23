@@ -31,5 +31,8 @@
       "Bash(flutter build:*)",
       "Bash(flutter clean:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "dart"
+  ]
 }

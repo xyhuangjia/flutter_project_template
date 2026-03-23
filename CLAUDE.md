@@ -6,6 +6,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a production-ready Flutter template using Clean Architecture principles. The app features modular design with separation of concerns across Domain, Data, and Presentation layers.
 
+## Technology Stack
+
+### Core Framework
+- **Flutter SDK**: 3.38.10
+- **Dart SDK**: >=3.6.0 <4.0.0
+
+### State Management
+- **Riverpod 3.x**: `flutter_riverpod:^3.0.0` + `riverpod_annotation:^4.0.0`
+- Uses code generation via `riverpod_generator:^4.0.0+1`
+- **Key change**: All provider functions use unified `Ref` type (not `*Ref`)
+
+### Networking
+- **Dio**: `^5.8.0` - HTTP client with interceptors
+- **Talker Dio Logger**: `^5.1.15` - Request/response logging
+
+### Local Database
+- **Drift**: `^2.26.0` - Type-safe SQLite with code generation
+- **sqlite3_flutter_libs**: `^0.6.0+eol` - SQLite binaries
+
+### JSON Serialization
+- **Freezed**: `^3.2.3` - Immutable data classes with union types
+- **json_serializable**: `^6.9.3` - JSON serialization code generation
+
+### Routing
+- **GoRouter**: `^17.1.0` - Declarative routing with deep linking
+
+### Dependency Injection
+- **GetIt**: `^9.2.1` - Service locator
+- **Injectable**: `^2.7.1` - DI code generation
+
+### Logging
+- **Talker**: `^5.1.15` - Advanced logging with persistence
+- **Talker Riverpod Logger**: `^5.1.14` - Provider state logging
+
+### Other Key Dependencies
+- **flutter_dotenv**: `^6.0.0` - Environment variables
+- **flutter_secure_storage**: `^10.0.0` - Secure token storage
+- **shared_preferences**: `^2.3.3` - Simple key-value storage
+- **connectivity_plus**: `^7.0.0` - Network status
+- **webview_flutter**: `^4.10.0` - WebView integration
+- **intl**: `^0.20.2` - Internationalization
+
 ## Common Development Commands
 
 ### Code Generation
@@ -63,40 +105,142 @@ flutter analyze
 ## Architecture Overview
 
 ### Clean Architecture Layers
-- **Domain Layer**: Contains entities, use cases, and repository interfaces
-- **Data Layer**: Contains data sources, repository implementations, and models
-- **Presentation Layer**: Contains screens, providers, and widgets
 
-### Key Patterns
-- **Riverpod for State Management**: Uses `@riverpod` for providers and `Notifier`/`AsyncNotifier` for state
-- **Repository Pattern**: Abstract repository interfaces with concrete implementations
-- **Use Cases**: Business logic encapsulation in domain layer
-- **Dependency Injection**: Using `get_it` and `injectable`
+The project follows **Clean Architecture** with a feature-first organization:
+
+```
+Presentation --> Domain <-- Data
+     |            ^          |
+     v            |          v
+   Core      NO Dependencies  Core
+```
+
+- **Domain Layer**: Pure Dart with zero external dependencies. Contains entities, repository interfaces, and use cases.
+- **Data Layer**: Implements repositories, handles data sources (local/remote), and contains DTOs with JSON serialization.
+- **Presentation Layer**: UI components (screens/widgets) and Riverpod providers for state management.
+- **Core Layer**: Shared infrastructure (networking, storage, routing, theming).
+
+### Layer Dependency Rule
+- Domain has **NO dependencies** on Flutter or external packages
+- Presentation depends on Domain and Core
+- Data depends on Domain and Core
 
 ### Project Structure
 ```
 lib/
-├── core/                    # Core functionality
-│   ├── config/             # Environment and configuration
+├── core/                    # Shared infrastructure
+│   ├── config/             # Environment configuration
 │   ├── constants/          # App constants
-│   ├── errors/             # Error handling
-│   ├── logging/            # Logging configuration (Talker)
-│   ├── network/            # HTTP client (Dio) configuration
+│   ├── errors/             # Exception/failure classes
+│   ├── logging/            # Talker configuration
+│   ├── network/            # Dio HTTP client setup
 │   ├── providers/          # Global providers
-│   ├── router/             # Routing configuration (GoRouter)
-│   ├── storage/            # Database (Drift) and storage
-│   ├── theme/              # App theming
-│   └── utils/              # Utility functions and extensions
+│   ├── router/             # GoRouter configuration
+│   ├── storage/            # Drift database
+│   ├── theme/              # App theming (Material 3)
+│   └── utils/              # Utilities and extensions
 ├── features/               # Feature modules
-│   ├── auth/               # Authentication
-│   ├── chat/               # Chat functionality
-│   ├── home/               # Home screen
-│   ├── settings/           # Settings management
-│   └── webview/            # WebView integration
-└── shared/                 # Shared components
-    ├── models/             # Shared data models
+│   └── {feature}/
+│       ├── data/           # DTOs, data sources, repository impls
+│       ├── domain/         # Entities, repository interfaces
+│       └── presentation/   # Providers, screens, widgets
+└── shared/                 # Cross-feature shared code
+    ├── models/             # Shared DTOs
     └── widgets/            # Reusable widgets
 ```
+
+## Coding Standards
+
+**IMPORTANT**: Before writing code, read the detailed guidelines in `.trellis/spec/frontend/`:
+
+| Document | Purpose | When to Read |
+|----------|---------|--------------|
+| `directory-structure.md` | Clean Architecture organization | Creating new features |
+| `state-management.md` | Riverpod 3.x patterns | Writing providers |
+| `hook-guidelines.md` | Notifier/AsyncNotifier patterns | State management |
+| `component-guidelines.md` | Widget patterns | Building UI |
+| `chinese-app-style.md` | UI design style for Chinese apps | **Before any UI work** |
+| `quality-guidelines.md` | Lint rules, testing standards | Code review |
+| `type-safety.md` | json_serializable, Drift patterns | Data models |
+| `i18n-guidelines.md` | Internationalization | Adding text |
+
+### Riverpod 3.x Key Changes
+
+```dart
+// ✅ 3.x: Unified Ref type for all provider functions
+@riverpod
+UserRepository userRepository(Ref ref) {
+  return UserRepositoryImpl();
+}
+
+// ❌ 2.x: No longer needed - specific Ref types
+@riverpod
+UserRepository userRepository(UserRepositoryRef ref) { ... }
+```
+
+### Provider Patterns
+
+```dart
+// AsyncNotifier for async state with mutations
+@riverpod
+class Auth extends _$Auth {
+  @override
+  AsyncValue<AuthState> build() => const AsyncValue.data(AuthState.unauthenticated());
+
+  Future<void> login(String email, String password) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => repository.login(email, password));
+  }
+}
+
+// Notifier for synchronous state
+@riverpod
+class Theme extends _$Theme {
+  @override
+  ThemeMode build() => ThemeMode.system;
+
+  void toggle() => state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+}
+```
+
+### Model Generation (Freezed + json_serializable)
+
+```dart
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String name,
+    String? avatarUrl,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+}
+```
+
+### Code Quality Commands
+
+```bash
+# Run static analysis
+dart analyze
+
+# Format code
+dart format .
+
+# Run tests
+flutter test
+
+# Generate code (after model/provider changes)
+dart run build_runner build --delete-conflicting-outputs
+```
+
+### Forbidden Patterns
+
+- **Global mutable state** - Use Riverpod providers instead
+- **Business logic in widgets** - Move to providers/use cases
+- **Dynamic types** - Use proper type annotations
+- **Hardcoded strings** - Use `AppLocalizations` for i18n
+- **Magic numbers** - Use named constants or Theme values
 
 ## Key Features
 
@@ -120,73 +264,13 @@ lib/
 - HTTP request/response logging with Dio
 - Console logs in debug mode
 
-### State Management Patterns
-```dart
-// AsyncNotifier for async state
-@riverpod
-class HomeNotifier extends _$HomeNotifier {
-  @override
-  Future<HomeEntity> build() async {
-    // Initialize state
-    return await ref.watch(homeRepositoryProvider).getHomeData();
-  }
-}
-
-// Regular Notifier for sync state
-@riverpod
-class ThemeNotifier extends _$ThemeNotifier {
-  @override
-  ThemeState build() {
-    return const ThemeState();
-  }
-}
-```
-
 ### Feature Development Workflow
 1. Create feature module under `lib/features/`
 2. Follow domain → data → presentation layers
 3. Update routing in `lib/core/router/app_router.dart`
-4. Register dependencies if needed
-5. Generate code after creating model files
+4. Run `dart run build_runner build --delete-conflicting-outputs`
+5. Write tests in `test/features/{feature}/`
 
-## Code Generation Details
-
-### Model Generation
-Models use `freezed` and `json_serializable`:
-```dart
-@freezed
-class User with _$User {
-  const factory User({
-    required String id,
-    required String name,
-    String? avatarUrl,
-  }) = _User;
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-}
-```
-
-### Provider Generation
-Providers use `riverpod_annotation` and `riverpod_generator`:
-```dart
-@riverpod
-class UserProfileNotifier extends _$UserProfileNotifier {
-  @override
-  UserProfileState build() {
-    return UserProfileInitial();
-  }
-}
-```
-
-### Database Generation
-Drift database tables and queries:
-```dart
-@DriftTable()
-class Users extends Table {
-  TextColumn get id => text()();
-  // ... other columns
-}
-```
 
 ## Integration Points
 

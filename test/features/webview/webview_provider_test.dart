@@ -127,7 +127,8 @@ void main() {
           isTrue,
         );
         expect(
-          allowedUrl.contains('blocked.com') || allowedUrl.contains('ads.example.com'),
+          allowedUrl.contains('blocked.com') ||
+              allowedUrl.contains('ads.example.com'),
           isFalse,
         );
       });
@@ -194,7 +195,8 @@ void main() {
         expect(notFoundErrorCodes.contains(-6), isTrue); // Connection refused
         expect(notFoundErrorCodes.contains(-8), isTrue); // Connection timeout
         expect(notFoundErrorCodes.contains(200), isFalse); // Not an error
-        expect(notFoundErrorCodes.contains(404), isFalse); // HTTP error, not WebView
+        expect(notFoundErrorCodes.contains(404),
+            isFalse); // HTTP error, not WebView
       });
     });
   });

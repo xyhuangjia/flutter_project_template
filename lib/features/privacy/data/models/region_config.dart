@@ -18,8 +18,8 @@ class RegionConfig {
   /// China region configuration.
   static const china = RegionConfig(
     region: MarketRegion.china,
-    privacyPolicyUrl: 'https://example.com/privacy-policy-cn.html',
-    termsOfServiceUrl: 'https://example.com/terms-of-service-cn.html',
+    privacyPolicyUrl: 'https://flutter.cn',
+    termsOfServiceUrl: 'https://flutter.cn',
     requiresExplicitConsent: true,
     allowsDataCollectionToggle: true,
     complianceStandard: 'PIPL',
@@ -28,8 +28,8 @@ class RegionConfig {
   /// International region configuration.
   static const international = RegionConfig(
     region: MarketRegion.international,
-    privacyPolicyUrl: 'https://example.com/privacy-policy.html',
-    termsOfServiceUrl: 'https://example.com/terms-of-service.html',
+    privacyPolicyUrl: 'https://flutter.cn',
+    termsOfServiceUrl: 'https://flutter.cn',
     requiresExplicitConsent: true,
     allowsDataCollectionToggle: true,
     complianceStandard: 'GDPR',

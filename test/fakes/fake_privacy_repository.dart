@@ -70,13 +70,6 @@ class FakePrivacyRepository implements PrivacyRepository {
     }
   }
 
-  Result<T> _handleResult<T>(T successValue) {
-    if (shouldFail) {
-      return FailureResult(failureToReturn);
-    }
-    return Success(successValue);
-  }
-
   @override
   Future<Result<PrivacyState>> getPrivacyState() async {
     methodCalls.add('getPrivacyState');
