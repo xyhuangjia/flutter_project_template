@@ -12,13 +12,15 @@ This project uses **Riverpod** with **riverpod_generator** for state management.
 
 ```yaml
 dependencies:
-  flutter_riverpod: ^3.2.1
+  flutter_riverpod: ^3.0.0
   riverpod_annotation: ^4.0.0
 
 dev_dependencies:
   riverpod_generator: ^4.0.0
   build_runner: ^2.4.0
 ```
+
+> **Riverpod 3.x 重要变化**：所有 provider 函数参数统一使用 `Ref` 类型，不再需要特定的 `*Ref` 类型。
 
 ---
 
@@ -29,7 +31,7 @@ dev_dependencies:
 Use for simple values, dependency injection, or computed values that never change.
 
 ```dart
-// With riverpod_generator (3.x)
+// With riverpod_generator (3.x) - 使用统一的 Ref 类型
 @riverpod
 String appName(Ref ref) {
   return 'My App';
@@ -143,9 +145,9 @@ final userProvider = AsyncNotifierProvider<UserNotifier, User>(
 Use for read-only async data that doesn't need to be updated.
 
 ```dart
-// With riverpod_generator
+// With riverpod_generator (3.x) - 使用统一的 Ref 类型
 @riverpod
-Future<Configuration> configuration(ConfigurationRef ref) async {
+Future<Configuration> configuration(Ref ref) async {
   final repository = ref.read(configRepositoryProvider);
   return repository.load();
 }
@@ -164,9 +166,9 @@ final configurationProvider = FutureProvider<Configuration>((ref) async {
 Use for real-time data streams like WebSockets, Firebase snapshots, or periodic updates.
 
 ```dart
-// With riverpod_generator
+// With riverpod_generator (3.x) - 使用统一的 Ref 类型
 @riverpod
-Stream<List<Message>> messages(MessagesRef ref, String chatId) {
+Stream<List<Message>> messages(Ref ref, String chatId) {
   final repository = ref.read(chatRepositoryProvider);
   return repository.watchMessages(chatId);
 }
@@ -216,7 +218,7 @@ dart run build_runner build --delete-conflicting-outputs
 part 'my_provider.g.dart';
 
 @riverpod
-String simpleValue(SimpleValueRef ref) {
+String simpleValue(Ref ref) {
   return 'Hello';
 }
 
@@ -508,7 +510,7 @@ Future<SearchResult> search(SearchRef ref, String query) async {
 
 // Keep provider alive
 @Riverpod(keepAlive: true)
-Future<Configuration> configuration(ConfigurationRef ref) async {
+Future<Configuration> configuration(Ref ref) async {
   // Never disposed, cached for app lifetime
   return configService.load();
 }
@@ -561,12 +563,12 @@ lib/
 ```dart
 // 1. Low-level providers (repositories, services)
 @riverpod
-ApiService apiService(ApiServiceRef ref) {
+ApiService apiService(Ref ref) {
   return ApiService(baseUrl: 'https://api.example.com');
 }
 
 @riverpod
-AuthRepository authRepository(AuthRepositoryRef ref) {
+AuthRepository authRepository(Ref ref) {
   return AuthRepositoryImpl(ref.watch(apiServiceProvider));
 }
 
@@ -585,7 +587,7 @@ class Auth extends _$Auth {
 
 // 3. UI providers (view-specific state)
 @riverpod
-bool isLoggedIn(IsLoggedInRef ref) {
+bool isLoggedIn(Ref ref) {
   final auth = ref.watch(authProvider);
   return auth.value?.isAuthenticated ?? false;
 }
@@ -881,7 +883,7 @@ class Navigation extends _$Navigation {
 
 // GOOD: Pass context when needed or use navigator key
 @riverpod
-GlobalKey<NavigatorState> navigatorKey(NavigatorKeyRef ref) {
+GlobalKey<NavigatorState> navigatorKey(Ref ref) {
   return GlobalKey<NavigatorState>();
 }
 ```
@@ -891,13 +893,13 @@ GlobalKey<NavigatorState> navigatorKey(NavigatorKeyRef ref) {
 ```dart
 // BAD: No cleanup for subscriptions
 @riverpod
-Stream<Location> location(LocationRef ref) {
+Stream<Location> location(Ref ref) {
   return LocationService().stream; // Never disposed
 }
 
 // GOOD: Use ref.onDispose
 @riverpod
-Stream<Location> location(LocationRef ref) {
+Stream<Location> location(Ref ref) {
   final controller = StreamController<Location>();
 
   final subscription = LocationService().stream.listen(
@@ -963,13 +965,13 @@ Future<Data> searchData(SearchDataRef ref, String query) async {
 ```dart
 // BAD: Heavy computation blocks UI
 @riverpod
-List<Result> heavyResult(HeavyResultRef ref) {
+List<Result> heavyResult(Ref ref) {
   return processLargeDataSet(); // Blocks UI thread
 }
 
 // GOOD: Use compute or async
 @riverpod
-Future<List<Result>> heavyResult(HeavyResultRef ref) async {
+Future<List<Result>> heavyResult(Ref ref) async {
   return compute(processLargeDataSet, data);
 }
 ```
@@ -979,26 +981,26 @@ Future<List<Result>> heavyResult(HeavyResultRef ref) async {
 ```dart
 // BAD: Circular dependency
 @riverpod
-int providerA(ProviderARef ref) {
+int providerA(Ref ref) {
   return ref.watch(providerBProvider) + 1;
 }
 
 @riverpod
-int providerB(ProviderBRef ref) {
+int providerB(Ref ref) {
   return ref.watch(providerAProvider) + 1; // Infinite loop!
 }
 
 // GOOD: Restructure to avoid cycles
 @riverpod
-int baseValue(BaseValueRef ref) => 0;
+int baseValue(Ref ref) => 0;
 
 @riverpod
-int providerA(ProviderARef ref) {
+int providerA(Ref ref) {
   return ref.watch(baseValueProvider) + 1;
 }
 
 @riverpod
-int providerB(ProviderBRef ref) {
+int providerB(Ref ref) {
   return ref.watch(baseValueProvider) + 2;
 }
 ```
@@ -1045,68 +1047,114 @@ dart run build_runner clean
 
 ## Riverpod 3.x 重要变更
 
-### Provider 名称简化
+> **项目已升级到 Riverpod 3.x**，以下是主要变更和注意事项。
 
-Riverpod 3.x 简化了 provider 名称：
+### 1. Ref 类型统一（最重要）
 
-```dart
-// 2.x - 生成的 provider 是 class 名 + "Provider"
-@riverpod
-class AuthNotifier extends _$AuthNotifier { ... }
-// 使用：authNotifierProvider
-
-// 3.x - 生成的 provider 是 class 名（去掉 Notifier 后缀）
-@riverpod
-class AuthNotifier extends _$AuthNotifier { ... }
-// 使用：authProvider
-```
-
-### Ref 类型统一
-
-所有 provider 参数的 Ref 类型不再需要特定的 `*Ref` 类型：
+所有 provider 函数参数统一使用 `Ref` 类型，不再需要特定的 `*Ref` 类型：
 
 ```dart
-// 2.x - 需要特定 Ref 类型
+// ❌ 2.x 写法 - 需要特定 Ref 类型
 @riverpod
 DioClient dioClient(DioClientRef ref) { ... }
 
-// 3.x - 统一使用 Ref
+@riverpod
+UserRepository userRepository(UserRepositoryRef ref) { ... }
+
+// ✅ 3.x 写法 - 统一使用 Ref
 @riverpod
 DioClient dioClient(Ref ref) { ... }
+
+@riverpod
+UserRepository userRepository(Ref ref) { ... }
 ```
 
-### AsyncValue API 变更
+**注意**：`WidgetRef` 在 ConsumerWidget 的 build 方法中保持不变。
 
-`AsyncValue.valueOrNull` 已移除，直接使用 `.value`：
+### 2. Provider 名称简化
+
+Riverpod 3.x 会自动从生成的 provider 名称中去掉 "Notifier" 后缀：
 
 ```dart
-// 2.x - 需要使用 valueOrNull
+@riverpod
+class AuthNotifier extends _$AuthNotifier { ... }
+
+// 2.x：生成 authNotifierProvider
+// 3.x：生成 authProvider（自动去掉 Notifier 后缀）
+```
+
+**最佳实践**：建议直接使用语义化名称，避免 `Notifier` 后缀：
+
+```dart
+// ✅ 推荐：直接使用语义化名称
+@riverpod
+class Auth extends _$Auth { ... }  // 生成 authProvider
+
+@riverpod
+class Counter extends _$Counter { ... }  // 生成 counterProvider
+
+// ❌ 不推荐：带 Notifier 后缀
+@riverpod
+class AuthNotifier extends _$AuthNotifier { ... }  // 生成 authProvider（命名冗余）
+```
+
+### 3. AsyncValue API 变更
+
+`AsyncValue.valueOrNull` 已弃用，统一使用 `.value`：
+
+```dart
+// ❌ 2.x 写法
 final user = state.valueOrNull?.user;
 
-// 3.x - 直接使用 value
+// ✅ 3.x 写法
 final user = state.value?.user;
 ```
 
-### Notifier 内部 state 访问
+其他 AsyncValue 变更：
+- `AsyncValue.data()` → 建议使用 `AsyncValue.data()` 或 `AsyncData()`
+- `AsyncValue.loading()` → `AsyncLoading()`
+- `AsyncValue.error()` → `AsyncError()`
 
-在 Notifier 内部，直接使用 `state` 而不是 `this.ref.state`：
+### 4. Notifier 内部 state 访问简化
+
+在 Notifier 内部，直接使用 `state` 属性：
 
 ```dart
-// 2.x
 @riverpod
 class Counter extends _$Counter {
   @override
   int build() => 0;
-  
-  void increment() => this.ref.state++;
-}
 
-// 3.x
-@riverpod
-class Counter extends _$Counter {
-  @override
-  int build() => 0;
-  
+  // ✅ 3.x - 直接使用 state
   void increment() => state++;
+
+  // ❌ 2.x - 不再需要 this.ref
+  // void increment() => this.ref.state++;
 }
 ```
+
+### 5. family 参数位置变化
+
+带参数的 provider，参数直接跟在 `Ref ref` 后面：
+
+```dart
+// ✅ 3.x 写法
+@riverpod
+Future<Product> product(Ref ref, String productId) async {
+  final repository = ref.read(productRepositoryProvider);
+  return repository.fetch(productId);
+}
+
+// 使用
+final product = ref.watch(productProvider('prod-123'));
+```
+
+### 迁移检查清单
+
+从 Riverpod 2.x 升级到 3.x 时，检查以下内容：
+
+- [ ] 所有 `*Ref` 类型改为 `Ref`（除了 `WidgetRef`）
+- [ ] 将 `valueOrNull` 改为 `value`
+- [ ] 检查生成的 provider 名称变化（Notifier 后缀自动移除）
+- [ ] 更新 `pubspec.yaml` 中的版本号
+- [ ] 运行 `dart run build_runner build --delete-conflicting-outputs` 重新生成代码

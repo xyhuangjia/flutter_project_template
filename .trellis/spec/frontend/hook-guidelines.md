@@ -10,6 +10,11 @@ In Flutter with Riverpod, providers serve a similar purpose to React hooks: they
 
 **Note**: Flutter doesn't use React hooks. Instead, Riverpod providers combined with `ConsumerWidget` and `ConsumerStatefulWidget` provide similar functionality for state management and side effects.
 
+> **Riverpod 3.x 注意事项**：
+> - 所有 provider 函数参数统一使用 `Ref` 类型（不再是 `*Ref`）
+> - `WidgetRef` 在 ConsumerWidget 中保持不变
+> - 详细变更参见 [state-management.md](./state-management.md#riverpod-3x-重要变更)
+
 ---
 
 ## Notifier Class Structure
@@ -317,14 +322,14 @@ class Cart extends _$Cart {
 }
 
 @riverpod
-Future<List<Coupon>> availableCoupons(AvailableCouponsRef ref) async {
+Future<List<Coupon>> availableCoupons(Ref ref) async {
   final repository = ref.read(couponRepositoryProvider);
   return repository.fetchAvailable();
 }
 
 // Derived provider
 @riverpod
-CartSummary cartSummary(CartSummaryRef ref) {
+CartSummary cartSummary(Ref ref) {
   final cart = ref.watch(cartProvider);
   final coupons = ref.watch(availableCouponsProvider);
 
@@ -402,7 +407,7 @@ class ProductFilter extends _$ProductFilter {
 }
 
 @riverpod
-List<Product> filteredProducts(FilteredProductsRef ref) {
+List<Product> filteredProducts(Ref ref) {
   final products = ref.watch(productListProvider).value ?? [];
   final filter = ref.watch(productFilterProvider);
 
@@ -468,17 +473,17 @@ class UserRepositoryImpl implements UserRepository {
 
 // Providers
 @riverpod
-ApiService apiService(ApiServiceRef ref) {
+ApiService apiService(Ref ref) {
   return ApiService(baseUrl: EnvironmentConfig.apiBaseUrl);
 }
 
 @riverpod
-UserRepository userRepository(UserRepositoryRef ref) {
+UserRepository userRepository(Ref ref) {
   return UserRepositoryImpl(ref.watch(apiServiceProvider));
 }
 
 @riverpod
-AuthRepository authRepository(AuthRepositoryRef ref) {
+AuthRepository authRepository(Ref ref) {
   return AuthRepositoryImpl(ref.watch(apiServiceProvider));
 }
 ```
@@ -487,7 +492,7 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 
 ```dart
 @riverpod
-EnvironmentConfig environmentConfig(EnvironmentConfigRef ref) {
+EnvironmentConfig environmentConfig(Ref ref) {
   // Could be determined by build flavor
   const environment = String.fromEnvironment('ENVIRONMENT', defaultValue: 'dev');
 
@@ -499,7 +504,7 @@ EnvironmentConfig environmentConfig(EnvironmentConfigRef ref) {
 }
 
 @riverpod
-ApiService apiService(ApiServiceRef ref) {
+ApiService apiService(Ref ref) {
   final config = ref.watch(environmentConfigProvider);
   return ApiService(baseUrl: config.apiBaseUrl);
 }
@@ -543,7 +548,7 @@ void main() {
 
 ```dart
 @riverpod
-Stream<Location> locationStream(LocationStreamRef ref) {
+Stream<Location> locationStream(Ref ref) {
   final controller = StreamController<Location>();
   final locationService = ref.watch(locationServiceProvider);
 
@@ -575,7 +580,7 @@ Future<SearchResult> search(SearchRef ref, String query) async {
 
 // Keep-Alive: Provider persists until app ends
 @Riverpod(keepAlive: true)
-Future<Configuration> configuration(ConfigurationRef ref) async {
+Future<Configuration> configuration(Ref ref) async {
   // Configuration is cached for app lifetime
   final service = ref.watch(configServiceProvider);
   return service.load();
@@ -675,7 +680,7 @@ class Auth extends _$Auth {
 ```dart
 // Data provider
 @riverpod
-Future<List<Todo>> todoData(TodoDataRef ref) async {
+Future<List<Todo>> todoData(Ref ref) async {
   final repository = ref.watch(todoRepositoryProvider);
   return repository.fetchAll();
 }
@@ -697,7 +702,7 @@ class TodoFilter extends _$TodoFilter {
 
 // Combined view model provider
 @riverpod
-TodoViewModel todoViewModel(TodoViewModelRef ref) {
+TodoViewModel todoViewModel(Ref ref) {
   final todos = ref.watch(todoDataProvider);
   final filter = ref.watch(todoFilterProvider);
 
