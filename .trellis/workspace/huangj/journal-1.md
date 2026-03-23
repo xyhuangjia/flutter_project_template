@@ -804,3 +804,36 @@
 ### Next Steps
 
 - None - task complete
+
+
+## Session 19: Chat 模块重构为通用 IM 架构
+
+**Date**: 2026-03-23
+**Task**: Chat 模块重构为通用 IM 架构
+
+### Summary
+
+重构 Chat 模块为插件化 IM 架构：消息类型系统(Message sealed class)、插件接口(Handler/Renderer/Generator)、IMPluginRegistry、ChatRepository 数据层、支持文本和图片消息、添加对接与扩展文档。
+
+### Main Changes
+
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `0fc4842` | (see git log) |
+| `226c8e2` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
