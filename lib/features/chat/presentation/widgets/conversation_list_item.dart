@@ -1,15 +1,18 @@
-/// Conversation list item widget.
+/// 会话列表项组件。
+///
+/// 显示单个会话的信息，包括标题、最后消息预览和时间戳。
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
+import 'package:flutter_project_template/features/chat/presentation/widgets/message_type_indicator.dart';
 import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:intl/intl.dart';
 
-/// Conversation list item for the chat list.
+/// 会话列表项。
 class ConversationListItem extends StatelessWidget {
-  /// Creates a conversation list item.
+  /// 创建会话列表项。
   const ConversationListItem({
     required this.conversation,
     required this.onTap,
@@ -17,13 +20,13 @@ class ConversationListItem extends StatelessWidget {
     super.key,
   });
 
-  /// The conversation to display.
+  /// 要显示的会话。
   final ChatConversation conversation;
 
-  /// Callback when tapped.
+  /// 点击回调。
   final VoidCallback onTap;
 
-  /// Callback when delete is requested.
+  /// 删除回调。
   final VoidCallback onDelete;
 
   @override
@@ -31,6 +34,11 @@ class ConversationListItem extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    // 检测最后消息的类型图标
+    final messageTypeIcon = MessageTypeIcon.getIconForPreview(
+      conversation.lastMessage,
+    );
 
     return Dismissible(
       key: Key(conversation.id),
@@ -92,6 +100,15 @@ class ConversationListItem extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
+                          // 消息类型图标
+                          if (messageTypeIcon != null) ...[
+                            Icon(
+                              messageTypeIcon,
+                              size: 14,
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                            const SizedBox(width: 4),
+                          ],
                           Expanded(
                             child: Text(
                               conversation.lastMessage,

@@ -8,55 +8,6 @@ part of 'chat_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Provider for chat local data source.
-
-@ProviderFor(chatLocalDataSource)
-final chatLocalDataSourceProvider = ChatLocalDataSourceProvider._();
-
-/// Provider for chat local data source.
-
-final class ChatLocalDataSourceProvider extends $FunctionalProvider<
-    ChatLocalDataSource,
-    ChatLocalDataSource,
-    ChatLocalDataSource> with $Provider<ChatLocalDataSource> {
-  /// Provider for chat local data source.
-  ChatLocalDataSourceProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'chatLocalDataSourceProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$chatLocalDataSourceHash();
-
-  @$internal
-  @override
-  $ProviderElement<ChatLocalDataSource> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  ChatLocalDataSource create(Ref ref) {
-    return chatLocalDataSource(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ChatLocalDataSource value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<ChatLocalDataSource>(value),
-    );
-  }
-}
-
-String _$chatLocalDataSourceHash() =>
-    r'c9f1e2563ea6e753c023161bf60bf458c0f35ffd';
-
 /// Provider for AI services registry.
 
 @ProviderFor(aiServices)

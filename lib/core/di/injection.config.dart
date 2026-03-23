@@ -22,6 +22,9 @@ import '../../features/auth/data/repositories/auth_repository_impl.dart'
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/chat/data/datasources/chat_local_data_source.dart'
     as _i94;
+import '../../features/chat/data/repositories/chat_repository_impl.dart'
+    as _i504;
+import '../../features/chat/domain/repositories/chat_repository.dart' as _i420;
 import '../../features/home/data/datasources/home_local_data_source.dart'
     as _i299;
 import '../../features/home/data/datasources/home_remote_data_source.dart'
@@ -89,6 +92,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i94.ChatLocalDataSourceImpl(gh<_i47.AppDatabase>()));
     gh.lazySingleton<_i362.HomeRemoteDataSource>(
         () => _i362.HomeRemoteDataSourceImpl());
+    gh.lazySingleton<_i420.ChatRepository>(
+        () => _i504.ChatRepositoryImpl(gh<_i94.ChatLocalDataSource>()));
     gh.lazySingleton<_i599.SettingsLocalDataSource>(() =>
         _i599.SettingsLocalDataSource(
             sharedPreferences: gh<_i460.SharedPreferences>()));

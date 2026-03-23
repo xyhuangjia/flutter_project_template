@@ -872,9 +872,53 @@ class $ChatMessagesTable extends ChatMessages
   late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
       'timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _messageTypeMeta =
+      const VerificationMeta('messageType');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, conversationId, content, sender, status, tokens, timestamp];
+  late final GeneratedColumn<int> messageType = GeneratedColumn<int>(
+      'message_type', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _imageUrlMeta =
+      const VerificationMeta('imageUrl');
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+      'image_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _thumbnailUrlMeta =
+      const VerificationMeta('thumbnailUrl');
+  @override
+  late final GeneratedColumn<String> thumbnailUrl = GeneratedColumn<String>(
+      'thumbnail_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _captionMeta =
+      const VerificationMeta('caption');
+  @override
+  late final GeneratedColumn<String> caption = GeneratedColumn<String>(
+      'caption', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _metadataMeta =
+      const VerificationMeta('metadata');
+  @override
+  late final GeneratedColumn<String> metadata = GeneratedColumn<String>(
+      'metadata', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        conversationId,
+        content,
+        sender,
+        status,
+        tokens,
+        timestamp,
+        messageType,
+        imageUrl,
+        thumbnailUrl,
+        caption,
+        metadata
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -924,6 +968,30 @@ class $ChatMessagesTable extends ChatMessages
     } else if (isInserting) {
       context.missing(_timestampMeta);
     }
+    if (data.containsKey('message_type')) {
+      context.handle(
+          _messageTypeMeta,
+          messageType.isAcceptableOrUnknown(
+              data['message_type']!, _messageTypeMeta));
+    }
+    if (data.containsKey('image_url')) {
+      context.handle(_imageUrlMeta,
+          imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta));
+    }
+    if (data.containsKey('thumbnail_url')) {
+      context.handle(
+          _thumbnailUrlMeta,
+          thumbnailUrl.isAcceptableOrUnknown(
+              data['thumbnail_url']!, _thumbnailUrlMeta));
+    }
+    if (data.containsKey('caption')) {
+      context.handle(_captionMeta,
+          caption.isAcceptableOrUnknown(data['caption']!, _captionMeta));
+    }
+    if (data.containsKey('metadata')) {
+      context.handle(_metadataMeta,
+          metadata.isAcceptableOrUnknown(data['metadata']!, _metadataMeta));
+    }
     return context;
   }
 
@@ -947,6 +1015,16 @@ class $ChatMessagesTable extends ChatMessages
           .read(DriftSqlType.int, data['${effectivePrefix}tokens']),
       timestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}timestamp'])!,
+      messageType: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}message_type'])!,
+      imageUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image_url']),
+      thumbnailUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}thumbnail_url']),
+      caption: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}caption']),
+      metadata: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}metadata']),
     );
   }
 
@@ -963,7 +1041,7 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
   /// Associated conversation ID.
   final String conversationId;
 
-  /// Message content.
+  /// Message content (text or JSON for complex types).
   final String content;
 
   /// Message sender: 0 = user, 1 = ai.
@@ -977,6 +1055,22 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
 
   /// When the message was created.
   final DateTime timestamp;
+
+  /// Message type: 0 = text, 1 = image.
+  /// Defaults to 0 (text) for backward compatibility.
+  final int messageType;
+
+  /// Image URL for image messages (JSON array for multiple images).
+  final String? imageUrl;
+
+  /// Thumbnail URL for image messages (JSON array for multiple thumbnails).
+  final String? thumbnailUrl;
+
+  /// Caption for image messages.
+  final String? caption;
+
+  /// Additional metadata as JSON.
+  final String? metadata;
   const ChatMessage(
       {required this.id,
       required this.conversationId,
@@ -984,7 +1078,12 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
       required this.sender,
       required this.status,
       this.tokens,
-      required this.timestamp});
+      required this.timestamp,
+      required this.messageType,
+      this.imageUrl,
+      this.thumbnailUrl,
+      this.caption,
+      this.metadata});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -997,6 +1096,19 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
       map['tokens'] = Variable<int>(tokens);
     }
     map['timestamp'] = Variable<DateTime>(timestamp);
+    map['message_type'] = Variable<int>(messageType);
+    if (!nullToAbsent || imageUrl != null) {
+      map['image_url'] = Variable<String>(imageUrl);
+    }
+    if (!nullToAbsent || thumbnailUrl != null) {
+      map['thumbnail_url'] = Variable<String>(thumbnailUrl);
+    }
+    if (!nullToAbsent || caption != null) {
+      map['caption'] = Variable<String>(caption);
+    }
+    if (!nullToAbsent || metadata != null) {
+      map['metadata'] = Variable<String>(metadata);
+    }
     return map;
   }
 
@@ -1010,6 +1122,19 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
       tokens:
           tokens == null && nullToAbsent ? const Value.absent() : Value(tokens),
       timestamp: Value(timestamp),
+      messageType: Value(messageType),
+      imageUrl: imageUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageUrl),
+      thumbnailUrl: thumbnailUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(thumbnailUrl),
+      caption: caption == null && nullToAbsent
+          ? const Value.absent()
+          : Value(caption),
+      metadata: metadata == null && nullToAbsent
+          ? const Value.absent()
+          : Value(metadata),
     );
   }
 
@@ -1024,6 +1149,11 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
       status: serializer.fromJson<int>(json['status']),
       tokens: serializer.fromJson<int?>(json['tokens']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
+      messageType: serializer.fromJson<int>(json['messageType']),
+      imageUrl: serializer.fromJson<String?>(json['imageUrl']),
+      thumbnailUrl: serializer.fromJson<String?>(json['thumbnailUrl']),
+      caption: serializer.fromJson<String?>(json['caption']),
+      metadata: serializer.fromJson<String?>(json['metadata']),
     );
   }
   @override
@@ -1037,6 +1167,11 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
       'status': serializer.toJson<int>(status),
       'tokens': serializer.toJson<int?>(tokens),
       'timestamp': serializer.toJson<DateTime>(timestamp),
+      'messageType': serializer.toJson<int>(messageType),
+      'imageUrl': serializer.toJson<String?>(imageUrl),
+      'thumbnailUrl': serializer.toJson<String?>(thumbnailUrl),
+      'caption': serializer.toJson<String?>(caption),
+      'metadata': serializer.toJson<String?>(metadata),
     };
   }
 
@@ -1047,7 +1182,12 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
           int? sender,
           int? status,
           Value<int?> tokens = const Value.absent(),
-          DateTime? timestamp}) =>
+          DateTime? timestamp,
+          int? messageType,
+          Value<String?> imageUrl = const Value.absent(),
+          Value<String?> thumbnailUrl = const Value.absent(),
+          Value<String?> caption = const Value.absent(),
+          Value<String?> metadata = const Value.absent()}) =>
       ChatMessage(
         id: id ?? this.id,
         conversationId: conversationId ?? this.conversationId,
@@ -1056,6 +1196,12 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
         status: status ?? this.status,
         tokens: tokens.present ? tokens.value : this.tokens,
         timestamp: timestamp ?? this.timestamp,
+        messageType: messageType ?? this.messageType,
+        imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
+        thumbnailUrl:
+            thumbnailUrl.present ? thumbnailUrl.value : this.thumbnailUrl,
+        caption: caption.present ? caption.value : this.caption,
+        metadata: metadata.present ? metadata.value : this.metadata,
       );
   ChatMessage copyWithCompanion(ChatMessagesCompanion data) {
     return ChatMessage(
@@ -1068,6 +1214,14 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
       status: data.status.present ? data.status.value : this.status,
       tokens: data.tokens.present ? data.tokens.value : this.tokens,
       timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      messageType:
+          data.messageType.present ? data.messageType.value : this.messageType,
+      imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
+      thumbnailUrl: data.thumbnailUrl.present
+          ? data.thumbnailUrl.value
+          : this.thumbnailUrl,
+      caption: data.caption.present ? data.caption.value : this.caption,
+      metadata: data.metadata.present ? data.metadata.value : this.metadata,
     );
   }
 
@@ -1080,14 +1234,30 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
           ..write('sender: $sender, ')
           ..write('status: $status, ')
           ..write('tokens: $tokens, ')
-          ..write('timestamp: $timestamp')
+          ..write('timestamp: $timestamp, ')
+          ..write('messageType: $messageType, ')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('thumbnailUrl: $thumbnailUrl, ')
+          ..write('caption: $caption, ')
+          ..write('metadata: $metadata')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(
-      id, conversationId, content, sender, status, tokens, timestamp);
+      id,
+      conversationId,
+      content,
+      sender,
+      status,
+      tokens,
+      timestamp,
+      messageType,
+      imageUrl,
+      thumbnailUrl,
+      caption,
+      metadata);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1098,7 +1268,12 @@ class ChatMessage extends DataClass implements Insertable<ChatMessage> {
           other.sender == this.sender &&
           other.status == this.status &&
           other.tokens == this.tokens &&
-          other.timestamp == this.timestamp);
+          other.timestamp == this.timestamp &&
+          other.messageType == this.messageType &&
+          other.imageUrl == this.imageUrl &&
+          other.thumbnailUrl == this.thumbnailUrl &&
+          other.caption == this.caption &&
+          other.metadata == this.metadata);
 }
 
 class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
@@ -1109,6 +1284,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
   final Value<int> status;
   final Value<int?> tokens;
   final Value<DateTime> timestamp;
+  final Value<int> messageType;
+  final Value<String?> imageUrl;
+  final Value<String?> thumbnailUrl;
+  final Value<String?> caption;
+  final Value<String?> metadata;
   final Value<int> rowid;
   const ChatMessagesCompanion({
     this.id = const Value.absent(),
@@ -1118,6 +1298,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
     this.status = const Value.absent(),
     this.tokens = const Value.absent(),
     this.timestamp = const Value.absent(),
+    this.messageType = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+    this.thumbnailUrl = const Value.absent(),
+    this.caption = const Value.absent(),
+    this.metadata = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ChatMessagesCompanion.insert({
@@ -1128,6 +1313,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
     this.status = const Value.absent(),
     this.tokens = const Value.absent(),
     required DateTime timestamp,
+    this.messageType = const Value.absent(),
+    this.imageUrl = const Value.absent(),
+    this.thumbnailUrl = const Value.absent(),
+    this.caption = const Value.absent(),
+    this.metadata = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         conversationId = Value(conversationId),
@@ -1142,6 +1332,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
     Expression<int>? status,
     Expression<int>? tokens,
     Expression<DateTime>? timestamp,
+    Expression<int>? messageType,
+    Expression<String>? imageUrl,
+    Expression<String>? thumbnailUrl,
+    Expression<String>? caption,
+    Expression<String>? metadata,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1152,6 +1347,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
       if (status != null) 'status': status,
       if (tokens != null) 'tokens': tokens,
       if (timestamp != null) 'timestamp': timestamp,
+      if (messageType != null) 'message_type': messageType,
+      if (imageUrl != null) 'image_url': imageUrl,
+      if (thumbnailUrl != null) 'thumbnail_url': thumbnailUrl,
+      if (caption != null) 'caption': caption,
+      if (metadata != null) 'metadata': metadata,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1164,6 +1364,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
       Value<int>? status,
       Value<int?>? tokens,
       Value<DateTime>? timestamp,
+      Value<int>? messageType,
+      Value<String?>? imageUrl,
+      Value<String?>? thumbnailUrl,
+      Value<String?>? caption,
+      Value<String?>? metadata,
       Value<int>? rowid}) {
     return ChatMessagesCompanion(
       id: id ?? this.id,
@@ -1173,6 +1378,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
       status: status ?? this.status,
       tokens: tokens ?? this.tokens,
       timestamp: timestamp ?? this.timestamp,
+      messageType: messageType ?? this.messageType,
+      imageUrl: imageUrl ?? this.imageUrl,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      caption: caption ?? this.caption,
+      metadata: metadata ?? this.metadata,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1201,6 +1411,21 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
     if (timestamp.present) {
       map['timestamp'] = Variable<DateTime>(timestamp.value);
     }
+    if (messageType.present) {
+      map['message_type'] = Variable<int>(messageType.value);
+    }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
+    }
+    if (thumbnailUrl.present) {
+      map['thumbnail_url'] = Variable<String>(thumbnailUrl.value);
+    }
+    if (caption.present) {
+      map['caption'] = Variable<String>(caption.value);
+    }
+    if (metadata.present) {
+      map['metadata'] = Variable<String>(metadata.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1217,6 +1442,11 @@ class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
           ..write('status: $status, ')
           ..write('tokens: $tokens, ')
           ..write('timestamp: $timestamp, ')
+          ..write('messageType: $messageType, ')
+          ..write('imageUrl: $imageUrl, ')
+          ..write('thumbnailUrl: $thumbnailUrl, ')
+          ..write('caption: $caption, ')
+          ..write('metadata: $metadata, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2276,6 +2506,11 @@ typedef $$ChatMessagesTableCreateCompanionBuilder = ChatMessagesCompanion
   Value<int> status,
   Value<int?> tokens,
   required DateTime timestamp,
+  Value<int> messageType,
+  Value<String?> imageUrl,
+  Value<String?> thumbnailUrl,
+  Value<String?> caption,
+  Value<String?> metadata,
   Value<int> rowid,
 });
 typedef $$ChatMessagesTableUpdateCompanionBuilder = ChatMessagesCompanion
@@ -2287,6 +2522,11 @@ typedef $$ChatMessagesTableUpdateCompanionBuilder = ChatMessagesCompanion
   Value<int> status,
   Value<int?> tokens,
   Value<DateTime> timestamp,
+  Value<int> messageType,
+  Value<String?> imageUrl,
+  Value<String?> thumbnailUrl,
+  Value<String?> caption,
+  Value<String?> metadata,
   Value<int> rowid,
 });
 
@@ -2320,6 +2560,21 @@ class $$ChatMessagesTableFilterComposer
 
   ColumnFilters<DateTime> get timestamp => $composableBuilder(
       column: $table.timestamp, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get messageType => $composableBuilder(
+      column: $table.messageType, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get imageUrl => $composableBuilder(
+      column: $table.imageUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get thumbnailUrl => $composableBuilder(
+      column: $table.thumbnailUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get caption => $composableBuilder(
+      column: $table.caption, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get metadata => $composableBuilder(
+      column: $table.metadata, builder: (column) => ColumnFilters(column));
 }
 
 class $$ChatMessagesTableOrderingComposer
@@ -2352,6 +2607,22 @@ class $$ChatMessagesTableOrderingComposer
 
   ColumnOrderings<DateTime> get timestamp => $composableBuilder(
       column: $table.timestamp, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get messageType => $composableBuilder(
+      column: $table.messageType, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get imageUrl => $composableBuilder(
+      column: $table.imageUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get thumbnailUrl => $composableBuilder(
+      column: $table.thumbnailUrl,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get caption => $composableBuilder(
+      column: $table.caption, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get metadata => $composableBuilder(
+      column: $table.metadata, builder: (column) => ColumnOrderings(column));
 }
 
 class $$ChatMessagesTableAnnotationComposer
@@ -2383,6 +2654,21 @@ class $$ChatMessagesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get timestamp =>
       $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<int> get messageType => $composableBuilder(
+      column: $table.messageType, builder: (column) => column);
+
+  GeneratedColumn<String> get imageUrl =>
+      $composableBuilder(column: $table.imageUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get thumbnailUrl => $composableBuilder(
+      column: $table.thumbnailUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get caption =>
+      $composableBuilder(column: $table.caption, builder: (column) => column);
+
+  GeneratedColumn<String> get metadata =>
+      $composableBuilder(column: $table.metadata, builder: (column) => column);
 }
 
 class $$ChatMessagesTableTableManager extends RootTableManager<
@@ -2418,6 +2704,11 @@ class $$ChatMessagesTableTableManager extends RootTableManager<
             Value<int> status = const Value.absent(),
             Value<int?> tokens = const Value.absent(),
             Value<DateTime> timestamp = const Value.absent(),
+            Value<int> messageType = const Value.absent(),
+            Value<String?> imageUrl = const Value.absent(),
+            Value<String?> thumbnailUrl = const Value.absent(),
+            Value<String?> caption = const Value.absent(),
+            Value<String?> metadata = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               ChatMessagesCompanion(
@@ -2428,6 +2719,11 @@ class $$ChatMessagesTableTableManager extends RootTableManager<
             status: status,
             tokens: tokens,
             timestamp: timestamp,
+            messageType: messageType,
+            imageUrl: imageUrl,
+            thumbnailUrl: thumbnailUrl,
+            caption: caption,
+            metadata: metadata,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -2438,6 +2734,11 @@ class $$ChatMessagesTableTableManager extends RootTableManager<
             Value<int> status = const Value.absent(),
             Value<int?> tokens = const Value.absent(),
             required DateTime timestamp,
+            Value<int> messageType = const Value.absent(),
+            Value<String?> imageUrl = const Value.absent(),
+            Value<String?> thumbnailUrl = const Value.absent(),
+            Value<String?> caption = const Value.absent(),
+            Value<String?> metadata = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               ChatMessagesCompanion.insert(
@@ -2448,6 +2749,11 @@ class $$ChatMessagesTableTableManager extends RootTableManager<
             status: status,
             tokens: tokens,
             timestamp: timestamp,
+            messageType: messageType,
+            imageUrl: imageUrl,
+            thumbnailUrl: thumbnailUrl,
+            caption: caption,
+            metadata: metadata,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

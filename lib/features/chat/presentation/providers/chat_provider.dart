@@ -8,8 +8,6 @@ import 'dart:async';
 import 'package:drift/drift.dart';
 import 'package:flutter_project_template/core/storage/database.dart'
     hide ChatConversation;
-import 'package:flutter_project_template/core/storage/database_provider.dart';
-import 'package:flutter_project_template/features/chat/data/datasources/chat_local_data_source.dart';
 import 'package:flutter_project_template/features/chat/data/services/ai_service.dart';
 import 'package:flutter_project_template/features/chat/data/services/claude_service.dart';
 import 'package:flutter_project_template/features/chat/data/services/openai_service.dart';
@@ -17,16 +15,10 @@ import 'package:flutter_project_template/features/chat/data/services/universal_a
 import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart'
     as domain;
 import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
+import 'package:flutter_project_template/features/chat/presentation/providers/chat_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_provider.g.dart';
-
-/// Provider for chat local data source.
-@riverpod
-ChatLocalDataSource chatLocalDataSource(Ref ref) {
-  final database = ref.watch(databaseProvider);
-  return ChatLocalDataSourceImpl(database);
-}
 
 /// Provider for AI services registry.
 @riverpod

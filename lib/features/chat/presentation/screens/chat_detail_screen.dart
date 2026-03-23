@@ -1,11 +1,16 @@
-/// Chat detail screen for individual conversations.
+/// 聊天详情页面。
+///
+/// 显示单个会话的消息列表，支持发送文本和图片消息。
 library;
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart';
+import 'package:flutter_project_template/features/chat/data/converters/message_converter.dart';
+import 'package:flutter_project_template/features/chat/domain/entities/chat_message.dart'
+    as domain;
+import 'package:flutter_project_template/features/chat/domain/entities/message.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/ai_config_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/providers/chat_provider.dart';
 import 'package:flutter_project_template/features/chat/presentation/widgets/chat_input_field.dart';
@@ -18,15 +23,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
-/// Chat detail screen.
+/// 聊天详情页面。
 class ChatDetailScreen extends ConsumerStatefulWidget {
-  /// Creates the chat detail screen.
+  /// 创建聊天详情页面。
   const ChatDetailScreen({
     required this.conversationId,
     super.key,
   });
 
-  /// The ID of the conversation.
+  /// 会话 ID。
   final String conversationId;
 
   @override
@@ -69,7 +74,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     final isTyping = ref.watch(isTypingProvider);
     final aiConfig = ref.watch(aIConfigProvider).value?.defaultConfig;
 
-    // Get selected model for this conversation
+    // 获取当前会话选择的模型
     final selectedModel =
         ref.watch(selectedModelProvider(widget.conversationId));
 
@@ -91,7 +96,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           ],
         ),
         actions: [
-          // Model selector (only if config has multiple models)
+          // 模型选择器（仅当配置有多个模型时显示）
           if (aiConfig != null && aiConfig.models.length > 1)
             _buildModelSelectorButton(
                 aiConfig, selectedModel, colorScheme, localizations),
@@ -112,7 +117,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
           if (aiConfig == null)
             _buildNoConfigBanner(context, localizations, colorScheme),
           ChatInputField(
-            onSend: _sendMessage,
+            onSend: _handleSend,
             hintText: localizations.typeMessage,
             enabled: aiConfig != null,
           ),
@@ -220,7 +225,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   }
 
   Widget _buildMessagesList(
-    ChatConversation conversation,
+    domain.ChatConversation conversation,
     ColorScheme colorScheme,
     AppLocalizations localizations,
     bool isTyping,
@@ -231,7 +236,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       return _buildEmptyState(colorScheme, localizations);
     }
 
-    // Scroll to bottom after build
+    // 构建完成后滚动到底部
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
 
     final itemCount = messages.length + (isTyping ? 1 : 0);
@@ -241,7 +246,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       padding: const EdgeInsets.symmetric(vertical: 16),
       itemCount: itemCount,
       itemBuilder: (context, index) {
-        // Show typing indicator at the end
+        // 在最后显示打字指示器
         if (isTyping && index == messages.length) {
           return const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -250,13 +255,16 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         }
 
         final message = messages[index];
-        // Show streaming content for the AI message being generated
+        // 将旧版消息转换为新版以便使用插件系统
+        final newMessage = MessageConverter.fromLegacyChatMessage(
+          message,
+          conversationId: widget.conversationId,
+        );
+
+        // 显示流式内容的 AI 消息
         if (message.id == _streamingMessageId && _streamingContent.isNotEmpty) {
-          final streamingMessage = ChatMessage(
-            id: message.id,
+          final streamingMessage = newMessage.copyWith(
             content: _streamingContent,
-            sender: message.sender,
-            timestamp: message.timestamp,
             status: MessageStatus.sending,
           );
           return MessageBubble(
@@ -264,13 +272,14 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             showTimestamp: false,
             onLongPress: () => _showMessageMenu(
               context,
-              streamingMessage,
+              message,
               isUserMessage: false,
             ),
           );
         }
+
         return MessageBubble(
-          message: message,
+          message: newMessage,
           showTimestamp: index == messages.length - 1 ||
               _shouldShowTimestamp(messages, index),
           onLongPress: message.isFromAI
@@ -321,7 +330,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         ),
       );
 
-  bool _shouldShowTimestamp(List<ChatMessage> messages, int index) {
+  bool _shouldShowTimestamp(List<domain.ChatMessage> messages, int index) {
     if (index == messages.length - 1) return true;
     final currentMessage = messages[index];
     final nextMessage = messages[index + 1];
@@ -330,7 +339,20 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     return difference.inMinutes > 5;
   }
 
-  Future<void> _sendMessage(String text) async {
+  /// 处理发送内容（文本或图片）。
+  Future<void> _handleSend(InputContent content) async {
+    if (content.isEmpty) return;
+
+    switch (content.type) {
+      case InputContentType.text:
+        await _sendTextMessage(content.text!);
+      case InputContentType.image:
+        await _sendImageMessage(content.imagePaths, content.text);
+    }
+  }
+
+  /// 发送文本消息。
+  Future<void> _sendTextMessage(String text) async {
     final chatNotifier = ref.read(chatProvider.notifier);
     final isTypingNotifier = ref.read(isTypingProvider.notifier);
     final selectedModel =
@@ -347,10 +369,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         selectedModel: selectedModel,
       )) {
         if (event is ChatUserMessageCreated) {
-          // User message created, scroll to bottom
+          // 用户消息已创建，滚动到底部
           _scrollToBottom();
         } else if (event is ChatAIResponseChunk) {
-          // AI response chunk received
+          // AI 响应块
           _streamingMessageId = event.messageId;
           if (event.content.isNotEmpty) {
             _streamingContent += event.content;
@@ -365,7 +387,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             _streamingContent = '';
           }
         } else if (event is ChatAIResponseError) {
-          // Error occurred
+          // 发生错误
           if (mounted) {
             DialogUtil.showErrorDialog(context, event.message);
           }
@@ -374,6 +396,30 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     } finally {
       isTypingNotifier.setTyping(false);
     }
+  }
+
+  /// 发送图片消息。
+  ///
+  /// 目前仅显示提示，图片上传功能需要在后续实现。
+  Future<void> _sendImageMessage(
+    List<String> imagePaths,
+    String? caption,
+  ) async {
+    // TODO: 实现图片上传和发送
+    // 当前仅显示提示
+    if (mounted) {
+      DialogUtil.showInfoDialog(
+        context,
+        '图片消息功能开发中：已选择 ${imagePaths.length} 张图片'
+            '${caption != null ? '，说明：$caption' : ''}',
+      );
+    }
+
+    // 未来实现步骤：
+    // 1. 上传图片到服务器/云存储
+    // 2. 获取图片 URL
+    // 3. 创建 ImageMessage 并保存
+    // 4. 如果是 AI 对话，发送给 AI 进行分析
   }
 
   void _showOptionsMenu(BuildContext context) {
@@ -444,10 +490,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     }
   }
 
-  /// Shows the message options menu on long press.
+  /// 长按显示消息菜单。
   void _showMessageMenu(
     BuildContext context,
-    ChatMessage message, {
+    domain.ChatMessage message, {
     required bool isUserMessage,
   }) {
     final localizations = AppLocalizations.of(context)!;
@@ -462,7 +508,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Copy option
+            // 复制选项
             ListTile(
               leading: Icon(Icons.copy_outlined, color: colorScheme.onSurface),
               title: Text(localizations.copy),
@@ -471,8 +517,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 _copyMessage(context, message);
               },
             ),
-            // Delete option (only for user messages or unsent AI messages)
-            if (isUserMessage || message.status == MessageStatus.sending)
+            // 删除选项（仅用户消息或未发送的 AI 消息）
+            if (isUserMessage || message.status == domain.MessageStatus.sending)
               ListTile(
                 leading: Icon(Icons.delete_outline, color: colorScheme.error),
                 title: Text(
@@ -490,8 +536,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     );
   }
 
-  /// Copies message content to clipboard.
-  Future<void> _copyMessage(BuildContext context, ChatMessage message) async {
+  /// 复制消息内容到剪贴板。
+  Future<void> _copyMessage(BuildContext context, domain.ChatMessage message) async {
     final localizations = AppLocalizations.of(context)!;
     await Clipboard.setData(ClipboardData(text: message.content));
     if (mounted) {
@@ -499,7 +545,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     }
   }
 
-  /// Deletes a message.
+  /// 删除消息。
   Future<void> _deleteMessage(BuildContext context, String messageId) async {
     final localizations = AppLocalizations.of(context)!;
     final chatNotifier = ref.read(chatProvider.notifier);
@@ -509,7 +555,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     }
   }
 
-  /// Renames the conversation.
+  /// 重命名会话。
   Future<void> _renameConversation(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     final chatNotifier = ref.read(chatProvider.notifier);

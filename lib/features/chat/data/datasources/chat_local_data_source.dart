@@ -42,6 +42,9 @@ abstract class ChatLocalDataSource {
   /// Creates a new message.
   Future<void> insertMessage(ChatMessagesCompanion message);
 
+  /// Creates or updates a message.
+  Future<void> upsertMessage(ChatMessagesCompanion message);
+
   /// Updates message content (for streaming).
   Future<void> updateMessageContent(String id, String content);
 
@@ -123,6 +126,10 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   @override
   Future<void> insertMessage(ChatMessagesCompanion message) =>
       _database.insertMessage(message);
+
+  @override
+  Future<void> upsertMessage(ChatMessagesCompanion message) =>
+      _database.upsertMessage(message);
 
   @override
   Future<void> updateMessageContent(String id, String content) =>

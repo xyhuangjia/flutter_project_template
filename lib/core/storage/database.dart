@@ -80,6 +80,7 @@ class ChatConversations extends Table {
 /// Chat messages table definition.
 ///
 /// Stores individual messages within conversations.
+/// Supports multiple message types (text, image, etc.).
 class ChatMessages extends Table {
   /// Unique identifier.
   TextColumn get id => text()();
@@ -87,7 +88,7 @@ class ChatMessages extends Table {
   /// Associated conversation ID.
   TextColumn get conversationId => text()();
 
-  /// Message content.
+  /// Message content (text or JSON for complex types).
   TextColumn get content => text()();
 
   /// Message sender: 0 = user, 1 = ai.
@@ -101,6 +102,22 @@ class ChatMessages extends Table {
 
   /// When the message was created.
   DateTimeColumn get timestamp => dateTime()();
+
+  /// Message type: 0 = text, 1 = image.
+  /// Defaults to 0 (text) for backward compatibility.
+  IntColumn get messageType => integer().withDefault(const Constant(0))();
+
+  /// Image URL for image messages (JSON array for multiple images).
+  TextColumn get imageUrl => text().nullable()();
+
+  /// Thumbnail URL for image messages (JSON array for multiple thumbnails).
+  TextColumn get thumbnailUrl => text().nullable()();
+
+  /// Caption for image messages.
+  TextColumn get caption => text().nullable()();
+
+  /// Additional metadata as JSON.
+  TextColumn get metadata => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -171,7 +188,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.connect(super.connection) : super();
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -207,6 +224,14 @@ class AppDatabase extends _$AppDatabase {
             } catch (_) {
               // Column 'model' doesn't exist, skip migration
             }
+          }
+          if (from >= 2 && from < 5) {
+            // Add multi-type message support columns
+            await m.addColumn(chatMessages, chatMessages.messageType);
+            await m.addColumn(chatMessages, chatMessages.imageUrl);
+            await m.addColumn(chatMessages, chatMessages.thumbnailUrl);
+            await m.addColumn(chatMessages, chatMessages.caption);
+            await m.addColumn(chatMessages, chatMessages.metadata);
           }
         },
         beforeOpen: (details) async =>
@@ -332,6 +357,10 @@ class AppDatabase extends _$AppDatabase {
   Future<void> insertMessage(ChatMessagesCompanion message) =>
       into(chatMessages).insert(message);
 
+  /// Inserts or updates a message.
+  Future<void> upsertMessage(ChatMessagesCompanion message) =>
+      into(chatMessages).insertOnConflictUpdate(message);
+
   /// Updates a message's content.
   Future<void> updateMessageContent(String id, String content) async {
     await (update(chatMessages)..where((t) => t.id.equals(id)))
@@ -342,6 +371,31 @@ class AppDatabase extends _$AppDatabase {
   Future<void> updateMessageStatus(String id, int status) async {
     await (update(chatMessages)..where((t) => t.id.equals(id)))
         .write(ChatMessagesCompanion(status: Value(status)));
+  }
+
+  /// Fetches messages by type for a conversation.
+  ///
+  /// - [messageType]: 0 = text, 1 = image.
+  Future<List<ChatMessage>> getMessagesByType(
+    String conversationId,
+    int messageType,
+  ) =>
+      (select(chatMessages)
+            ..where((t) =>
+                t.conversationId.equals(conversationId) &
+                t.messageType.equals(messageType))
+            ..orderBy([(t) => OrderingTerm.asc(t.timestamp)]))
+          .get();
+
+  /// Counts messages by type for a conversation.
+  Future<int> countMessagesByType(String conversationId, int messageType) async {
+    final count = chatMessages.id.count();
+    final query = selectOnly(chatMessages)
+      ..where(chatMessages.conversationId.equals(conversationId) &
+          chatMessages.messageType.equals(messageType))
+      ..addColumns([count]);
+    final result = await query.getSingle();
+    return result.read(count) ?? 0;
   }
 
   /// Deletes a message.
