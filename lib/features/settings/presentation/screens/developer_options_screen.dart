@@ -4,6 +4,9 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_project_template/core/config/environment.dart';
 import 'package:flutter_project_template/core/config/environment_provider.dart';
+import 'package:flutter_project_template/core/router/routes.dart';
+import 'package:flutter_project_template/features/privacy/domain/entities/privacy_state.dart';
+import 'package:flutter_project_template/features/privacy/presentation/providers/privacy_provider.dart';
 import 'package:flutter_project_template/features/settings/domain/entities/developer_options.dart'
     as dev;
 import 'package:flutter_project_template/features/settings/presentation/providers/developer_options_provider.dart';
@@ -12,6 +15,7 @@ import 'package:flutter_project_template/l10n/app_localizations.dart';
 import 'package:flutter_project_template/shared/widgets/dialog_util.dart';
 import 'package:flutter_project_template/shared/widgets/settings_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Developer options screen widget.
 class DeveloperOptionsScreen extends ConsumerWidget {
@@ -25,6 +29,7 @@ class DeveloperOptionsScreen extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
     final optionsAsync = ref.watch(developerOptionsProvider);
     final currentEnv = ref.watch(environmentProvider);
+    final privacyState = ref.watch(privacyProvider);
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceContainerLow,
@@ -38,6 +43,7 @@ class DeveloperOptionsScreen extends ConsumerWidget {
           colorScheme: colorScheme,
           options: options,
           currentEnv: currentEnv,
+          privacyState: privacyState,
           ref: ref,
         ),
         loading: () => _LoadingState(
@@ -128,6 +134,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
     required this.colorScheme,
     required this.options,
     required this.currentEnv,
+    required this.privacyState,
     required this.ref,
   });
 
@@ -136,6 +143,7 @@ class _DeveloperOptionsContent extends StatelessWidget {
   final ColorScheme colorScheme;
   final dev.DeveloperOptions options;
   final EnvironmentConfig currentEnv;
+  final AsyncValue<PrivacyState> privacyState;
   final WidgetRef ref;
 
   @override
@@ -228,6 +236,37 @@ class _DeveloperOptionsContent extends StatelessWidget {
                     ref,
                     localizations,
                     options.logLevel,
+                  ),
+                ),
+                SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.viewLog,
+                  subtitle: localizations.viewLogDescription,
+                  icon: Icons.visibility_outlined,
+                  iconColor: AppIconColors.infoColor,
+                  iconBgColor: AppIconColors.infoBgColor,
+                  onTap: () => context.push(Routes.logViewer),
+                ),
+                SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.marketRegion,
+                  subtitle: privacyState.maybeWhen(
+                    data: (state) => state.region == MarketRegion.china
+                        ? '${localizations.regionChina} (PIPL)'
+                        : '${localizations.regionInternational} (GDPR)',
+                    orElse: () => localizations.loading,
+                  ),
+                  icon: Icons.public_outlined,
+                  iconColor: AppIconColors.regionColor,
+                  iconBgColor: AppIconColors.regionBgColor,
+                  onTap: () => privacyState.maybeWhen(
+                    data: (state) => _showRegionDialog(
+                      context,
+                      ref,
+                      localizations,
+                      state,
+                    ),
+                    orElse: () {},
                   ),
                 ),
               ],
@@ -677,4 +716,90 @@ class _DeveloperOptionsContent extends StatelessWidget {
       ),
     );
   }
+
+  void _showRegionDialog(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations loc,
+    PrivacyState state,
+  ) {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle bar
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              // Title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    Text(
+                      loc.selectRegion,
+                      style: theme.textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              // Options
+              ...MarketRegion.values.map((region) {
+                return ListTile(
+                  leading: Radio<MarketRegion>(
+                    value: region,
+                    groupValue: state.region,
+                    onChanged: (value) {
+                      if (value != null) {
+                        ref
+                            .read(privacyProvider.notifier)
+                            .updateRegion(value);
+                        Navigator.of(sheetContext).pop();
+                      }
+                    },
+                  ),
+                  title: Text(_getRegionName(loc, region)),
+                  subtitle: Text(
+                    region == MarketRegion.china
+                        ? loc.regionChina
+                        : loc.regionInternational,
+                  ),
+                  trailing: state.region == region
+                      ? Icon(
+                          Icons.check_circle,
+                          color: colorScheme.primary,
+                        )
+                      : null,
+                  onTap: () {
+                    ref.read(privacyProvider.notifier).updateRegion(region);
+                    Navigator.of(sheetContext).pop();
+                  },
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _getRegionName(AppLocalizations loc, MarketRegion region) =>
+      switch (region) {
+        MarketRegion.china => loc.regionChina,
+        MarketRegion.international => loc.regionInternational,
+      };
 }

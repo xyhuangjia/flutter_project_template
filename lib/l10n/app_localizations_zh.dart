@@ -1173,4 +1173,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get justNow => '刚刚';
+
+  @override
+  String get logViewerTitle => '日志查看';
+
+  @override
+  String get viewLog => '查看日志';
+
+  @override
+  String get viewLogDescription => '查看应用运行日志';
+
+  @override
+  String get noLogFiles => '暂无日志文件';
+
+  @override
+  String get deleteLogTitle => '删除日志';
+
+  @override
+  String get deleteLogConfirm => '确定要删除此日志文件吗？';
+
+  @override
+  String get logDeleted => '日志已删除';
 }

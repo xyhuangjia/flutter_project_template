@@ -590,6 +590,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.3.4"
+  hive_ce:
+    dependency: transitive
+    description:
+      name: hive_ce
+      sha256: "8e9980e68643afb1e765d3af32b47996552a64e190d03faf622cea07c1294418"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.19.3"
   hooks:
     dependency: transitive
     description:
@@ -734,6 +742,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.5"
+  isolate_channel:
+    dependency: transitive
+    description:
+      name: isolate_channel
+      sha256: a9d3d620695bc984244dafae00b95e4319d6974b2d77f4b9e1eb4f2efe099094
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.1"
   js:
     dependency: transitive
     description:
@@ -1371,6 +1387,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.1.15"
+  talker_persistent:
+    dependency: "direct main"
+    description:
+      name: talker_persistent
+      sha256: "9b678815536b3aff2c6d5836008ddbff018d03d410faad1f1695c15cad9c0961"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0+3"
   talker_riverpod_logger:
     dependency: "direct main"
     description:

@@ -123,13 +123,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     String? phoneNumber,
     UserGender? gender,
   }) async {
-    final success =
-        await ref.read(authProvider.notifier).updateUserProfile(
-              displayName: displayName,
-              avatarUrl: avatarUrl,
-              phoneNumber: phoneNumber,
-              gender: gender,
-            );
+    final success = await ref.read(authProvider.notifier).updateUserProfile(
+          displayName: displayName,
+          avatarUrl: avatarUrl,
+          phoneNumber: phoneNumber,
+          gender: gender,
+        );
 
     if (!mounted) return;
 
@@ -519,83 +518,86 @@ class _AvatarCard extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: onTap,
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 44,
-                      backgroundColor: colorScheme.primaryContainer,
-                      backgroundImage: avatarPath != null
-                          ? FileImage(File(avatarPath!))
-                          : (user.avatarUrl != null &&
-                                  user.avatarUrl!.isNotEmpty)
-                              ? NetworkImage(user.avatarUrl!) as ImageProvider
-                              : null,
-                      child: (avatarPath == null &&
-                              (user.avatarUrl == null ||
-                                  user.avatarUrl!.isEmpty))
-                          ? Icon(
-                              Icons.person,
-                              size: 44,
-                              color: colorScheme.onPrimaryContainer,
-                            )
-                          : null,
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: colorScheme.surface,
-                            width: 2,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 16,
-                          color: colorScheme.onPrimary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                user.displayName ?? user.username,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                user.email,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
+  Widget build(BuildContext context) => SizedBox(
+        width: double.infinity,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
               ),
             ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: onTap,
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 44,
+                        backgroundColor: colorScheme.primaryContainer,
+                        backgroundImage: avatarPath != null
+                            ? FileImage(File(avatarPath!))
+                            : (user.avatarUrl != null &&
+                                    user.avatarUrl!.isNotEmpty)
+                                ? NetworkImage(user.avatarUrl!) as ImageProvider
+                                : null,
+                        child: (avatarPath == null &&
+                                (user.avatarUrl == null ||
+                                    user.avatarUrl!.isEmpty))
+                            ? Icon(
+                                Icons.person,
+                                size: 44,
+                                color: colorScheme.onPrimaryContainer,
+                              )
+                            : null,
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: colorScheme.primary,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: colorScheme.surface,
+                              width: 2,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 16,
+                            color: colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  user.displayName ?? user.username,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  user.email,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
           ),
         ),
       );

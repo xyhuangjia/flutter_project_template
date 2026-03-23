@@ -1206,4 +1206,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get justNow => 'Now';
+
+  @override
+  String get logViewerTitle => 'Log Viewer';
+
+  @override
+  String get viewLog => 'View Logs';
+
+  @override
+  String get viewLogDescription => 'View application runtime logs';
+
+  @override
+  String get noLogFiles => 'No log files';
+
+  @override
+  String get deleteLogTitle => 'Delete Log';
+
+  @override
+  String get deleteLogConfirm =>
+      'Are you sure you want to delete this log file?';
+
+  @override
+  String get logDeleted => 'Log deleted';
 }

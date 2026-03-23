@@ -229,7 +229,53 @@ class _SettingsContent extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // Security section (only if authenticated)
+            // About section
+            SettingsCard(
+              colorScheme: colorScheme,
+              children: [
+                SettingsTile(
+                  title: localizations.privacySettings,
+                  icon: Icons.privacy_tip_outlined,
+                  iconColor: AppIconColors.privacyColor,
+                  iconBgColor: AppIconColors.privacyBgColor,
+                  onTap: () {
+                    context.push('/privacy/settings');
+                  },
+                ),
+                SettingsDivider(colorScheme: colorScheme),
+                SettingsTile(
+                  title: localizations.aboutApp,
+                  icon: Icons.info_outline,
+                  iconColor: AppIconColors.infoColor,
+                  iconBgColor: AppIconColors.infoBgColor,
+                  onTap: () {
+                    context.push('/about');
+                  },
+                ),
+              ],
+            ),
+
+            // Developer options section (only in debug mode)
+            if (showDeveloperOptions) ...[
+              const SizedBox(height: 16),
+              SettingsCard(
+                colorScheme: colorScheme,
+                children: [
+                  SettingsTile(
+                    title: localizations.developerOptions,
+                    subtitle: localizations.currentEnvironment,
+                    icon: Icons.developer_mode,
+                    iconColor: AppIconColors.developerColor,
+                    iconBgColor: AppIconColors.developerBgColor,
+                    onTap: () {
+                      context.push('/settings/developer-options');
+                    },
+                  ),
+                ],
+              ),
+            ],
+
+            // Logout section (only if authenticated)
             if (isAuthenticated) ...[
               const SizedBox(height: 16),
               SettingsCard(
@@ -260,54 +306,6 @@ class _SettingsContent extends StatelessWidget {
                           localizations.success,
                         );
                       }
-                    },
-                  ),
-                ],
-              ),
-            ],
-
-            const SizedBox(height: 16),
-
-            // About section
-            SettingsCard(
-              colorScheme: colorScheme,
-              children: [
-                SettingsTile(
-                  title: localizations.aboutApp,
-                  icon: Icons.info_outline,
-                  iconColor: AppIconColors.infoColor,
-                  iconBgColor: AppIconColors.infoBgColor,
-                  onTap: () {
-                    context.push('/about');
-                  },
-                ),
-                SettingsDivider(colorScheme: colorScheme),
-                SettingsTile(
-                  title: localizations.privacySettings,
-                  icon: Icons.privacy_tip_outlined,
-                  iconColor: AppIconColors.privacyColor,
-                  iconBgColor: AppIconColors.privacyBgColor,
-                  onTap: () {
-                    context.push('/privacy/settings');
-                  },
-                ),
-              ],
-            ),
-
-            // Developer options section (only in debug mode)
-            if (showDeveloperOptions) ...[
-              const SizedBox(height: 16),
-              SettingsCard(
-                colorScheme: colorScheme,
-                children: [
-                  SettingsTile(
-                    title: localizations.developerOptions,
-                    subtitle: localizations.currentEnvironment,
-                    icon: Icons.developer_mode,
-                    iconColor: AppIconColors.developerColor,
-                    iconBgColor: AppIconColors.developerBgColor,
-                    onTap: () {
-                      context.push('/settings/developer-options');
                     },
                   ),
                 ],

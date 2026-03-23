@@ -2377,6 +2377,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Now'**
   String get justNow;
+
+  /// Log viewer screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Log Viewer'**
+  String get logViewerTitle;
+
+  /// View log button
+  ///
+  /// In en, this message translates to:
+  /// **'View Logs'**
+  String get viewLog;
+
+  /// View log description
+  ///
+  /// In en, this message translates to:
+  /// **'View application runtime logs'**
+  String get viewLogDescription;
+
+  /// No log files message
+  ///
+  /// In en, this message translates to:
+  /// **'No log files'**
+  String get noLogFiles;
+
+  /// Delete log title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Log'**
+  String get deleteLogTitle;
+
+  /// Delete log confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this log file?'**
+  String get deleteLogConfirm;
+
+  /// Log deleted message
+  ///
+  /// In en, this message translates to:
+  /// **'Log deleted'**
+  String get logDeleted;
 }
 
 class _AppLocalizationsDelegate

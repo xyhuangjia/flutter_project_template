@@ -20,6 +20,7 @@ import 'package:flutter_project_template/features/profile/presentation/screens/c
 import 'package:flutter_project_template/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/about_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/developer_options_screen.dart';
+import 'package:flutter_project_template/features/settings/presentation/screens/log_viewer_screen.dart';
 import 'package:flutter_project_template/features/settings/presentation/screens/settings_screen.dart';
 import 'package:flutter_project_template/features/webview/presentation/screens/webview_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -237,6 +238,16 @@ final GoRouter appRouter = GoRouter(
         child: const DeveloperOptionsScreen(),
         state: state,
         name: RouteNames.developerOptions,
+      ),
+    ),
+    // Log viewer - use iOS transition
+    GoRoute(
+      path: Routes.logViewer,
+      name: RouteNames.logViewer,
+      pageBuilder: (context, state) => _iosSlidePage(
+        child: const LogViewerScreen(),
+        state: state,
+        name: RouteNames.logViewer,
       ),
     ),
   ],

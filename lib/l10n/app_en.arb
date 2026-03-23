@@ -1920,5 +1920,40 @@
   "justNow": "Now",
   "@justNow": {
     "description": "Time indicator for just now"
+  },
+
+  "logViewerTitle": "Log Viewer",
+  "@logViewerTitle": {
+    "description": "Log viewer screen title"
+  },
+
+  "viewLog": "View Logs",
+  "@viewLog": {
+    "description": "View log button"
+  },
+
+  "viewLogDescription": "View application runtime logs",
+  "@viewLogDescription": {
+    "description": "View log description"
+  },
+
+  "noLogFiles": "No log files",
+  "@noLogFiles": {
+    "description": "No log files message"
+  },
+
+  "deleteLogTitle": "Delete Log",
+  "@deleteLogTitle": {
+    "description": "Delete log title"
+  },
+
+  "deleteLogConfirm": "Are you sure you want to delete this log file?",
+  "@deleteLogConfirm": {
+    "description": "Delete log confirmation"
+  },
+
+  "logDeleted": "Log deleted",
+  "@logDeleted": {
+    "description": "Log deleted message"
   }
 }

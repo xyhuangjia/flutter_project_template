@@ -65,6 +65,9 @@ abstract final class Routes {
   /// Developer options route.
   static const String developerOptions = '/settings/developer-options';
 
+  /// Log viewer route.
+  static const String logViewer = '/settings/log-viewer';
+
   /// Change password route.
   static const String changePassword = '/profile/change-password';
 }
@@ -126,6 +129,9 @@ abstract final class RouteNames {
 
   /// Developer options route name.
   static const String developerOptions = 'developerOptions';
+
+  /// Log viewer route name.
+  static const String logViewer = 'logViewer';
 
   /// Change password route name.
   static const String changePassword = 'changePassword';

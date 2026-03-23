@@ -1920,5 +1920,40 @@
   "justNow": "刚刚",
   "@justNow": {
     "description": "Time indicator for just now"
+  },
+
+  "logViewerTitle": "日志查看",
+  "@logViewerTitle": {
+    "description": "Log viewer screen title"
+  },
+
+  "viewLog": "查看日志",
+  "@viewLog": {
+    "description": "View log button"
+  },
+
+  "viewLogDescription": "查看应用运行日志",
+  "@viewLogDescription": {
+    "description": "View log description"
+  },
+
+  "noLogFiles": "暂无日志文件",
+  "@noLogFiles": {
+    "description": "No log files message"
+  },
+
+  "deleteLogTitle": "删除日志",
+  "@deleteLogTitle": {
+    "description": "Delete log title"
+  },
+
+  "deleteLogConfirm": "确定要删除此日志文件吗？",
+  "@deleteLogConfirm": {
+    "description": "Delete log confirmation"
+  },
+
+  "logDeleted": "日志已删除",
+  "@logDeleted": {
+    "description": "Log deleted message"
   }
 }
