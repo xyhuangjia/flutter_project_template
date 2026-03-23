@@ -69,11 +69,15 @@ The template includes the following feature modules:
 - Account deletion support
 
 #### 💬 AI Chat (`features/chat`)
+- **Plugin-based Architecture** - Extensible IM system with message handlers, renderers, and response generators
 - AI-powered conversations (OpenAI/Claude compatible)
 - Message persistence to local database
 - Conversation history management
 - AI configuration management
 - Real-time message streaming
+- Support for text and image messages
+- Type-safe message system with sealed classes
+- See [Chat Module Documentation](lib/features/chat/README.md) for details
 
 #### 🏠 Home (`features/home`)
 - Main dashboard screen
@@ -111,14 +115,15 @@ The template includes the following feature modules:
 | Routing | go_router |
 | Dependency Injection | get_it, injectable |
 | Serialization | json_serializable, freezed |
-| Logging | talker, talker_flutter, talker_dio_logger, talker_riverpod_logger |
+| Logging | talker, talker_flutter, talker_dio_logger, talker_riverpod_logger, talker_persistent |
 | i18n | flutter_localizations, intl, intl_utils |
 | Secure Storage | flutter_secure_storage |
 | Preferences | shared_preferences |
 | WebView | webview_flutter |
-| Utils | uuid, connectivity_plus, crypto, collection |
-| UI | flutter_pickers, image_picker, url_launcher, permission_handler, vibration |
-| App Info | package_info_plus |
+| Utils | uuid, connectivity_plus, crypto, collection, path |
+| UI | flutter_pickers, image_picker, url_launcher, permission_handler, vibration, gpt_markdown |
+| App Info | package_info_plus, share_plus |
+| Environment | flutter_dotenv |
 
 ## 📦 Requirements
 
@@ -193,10 +198,20 @@ lib/
 │   │   ├── data/               # Data layer (repository impl, data sources)
 │   │   ├── domain/             # Domain layer (entities, repositories, use cases)
 │   │   └── presentation/       # Presentation layer (screens, providers, widgets)
-│   ├── chat/                   # AI Chat module
+│   ├── chat/                   # AI Chat module (Plugin-based IM architecture)
 │   │   ├── data/               # Message persistence, AI API integration
+│   │   │   ├── converters/     # Message type converters
+│   │   │   ├── datasources/    # Local data source
+│   │   │   └── repositories/   # Repository implementations
 │   │   ├── domain/             # Chat entities, conversation management
+│   │   │   ├── entities/       # Message sealed class, TextMessage, ImageMessage
+│   │   │   ├── plugins/        # Plugin system
+│   │   │   │   └── impl/       # Built-in handlers, renderers, generators
+│   │   │   └── repositories/   # Repository interfaces
 │   │   ├── presentation/       # Chat UI, message components
+│   │   │   ├── providers/      # Chat providers, plugin registry
+│   │   │   ├── screens/        # Conversation list, chat detail, AI config
+│   │   │   └── widgets/        # Message bubble, chat input, typing indicator
 │   │   └── utils/              # Chat utilities
 │   ├── home/                   # Home module
 │   │   ├── data/               # Home data layer
@@ -286,6 +301,33 @@ features/{feature}/
 ```
 
 ## 📖 Documentation
+
+### Module Documentation
+
+| Module | Description |
+|--------|-------------|
+| [Chat Module](lib/features/chat/README.md) | Plugin-based IM architecture, message types, extensibility guide |
+
+### Development Guidelines
+
+The project includes development guidelines in `.trellis/spec/`:
+
+| Guide | Description |
+|-------|-------------|
+| [Frontend Guidelines](.trellis/spec/frontend/index.md) | Component patterns, state management, type safety |
+| [Chinese App Style](.trellis/spec/frontend/chinese-app-style.md) | UI design patterns for Chinese apps |
+| [Thinking Guides](.trellis/spec/guides/index.md) | Cross-layer thinking, code reuse patterns |
+
+### Trellis AI Workflow
+
+This project uses [Trellis](.trellis/) for AI-assisted development:
+
+- **Workflow Management**: Structured development process with task tracking
+- **Code Specs**: Development guidelines injected into AI context
+- **Journal System**: Session recording for continuity across conversations
+- **Multi-developer Support**: Per-developer workspace isolation
+
+To start a development session with AI assistance, see the [Workflow Guide](.trellis/workflow.md).
 
 ### Code Standards
 

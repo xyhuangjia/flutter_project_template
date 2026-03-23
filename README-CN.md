@@ -68,11 +68,15 @@
 - 账户删除支持
 
 #### 💬 AI 聊天 (`features/chat`)
+- **插件化架构** - 可扩展的 IM 系统，支持消息处理器、渲染器和响应生成器
 - AI 对话功能（支持 OpenAI/Claude）
 - 消息持久化到本地数据库
 - 对话历史管理
 - AI 配置管理
 - 实时消息流
+- 支持文本和图片消息
+- 基于 sealed class 的类型安全消息系统
+- 详细文档请参阅 [Chat 模块文档](lib/features/chat/README.md)
 
 #### 🏠 首页 (`features/home`)
 - 主仪表盘界面
@@ -104,15 +108,21 @@
 
 | 类别 | 技术 |
 |------|------|
-| 状态管理 | flutter_riverpod, riverpod_annotation |
+| 状态管理 | flutter_riverpod, riverpod_annotation, riverpod_generator |
 | 网络请求 | dio, talker_dio_logger |
-| 本地数据库 | drift, sqlite3_flutter_libs |
+| 本地数据库 | drift, sqlite3_flutter_libs, path_provider |
 | 路由 | go_router |
 | 依赖注入 | get_it, injectable |
 | 序列化 | json_serializable, freezed |
-| 日志 | talker, talker_flutter, talker_riverpod_logger |
-| 国际化 | flutter_localizations, intl |
-| 工具 | uuid, connectivity_plus, flutter_secure_storage |
+| 日志 | talker, talker_flutter, talker_riverpod_logger, talker_persistent |
+| 国际化 | flutter_localizations, intl, intl_utils |
+| 安全存储 | flutter_secure_storage |
+| 偏好设置 | shared_preferences |
+| WebView | webview_flutter |
+| 工具 | uuid, connectivity_plus, crypto, collection, path |
+| UI | flutter_pickers, image_picker, url_launcher, permission_handler, vibration, gpt_markdown |
+| 应用信息 | package_info_plus, share_plus |
+| 环境配置 | flutter_dotenv |
 
 ## 📦 环境要求
 
@@ -184,10 +194,20 @@ lib/
 │   │   ├── data/               # 数据层（仓库实现、数据源）
 │   │   ├── domain/             # 领域层（实体、仓库、用例）
 │   │   └── presentation/       # 表现层（屏幕、Provider、组件）
-│   ├── chat/                   # AI 聊天模块
+│   ├── chat/                   # AI 聊天模块（插件化 IM 架构）
 │   │   ├── data/               # 消息持久化、AI API 集成
+│   │   │   ├── converters/     # 消息类型转换器
+│   │   │   ├── datasources/    # 本地数据源
+│   │   │   └── repositories/   # 仓库实现
 │   │   ├── domain/             # 聊天实体、对话管理
+│   │   │   ├── entities/       # Message sealed class, TextMessage, ImageMessage
+│   │   │   ├── plugins/        # 插件系统
+│   │   │   │   └── impl/       # 内置处理器、渲染器、生成器
+│   │   │   └── repositories/   # 仓库接口
 │   │   ├── presentation/       # 聊天 UI、消息组件
+│   │   │   ├── providers/      # Chat providers, 插件注册中心
+│   │   │   ├── screens/        # 会话列表、聊天详情、AI 配置
+│   │   │   └── widgets/        # 消息气泡、聊天输入框、打字指示器
 │   │   └── utils/              # 聊天工具
 │   ├── home/                   # 首页模块
 │   │   ├── data/               # 首页数据层
@@ -252,6 +272,33 @@ UI Rebuild
 ```
 
 ## 📖 文档
+
+### 模块文档
+
+| 模块 | 说明 |
+|------|------|
+| [Chat 模块](lib/features/chat/README.md) | 插件化 IM 架构、消息类型、扩展指南 |
+
+### 开发规范
+
+项目在 `.trellis/spec/` 目录下包含开发规范：
+
+| 规范 | 说明 |
+|------|------|
+| [前端规范](.trellis/spec/frontend/index.md) | 组件模式、状态管理、类型安全 |
+| [中文应用风格](.trellis/spec/frontend/chinese-app-style.md) | 中文应用 UI 设计模式 |
+| [思维指南](.trellis/spec/guides/index.md) | 跨层思维、代码复用模式 |
+
+### Trellis AI 工作流
+
+本项目使用 [Trellis](.trellis/) 进行 AI 辅助开发：
+
+- **工作流管理**：结构化的开发流程与任务追踪
+- **代码规范**：开发规范自动注入 AI 上下文
+- **日志系统**：会话记录，确保跨对话的连续性
+- **多开发者支持**：独立的开发者工作空间
+
+如需使用 AI 辅助开发，请参阅 [工作流指南](.trellis/workflow.md)。
 
 ### 代码规范
 
